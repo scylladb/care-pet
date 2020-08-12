@@ -30,13 +30,20 @@ Architecture
 ---
 
 ```
-Sensors -> Collar -> ScyllaDB <---- WebApp <- User
-                        ^             |
-                        \-aggregation-/
+Pet -> Sensors -> Collar -> ScyllaDB <---- WebApp <- User
+                               ^             |
+                               \-aggregation-/
 ```
+
+In this very simple example a Collar generates sensors data
+once a second and send it directly to the database.
+
+Pet owners, sensors and measurements data can be accessed via
+the REST API web server. It also implements lazy-evaluation
+of the data aggregates.
 
 Links
 ---
 
 - [ScyllaDB Docker image](https://hub.docker.com/r/scylladb/scylla/)
-- ScyllaDB Go driver: [gocql](https://github.com/scylladb/gocql), [gocqlx](https://github.com/scylladb/gocqlx)
+- [ScyllaDB drivers page](https://docs.scylladb.com/using-scylla/scylla_drivers/)
