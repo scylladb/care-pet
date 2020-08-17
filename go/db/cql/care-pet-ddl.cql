@@ -1,4 +1,3 @@
-
 CREATE TABLE IF NOT EXISTS carepet.owner
 (
     owner_id UUID,
@@ -29,16 +28,16 @@ CREATE TABLE IF NOT EXISTS carepet.sensor
 CREATE TABLE IF NOT EXISTS carepet.measurement
 (
     sensor_id UUID,
-    ts       TIMESTAMP,
-    value    FLOAT,
+    ts    TIMESTAMP,
+    value FLOAT,
     PRIMARY KEY (sensor_id, ts)
-);
+) WITH compaction = { 'class' : 'TimeWindowCompactionStrategy' };
 
 CREATE TABLE IF NOT EXISTS carepet.sensor_avg
 (
     sensor_id UUID,
-    date    DATE,
-    hour    INT,
-    value   FLOAT,
+    date  DATE,
+    hour  INT,
+    value FLOAT,
     PRIMARY KEY (sensor_id, date, hour)
-);
+) WITH compaction = { 'class' : 'TimeWindowCompactionStrategy' };
