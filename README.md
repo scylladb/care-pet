@@ -1,7 +1,7 @@
 ScyllaDB IoT example
 ===
 
-This is an example project that demonstrates a generic IoT use case
+This example project demonstrates a generic IoT use case
 for ScyllaDB.
 
 The application allows tracking of pets health indicators
@@ -14,16 +14,16 @@ and consist of 3 parts:
 Quick Start
 ---
 
-Language specific implementation resides in the corresponding folder:
+Language-specific implementation resides in the corresponding folder:
 
-- [go](go)
-- rust
-- java
-- cpp
-- python
-- node.js
+- [Go](Go)
+- Rust
+- Java
+- CPP
+- Python
+- Node.js
 
-The project uses `docker-compose` to provide simplest local
+The project uses `docker-compose` to provide the simplest local
 deployment of the ScyllaDB database cluster.
 
 Architecture

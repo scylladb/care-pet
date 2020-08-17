@@ -1,13 +1,13 @@
 Care Pet ScyllaDB IoT example
 ===
 
-This is an example project that demonstrates a generic IoT use case
+This example project demonstrates a generic IoT use case
 for ScyllaDB in Go.
 
 The application allows tracking of pets health indicators
-and consist of 3 parts:
+and consist of three parts:
 
-- migrate (`/cmd/migrate`) - creates `carepet` keyspace and tables
+- migrate (`/cmd/migrate`) - creates the `carepet` keyspace and tables
 - collar (`/cmd/sensor`) - generates a pet health data and pushes it into the storage
 - web app (`/cmd/server`) - REST API service for tracking pets health state
 
@@ -20,12 +20,12 @@ Prerequisites:
 - [docker](https://www.docker.com/)
 - [docker-compose](https://docs.docker.com/compose/)
 
-To run local ScyllaDB cluster consisting of 3 nodes with
+To run a local ScyllaDB cluster consisting of three nodes with
 the help of `docker` and `docker-compose` execute:
 
     $ docker-compose up -d
 
-Docker compose will spin up 3 nodes: `carepet-scylla1`, `carepet-scylla2`
+Docker-compose will spin up three nodes: `carepet-scylla1`, `carepet-scylla2`
 and `carepet-scylla3`. You can access them with the `docker` command:
 
     to execute CQLSH:
@@ -146,7 +146,7 @@ Now you can open `http://127.0.0.1:8000/` in the browser or send an HTTP request
     * Closing connection 0
     {"code":404,"message":"path / was not found"}
 
-This is ok. If you see this JSON in the end with 404 it means everything works as expected.
+This is ok. If you see this JSON in the end with 404, it means everything works as expected.
 
 To read an owner data you can use saved `owner_id` as follows:
 
@@ -233,7 +233,7 @@ Implementation
 ---
 
 Collars are small devices that attach to pets and collect data
-with the help of different sensors. After data collected it
+with the help of different sensors. After the data is collected it
 may be delivered to the central database for the analysis and
 health status checking.
 
@@ -247,7 +247,7 @@ Overall all applications in this repository use `scylladb/gocqlx` for:
 - Build Queries
 - Migrate database schemas
 
-Web application REST API server resides in `/cmd/server` and uses
+The web application REST API server resides in `/cmd/server` and uses
 `go-swagger` that supports OpenAPI 2.0 to expose its API. API
 handlers reside in `/handler`. Most of the queries are reads.
 
@@ -267,7 +267,7 @@ Architecture
 
     Pet --> Sensor --> ScyllaDB <-> REST API Server <-> User
 
-How to start new project with Go
+How to start a new project with Go
 ---
 
 Install Go. Create a repository. Clone it. Execute inside of
@@ -275,7 +275,7 @@ your repository:
 
     $ go mod init github.com/my_name/my_module
 
-Now when you have your go module spec connect ScyllaDB Go
+Now when you have your go module spec connect the ScyllaDB Go
 driver as a dependency with:
 
     $ go get -u github.com/scylladb/gocqlx/v2
@@ -291,7 +291,7 @@ Now your `go.mod` will be looking something like this:
         github.com/scylladb/gocqlx/v2 v2.1.0 // indirect
     )
 
-Add a `gocql` driver replacement with our epic version with:
+Add a `gocql` driver replacement with our version with:
 
     replace github.com/gocql/gocql => github.com/scylladb/gocql v1.4.0
 
@@ -310,7 +310,7 @@ Now `go.mod` must look like:
 
 Now you are ready to connect to the database and start working.
 
-To connect to the database do the following:
+To connect to the database, do the following:
 
 ```go
 import (
@@ -355,7 +355,7 @@ if err := db.TableOwner.GetQuery(ses).Bind(id).GetRelease(&owner); err == gocql.
 }
 ```
 
-For greater details check out `/handler`, `/db` and `/config` packages.
+For more details, check out `/handler`, `/db` and `/config` packages.
 
 Links
 ---
