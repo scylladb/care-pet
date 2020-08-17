@@ -8,7 +8,7 @@ The application allows tracking of pets health indicators
 and consist of 3 parts:
 
 - a collar that reads and pushes sensors data
-- a web app that allows reading and analysing pets data
+- a web app that allows reading and analyzing pets data
 - a database migration tool
 
 Quick Start
@@ -35,11 +35,11 @@ Pet -> Sensors -> Collar -> ScyllaDB <---- WebApp <- User
                                \-aggregation-/
 ```
 
-In this very simple example a Collar generates sensors data
-once a second and send it directly to the database.
+In this simple example, a Collar generates sensors data
+once a second and sends it directly to the database.
 
-Pet owners, sensors and measurements data can be accessed via
-the REST API web server. It also implements lazy-evaluation
+Pet owners, sensors, and measurement data can be accessed via
+the REST API web server. It also implements the lazy-evaluation
 of the data aggregates.
 
 Links
