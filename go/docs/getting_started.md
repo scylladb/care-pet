@@ -37,7 +37,7 @@ The application requires high availability and fault tolerance. Even if a Scylla
 
 ### Design and Data Model
 
-See more in the data model design [document](https://github.com/scylladb/care-pet/tree/master/go/docs/datamodel.rst).
+See more in the data model design [document](./design_and_data_model.md).
 
 ### Deploying the App 
 
