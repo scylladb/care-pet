@@ -16,7 +16,7 @@ Quick Start
 
 Language-specific implementation resides in the corresponding folder:
 
-- [Go](Go)
+- [Go](go)
 - Rust
 - Java
 - CPP
