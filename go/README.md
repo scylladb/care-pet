@@ -3,6 +3,7 @@ Care Pet ScyllaDB IoT example
 
 This example project demonstrates a generic IoT use case
 for ScyllaDB in Go.
+The documentation for this application and guided excercise is [here](docs)
 
 The application allows tracking of pets health indicators
 and consist of three parts:
