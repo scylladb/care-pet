@@ -1,13 +1,14 @@
 Care Pet ScyllaDB IoT example
 ===
 
-This is an example project that demonstrates a generic IoT use case
+This example project demonstrates a generic IoT use case
 for ScyllaDB in Go.
+The documentation for this application and guided excercise is [here](docs).
 
 The application allows tracking of pets health indicators
-and consist of 3 parts:
+and consist of three parts:
 
-- migrate (`/cmd/migrate`) - creates `carepet` keyspace and tables
+- migrate (`/cmd/migrate`) - creates the `carepet` keyspace and tables
 - collar (`/cmd/sensor`) - generates a pet health data and pushes it into the storage
 - web app (`/cmd/server`) - REST API service for tracking pets health state
 
@@ -20,30 +21,33 @@ Prerequisites:
 - [docker](https://www.docker.com/)
 - [docker-compose](https://docs.docker.com/compose/)
 
-To run local ScyllaDB cluster consisting of 3 nodes with
+To run a local ScyllaDB cluster consisting of three nodes with
 the help of `docker` and `docker-compose` execute:
 
     $ docker-compose up -d
 
-Docker compose will spin up 3 nodes: `carepet-scylla1`, `carepet-scylla2`
-and `carepet-scylla3`. You can access them with the `docker` command:
+Docker-compose will spin up three nodes: `carepet-scylla1`, `carepet-scylla2`
+and `carepet-scylla3`. You can access them with the `docker` command.
 
-    to execute CQLSH:
+To execute CQLSH:
+
     $ docker exec -it carepet-scylla1 cqlsh
 
-    to execute nodetool:
+To execute nodetool:
+
     $ docker exec -it carepet-scylla1 nodetool status
 
-    shell:
+Shell:
+
     $ docker exec -it carepet-scylla1 shell
 
 You can inspect any node by means of the `docker inspect` command
-as follows:
+as follows. for example:
 
-    for example:
     $ docker inspect carepet-scylla1
 
-    to get node IP address run:
+To get node IP address run:
+
     $ docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' carepet-scylla1
 
 To initialize database execute:
@@ -52,7 +56,7 @@ To initialize database execute:
     $ NODE1=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' carepet-scylla1)
     $ ./migrate --hosts $NODE1
 
-    expected output:
+Expected output:
 
     2020/08/06 16:43:01 Bootstrap database...
     2020/08/06 16:43:13 Keyspace metadata = {Name:carepet DurableWrites:true StrategyClass:org.apache.cassandra.locator.NetworkTopologyStrategy StrategyOptions:map[datacenter1:3] Tables:map[gocqlx_migrate:0xc00016ca80 measurement:0xc00016cbb0 owner:0xc00016cce0 pet:0xc00016ce10 sensor:0xc00016cf40 sensor_avg:0xc00016d070] Functions:map[] Aggregates:map[] Types:map[] Indexes:map[] Views:map[]}
@@ -103,7 +107,7 @@ To start pet collar simulation execute the following in the separate terminal:
     $ NODE1=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' carepet-scylla1)
     $ ./sensor --hosts $NODE1
 
-    expected output:
+Expected output:
 
     2020/08/06 16:44:33 Welcome to the Pet collar simulator
     2020/08/06 16:44:33 New owner # 9b20764b-f947-45bb-a020-bf6d02cc2224
@@ -114,14 +118,13 @@ To start pet collar simulation execute the following in the separate terminal:
     ...
 
 Write down the pet Owner ID (ID is something after the `#` sign without trailing spaces).
-
 To start REST API service execute the following in the separate terminal:
 
     $ go build ./cmd/server
     $ NODE1=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' carepet-scylla1)
     $ ./server --port 8000 --hosts $NODE1
 
-    expected output:
+Expected output:
 
     2020/08/06 16:45:58 Serving care pet at http://127.0.0.1:8000
 
@@ -129,7 +132,7 @@ Now you can open `http://127.0.0.1:8000/` in the browser or send an HTTP request
 
     $ curl -v http://127.0.0.1:8000/
 
-    expected output:
+Expected output:
 
     > GET / HTTP/1.1
     > Host: 127.0.0.1:8000
@@ -146,17 +149,16 @@ Now you can open `http://127.0.0.1:8000/` in the browser or send an HTTP request
     * Closing connection 0
     {"code":404,"message":"path / was not found"}
 
-This is ok. If you see this JSON in the end with 404 it means everything works as expected.
-
+This is ok. If you see this JSON in the end with 404, it means everything works as expected.
 To read an owner data you can use saved `owner_id` as follows:
 
     $ curl -v http://127.0.0.1:8000/api/owner/{owner_id}
 
-    for example:
+For example:
 
     $ curl http://127.0.0.1:8000/api/owner/a05fd0df-0f97-4eec-a211-cad28a6e5360
 
-    expected result:
+Expected result:
 
     {"address":"home","name":"gmwjgsap","owner_id":"a05fd0df-0f97-4eec-a211-cad28a6e5360"}
 
@@ -164,11 +166,11 @@ To list the owners pets use:
 
     $ curl -v http://127.0.0.1:8000/api/owner/{owner_id}/pets
 
-    for example:
+For example:
 
     $ curl http://127.0.0.1:8000/api/owner/a05fd0df-0f97-4eec-a211-cad28a6e5360/pets
 
-    expected output:
+Expected output:
 
     [{"address":"home","age":57,"name":"tlmodylu","owner_id":"a05fd0df-0f97-4eec-a211-cad28a6e5360","pet_id":"a52adc4e-7cf4-47ca-b561-3ceec9382917","weight":5}]
 
@@ -176,7 +178,7 @@ To list pet's sensors use:
 
     $ curl -v curl -v http://127.0.0.1:8000/api/pet/{pet_id}/sensors
 
-    for example:
+For example:
 
     $ curl http://127.0.0.1:8000/api/pet/cef72f58-fc78-4cae-92ae-fb3c3eed35c4/sensors
 
@@ -186,11 +188,11 @@ To review the pet's sensors data use:
 
     $ curl http://127.0.0.1:8000/api/sensor/{sensor_id}/values?from=2006-01-02T15:04:05Z07:00&to=2006-01-02T15:04:05Z07:00
 
-    for example:
+For example:
 
     $  curl http://127.0.0.1:8000/api/sensor/5a9da084-ea49-4ab1-b2f8-d3e3d9715e7d/values\?from\="2020-08-06T00:00:00Z"\&to\="2020-08-06T23:59:59Z"
 
-    expected output:
+ Expected output:
 
     [51.360596,26.737432,77.88015,...]
 
@@ -198,11 +200,11 @@ To read the pet's daily average per sensor use:
 
     $ curl http://127.0.0.1:8000/api/sensor/{sensor_id}/values/day/{date}
 
-    for example:
+For example:
 
     $ curl -v http://127.0.0.1:8000/api/sensor/5a9da084-ea49-4ab1-b2f8-d3e3d9715e7d/values/day/2020-08-06
 
-    expected output:
+Expected output:
 
     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,42.55736]
 
@@ -233,7 +235,7 @@ Implementation
 ---
 
 Collars are small devices that attach to pets and collect data
-with the help of different sensors. After data collected it
+with the help of different sensors. After the data is collected it
 may be delivered to the central database for the analysis and
 health status checking.
 
@@ -247,7 +249,7 @@ Overall all applications in this repository use `scylladb/gocqlx` for:
 - Build Queries
 - Migrate database schemas
 
-Web application REST API server resides in `/cmd/server` and uses
+The web application REST API server resides in `/cmd/server` and uses
 `go-swagger` that supports OpenAPI 2.0 to expose its API. API
 handlers reside in `/handler`. Most of the queries are reads.
 
@@ -267,7 +269,7 @@ Architecture
 
     Pet --> Sensor --> ScyllaDB <-> REST API Server <-> User
 
-How to start new project with Go
+How to start a new project with Go
 ---
 
 Install Go. Create a repository. Clone it. Execute inside of
@@ -275,7 +277,7 @@ your repository:
 
     $ go mod init github.com/my_name/my_module
 
-Now when you have your go module spec connect ScyllaDB Go
+Now when you have your go module spec connect the ScyllaDB Go
 driver as a dependency with:
 
     $ go get -u github.com/scylladb/gocqlx/v2
@@ -291,7 +293,7 @@ Now your `go.mod` will be looking something like this:
         github.com/scylladb/gocqlx/v2 v2.1.0 // indirect
     )
 
-Add a `gocql` driver replacement with our epic version with:
+Add a `gocql` driver replacement with our version with:
 
     replace github.com/gocql/gocql => github.com/scylladb/gocql v1.4.0
 
@@ -309,8 +311,7 @@ Now `go.mod` must look like:
     replace github.com/gocql/gocql => github.com/scylladb/gocql v1.4.0
 
 Now you are ready to connect to the database and start working.
-
-To connect to the database do the following:
+To connect to the database, do the following:
 
 ```go
 import (
@@ -355,10 +356,11 @@ if err := db.TableOwner.GetQuery(ses).Bind(id).GetRelease(&owner); err == gocql.
 }
 ```
 
-For greater details check out `/handler`, `/db` and `/config` packages.
+For more details, check out `/handler`, `/db` and `/config` packages.
 
 Links
 ---
 
 - https://hub.docker.com/r/scylladb/scylla/
 - https://github.com/scylladb/gocqlx
+
