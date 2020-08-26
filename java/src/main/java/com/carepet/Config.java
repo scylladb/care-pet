@@ -25,6 +25,8 @@ public class Config {
 
     final static String keyspace = "carepet";
 
+    private final static int port = 9042;
+
     @Option(names = {"-h", "--hosts"}, description = "database contact points", defaultValue = "127.0.0.1")
     String[] hosts;
 
@@ -49,7 +51,7 @@ public class Config {
      * Builds configured CqlSession builder to acquire a new session.
      */
     public CqlSessionBuilder builder() {
-        return builder("");
+        return builder(null);
     }
 
     /**
@@ -61,11 +63,11 @@ public class Config {
                 .withClientId(clientId)
                 .addContactPoints(Arrays.stream(hosts).map(unwrap(Config::resolve)).collect(Collectors.toList()));
 
-        if (!username.isEmpty()) {
+        if (!isNullOrEmpty(username)) {
             builder = builder.withAuthCredentials(username, password);
         }
 
-        if (!keyspace.isEmpty()) {
+        if (!isNullOrEmpty(keyspace)) {
             builder = builder.withKeyspace(keyspace);
         }
 
@@ -76,15 +78,33 @@ public class Config {
      * Transforms an address of the form host:port into an InetSocketAddress.
      */
     public static InetSocketAddress resolve(String addr) throws URISyntaxException {
-        URI uri = new URI("my://" + addr);
+        URI uri = new URI("scylladb://" + withPort(addr, port));
         String host = uri.getHost();
         int port = uri.getPort();
 
-        if (uri.getHost() == null || uri.getPort() == -1) {
+        if (isNullOrEmpty(uri.getHost()) || uri.getPort() == -1) {
             throw new URISyntaxException(uri.toString(), "URI must have host and port");
         }
 
         return new InetSocketAddress (host, port);
+    }
+
+    /**
+     * Ensures an address has port provided.
+     */
+    private static String withPort(String addr, int port) {
+        if (!addr.contains(":")) {
+            return addr + ":" + port;
+        }
+
+        return addr;
+    }
+
+    /**
+     * Determine if a string is {@code null} or {@link String#isEmpty()} returns {@code true}.
+     */
+    public static boolean isNullOrEmpty(String s) {
+        return s == null || s.isEmpty();
     }
 
     /**
