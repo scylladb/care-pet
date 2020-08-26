@@ -5,18 +5,19 @@ import com.datastax.oss.driver.api.core.CqlSessionBuilder;
 import picocli.CommandLine;
 import picocli.CommandLine.Option;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.InetSocketAddress;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import static com.carepet.util.Wrapper.unwrap;
-import static com.carepet.util.Wrapper.unwrap0;
+import static com.carepet.util.Wrapper.*;
 
 public class Config {
     final static String applicationName = "care-pet";
@@ -27,8 +28,11 @@ public class Config {
 
     private final static int port = 9042;
 
-    @Option(names = {"-h", "--hosts"}, description = "database contact points", defaultValue = "127.0.0.1")
+    @Option(names = {"--hosts"}, description = "database contact points")
     String[] hosts;
+
+    @Option(names = {"-dc", "--datacenter"}, description = "local datacenter name for default profile")
+    String datacenter;
 
     @Option(names = {"-u", "--username"}, description = "password based authentication username")
     String username;
@@ -36,13 +40,23 @@ public class Config {
     @Option(names = {"-p", "--password"}, description = "password based authentication password")
     String password;
 
+    @Option(names = { "-h", "--help" }, usageHelp = true, description = "display a help message")
+    private boolean help = false;
+
     /**
      * Parses arguments into a new instance of the {@link Config} object.
      */
     public static Config parse(String[] args) {
-        final Config config = new Config();
+        Config config = new Config();
 
-        new CommandLine(config).parseArgs(args);
+        CommandLine cmd = new CommandLine(config);
+        cmd.setUnmatchedArgumentsAllowed(false);
+        cmd.parseArgs(args);
+
+        if (cmd.isUsageHelpRequested()) {
+            cmd.usage(System.err);
+            System.exit(1);
+        }
 
         return config;
     }
@@ -60,8 +74,13 @@ public class Config {
     public CqlSessionBuilder builder(String keyspace) {
         CqlSessionBuilder builder = CqlSession.builder()
                 .withApplicationName(applicationName)
-                .withClientId(clientId)
-                .addContactPoints(Arrays.stream(hosts).map(unwrap(Config::resolve)).collect(Collectors.toList()));
+                .withClientId(clientId);
+
+        if (hosts != null && hosts.length > 0) {
+            builder = builder
+                    .addContactPoints(Arrays.stream(hosts).map(unwrap(Config::resolve)).collect(Collectors.toList()))
+                    .withLocalDatacenter(datacenter);
+        }
 
         if (!isNullOrEmpty(username)) {
             builder = builder.withAuthCredentials(username, password);
@@ -111,7 +130,20 @@ public class Config {
      * Loads a resource content.
      */
     public static String getResource(String name) {
-        final URL res = ClassLoader.getSystemClassLoader().getResource(name);
-        return new String(unwrap(Files::readAllBytes).apply(Paths.get(unwrap0(res::toURI).get())));
+        return unwrap(Config::getResourceFileAsString).apply(name);
+    }
+
+    /**
+     * Reads given resource file as a string.
+     */
+    private static String getResourceFileAsString(String name) throws IOException {
+        ClassLoader classLoader = ClassLoader.getSystemClassLoader();
+        try (InputStream input = classLoader.getResourceAsStream(name)) {
+            if (input == null) return null;
+            try (InputStreamReader isr = new InputStreamReader(input, StandardCharsets.UTF_8)) {
+                BufferedReader reader = new BufferedReader(isr);
+                return reader.lines().collect(Collectors.joining(System.lineSeparator()));
+            }
+        }
     }
 }

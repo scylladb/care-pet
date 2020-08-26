@@ -7,4 +7,4 @@ pushd "$DIR/.."
 
 DEPENDENCIES="./target/app-1.0-SNAPSHOT.jar:$(cat ./target/dependencies)"
 
-java -classpath $DEPENDENCIES com.carepet.Migrate
+java -classpath "$DEPENDENCIES" com.carepet.Migrate $@

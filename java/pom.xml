@@ -37,11 +37,6 @@
       <artifactId>slf4j-simple</artifactId>
       <version>1.7.26</version>
     </dependency>
-    <!--<dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-log4j12</artifactId>
-      <version>1.7.26</version>
-    </dependency>-->
   </dependencies>
 
   <build>
@@ -98,7 +93,7 @@
           <!-- copy dependencies -->
           <execution>
             <id>copy-dependencies</id>
-            <phase>package</phase>
+            <phase>generate-sources</phase>
             <goals>
               <goal>copy-dependencies</goal>
             </goals>
@@ -111,7 +106,7 @@
           <!-- build class path -->
           <execution>
             <id>build-classpath</id>
-            <phase>package</phase>
+            <phase>generate-sources</phase>
             <goals>
               <goal>build-classpath</goal>
             </goals>
