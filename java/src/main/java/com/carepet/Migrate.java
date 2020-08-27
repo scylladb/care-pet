@@ -1,6 +1,8 @@
 package com.carepet;
 
 import com.datastax.oss.driver.api.core.CqlSession;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Migrate {
     public static void main(String[] args) {
@@ -10,6 +12,8 @@ public class Migrate {
         client.createKeyspace();
         client.createSchema();
     }
+
+    private static final Logger LOG = LoggerFactory.getLogger(Migrate.class);
 
     private final Config config;
 
@@ -29,6 +33,7 @@ public class Migrate {
 
     /** Creates the keyspace for this example. */
     public void createKeyspace() {
+        LOG.info("creating keyspace...");
         try (CqlSession session = connect()) {
             session.execute(Config.getResource("care-pet-keyspace.cql"));
         }
@@ -36,8 +41,11 @@ public class Migrate {
 
     /** Creates the tables for this example. */
     public void createSchema() {
+        LOG.info("creating table...");
         try (CqlSession session = keyspace()) {
-            session.execute(Config.getResource("care-pet-ddl.cql"));
+            for (String cql: Config.getResource("care-pet-ddl.cql").split(";")) {
+                session.execute(cql);
+            }
         }
     }
 }
