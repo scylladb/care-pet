@@ -3,7 +3,7 @@ Getting Started with CarePet: A sample IoT App
 
 ### Introduction
 
-In this guided exercise, you'll create an IoT app from scratch and configure it to use ScyllaDB as the datastore.
+In this guided exercise, you'll create an IoT app from scratch and configure it to use ScyllaDB as the backend datastore.
 We'll use as an example, an application called CarePet, which collects and analyzes data from sensors attached to a pet's collar and monitors the pet's health and activity.
 The example can be used, with minimal changes, for any IoT like application.
 We'll go over the different stages of the development, from gathering requirements, creating the data model, cluster sizing and hardware needed to match the requirements, and finally building and running the application. 
@@ -11,12 +11,12 @@ We'll go over the different stages of the development, from gathering requiremen
 ### Use Case Requirements
 
 Each pet collar includes sensors that report four different measurements: Temperature, Pulse, Location, and Respiration.
-A collar reads sensor data once a second and sends measurements right away to the app.
+The collar reads the sensor's data once a second and sends measurements directly to the app.
 
 ### Performance Requirements
 
 The application has two parts:
--   Sensors: write to the Database, throughput sensitive
+-   Sensors: writes to the database, throughput sensitive
 -   Backend dashboard: reads from the database, latency-sensitive
 
 For this example, we assume 99% writes (sensors) and 1% reads (backend dashboard)
@@ -25,27 +25,27 @@ Required SLA:
 -   Writes throughput of 100K Operations per second
 -   Reads: latency of up to 10 milliseconds for the [99th percentile](https://engineering.linkedin.com/performance/who-moved-my-99th-percentile-latency).
 
-The application requires high availability and fault tolerance. Even if a ScyllaDB node goes down or becomes unavailable, the cluster is expected to remain available and continue to provide service. You can learn more about high availability in [this lesson](https://university.scylladb.com/courses/scylla-essentials-overview/lessons/high-availability/). 
+The application requires high availability and fault tolerance. Even if a ScyllaDB node goes down or becomes unavailable, the cluster is expected to remain available and continue to provide service. You can learn more about Scylla high availability in [this lesson](https://university.scylladb.com/courses/scylla-essentials-overview/lessons/high-availability/). 
 
 ### Design and Data Model
 
-See more in the data model design [document](./design_and_data_model.md).
+In this part  we’ll think about our queries, make the primary key and clustering key selection, and create the database schema. See more in the data model design [document](./design_and_data_model.md).
 
 ### Deploying the App 
-
-The example application uses docker to run a three-node ScyllaDB cluster. It allows tracking of pets health indicators and consists of three, parts:
--   migrate (/cmd/migrate) - creates the CarePet keyspace and tables
--   collar (/cmd/sensor) - generates a pet health data and pushes it into the storage
--   web app (/cmd/server) - REST API service for tracking pets health state
-
-Download the example code from git:
-
-    $ git clone git@github.com:scylladb/care-pet.git
 
 Prerequisites:
 -   [go](https://golang.org/dl/), version 1.14 or newer
 -   [docker](https://www.docker.com/)
 -   [docker-compose](https://docs.docker.com/compose/)
+
+The example application uses Docker to run a three-node ScyllaDB cluster. It allows tracking of pet's health indicators and consists of three parts:
+-   migrate (/cmd/migrate) - creates the CarePet keyspace and tables
+-   collar (/cmd/sensor) - generates a pet health data and pushes it into the storage
+-   web app (/cmd/server) - REST API service for tracking the pets' health state
+
+Download the example code from git:
+
+    $ git clone git@github.com:scylladb/care-pet.git
 
 Start by creating a local ScyllaDB cluster consisting of 3 nodes:
 
@@ -56,7 +56,7 @@ To check the status of the cluster:
 
     $ docker exec -it carepet-scylla1 nodetool status
 
-Once all the nodes are in Up status, initialize the database. This will create the keyspaces and tables:
+Once all the nodes are in UN - Up Normal status, initialize the database. This will create the keyspaces and tables:
 
     $ go build ./cmd/migrate
     $ NODE1=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' carepet-scylla1)
@@ -106,7 +106,7 @@ You can check the database structure with:
     
        cqlsh:carepet> exit
 
-Next, start the pet collar simulation. Execute in a separate terminal. This will generate the pet health data and save it to the database:
+Next, start the pet collar simulation. From a separate terminal execute the following command to generate the pet's health data and save it to the database:
 
     $ go build ./cmd/sensor
     $ NODE1=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' carepet-scylla1)
@@ -123,7 +123,7 @@ expected output:
     ...
 
 Write down the pet Owner ID (the ID is the part after the # sign without trailing spaces). We will use it later.
-Now, start the REST API service in a separate terminal. This server exposes a REST API that allows for tracking the pets health state:
+Now, start the REST API service in a separate, third, terminal. This server exposes a REST API that allows for tracking the pet's health state:
 
     $ go build ./cmd/server
     $ NODE1=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' carepet-scylla1)
@@ -135,7 +135,7 @@ expected output:
 
 ### Using the Application 
 
-Open http://127.0.0.1:8000/ in the browser or send an HTTP request from the CLI:
+Open http://127.0.0.1:8000/ in a browser or send an HTTP request from the CLI:
 
     $ curl -v http://127.0.0.1:8000/
 
@@ -169,7 +169,7 @@ expected result:
 
     {"address":"home","name":"gmwjgsap","owner_id":"a05fd0df-0f97-4eec-a211-cad28a6e5360"} 
 
-To list the owner's pets use:
+To list the owner's pets run:
 
     $ curl -v http://127.0.0.1:8000/api/owner/{owner_id}/pets
 
@@ -181,17 +181,17 @@ expected output:
 
     [{"address":"home","age":57,"name":"tlmodylu","owner_id":"a05fd0df-0f97-4eec-a211-cad28a6e5360","pet_id":"a52adc4e-7cf4-47ca-b561-3ceec9382917","weight":5}]
 
-To list pet's sensors use:
+To list each specifc pet's sensor:
 
     $ curl -v curl -v http://127.0.0.1:8000/api/pet/{pet_id}/sensors
 
 for example:
-
+i
     $ curl http://127.0.0.1:8000/api/pet/cef72f58-fc78-4cae-92ae-fb3c3eed35c4/sensors
 
     [{"pet_id":"cef72f58-fc78-4cae-92ae-fb3c3eed35c4","sensor_id":"5a9da084-ea49-4ab1-b2f8-d3e3d9715e7d","type":"L"},{"pet_id":"cef72f58-fc78-4cae-92ae-fb3c3eed35c4","sensor_id":"5c70cd8a-d9a6-416f-afd6-c99f90578d99","type":"R"},{"pet_id":"cef72f58-fc78-4cae-92ae-fb3c3eed35c4","sensor_id":"fbefa67a-ceb1-4dcc-bbf1-c90d71176857","type":"L"}]
 
-To review the pet's sensors data use:
+To review the data from a specific sensor:
 
     $ curl http://127.0.0.1:8000/api/sensor/{sensor_id}/values?from=2006-01-02T15:04:05Z07:00&to=2006-01-02T15:04:05Z07:00
 
@@ -223,7 +223,7 @@ The code package structure is as follows:
 | /api         | swagger api spec                    |
 | /cmd         | applications executables            |
 | /cmd/migrate | install database schema             |
-| /cmd/sensor  | simulate pet collar                 |
+| /cmd/sensor  | Simulates the pet's collar                 |
 | /cmd/server  | web application backend             |
 | /config      | database configuration              |
 | /db          | database handlers (gocql/x)         |
@@ -231,24 +231,24 @@ The code package structure is as follows:
 | /handler     | swagger REST API handlers           |
 | /model       | application models and ORM metadata |
 
-After data collected from the pets via the sensors on the collars, it is delivered to the central database for analysis and for health status checking.
+After data is collected from the pets via the sensors on their collars, it is delivered to the central database for analysis and for health status checking.
 
-The collar code sits in the /cmd/sensor and uses scylladb/gocqlx Go driver to connect to the database directly and publish its data. Collar sends sensor measurements updates every once in a second.
+The collar code sits in the /cmd/sensor and uses scylladb/gocqlx Go driver to connect to the database directly and publish its data. The collar sends a sensor measurement update once a second.
 
 Overall all applications in this repository use scylladb/gocqlx for:
 
 -   Relational Object Mapping (ORM)
--   Build Queries
--   Migrate database schemas
+-   Building Queries
+-   Migrating database schemas
 
-The web application REST API server resides in /cmd/server and uses go-swagger that supports OpenAPI 2.0 to expose its API. API handlers reside in /handler. Most of the queries are reads.
+The web application's REST API server resides in /cmd/server and uses go-swagger that supports OpenAPI 2.0 to expose its API. API handlers reside in /handler. Most of the queries are reads.
 
-The application is capable of caching sensor measurements data on an hourly basis. It uses lazy evaluation to manage sensor_avg. It can be viewed as an application-level lazy-evaluated materialized view. 
+The application is capable of caching sensor measurements data on an hourly basis. It uses Lazy Evaluation to manage sensor_avg. It can be viewed as an application-level lazy-evaluated materialized view. 
 
 The algorithm is simple and resides in /handler/avg.go:
 
 -   read sensor_avg
--   if no data, read measurement data, aggregate in memory, save
+-   if there is no data, read measurement data, aggregate in memory, save
 -   serve request
 
 ### Additional Resources

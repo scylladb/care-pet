@@ -8,7 +8,7 @@ The application allows tracking of pets health indicators
 and consist of 3 parts:
 
 - a collar that reads and pushes sensors data
-- a web app that allows reading and analyzing pets data
+- a web app for reading and analyzing the pets' data
 - a database migration tool
 
 Quick Start
