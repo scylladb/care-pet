@@ -277,98 +277,246 @@ Architecture
 
     Pet --> Sensor --> ScyllaDB <-> REST API Server <-> User
 
-How to start a new project with Go
+How to start a new project with Java
 ---
 
-Install Go. Create a repository. Clone it. Execute inside of
+Install JDK >= 8 and Maven. Create a repository. Clone it. Execute inside of
 your repository:
 
-    $ go mod init github.com/my_name/my_module
+    $ mvn archetype:generate -DgroupId=com.mycompany.app -DartifactId=my-app -DarchetypeArtifactId=maven-archetype-quickstart -DarchetypeVersion=1.4 -DinteractiveMode=false
 
-Now when you have your go module spec connect the ScyllaDB Go
-driver as a dependency with:
+Now when you have your pom module add ScyllaDB driver as a dependency with:
 
-    $ go get -u github.com/scylladb/gocqlx/v2
+    <dependencies>
+        <dependency>
+          <groupId>com.scylladb</groupId>
+          <artifactId>java-driver-core</artifactId>
+          <version>4.8.0-scylla-0</version>
+        </dependency>
+    </dependencies>
 
-Now your `go.mod` will be looking something like this:
+Now your `pom.xml` will be looking something like this:
 
-    module github.com/blah/blah
+    <?xml version="1.0" encoding="UTF-8"?>
 
-    go 1.14
+    <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+      <modelVersion>4.0.0</modelVersion>
 
-    require (
-        github.com/gocql/gocql v0.0.0-20200624222514-34081eda590e // indirect
-        github.com/scylladb/gocqlx/v2 v2.1.0 // indirect
-    )
+      <groupId>com.mycompany.app</groupId>
+      <artifactId>my-app</artifactId>
+      <version>1.0-SNAPSHOT</version>
 
-Add a `gocql` driver replacement with our version with:
+      <name>my-app</name>
+      <!-- FIXME change it to the project's website -->
+      <url>http://www.example.com</url>
 
-    replace github.com/gocql/gocql => github.com/scylladb/gocql v1.4.0
+      <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.7</maven.compiler.source>
+        <maven.compiler.target>1.7</maven.compiler.target>
+      </properties>
 
-Now `go.mod` must look like:
+      <dependencies>
+          <dependency>
+            <groupId>com.scylladb</groupId>
+            <artifactId>java-driver-core</artifactId>
+            <version>4.8.0-scylla-0</version>
+          </dependency>
+          ...
+      </dependencies>
 
-    module github.com/blah/blah
-
-    go 1.14
-
-    require (
-        github.com/gocql/gocql v0.0.0-20200624222514-34081eda590e // indirect
-        github.com/scylladb/gocqlx/v2 v2.1.0 // indirect
-    )
-
-    replace github.com/gocql/gocql => github.com/scylladb/gocql v1.4.0
-
+      <build>
+        <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
+            ...
+        </pluginManagement>
+      </build>
+    </project>
+   
 Now you are ready to connect to the database and start working.
 To connect to the database, do the following:
 
-```go
-import (
-	"github.com/gocql/gocql"
-	"github.com/scylladb/gocqlx/v2"
-)
+```java
+import com.datastax.oss.driver.api.core.CqlSession;
+import com.datastax.oss.driver.api.core.CqlSessionBuilder;
 
-var	cfg *gocql.ClusterConfig = gocql.NewCluster()
+class Example {
+    public static void main(String []args) {
+        CqlSessionBuilder builder = CqlSession.builder()
+                .withApplicationName(applicationName)
+                .withClientId(clientId);
 
-cfg.Hosts = []string{"127.0.0.1"}
-cfg.Keyspace = "my_keyspace"
-
-ses := gocqlx.WrapSession(gocql.NewSession(cfg))
-```
-
-Now you can issue CQL commands:
-
-```go
-iter := ses.Session.Query("SELECT name FROM hello").Iter()
-
-for {
-    var t string
-    if !iter.Scan(&t) {
-        break
+        CqlSession session = builder.build();
     }
 }
+```
 
-if err := iter.Close(); err != nil {
-    ...
+If you want to use authentication it can be done with:
+
+```java
+import com.datastax.oss.driver.api.core.CqlSession;
+import com.datastax.oss.driver.api.core.CqlSessionBuilder;
+
+class Example {
+    public static void main(String []args) {
+        CqlSession session = CqlSession.builder()
+                .withAuthCredentials("username", "password")
+                .build();
+    }
 }
 ```
 
-Or save models:
+Local endpoints also require specifying local datacenter:
 
-```go
-var owner model.Owner
+```java
+import com.datastax.oss.driver.api.core.CqlSession;
+import com.datastax.oss.driver.api.core.CqlSessionBuilder;
+import java.net.InetSocketAddress;
 
-if err := db.TableOwner.GetQuery(ses).Bind(id).GetRelease(&owner); err == gocql.ErrNotFound {
-    ...
-} else if err != nil {
-    ...
+class Example {
+    public static void main(String []args) {
+        CqlSession session = CqlSession.builder()
+                .addContactPoints({new InetSocketAddress("127.0.0.1", 9042)})
+                .withLocalDatacenter("datacenter1")
+                .build();
+    }
 }
 ```
 
-For more details, check out `/handler`, `/db` and `/config` packages.
+Now you can issue CQL commands with:
+
+```java
+import com.datastax.oss.driver.api.core.CqlSession;
+import com.datastax.oss.driver.api.core.CqlSessionBuilder;
+import com.datastax.oss.driver.api.core.cql.PreparedStatement;import com.datastax.oss.driver.api.core.cql.ResultSet;
+import com.datastax.oss.driver.api.core.cql.Row;
+
+class Example {
+    public static void main(String []args) {
+        CqlSession session = CqlSession.builder().build();
+
+        session.execute("INSERT INTO table VALUE(1, 2, 3)");
+
+        // or
+        PreparedStatement statement = session.prepare("INSERT INTO table VALUE(?, ?, ?)");
+        session.execute(statement.bind(1, 2, 3));
+
+        // or
+        ResultSet s = session.execute("SELECT * FROM table");
+        for (Row r: s) {
+            // r.get()
+        }
+    }
+}
+```
+
+You can use query builder with the help of:
+
+    <dependency>
+      <groupId>com.scylladb</groupId>
+      <artifactId>java-driver-query-builder</artifactId>
+      <version>4.8.0-scylla-0</version>
+    </dependency>
+
+To get:
+
+    Statement stmt =
+        selectFrom("examples", "querybuilder_json")
+            .json()
+            .all()
+            .whereColumn("id")
+            .isEqualTo(literal(1))
+            .build();
+            
+To use object-data mapping (ORM) include:
+
+    <dependency>
+      <groupId>com.scylladb</groupId>
+      <artifactId>java-driver-mapper-runtime</artifactId>
+      <version>4.8.0-scylla-0</version>
+    </dependency>
+    
+Add annotation processing:
+
+    <build>
+      <plugins>
+        <plugin>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>3.8.0</version>
+          <configuration>
+            <annotationProcessorPaths>
+              <path>
+                <groupId>com.scylladb</groupId>
+                <artifactId>java-driver-mapper-processor</artifactId>
+                <version>4.8.0-scylla-0</version>
+              </path>
+            </annotationProcessorPaths>
+            <compilerArgs>
+              <arg>-Aproject=${project.groupId}/${project.artifactId}</arg>
+            </compilerArgs>
+          </configuration>
+        </plugin>
+      </plugins>
+    </build>
+    
+Create a mapper:
+
+```java
+import com.datastax.oss.driver.api.core.CqlSession;
+import com.datastax.oss.driver.api.mapper.annotations.DaoFactory;
+
+@com.datastax.oss.driver.api.mapper.annotations.Mapper
+public interface Mapper {
+    static com.datastax.oss.driver.api.mapper.MapperBuilder<Mapper> builder(CqlSession session) {
+        return new MapperBuilder(session);
+    }
+}
+```
+
+You can create DAO factory per item type or one for all types:
+
+```java
+import com.datastax.oss.driver.api.mapper.annotations.Dao;
+import com.datastax.oss.driver.api.mapper.annotations.Select;
+
+import java.util.UUID;
+
+@Dao
+public interface DAO {
+        /** Simple selection by full primary key. */
+        @Select
+        Owner getOwner(UUID id);
+}
+```
+
+Generate the source with:
+
+    $ mvn compile
+
+Add DAO factory:
+
+```java
+import com.datastax.oss.driver.api.core.CqlSession;
+import com.datastax.oss.driver.api.mapper.annotations.DaoFactory;
+
+@com.datastax.oss.driver.api.mapper.annotations.Mapper
+public interface Mapper {
+    @DaoFactory
+    DAO dao();
+
+    static com.datastax.oss.driver.api.mapper.MapperBuilder<Mapper> builder(CqlSession session) {
+        return new MapperBuilder(session);
+    }
+}
+```
+
+You are ready to go.
+
+For more details, check out implementation.
 
 Links
 ---
 
 - https://hub.docker.com/r/scylladb/scylla/
-- https://github.com/scylladb/gocqlx
+- https://github.com/scylladb/java-driver/tree/4.x/
 
