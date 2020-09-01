@@ -514,6 +514,56 @@ You are ready to go.
 
 For more details, check out implementation.
 
+How to gather all the dependencies to run the app
+---
+
+You have a few options here:
+
+- pack all of them into a single jar
+- copy all of them into the build folder and include into classpath
+
+Let's take a look at path 2:
+
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <version>3.1.2</version>
+        <executions>
+          <!-- copy dependencies -->
+          <execution>
+            <id>copy-dependencies</id>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>copy-dependencies</goal>
+            </goals>
+            <configuration>
+              <overWriteReleases>false</overWriteReleases>
+              <overWriteSnapshots>false</overWriteSnapshots>
+              <overWriteIfNewer>true</overWriteIfNewer>
+            </configuration>
+          </execution>
+          <!-- build class path -->
+          <execution>
+            <id>build-classpath</id>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>build-classpath</goal>
+            </goals>
+            <configuration>
+              <outputFile>${project.build.directory}/dependencies</outputFile>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+    
+This will copy all the dependencies to the `target/dependency` folder and create
+a `dependencies` file that can be included into the `-classpath` definition:
+
+    $ mvn package
+    $ java -classpath ./target/sample-1.0-SNAPSHOT.jar:$(cat ./target/dependencies) com.project.App
+
 Links
 ---
 
