@@ -4,6 +4,8 @@ import com.datastax.oss.driver.api.mapper.annotations.ClusteringColumn;
 import com.datastax.oss.driver.api.mapper.annotations.CqlName;
 import com.datastax.oss.driver.api.mapper.annotations.Entity;
 import com.datastax.oss.driver.api.mapper.annotations.PartitionKey;
+import org.apache.commons.lang.RandomStringUtils;
+import org.apache.commons.lang.math.RandomUtils;
 
 import java.util.UUID;
 
@@ -81,6 +83,16 @@ public class Pet {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public static Pet random() {
+        return new Pet(
+                UUID.randomUUID(),
+                UUID.randomUUID(),
+                1 + RandomUtils.nextInt(100),
+                5.0f + 10.0f * RandomUtils.nextFloat(),
+                "home",
+                RandomStringUtils.randomAlphanumeric(8));
     }
 
     @Override

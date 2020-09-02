@@ -9,21 +9,21 @@ import java.util.UUID;
 
 @Dao
 public interface DAO {
-        @Select
-        Owner getOwner(UUID id);
+    @Select
+    Owner getOwner(UUID id);
 
-        @Select
-        Pet getPet(UUID ownerId, UUID petId);
+    @Select
+    Pet getPet(UUID ownerId, UUID petId);
 
-        // @Select
-        // List<Pet> getOwnerPets(UUID ownerId);
+    // @Select
+    // List<Pet> getOwnerPets(UUID ownerId);
 
-        @Select
-        Sensor getSensor(UUID petId, UUID sensorId);
+    @Select
+    Sensor getSensor(UUID petId, UUID sensorId);
 
-        @Select
-        Measure getMeasurement(UUID sensorId, Instant ts);
+    @Select
+    Measure getMeasurement(UUID sensorId, Instant ts);
 
-        @Select
-        SensorAvg getSensorAvg(UUID sensorId, Date date, int hour);
+    @Select
+    SensorAvg getSensorAvg(UUID sensorId, Date date, int hour);
 }

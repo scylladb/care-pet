@@ -3,7 +3,9 @@ package com.carepet.model;
 import com.datastax.oss.driver.api.mapper.annotations.CqlName;
 import com.datastax.oss.driver.api.mapper.annotations.Entity;
 import com.datastax.oss.driver.api.mapper.annotations.PartitionKey;
+import org.apache.commons.lang.RandomStringUtils;
 
+import java.util.Random;
 import java.util.UUID;
 
 @Entity
@@ -46,6 +48,10 @@ public class Owner {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public static Owner random() {
+        return new Owner(UUID.randomUUID(), RandomStringUtils.randomAlphanumeric(8), RandomStringUtils.randomAlphanumeric(10));
     }
 
     @Override

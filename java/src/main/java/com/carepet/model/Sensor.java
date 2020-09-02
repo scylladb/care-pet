@@ -4,6 +4,7 @@ import com.datastax.oss.driver.api.mapper.annotations.ClusteringColumn;
 import com.datastax.oss.driver.api.mapper.annotations.CqlName;
 import com.datastax.oss.driver.api.mapper.annotations.Entity;
 import com.datastax.oss.driver.api.mapper.annotations.PartitionKey;
+import org.apache.commons.lang.math.RandomUtils;
 
 import java.util.UUID;
 
@@ -48,6 +49,32 @@ public class Sensor {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public static Sensor random() {
+        return new Sensor(
+                UUID.randomUUID(),
+                UUID.randomUUID(),
+                SensorType.values()[RandomUtils.nextInt(SensorType.values().length)].getType());
+    }
+
+    public float randomData() {
+        switch (SensorType.valueOf(type)) {
+            case Temperature:
+                // average F
+                return 101.0f + RandomUtils.nextInt(10) - 4;
+            case Pulse:
+                // average beat per minute
+                return 100.0f + RandomUtils.nextInt(40) - 20;
+            case Respiration:
+                // average inhales per minute
+                return 35.0f + RandomUtils.nextInt(5) - 2;
+            case Location:
+                // pet can teleport
+                return 90 * RandomUtils.nextFloat();
+            default:
+                return 0.0f;
+        }
     }
 
     @Override
