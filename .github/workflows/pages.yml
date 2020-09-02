@@ -23,7 +23,7 @@ jobs:
     - name: Build docs
       run: |
         export PATH=$PATH:~/.local/bin
-        cd docs
+        cd go/docs
         make multiversion
     - name: Deploy
       run : ./go/docs/_utils/deploy.sh
