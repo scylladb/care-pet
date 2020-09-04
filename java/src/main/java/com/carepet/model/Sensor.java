@@ -59,7 +59,7 @@ public class Sensor {
     }
 
     public float randomData() {
-        switch (SensorType.valueOf(type)) {
+        switch (SensorType.fromString(type)) {
             case Temperature:
                 // average F
                 return 101.0f + RandomUtils.nextInt(10) - 4;
