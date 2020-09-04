@@ -15,4 +15,14 @@ public enum SensorType {
     public String getType() {
         return type;
     }
+
+    public static SensorType fromString(String text) {
+        for (SensorType t : SensorType.values()) {
+            if (t.type.equalsIgnoreCase(text)) {
+                return t;
+            }
+        }
+
+        throw new IllegalArgumentException();
+    }
 }
