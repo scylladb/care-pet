@@ -245,7 +245,8 @@ health status checking.
 
 Collar code sits in the `/cmd/sensor` and uses `scylladb/gocqlx`
 Go driver to connect to the database directly and publish its data.
-Collar sends sensor measurements updates every once in a second.
+Collar gathers sensors measurements, aggregates data in a buffer and
+sends it every hour.
 
 Overall all applications in this repository use `scylladb/gocqlx` for:
 
