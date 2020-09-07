@@ -7,10 +7,11 @@ import (
 	"math/rand"
 	"time"
 
-	"github.com/scylladb/gocqlx/v2"
+	"github.com/gocql/gocql"
 
 	"github.com/scylladb/care-pet/go/db"
 	"github.com/scylladb/care-pet/go/model"
+	"github.com/scylladb/gocqlx/v2"
 )
 
 type pet struct {
@@ -54,30 +55,51 @@ func (p *pet) save(ctx context.Context, s gocqlx.Session) error {
 }
 
 func (p *pet) run(ctx context.Context, s gocqlx.Session) {
-	var m = &model.Measure{}
-
 	if *verbose {
 		log.Println("pet #", p.p.PetID, "ready")
 	}
 
+	var last = time.Now()
 	for {
-		for _, sen := range p.s {
-			readSensorData(sen, m)
+		var ms []*model.Measure
 
-			if err := db.TableMeasure.InsertQueryContext(ctx, s).BindStruct(m).ExecRelease(); err != nil {
-				log.Println("sensor #", sen.SensorID, "error:", err)
-				continue
+		for time.Since(last) < *bufferInterval {
+			time.Sleep(*measure)
+
+			for _, sen := range p.s {
+				m := readSensorData(sen)
+				ms = append(ms, m)
+
+				log.Println("sensor #", sen.SensorID, "type", sen.Type, "new measure", m.Value, "ts", m.TS.Format(time.RFC3339))
 			}
-
-			log.Println("sensor #", sen.SensorID, "type", sen.Type, "new measure", m.Value, "ts", m.TS.Format(time.RFC3339))
 		}
 
-		time.Sleep(time.Second)
+		last = last.Add(*measure * (time.Since(last) / (*measure)))
+
+		log.Println("pushing data")
+		// this is simplified example of batch execution. standard
+		// best practice is to push values that end up in the same partition:
+		// https://www.scylladb.com/2019/03/27/best-practices-for-scylla-applications/
+		b := s.NewBatch(gocql.UnloggedBatch)
+		cql, _ := db.TableMeasure.Insert()
+
+		for _, m := range ms {
+			b.Query(cql, m.SensorID, m.TS, m.Value)
+		}
+
+		if err := s.ExecuteBatch(b); err != nil {
+			log.Println("execute batch error: ", err)
+			continue
+		}
+
+		ms = ms[:0]
 	}
 }
 
-func readSensorData(sen *model.Sensor, m *model.Measure) {
-	m.SensorID = sen.SensorID
-	m.TS = time.Now()
-	m.Value = model.RandSensorData(sen)
+func readSensorData(sen *model.Sensor) *model.Measure {
+	return &model.Measure{
+		SensorID: sen.SensorID,
+		TS:       time.Now(),
+		Value:    model.RandSensorData(sen),
+	}
 }

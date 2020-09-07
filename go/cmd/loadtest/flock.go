@@ -7,11 +7,10 @@ import (
 	"math/rand"
 	"sync"
 
-	"github.com/scylladb/gocqlx/v2"
-
 	"github.com/scylladb/care-pet/go/config"
 	"github.com/scylladb/care-pet/go/db"
 	"github.com/scylladb/care-pet/go/model"
+	"github.com/scylladb/gocqlx/v2"
 )
 
 type flock struct {

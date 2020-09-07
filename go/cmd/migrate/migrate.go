@@ -4,11 +4,11 @@ import (
 	"context"
 	"log"
 
-	"github.com/scylladb/gocqlx/v2/migrate"
 	"github.com/spf13/pflag"
 
 	"github.com/scylladb/care-pet/go/config"
 	"github.com/scylladb/care-pet/go/db"
+	"github.com/scylladb/gocqlx/v2/migrate"
 )
 
 var verbose = pflag.Bool("verbose", false, "output more info")

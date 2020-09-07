@@ -41,8 +41,8 @@ func RandSensorData(s *Sensor) float32 {
 		// average inhales per minute
 		return float32(35 + rand.Intn(5) - 2)
 	case SensorTypeLocation:
-		// pet can teleport
-		return 90 * rand.Float32()
+		// distance from home
+		return 10 * rand.Float32()
 	default:
 		return 0.0
 	}

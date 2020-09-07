@@ -3,12 +3,15 @@ package main
 import (
 	"context"
 	"log"
+	"time"
 
 	"github.com/spf13/pflag"
 
 	"github.com/scylladb/care-pet/go/config"
 )
 
+var bufferInterval = pflag.Duration("buffer-interval", time.Hour, "buffer to accumulate measures")
+var measure = pflag.Duration("measure", time.Minute, "sensors measurement interval")
 var verbose = pflag.Bool("verbose", false, "output more info")
 
 func main() {

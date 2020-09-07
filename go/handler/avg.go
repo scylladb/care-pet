@@ -6,17 +6,14 @@ import (
 	"sort"
 	"time"
 
+	"github.com/go-openapi/runtime/middleware"
 	"github.com/gocql/gocql"
 
-	"github.com/scylladb/gocqlx/v2/qb"
-
+	"github.com/scylladb/care-pet/go/cmd/server/restapi/operations"
 	"github.com/scylladb/care-pet/go/db"
 	"github.com/scylladb/care-pet/go/model"
-
-	"github.com/go-openapi/runtime/middleware"
-
-	"github.com/scylladb/care-pet/go/cmd/server/restapi/operations"
 	"github.com/scylladb/gocqlx/v2"
+	"github.com/scylladb/gocqlx/v2/qb"
 )
 
 // FindSensorAvgBySensorIDAndDay reads sensor day hourly aggregates.

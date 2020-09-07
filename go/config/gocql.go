@@ -3,12 +3,11 @@ package config
 import (
 	"time"
 
-	"github.com/scylladb/gocqlx/v2"
-
 	"github.com/gocql/gocql"
 	"github.com/spf13/pflag"
 
 	"github.com/scylladb/care-pet/go/db"
+	"github.com/scylladb/gocqlx/v2"
 )
 
 var config = struct {
