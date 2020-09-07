@@ -3,45 +3,69 @@ Getting Started with CarePet: A sample IoT App
 
 ### Introduction
 
-In this guided exercise, you'll create an IoT app from scratch and configure it to use ScyllaDB as the backend datastore.
-We'll use as an example, an application called CarePet, which collects and analyzes data from sensors attached to a pet's collar and monitors the pet's health and activity.
+In this guided exercise, you'll create an IoT app from scratch and configure it
+to use ScyllaDB as the backend datastore.
+
+We'll use as an example, an application called CarePet, which collects and
+analyzes data from sensors attached to a pet's collar and monitors the pet's
+health and activity.
+
 The example can be used, with minimal changes, for any IoT like application.
-We'll go over the different stages of the development, from gathering requirements, creating the data model, cluster sizing and hardware needed to match the requirements, and finally building and running the application. 
+
+We'll go over the different stages of the development, from gathering
+requirements, creating the data model, cluster sizing and hardware needed to
+match the requirements, and finally building and running the application. 
 
 ### Use Case Requirements
 
-Each pet collar includes sensors that report four different measurements: Temperature, Pulse, Location, and Respiration.
-The collar reads the sensor's data once a second and sends measurements directly to the app.
+Each pet collar includes sensors that report four different measurements:
+Temperature, Pulse, Location, and Respiration.
+
+The collar reads the sensor's data once a second and sends measurements
+directly to the app.
 
 ### Performance Requirements
 
 The application has two parts:
+
 -   Sensors: writes to the database, throughput sensitive
 -   Backend dashboard: reads from the database, latency-sensitive
 
 For this example, we assume 99% writes (sensors) and 1% reads (backend dashboard)
 
 Required SLA:
--   Writes throughput of 100K Operations per second
--   Reads: latency of up to 10 milliseconds for the [99th percentile](https://engineering.linkedin.com/performance/who-moved-my-99th-percentile-latency).
 
-The application requires high availability and fault tolerance. Even if a ScyllaDB node goes down or becomes unavailable, the cluster is expected to remain available and continue to provide service. You can learn more about Scylla high availability in [this lesson](https://university.scylladb.com/courses/scylla-essentials-overview/lessons/high-availability/). 
+-   Writes throughput of 100K Operations per second
+-   Reads: latency of up to 10 milliseconds for the
+    [99th percentile](https://engineering.linkedin.com/performance/who-moved-my-99th-percentile-latency).
+
+The application requires high availability and fault tolerance. Even if a
+ScyllaDB node goes down or becomes unavailable, the cluster is expected to
+remain available and continue to provide service. You can learn more about
+Scylla high availability in [this lesson](https://university.scylladb.com/courses/scylla-essentials-overview/lessons/high-availability/). 
 
 ### Design and Data Model
 
-In this part  we’ll think about our queries, make the primary key and clustering key selection, and create the database schema. See more in the data model design [document](./design_and_data_model.md).
+In this part  we’ll think about our queries, make the primary key and
+clustering key selection, and create the database schema. See more in the data
+model design [document](./design_and_data_model.md).
 
 ### Deploying the App 
 
 Prerequisites:
+
 -   [go](https://golang.org/dl/), version 1.14 or newer
 -   [docker](https://www.docker.com/)
 -   [docker-compose](https://docs.docker.com/compose/)
 
-The example application uses Docker to run a three-node ScyllaDB cluster. It allows tracking of pet's health indicators and consists of three parts:
+The example application uses Docker to run a three-node ScyllaDB cluster. It
+allows tracking of pet's health indicators and consists of three parts:
+
 -   migrate (/cmd/migrate) - creates the CarePet keyspace and tables
--   collar (/cmd/sensor) - generates a pet health data and pushes it into the storage
--   web app (/cmd/server) - REST API service for tracking the pets' health state
+-   collar (/cmd/sensor) - generates a pet health data and pushes it into the
+    storage
+-   web app (/cmd/server) - REST API service for tracking the pets' health
+    state
 
 Download the example code from git:
 
@@ -73,13 +97,13 @@ You can check the database structure with:
        
        cqlsh> DESCRIBE KEYSPACES
        carepet  system_schema  system_auth  system  system_distributed  system_traces
-    
+
        cqlsh> USE carepet;
        cqlsh:carepet> DESCRIBE TABLES
        pet  sensor_avg  gocqlx_migrate  measurement  owner  sensor
-    
+
        cqlsh:carepet> DESCRIBE TABLE pet
-    
+
        CREATE TABLE carepet.pet (
            owner_id uuid,
            pet_id uuid,
@@ -103,7 +127,7 @@ You can check the database structure with:
            AND min_index_interval = 128
            AND read_repair_chance = 0.0
            AND speculative_retry = '99.0PERCENTILE';
-    
+
        cqlsh:carepet> exit
 
 Next, start the pet collar simulation. From a separate terminal execute the following command to generate the pet's health data and save it to the database:
@@ -156,8 +180,8 @@ expected output:
     * Closing connection 0
     {"code":404,"message":"path / was not found"}
 
-If you see this JSON in the end with 404, it means everything works as expected.
-To read an owner's data use the previously saved owner_id as follows:
+If you see this JSON in the end with 404, it means everything works as
+expected. To read an owner's data use the previously saved owner_id as follows:
 
     $ curl -v http://127.0.0.1:8000/api/owner/{owner_id}
 
@@ -231,9 +255,12 @@ The code package structure is as follows:
 | /handler     | swagger REST API handlers           |
 | /model       | application models and ORM metadata |
 
-After data is collected from the pets via the sensors on their collars, it is delivered to the central database for analysis and for health status checking.
+After data is collected from the pets via the sensors on their collars, it is
+delivered to the central database for analysis and for health status checking.
 
-The collar code sits in the /cmd/sensor and uses scylladb/gocqlx Go driver to connect to the database directly and publish its data. The collar sends a sensor measurement update once a second.
+The collar code sits in the /cmd/sensor and uses scylladb/gocqlx Go driver to
+connect to the database directly and publish its data. The collar sends a
+sensor measurement update once a second.
 
 Overall all applications in this repository use scylladb/gocqlx for:
 
@@ -241,9 +268,13 @@ Overall all applications in this repository use scylladb/gocqlx for:
 -   Building Queries
 -   Migrating database schemas
 
-The web application's REST API server resides in /cmd/server and uses go-swagger that supports OpenAPI 2.0 to expose its API. API handlers reside in /handler. Most of the queries are reads.
+The web application's REST API server resides in /cmd/server and uses
+go-swagger that supports OpenAPI 2.0 to expose its API. API handlers reside in
+/handler. Most of the queries are reads.
 
-The application is capable of caching sensor measurements data on an hourly basis. It uses Lazy Evaluation to manage sensor_avg. It can be viewed as an application-level lazy-evaluated materialized view. 
+The application is capable of caching sensor measurements data on an hourly
+basis. It uses Lazy Evaluation to manage sensor_avg. It can be viewed as an
+application-level lazy-evaluated materialized view. 
 
 The algorithm is simple and resides in /handler/avg.go:
 
