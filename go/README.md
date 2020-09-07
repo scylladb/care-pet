@@ -3,7 +3,8 @@ Care Pet ScyllaDB IoT example
 
 This example project demonstrates a generic IoT use case
 for ScyllaDB in Go.
-The documentation for this application and guided excercise is [here](docs).
+
+The documentation for this application and guided exercise is [here](docs).
 
 The application allows tracking of pets health indicators
 and consist of three parts:
@@ -105,7 +106,7 @@ To start pet collar simulation execute the following in the separate terminal:
 
     $ go build ./cmd/sensor
     $ NODE1=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' carepet-scylla1)
-    $ ./sensor --hosts $NODE1
+    $ ./sensor --hosts $NODE1 --measure 5s --buffer-interval 1m
 
 Expected output:
 
@@ -116,6 +117,9 @@ Expected output:
     2020/08/06 16:44:33 sensor # 2ff06ffb-ecad-4c55-be78-0a3d413231d9 type R new measure 36 ts 2020-08-06T16:44:33+02:00
     2020/08/06 16:44:33 sensor # 821588e0-840d-48c6-b9c9-7d1045e0f38c type L new measure 26.380281 ts 2020-08-06T16:44:33+02:00
     ...
+    
+In a minute (a `--buffer-interval`) you will see a data push (`push data`) log line.
+That means that the collar has been pushed buffered measurements to the app.
 
 Write down the pet Owner ID (ID is something after the `#` sign without trailing spaces).
 To start REST API service execute the following in the separate terminal:
@@ -235,8 +239,8 @@ Implementation
 ---
 
 Collars are small devices that attach to pets and collect data
-with the help of different sensors. After the data is collected it
-may be delivered to the central database for the analysis and
+with the help of different sensors. After the data is collected
+it may be delivered to the central database for the analysis and
 health status checking.
 
 Collar code sits in the `/cmd/sensor` and uses `scylladb/gocqlx`
