@@ -78,8 +78,13 @@ You can check the database structure with:
 
     CREATE TABLE carepet.pet (
         owner_id uuid,
-        pet_id uuid,
-        address text,
+        pet_id   uuid,
+        chip_id  text,
+        species  text,
+        breed    text,
+        color    text,
+        gender   text,
+        address  text,
         age int,
         name text,
         weight float,

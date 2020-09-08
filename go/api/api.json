@@ -239,6 +239,21 @@
           "type": "string",
           "format": "uuid"
         },
+        "chip_id": {
+          "type": "string"
+        },
+        "species": {
+          "type": "string"
+        },
+        "breed": {
+          "type": "string"
+        },
+        "color": {
+          "type": "string"
+        },
+        "gender": {
+          "type": "string"
+        },
         "age": {
           "type": "integer"
         },

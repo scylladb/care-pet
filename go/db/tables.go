@@ -19,7 +19,7 @@ var OwnerMetadata = table.Metadata{
 
 var PetMetadata = table.Metadata{
 	Name:    "pet",
-	Columns: []string{"owner_id", "pet_id", "age", "weight", "address", "name"},
+	Columns: []string{"owner_id", "pet_id", "chip_id", "species", "breed", "color", "gender", "age", "weight", "address", "name"},
 	PartKey: []string{"owner_id"},
 	SortKey: []string{"pet_id"},
 }

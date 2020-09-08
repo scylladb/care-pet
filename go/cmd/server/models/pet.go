@@ -23,6 +23,18 @@ type Pet struct {
 	// age
 	Age int64 `json:"age,omitempty"`
 
+	// breed
+	Breed string `json:"breed,omitempty"`
+
+	// chip id
+	ChipID string `json:"chip_id,omitempty"`
+
+	// color
+	Color string `json:"color,omitempty"`
+
+	// gender
+	Gender string `json:"gender,omitempty"`
+
 	// name
 	Name string `json:"name,omitempty"`
 
@@ -35,6 +47,9 @@ type Pet struct {
 	// Required: true
 	// Format: uuid
 	PetID *strfmt.UUID `json:"pet_id"`
+
+	// species
+	Species string `json:"species,omitempty"`
 
 	// weight
 	Weight float64 `json:"weight,omitempty"`

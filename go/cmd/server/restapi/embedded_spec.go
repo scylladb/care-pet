@@ -290,6 +290,18 @@ func init() {
         "age": {
           "type": "integer"
         },
+        "breed": {
+          "type": "string"
+        },
+        "chip_id": {
+          "type": "string"
+        },
+        "color": {
+          "type": "string"
+        },
+        "gender": {
+          "type": "string"
+        },
         "name": {
           "type": "string"
         },
@@ -300,6 +312,9 @@ func init() {
         "pet_id": {
           "type": "string",
           "format": "uuid"
+        },
+        "species": {
+          "type": "string"
         },
         "weight": {
           "type": "number"
@@ -622,6 +637,18 @@ func init() {
         "age": {
           "type": "integer"
         },
+        "breed": {
+          "type": "string"
+        },
+        "chip_id": {
+          "type": "string"
+        },
+        "color": {
+          "type": "string"
+        },
+        "gender": {
+          "type": "string"
+        },
         "name": {
           "type": "string"
         },
@@ -632,6 +659,9 @@ func init() {
         "pet_id": {
           "type": "string",
           "format": "uuid"
+        },
+        "species": {
+          "type": "string"
         },
         "weight": {
           "type": "number"

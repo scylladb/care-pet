@@ -34,6 +34,11 @@ func FindPetsByOwnerID(ses gocqlx.Session) operations.FindPetsByOwnerIDHandlerFu
 			res.Payload = append(res.Payload, &models.Pet{
 				OwnerID: conv.UUID(strfmt.UUID(pet.OwnerID.String())),
 				PetID:   conv.UUID(strfmt.UUID(pet.PetID.String())),
+				ChipID:  pet.ChipID,
+				Species: pet.Species,
+				Breed:   pet.Breed,
+				Color:   pet.Color,
+				Gender:  pet.Gender,
 				Age:     int64(pet.Age),
 				Weight:  float64(pet.Weight),
 				Address: pet.Address,
