@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 
 public class Migrate {
     public static void main(String[] args) {
-        final Config config = Config.parse(args);
+        final Config config = Config.parse(new Config(), args);
 
         final Migrate client = new Migrate(config);
         client.createKeyspace();

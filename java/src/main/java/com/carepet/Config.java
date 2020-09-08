@@ -9,6 +9,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.reflect.ParameterizedType;
 import java.net.InetSocketAddress;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -41,15 +42,13 @@ public class Config {
     String password;
 
     @Option(names = { "-h", "--help" }, usageHelp = true, description = "display a help message")
-    private boolean help = false;
+    private boolean help;
 
     /**
      * Parses arguments into a new instance of the {@link Config} object.
      */
-    public static Config parse(String[] args) {
-        Config config = new Config();
-
-        CommandLine cmd = new CommandLine(config);
+    public static <T> T parse(T command, String[] args) {
+        CommandLine cmd = new CommandLine(command);
         cmd.setUnmatchedArgumentsAllowed(false);
         cmd.parseArgs(args);
 
@@ -58,7 +57,7 @@ public class Config {
             System.exit(1);
         }
 
-        return config;
+        return command;
     }
 
     /**

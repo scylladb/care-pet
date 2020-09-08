@@ -71,7 +71,7 @@ public class Sensor {
                 return 35.0f + RandomUtils.nextInt(5) - 2;
             case Location:
                 // pet can teleport
-                return 90 * RandomUtils.nextFloat();
+                return 10 * RandomUtils.nextFloat();
             default:
                 return 0.0f;
         }
