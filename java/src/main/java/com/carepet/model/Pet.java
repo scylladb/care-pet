@@ -4,6 +4,7 @@ import com.datastax.oss.driver.api.mapper.annotations.ClusteringColumn;
 import com.datastax.oss.driver.api.mapper.annotations.CqlName;
 import com.datastax.oss.driver.api.mapper.annotations.Entity;
 import com.datastax.oss.driver.api.mapper.annotations.PartitionKey;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.math.RandomUtils;
 
@@ -13,11 +14,14 @@ import java.util.UUID;
 @CqlName("pet")
 public class Pet {
     @PartitionKey
+    @JsonProperty("owner_id")
     private UUID ownerId;
 
     @ClusteringColumn
+    @JsonProperty("pet_id")
     private UUID petId;
 
+    @JsonProperty("chip_id")
     private String chipId ;
 
     private String species ;

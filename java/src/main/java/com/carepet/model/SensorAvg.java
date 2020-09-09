@@ -4,6 +4,7 @@ import com.datastax.oss.driver.api.mapper.annotations.ClusteringColumn;
 import com.datastax.oss.driver.api.mapper.annotations.CqlName;
 import com.datastax.oss.driver.api.mapper.annotations.Entity;
 import com.datastax.oss.driver.api.mapper.annotations.PartitionKey;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.sql.Date;
 import java.util.UUID;
@@ -12,6 +13,7 @@ import java.util.UUID;
 @CqlName("sensor_avg")
 public class SensorAvg {
     @PartitionKey
+    @JsonProperty("sensor_id")
     private UUID sensorId;
 
     @ClusteringColumn(0)
