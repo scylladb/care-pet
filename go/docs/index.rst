@@ -21,6 +21,6 @@ The application allows tracking of pets health indicators and consist of 3 parts
 
 Pick a topic to get started:
 
-* `Getting Started with CarePet: A sample IoT App <getting_started/>`_
+* `Getting Started with CarePet: A sample IoT App <getting_started>`_
 
-* `Design and Data Model <design_and_data_model/>`_
+* `Design and Data Model <design_and_data_model>`_
