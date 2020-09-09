@@ -35,10 +35,10 @@ public class Sensor
         this.config = config;
 
         this.owner = Owner.random();
-        this.pet = Pet.random();
+        this.pet = Pet.random(this.owner.getOwnerId());
         this.sensors = new com.carepet.model.Sensor[SensorType.values().length];
         for (int i = 0; i < this.sensors.length; i ++) {
-            this.sensors[i] = com.carepet.model.Sensor.random();
+            this.sensors[i] = com.carepet.model.Sensor.random(this.pet.getPetId());
         }
     }
 

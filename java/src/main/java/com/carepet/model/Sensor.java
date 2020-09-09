@@ -54,9 +54,9 @@ public class Sensor {
         this.type = type;
     }
 
-    public static Sensor random() {
+    public static Sensor random(UUID petId) {
         return new Sensor(
-                UUID.randomUUID(),
+                petId,
                 UUID.randomUUID(),
                 SensorType.values()[RandomUtils.nextInt(SensorType.values().length)].getType());
     }

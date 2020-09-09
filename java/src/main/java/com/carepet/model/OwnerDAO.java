@@ -19,7 +19,4 @@ public interface OwnerDAO {
 
     @Select
     Owner get(UUID id);
-
-    // @Select
-    // List<Pet> getOwnerPets(UUID ownerId);
 }
