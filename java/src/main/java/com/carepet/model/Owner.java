@@ -3,15 +3,16 @@ package com.carepet.model;
 import com.datastax.oss.driver.api.mapper.annotations.CqlName;
 import com.datastax.oss.driver.api.mapper.annotations.Entity;
 import com.datastax.oss.driver.api.mapper.annotations.PartitionKey;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.apache.commons.lang.RandomStringUtils;
 
-import java.util.Random;
 import java.util.UUID;
 
 @Entity
 @CqlName("owner")
 public class Owner {
     @PartitionKey
+    @JsonProperty("owner_id")
     private UUID ownerId;
 
     private String name;
@@ -24,7 +25,8 @@ public class Owner {
         this.address = address;
     }
 
-    public Owner() {}
+    public Owner() {
+    }
 
     public UUID getOwnerId() {
         return ownerId;

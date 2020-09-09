@@ -25,7 +25,7 @@ public class Config {
 
     final static UUID clientId = UUID.randomUUID();
 
-    final static String keyspace = "carepet";
+    public final static String keyspace = "carepet";
 
     private final static int port = 9042;
 

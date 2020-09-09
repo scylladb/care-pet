@@ -4,6 +4,7 @@ import com.datastax.oss.driver.api.mapper.annotations.ClusteringColumn;
 import com.datastax.oss.driver.api.mapper.annotations.CqlName;
 import com.datastax.oss.driver.api.mapper.annotations.Entity;
 import com.datastax.oss.driver.api.mapper.annotations.PartitionKey;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.apache.commons.lang.math.RandomUtils;
 
 import java.util.UUID;
@@ -12,9 +13,11 @@ import java.util.UUID;
 @CqlName("sensor")
 public class Sensor {
     @PartitionKey
+    @JsonProperty("pet_id")
     private UUID petId;
 
     @ClusteringColumn
+    @JsonProperty("sensor_id")
     private UUID sensorId;
 
     private String type;
