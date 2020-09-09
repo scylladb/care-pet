@@ -1,5 +1,6 @@
 package com.carepet.model;
 
+import com.datastax.oss.driver.api.core.PagingIterable;
 import com.datastax.oss.driver.api.mapper.annotations.Dao;
 import com.datastax.oss.driver.api.mapper.annotations.Insert;
 import com.datastax.oss.driver.api.mapper.annotations.Select;
@@ -17,4 +18,7 @@ public interface SensorDAO {
 
     @Select
     Sensor get(UUID pet, UUID id);
+
+    @Select(customWhereClause = "pet_id = :pet")
+    PagingIterable<Sensor> findByPet(UUID pet);
 }

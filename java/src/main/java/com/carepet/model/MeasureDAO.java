@@ -1,9 +1,7 @@
 package com.carepet.model;
 
-import com.datastax.oss.driver.api.mapper.annotations.Dao;
-import com.datastax.oss.driver.api.mapper.annotations.Insert;
-import com.datastax.oss.driver.api.mapper.annotations.Select;
-import com.datastax.oss.driver.api.mapper.annotations.Update;
+import com.datastax.oss.driver.api.core.cql.ResultSet;
+import com.datastax.oss.driver.api.mapper.annotations.*;
 
 import java.time.Instant;
 import java.util.UUID;
@@ -18,4 +16,7 @@ public interface MeasureDAO {
 
     @Select
     Measure get(UUID sensor, Instant ts);
+
+    @Query("SELECT value FROM measurement WHERE sensor_id = :sensor AND ts >= :start AND ts <= :end")
+    ResultSet find(UUID sensor, Instant start, Instant end);
 }

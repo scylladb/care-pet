@@ -5,19 +5,19 @@ import com.carepet.model.Owner;
 import com.carepet.model.Pet;
 import com.carepet.model.Sensor;
 import com.datastax.oss.driver.api.core.CqlSession;
+import com.datastax.oss.driver.api.core.cql.ResultSet;
 import io.micronaut.http.MediaType;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
+import io.micronaut.http.annotation.QueryValue;
 import io.micronaut.validation.Validated;
 import io.reactivex.Observable;
-import io.reactivex.ObservableEmitter;
 import io.reactivex.Single;
 
 import javax.inject.Inject;
 import javax.validation.constraints.NotBlank;
+import java.time.Instant;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.Collection;
 import java.util.UUID;
 
 @Controller("/api")
@@ -39,17 +39,18 @@ public class ModelController {
 
     @Get(uri = "/owner/{id}/pets", produces = MediaType.APPLICATION_JSON)
     public Observable<Pet> pets(@NotBlank UUID id) {
-        throw new UnsupportedOperationException("to implement");
+        return Observable.fromIterable(mapper.pet().findByOwner(id));
     }
 
     @Get(uri = "/pet/{id}/sensors", produces = MediaType.APPLICATION_JSON)
     public Observable<Sensor> sensors(@NotBlank UUID id) {
-        throw new UnsupportedOperationException("to implement");
+        return Observable.fromIterable(mapper.sensor().findByPet(id));
     }
 
-    @Get(uri = "/sensor/{id}", produces = MediaType.APPLICATION_JSON)
-    public Observable<Float> data(@NotBlank UUID id, @NotBlank LocalDateTime from, @NotBlank LocalDateTime to) {
-        throw new UnsupportedOperationException("to implement");
+    @Get(uri = "/sensor/{id}/values", produces = MediaType.APPLICATION_JSON)
+    public Observable<Float> values(@NotBlank UUID id, @NotBlank @QueryValue String from, @NotBlank @QueryValue String to) {
+        ResultSet res = mapper.measurement().find(id, Instant.parse(from), Instant.parse(to));
+        return Observable.fromIterable(res.map(x -> x.getFloat(0)));
     }
 
     @Get(uri = "/sensor/{id}/values/day/{date}", produces = MediaType.APPLICATION_JSON)

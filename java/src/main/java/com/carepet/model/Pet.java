@@ -144,9 +144,9 @@ public class Pet {
         this.name = name;
     }
 
-    public static Pet random() {
+    public static Pet random(UUID ownerId) {
         return new Pet(
-                UUID.randomUUID(),
+                ownerId,
                 UUID.randomUUID(),
                 "", "", "", "", "",
                 1 + RandomUtils.nextInt(100),
