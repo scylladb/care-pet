@@ -29,12 +29,13 @@ description = "Classes Without Boilerplate"
 name = "attrs"
 optional = false
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
-version = "20.1.0"
+version = "20.2.0"
 
 [package.extras]
 dev = ["coverage (>=5.0.2)", "hypothesis", "pympler", "pytest (>=4.3.0)", "six", "zope.interface", "sphinx", "sphinx-rtd-theme", "pre-commit"]
 docs = ["sphinx", "sphinx-rtd-theme", "zope.interface"]
 tests = ["coverage (>=5.0.2)", "hypothesis", "pympler", "pytest (>=4.3.0)", "six", "zope.interface"]
+tests_no_zope = ["coverage (>=5.0.2)", "hypothesis", "pympler", "pytest (>=4.3.0)", "six"]
 
 [[package]]
 category = "main"
@@ -404,12 +405,13 @@ description = "A Sphinx Theme for ScyllaDB projects documentation"
 name = "sphinx-scylladb-theme"
 optional = false
 python-versions = ">=3.7,<4.0"
-version = "0.1.6"
+version = "0.1.9"
 
 [package.dependencies]
 Sphinx = ">=2.4.4,<3.0.0"
 pyyaml = ">=5.3,<6.0"
 sphinx-copybutton = ">=0.2.8,<0.3.0"
+sphinx-multiversion = "0.2.3"
 sphinx-tabs = ">=1.1.13,<2.0.0"
 
 [[package]]
@@ -430,7 +432,7 @@ description = "Tabbed views for Sphinx"
 name = "sphinx-tabs"
 optional = false
 python-versions = "~=3.6"
-version = "1.2.1"
+version = "1.3.0"
 
 [package.dependencies]
 pygments = "*"
@@ -438,7 +440,7 @@ sphinx = ">=2,<4"
 
 [package.extras]
 code_style = ["pre-commit (2.6)"]
-testing = ["coverage", "pytest (>=3.6,<4)", "pytest-cov", "pygments", "lxml", "sphinx-testing"]
+testing = ["coverage", "pytest (>=3.6,<4)", "pytest-cov", "pytest-regressions", "pygments", "sphinx-testing", "bs4"]
 
 [[package]]
 category = "main"
@@ -568,7 +570,7 @@ docs = ["sphinx", "jaraco.packaging (>=3.2)", "rst.linker (>=1.9)"]
 testing = ["jaraco.itertools", "func-timeout"]
 
 [metadata]
-content-hash = "711d1dc267a9f1221f501caeb645b6181bfdd9ab3f1863bcc0d37e6dfb9afb0d"
+content-hash = "6318ee5d2bca7a8ac06a683541055ac8e6be7c8c8bb62c8c1fd443f06afadc47"
 python-versions = "^3.7"
 
 [metadata.files]
@@ -585,8 +587,8 @@ atomicwrites = [
     {file = "atomicwrites-1.4.0.tar.gz", hash = "sha256:ae70396ad1a434f9c7046fd2dd196fc04b12f9e91ffb859164193be8b6168a7a"},
 ]
 attrs = [
-    {file = "attrs-20.1.0-py2.py3-none-any.whl", hash = "sha256:2867b7b9f8326499ab5b0e2d12801fa5c98842d2cbd22b35112ae04bf85b4dff"},
-    {file = "attrs-20.1.0.tar.gz", hash = "sha256:0ef97238856430dcf9228e07f316aefc17e8939fc8507e18c6501b761ef1a42a"},
+    {file = "attrs-20.2.0-py2.py3-none-any.whl", hash = "sha256:fce7fc47dfc976152e82d53ff92fa0407700c21acd20886a13777a0d20e655dc"},
+    {file = "attrs-20.2.0.tar.gz", hash = "sha256:26b54ddbbb9ee1d34d5d3668dd37d6cf74990ab23c828c2888dccdceee395594"},
 ]
 babel = [
     {file = "Babel-2.8.0-py2.py3-none-any.whl", hash = "sha256:d670ea0b10f8b723672d3a6abeb87b565b244da220d76b4dba1b66269ec152d4"},
@@ -750,15 +752,15 @@ sphinx-multiversion = [
     {file = "sphinx_multiversion-0.2.3-py3-none-any.whl", hash = "sha256:dc0f18449122e3e2a61245771bfdb7fa83df4f6adbf8eafea31f5b0cfccb5dbe"},
 ]
 sphinx-scylladb-theme = [
-    {file = "sphinx-scylladb-theme-0.1.6.tar.gz", hash = "sha256:1931a67e0c100c25d7a5b53d048882d9e3c393f505e99a953d01a7994c985704"},
-    {file = "sphinx_scylladb_theme-0.1.6-py3-none-any.whl", hash = "sha256:9b47bec35f384002bd0977c47e4f8c462fe2fd1e4822e93720cc1a65b9f13dd8"},
+    {file = "sphinx-scylladb-theme-0.1.9.tar.gz", hash = "sha256:2a2abaccedb3e00e57f412e35afda042c4a5d9baa66c288feb82362d9889294b"},
+    {file = "sphinx_scylladb_theme-0.1.9-py3-none-any.whl", hash = "sha256:50b3407bb1d2432f809ca48b7b20fdb124446c622584ddc04e8a390ce59f95b4"},
 ]
 sphinx-sitemap = [
     {file = "sphinx-sitemap-2.1.0.tar.gz", hash = "sha256:ba3576f38e8d1cabde483dabed2cc2b958af85ff97f2a4442f990b02e967d6a5"},
 ]
 sphinx-tabs = [
-    {file = "sphinx-tabs-1.2.1.tar.gz", hash = "sha256:2df2fcfa216b52cc6f1fbb411fd6cd87abfc7d4704e49bff25f0b5e3e72ae7ae"},
-    {file = "sphinx_tabs-1.2.1-py3-none-any.whl", hash = "sha256:c991b5f4e0727b9cf01ef6c306eba085be3cf941c356e2338552be90109af4a7"},
+    {file = "sphinx-tabs-1.3.0.tar.gz", hash = "sha256:54132c8a57aa19bba6e17fe26eb94ea9df531708ff3f509b119313b32d0d5aff"},
+    {file = "sphinx_tabs-1.3.0-py3-none-any.whl", hash = "sha256:537857f91f1b371f7b45eb8ac83001618b3e3178c78df073d2cc4558a8e66ef5"},
 ]
 sphinxcontrib-applehelp = [
     {file = "sphinxcontrib-applehelp-1.0.2.tar.gz", hash = "sha256:a072735ec80e7675e3f432fcae8610ecf509c5f1869d17e2eecff44389cdbc58"},
