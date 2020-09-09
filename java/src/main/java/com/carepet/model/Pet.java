@@ -18,6 +18,16 @@ public class Pet {
     @ClusteringColumn
     private UUID petId;
 
+    private String chipId ;
+
+    private String species ;
+
+    private String breed   ;
+
+    private String color   ;
+
+    private String gender  ;
+
     private int age;
 
     private float weight;
@@ -28,9 +38,14 @@ public class Pet {
 
     public Pet() {}
 
-    public Pet(UUID ownerId, UUID petId, int age, float weight, String address, String name) {
+    public Pet(UUID ownerId, UUID petId, String chipId, String species, String breed, String color, String gender, int age, float weight, String address, String name) {
         this.ownerId = ownerId;
         this.petId = petId;
+        this.chipId = chipId;
+        this.species = species;
+        this.breed = breed;
+        this.color = color;
+        this.gender = gender;
         this.age = age;
         this.weight = weight;
         this.address = address;
@@ -51,6 +66,46 @@ public class Pet {
 
     public void setPetId(UUID petId) {
         this.petId = petId;
+    }
+
+    public String getChipId() {
+        return chipId;
+    }
+
+    public void setChipId(String chipId) {
+        this.chipId = chipId;
+    }
+
+    public String getSpecies() {
+        return species;
+    }
+
+    public void setSpecies(String species) {
+        this.species = species;
+    }
+
+    public String getBreed() {
+        return breed;
+    }
+
+    public void setBreed(String breed) {
+        this.breed = breed;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 
     public int getAge() {
@@ -89,6 +144,7 @@ public class Pet {
         return new Pet(
                 UUID.randomUUID(),
                 UUID.randomUUID(),
+                "", "", "", "", "",
                 1 + RandomUtils.nextInt(100),
                 5.0f + 10.0f * RandomUtils.nextFloat(),
                 "home",
@@ -100,6 +156,11 @@ public class Pet {
         return "Pet{" +
                 "ownerId=" + ownerId +
                 ", petId=" + petId +
+                ", chipId='" + chipId + '\'' +
+                ", species='" + species + '\'' +
+                ", breed='" + breed + '\'' +
+                ", color='" + color + '\'' +
+                ", gender='" + gender + '\'' +
                 ", age=" + age +
                 ", weight=" + weight +
                 ", address='" + address + '\'' +
