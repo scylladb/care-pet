@@ -2,10 +2,13 @@ package com.carepet.model;
 
 import com.datastax.oss.driver.api.core.CqlSession;
 import com.datastax.oss.driver.api.mapper.annotations.DaoFactory;
-import com.datastax.oss.driver.api.mapper.annotations.DaoTable;
 
 @com.datastax.oss.driver.api.mapper.annotations.Mapper
 public interface Mapper {
+    static com.datastax.oss.driver.api.mapper.MapperBuilder<Mapper> builder(CqlSession session) {
+        return new MapperBuilder(session);
+    }
+
     @DaoFactory
     OwnerDAO owner();
 
@@ -20,8 +23,4 @@ public interface Mapper {
 
     @DaoFactory
     SensorAvgDAO sensorAvg();
-
-    static com.datastax.oss.driver.api.mapper.MapperBuilder<Mapper> builder(CqlSession session) {
-        return new MapperBuilder(session);
-    }
 }

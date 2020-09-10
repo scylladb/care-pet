@@ -22,12 +22,20 @@ public class Sensor {
 
     private String type;
 
-    public Sensor() {}
+    public Sensor() {
+    }
 
     public Sensor(UUID petId, UUID sensorId, String type) {
         this.petId = petId;
         this.sensorId = sensorId;
         this.type = type;
+    }
+
+    public static Sensor random(UUID petId) {
+        return new Sensor(
+                petId,
+                UUID.randomUUID(),
+                SensorType.values()[RandomUtils.nextInt(SensorType.values().length)].getType());
     }
 
     public UUID getPetId() {
@@ -52,13 +60,6 @@ public class Sensor {
 
     public void setType(String type) {
         this.type = type;
-    }
-
-    public static Sensor random(UUID petId) {
-        return new Sensor(
-                petId,
-                UUID.randomUUID(),
-                SensorType.values()[RandomUtils.nextInt(SensorType.values().length)].getType());
     }
 
     public float randomData() {

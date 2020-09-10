@@ -22,15 +22,15 @@ public class Pet {
     private UUID petId;
 
     @JsonProperty("chip_id")
-    private String chipId ;
+    private String chipId;
 
-    private String species ;
+    private String species;
 
-    private String breed   ;
+    private String breed;
 
-    private String color   ;
+    private String color;
 
-    private String gender  ;
+    private String gender;
 
     private int age;
 
@@ -40,7 +40,8 @@ public class Pet {
 
     private String name;
 
-    public Pet() {}
+    public Pet() {
+    }
 
     public Pet(UUID ownerId, UUID petId, String chipId, String species, String breed, String color, String gender, int age, float weight, String address, String name) {
         this.ownerId = ownerId;
@@ -54,6 +55,17 @@ public class Pet {
         this.weight = weight;
         this.address = address;
         this.name = name;
+    }
+
+    public static Pet random(UUID ownerId) {
+        return new Pet(
+                ownerId,
+                UUID.randomUUID(),
+                "", "", "", "", "",
+                1 + RandomUtils.nextInt(100),
+                5.0f + 10.0f * RandomUtils.nextFloat(),
+                "home",
+                RandomStringUtils.randomAlphanumeric(8));
     }
 
     public UUID getOwnerId() {
@@ -142,17 +154,6 @@ public class Pet {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public static Pet random(UUID ownerId) {
-        return new Pet(
-                ownerId,
-                UUID.randomUUID(),
-                "", "", "", "", "",
-                1 + RandomUtils.nextInt(100),
-                5.0f + 10.0f * RandomUtils.nextFloat(),
-                "home",
-                RandomStringUtils.randomAlphanumeric(8));
     }
 
     @Override

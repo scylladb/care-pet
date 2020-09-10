@@ -28,6 +28,10 @@ public class Owner {
     public Owner() {
     }
 
+    public static Owner random() {
+        return new Owner(UUID.randomUUID(), RandomStringUtils.randomAlphanumeric(8), RandomStringUtils.randomAlphanumeric(10));
+    }
+
     public UUID getOwnerId() {
         return ownerId;
     }
@@ -50,10 +54,6 @@ public class Owner {
 
     public void setAddress(String address) {
         this.address = address;
-    }
-
-    public static Owner random() {
-        return new Owner(UUID.randomUUID(), RandomStringUtils.randomAlphanumeric(8), RandomStringUtils.randomAlphanumeric(10));
     }
 
     @Override
