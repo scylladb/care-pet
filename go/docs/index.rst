@@ -8,7 +8,8 @@ Scylla Care-Pet Example
 
    Getting Started with CarePet: A sample IoT App <getting_started>
    Design and Data Model <design_and_data_model>
-
+   Care-Pet GitHub Repository <https://github.com/scylladb/care-pet>
+   Care-Pet Blog <https://www.scylladb.com/2020/09/09/carepet-an-example-iot-use-case-for-hands-on-app-developers/>
 
 
 This example project demonstrates a generic IoT use case for ScyllaDB.
@@ -24,3 +25,7 @@ Pick a topic to get started:
 * `Getting Started with CarePet: A sample IoT App <getting_started>`_
 
 * `Design and Data Model <design_and_data_model>`_
+
+* `Care-Pet GitHub Repository <https://github.com/scylladb/care-pet>`_
+
+* `Care-Pet Blog <https://www.scylladb.com/2020/09/09/carepet-an-example-iot-use-case-for-hands-on-app-developers/>`_
