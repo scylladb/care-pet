@@ -3,21 +3,21 @@ Care Pet ScyllaDB IoT example
 
 This example project demonstrates a generic IoT use case
 for ScyllaDB in Java.
-The documentation for this application and guided excercise is [here](docs).
+The documentation for this application and guided exercise is [here](docs).
 
 The application allows tracking of pets health indicators
 and consist of three parts:
 
 - migrate (`com.carepet.Migrate`) - creates the `carepet` keyspace and tables
 - collar (`com.carepet.Sensor`) - generates a pet health data and pushes it into the storage
-- web app (`com.carepet.Server`) - REST API service for tracking pets health state
+- web app (`com.carepet.server.App`) - REST API service for tracking pets health state
 
 Quick Start
 ---
 
 Prerequisites:
 
-- [go](https://golang.org/dl/) at least 1.14
+- [JDK](https://openjdk.java.net/install/) at least OpenJDK 8
 - [docker](https://www.docker.com/)
 - [docker-compose](https://docs.docker.com/compose/)
 
@@ -58,16 +58,28 @@ To initialize database execute:
 
 Expected output:
 
-    2020/08/06 16:43:01 Bootstrap database...
-    2020/08/06 16:43:13 Keyspace metadata = {Name:carepet DurableWrites:true StrategyClass:org.apache.cassandra.locator.NetworkTopologyStrategy StrategyOptions:map[datacenter1:3] Tables:map[gocqlx_migrate:0xc00016ca80 measurement:0xc00016cbb0 owner:0xc00016cce0 pet:0xc00016ce10 sensor:0xc00016cf40 sensor_avg:0xc00016d070] Functions:map[] Aggregates:map[] Types:map[] Indexes:map[] Views:map[]}
-    
+    SLF4J: Class path contains multiple SLF4J bindings.
+    SLF4J: Found binding in [jar:file:/home/sitano/.m2/repository/org/slf4j/slf4j-simple/1.7.26/slf4j-simple-1.7.26.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+    SLF4J: Found binding in [jar:file:/home/sitano/.m2/repository/ch/qos/logback/logback-classic/1.2.3/logback-classic-1.2.3.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+    SLF4J: See http://www.slf4j.org/codes.html#multiple_bindings for an explanation.
+    SLF4J: Actual binding is of type [org.slf4j.impl.SimpleLoggerFactory]
+    [main] INFO com.carepet.Migrate - creating keyspace...
     Using Scylla optimized driver!!!
     [main] INFO com.datastax.oss.driver.api.core.session.SessionBuilder - Using Scylla optimized driver!!!
     [main] INFO com.datastax.oss.driver.internal.core.DefaultMavenCoordinates - DataStax Java driver for Apache Cassandra(R) (com.scylladb:java-driver-core) version 4.8.0-scylla-0
     [s0-admin-0] INFO com.datastax.oss.driver.internal.core.time.Clock - Using native clock for microsecond precision
+    [main] INFO com.carepet.Migrate - creating table...
     Using Scylla optimized driver!!!
     [main] INFO com.datastax.oss.driver.api.core.session.SessionBuilder - Using Scylla optimized driver!!!
     [s1-admin-0] INFO com.datastax.oss.driver.internal.core.time.Clock - Using native clock for microsecond precision
+    Using Scylla optimized driver!!!
+    [main] INFO com.datastax.oss.driver.api.core.session.SessionBuilder - Using Scylla optimized driver!!!
+    [s2-admin-0] INFO com.datastax.oss.driver.internal.core.time.Clock - Using native clock for microsecond precision
+    Keyspace: carepet; Table: measurement
+    Keyspace: carepet; Table: owner
+    Keyspace: carepet; Table: pet
+    Keyspace: carepet; Table: sensor
+    Keyspace: carepet; Table: sensor_avg
 
 You can check the database structure with:
 
@@ -86,6 +98,11 @@ You can check the database structure with:
     CREATE TABLE carepet.pet (
         owner_id uuid,
         pet_id uuid,
+        chip_id text,
+        species text,
+        breed   text,
+        color   text,
+        gender  text,
         address text,
         age int,
         name text,
@@ -109,168 +126,7 @@ You can check the database structure with:
 
     cqlsh:carepet> exit
 
-To start pet collar simulation execute the following in the separate terminal:
-
-    $ go build ./cmd/sensor
-    $ NODE1=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' carepet-scylla1)
-    $ ./sensor --hosts $NODE1
-
-Expected output:
-
-    2020/08/06 16:44:33 Welcome to the Pet collar simulator
-    2020/08/06 16:44:33 New owner # 9b20764b-f947-45bb-a020-bf6d02cc2224
-    2020/08/06 16:44:33 New pet # f3a836c7-ec64-44c3-b66f-0abe9ad2befd
-    2020/08/06 16:44:33 sensor # 48212af8-afff-43ea-9240-c0e5458d82c1 type L new measure 51.360596 ts 2020-08-06T16:44:33+02:00
-    2020/08/06 16:44:33 sensor # 2ff06ffb-ecad-4c55-be78-0a3d413231d9 type R new measure 36 ts 2020-08-06T16:44:33+02:00
-    2020/08/06 16:44:33 sensor # 821588e0-840d-48c6-b9c9-7d1045e0f38c type L new measure 26.380281 ts 2020-08-06T16:44:33+02:00
-    ...
-
-Write down the pet Owner ID (ID is something after the `#` sign without trailing spaces).
-To start REST API service execute the following in the separate terminal:
-
-    $ go build ./cmd/server
-    $ NODE1=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' carepet-scylla1)
-    $ ./server --port 8000 --hosts $NODE1
-
-Expected output:
-
-    2020/08/06 16:45:58 Serving care pet at http://127.0.0.1:8000
-
-Now you can open `http://127.0.0.1:8000/` in the browser or send an HTTP request from the CLI:
-
-    $ curl -v http://127.0.0.1:8000/
-
-Expected output:
-
-    > GET / HTTP/1.1
-    > Host: 127.0.0.1:8000
-    > User-Agent: curl/7.71.1
-    > Accept: */*
-    >
-    * Mark bundle as not supporting multiuse
-    < HTTP/1.1 404 Not Found
-    < Content-Type: application/json
-    < Date: Thu, 06 Aug 2020 14:47:41 GMT
-    < Content-Length: 45
-    < Connection: close
-    <
-    * Closing connection 0
-    {"code":404,"message":"path / was not found"}
-
-This is ok. If you see this JSON in the end with 404, it means everything works as expected.
-To read an owner data you can use saved `owner_id` as follows:
-
-    $ curl -v http://127.0.0.1:8000/api/owner/{owner_id}
-
-For example:
-
-    $ curl http://127.0.0.1:8000/api/owner/a05fd0df-0f97-4eec-a211-cad28a6e5360
-
-Expected result:
-
-    {"address":"home","name":"gmwjgsap","owner_id":"a05fd0df-0f97-4eec-a211-cad28a6e5360"}
-
-To list the owners pets use:
-
-    $ curl -v http://127.0.0.1:8000/api/owner/{owner_id}/pets
-
-For example:
-
-    $ curl http://127.0.0.1:8000/api/owner/a05fd0df-0f97-4eec-a211-cad28a6e5360/pets
-
-Expected output:
-
-    [{"address":"home","age":57,"name":"tlmodylu","owner_id":"a05fd0df-0f97-4eec-a211-cad28a6e5360","pet_id":"a52adc4e-7cf4-47ca-b561-3ceec9382917","weight":5}]
-
-To list pet's sensors use:
-
-    $ curl -v curl -v http://127.0.0.1:8000/api/pet/{pet_id}/sensors
-
-For example:
-
-    $ curl http://127.0.0.1:8000/api/pet/cef72f58-fc78-4cae-92ae-fb3c3eed35c4/sensors
-
-    [{"pet_id":"cef72f58-fc78-4cae-92ae-fb3c3eed35c4","sensor_id":"5a9da084-ea49-4ab1-b2f8-d3e3d9715e7d","type":"L"},{"pet_id":"cef72f58-fc78-4cae-92ae-fb3c3eed35c4","sensor_id":"5c70cd8a-d9a6-416f-afd6-c99f90578d99","type":"R"},{"pet_id":"cef72f58-fc78-4cae-92ae-fb3c3eed35c4","sensor_id":"fbefa67a-ceb1-4dcc-bbf1-c90d71176857","type":"L"}]
-
-To review the pet's sensors data use:
-
-    $ curl http://127.0.0.1:8000/api/sensor/{sensor_id}/values?from=2006-01-02T15:04:05Z07:00&to=2006-01-02T15:04:05Z07:00
-
-For example:
-
-    $  curl http://127.0.0.1:8000/api/sensor/5a9da084-ea49-4ab1-b2f8-d3e3d9715e7d/values\?from\="2020-08-06T00:00:00Z"\&to\="2020-08-06T23:59:59Z"
-
- Expected output:
-
-    [51.360596,26.737432,77.88015,...]
-
-To read the pet's daily average per sensor use:
-
-    $ curl http://127.0.0.1:8000/api/sensor/{sensor_id}/values/day/{date}
-
-For example:
-
-    $ curl -v http://127.0.0.1:8000/api/sensor/5a9da084-ea49-4ab1-b2f8-d3e3d9715e7d/values/day/2020-08-06
-
-Expected output:
-
-    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,42.55736]
-
-Structure
----
-
-Package structure is as follows:
-
-| Name         | Purpose                                   |
-| ----         | -------                                   |
-| /api         | swagger api spec                          |
-| /cmd         | applications executables                  |
-| /cmd/migrate | install database schema                   |
-| /cmd/sensor  | simulate pet collar                       |
-| /cmd/server  | web application backend                   |
-| /config      | database configuration                    |
-| /db          | database handlers (gocql/x)               |
-| /db/cql      | database schema                           |
-| /handler     | swagger REST API handlers                 |
-| /model       | application models and ORM metadata       |
-
-API
----
-
-Swagger [specification](api/api.json).
-
-Implementation
----
-
-Collars are small devices that attach to pets and collect data
-with the help of different sensors. After the data is collected it
-may be delivered to the central database for the analysis and
-health status checking.
-
-Collar code sits in the `/cmd/sensor` and uses `scylladb/gocqlx`
-Go driver to connect to the database directly and publish its data.
-Collar sends sensor measurements updates every once in a second.
-
-Overall all applications in this repository use `scylladb/gocqlx` for:
-
-- Relational Object Mapping (ORM)
-- Build Queries
-- Migrate database schemas
-
-The web application REST API server resides in `/cmd/server` and uses
-`go-swagger` that supports OpenAPI 2.0 to expose its API. API
-handlers reside in `/handler`. Most of the queries are reads.
-
-The application is capable of caching sensor measurements data
-on hourly basis. It uses lazy evaluation to manage `sensor_avg`.
-It can be viewed as an application-level lazy-evaluated
-materialized view.
-
-The algorithm is simple and resides in `/handler/avg.go`:
-
-- read `sensor_avg`
-- if no data, read `measurement` data, aggregate in memory, save
-- serve request
+...
 
 Architecture
 ---
