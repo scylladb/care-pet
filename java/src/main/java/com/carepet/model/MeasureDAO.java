@@ -19,4 +19,7 @@ public interface MeasureDAO {
 
     @Query("SELECT value FROM measurement WHERE sensor_id = :sensor AND ts >= :start AND ts <= :end")
     ResultSet find(UUID sensor, Instant start, Instant end);
+
+    @Query("SELECT ts, value FROM measurement WHERE sensor_id = :sensor AND ts >= :start AND ts <= :end")
+    ResultSet findWithTimestamps(UUID sensor, Instant start, Instant end);
 }
