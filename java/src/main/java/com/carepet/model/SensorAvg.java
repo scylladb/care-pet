@@ -6,7 +6,7 @@ import com.datastax.oss.driver.api.mapper.annotations.Entity;
 import com.datastax.oss.driver.api.mapper.annotations.PartitionKey;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.sql.Date;
+import java.time.LocalDate;
 import java.util.UUID;
 
 @Entity
@@ -17,7 +17,7 @@ public class SensorAvg {
     private UUID sensorId;
 
     @ClusteringColumn(0)
-    private Date date;
+    private LocalDate date;
 
     @ClusteringColumn(1)
     private int hour;
@@ -26,7 +26,7 @@ public class SensorAvg {
 
     public SensorAvg() {}
 
-    public SensorAvg(UUID sensorId, Date date, int hour, float value) {
+    public SensorAvg(UUID sensorId, LocalDate date, int hour, float value) {
         this.sensorId = sensorId;
         this.date = date;
         this.hour = hour;
@@ -41,11 +41,11 @@ public class SensorAvg {
         this.sensorId = sensorId;
     }
 
-    public Date getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 
