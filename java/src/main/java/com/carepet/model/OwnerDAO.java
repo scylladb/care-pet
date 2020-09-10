@@ -5,8 +5,6 @@ import com.datastax.oss.driver.api.mapper.annotations.Insert;
 import com.datastax.oss.driver.api.mapper.annotations.Select;
 import com.datastax.oss.driver.api.mapper.annotations.Update;
 
-import java.sql.Date;
-import java.time.Instant;
 import java.util.UUID;
 
 @Dao

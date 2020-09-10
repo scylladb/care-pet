@@ -9,7 +9,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.lang.reflect.ParameterizedType;
 import java.net.InetSocketAddress;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -18,15 +17,12 @@ import java.util.Arrays;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import static com.carepet.util.Wrapper.*;
+import static com.carepet.util.Wrapper.unwrap;
 
 public class Config {
-    final static String applicationName = "care-pet";
-
-    final static UUID clientId = UUID.randomUUID();
-
     public final static String keyspace = "carepet";
-
+    final static String applicationName = "care-pet";
+    final static UUID clientId = UUID.randomUUID();
     private final static int port = 9042;
 
     @Option(names = {"--hosts"}, description = "database contact points")
@@ -41,7 +37,7 @@ public class Config {
     @Option(names = {"-p", "--password"}, description = "password based authentication password")
     String password;
 
-    @Option(names = { "-h", "--help" }, usageHelp = true, description = "display a help message")
+    @Option(names = {"-h", "--help"}, usageHelp = true, description = "display a help message")
     private boolean help;
 
     /**
@@ -61,38 +57,6 @@ public class Config {
     }
 
     /**
-     * Builds configured CqlSession builder to acquire a new session.
-     */
-    public CqlSessionBuilder builder() {
-        return builder(null);
-    }
-
-    /**
-     * Builds configured CqlSession builder to acquire a new session.
-     */
-    public CqlSessionBuilder builder(String keyspace) {
-        CqlSessionBuilder builder = CqlSession.builder()
-                .withApplicationName(applicationName)
-                .withClientId(clientId);
-
-        if (hosts != null && hosts.length > 0) {
-            builder = builder
-                    .addContactPoints(Arrays.stream(hosts).map(unwrap(Config::resolve)).collect(Collectors.toList()))
-                    .withLocalDatacenter(datacenter);
-        }
-
-        if (!isNullOrEmpty(username)) {
-            builder = builder.withAuthCredentials(username, password);
-        }
-
-        if (!isNullOrEmpty(keyspace)) {
-            builder = builder.withKeyspace(keyspace);
-        }
-
-        return builder;
-    }
-
-    /**
      * Transforms an address of the form host:port into an InetSocketAddress.
      */
     public static InetSocketAddress resolve(String addr) throws URISyntaxException {
@@ -104,7 +68,7 @@ public class Config {
             throw new URISyntaxException(uri.toString(), "URI must have host and port");
         }
 
-        return new InetSocketAddress (host, port);
+        return new InetSocketAddress(host, port);
     }
 
     /**
@@ -144,5 +108,37 @@ public class Config {
                 return reader.lines().collect(Collectors.joining(System.lineSeparator()));
             }
         }
+    }
+
+    /**
+     * Builds configured CqlSession builder to acquire a new session.
+     */
+    public CqlSessionBuilder builder() {
+        return builder(null);
+    }
+
+    /**
+     * Builds configured CqlSession builder to acquire a new session.
+     */
+    public CqlSessionBuilder builder(String keyspace) {
+        CqlSessionBuilder builder = CqlSession.builder()
+                .withApplicationName(applicationName)
+                .withClientId(clientId);
+
+        if (hosts != null && hosts.length > 0) {
+            builder = builder
+                    .addContactPoints(Arrays.stream(hosts).map(unwrap(Config::resolve)).collect(Collectors.toList()))
+                    .withLocalDatacenter(datacenter);
+        }
+
+        if (!isNullOrEmpty(username)) {
+            builder = builder.withAuthCredentials(username, password);
+        }
+
+        if (!isNullOrEmpty(keyspace)) {
+            builder = builder.withKeyspace(keyspace);
+        }
+
+        return builder;
     }
 }

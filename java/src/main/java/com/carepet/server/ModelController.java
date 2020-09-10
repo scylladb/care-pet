@@ -15,10 +15,7 @@ import io.reactivex.Single;
 
 import javax.inject.Inject;
 import javax.validation.constraints.NotBlank;
-import java.sql.Date;
 import java.time.*;
-import java.time.temporal.ChronoField;
-import java.time.temporal.TemporalField;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -33,6 +30,51 @@ public class ModelController {
     public ModelController(CqlSession session) {
         this.session = session;
         this.mapper = Mapper.builder(session).build();
+    }
+
+    private static void groupBy(List<Float> data, List<Measure> measures, int startHour, LocalDate day, LocalDateTime now) {
+        // if it's the same day, we can't aggregate current hour
+        boolean sameDate = now.getDayOfYear() == day.getDayOfYear();
+        int last = now.getHour();
+
+        class Avg {
+            double value;
+            int total;
+        }
+
+        // aggregate data
+        Avg[] ag = new Avg[24];
+
+        for (Measure m : measures) {
+            int hour = m.getTs().atOffset(ZoneOffset.UTC).getHour();
+
+            if (ag[hour] == null) {
+                ag[hour] = new Avg();
+            }
+
+            Avg a = ag[hour];
+            a.total++;
+            a.value += m.getValue();
+        }
+
+        // ensure data completeness
+        for (int hour = startHour; hour < 24; hour++) {
+            if (!sameDate || hour <= last) {
+                if (ag[hour] == null) {
+                    ag[hour] = new Avg();
+                }
+            }
+        }
+
+        // fill the avg
+        for (int hour = startHour; hour < ag.length && ag[hour] != null; hour++) {
+            Avg a = ag[hour];
+            if (a.total > 0) {
+                data.add((float) (a.value / a.total));
+            } else {
+                data.add(0.0f);
+            }
+        }
     }
 
     @Get(uri = "/owner/{id}", produces = MediaType.APPLICATION_JSON)
@@ -95,51 +137,6 @@ public class ModelController {
         groupBy(data, measures, startHour, day, now);
 
         saveAggregate(id, data, prevAvgSize, day, now);
-    }
-
-    private static void groupBy(List<Float> data, List<Measure> measures, int startHour, LocalDate day, LocalDateTime now) {
-        // if it's the same day, we can't aggregate current hour
-        boolean sameDate = now.getDayOfYear() == day.getDayOfYear();
-        int last = now.getHour();
-
-        class Avg {
-            double value;
-            int total;
-        }
-
-        // aggregate data
-        Avg[] ag = new Avg[24];
-
-        for (Measure m: measures) {
-            int hour = m.getTs().atOffset(ZoneOffset.UTC).getHour();
-
-            if (ag[hour] == null) {
-                ag[hour] = new Avg();
-            }
-
-            Avg a = ag[hour];
-            a.total ++;
-            a.value += m.getValue();
-        }
-
-        // ensure data completeness
-        for (int hour = startHour; hour < 24; hour++) {
-            if (!sameDate || hour <= last) {
-                if (ag[hour] == null) {
-                    ag[hour] = new Avg();
-                }
-            }
-        }
-
-        // fill the avg
-        for (int hour = startHour; hour < ag.length && ag[hour] != null; hour ++) {
-            Avg a = ag[hour];
-            if (a.total > 0) {
-                data.add((float)(a.value / a.total));
-            } else {
-                data.add(0.0f);
-            }
-        }
     }
 
     // saveAggregate saves the result monotonically sequentially to the database

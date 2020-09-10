@@ -24,7 +24,8 @@ public class SensorAvg {
 
     private float value;
 
-    public SensorAvg() {}
+    public SensorAvg() {
+    }
 
     public SensorAvg(UUID sensorId, LocalDate date, int hour, float value) {
         this.sensorId = sensorId;

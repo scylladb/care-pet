@@ -21,7 +21,8 @@ public class Measure {
 
     private float value;
 
-    public Measure() {}
+    public Measure() {
+    }
 
     public Measure(UUID sensorId, Instant ts, float value) {
         this.sensorId = sensorId;

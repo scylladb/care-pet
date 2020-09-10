@@ -7,6 +7,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class Migrate {
+    private static final Logger LOG = LoggerFactory.getLogger(Migrate.class);
+    private final Config config;
+
+    public Migrate(Config config) {
+        this.config = config;
+    }
+
     public static void main(String[] args) {
         final Config config = Config.parse(new Config(), args);
 
@@ -16,25 +23,23 @@ public class Migrate {
         client.printMetadata();
     }
 
-    private static final Logger LOG = LoggerFactory.getLogger(Migrate.class);
-
-    private final Config config;
-
-    public Migrate(Config config) {
-        this.config = config;
-    }
-
-    /** Initiates a connection to the session specified by the application.conf. */
+    /**
+     * Initiates a connection to the session specified by the application.conf.
+     */
     public CqlSession connect() {
         return config.builder().build();
     }
 
-    /** Initiates a connection to the session specified by the application.conf. */
+    /**
+     * Initiates a connection to the session specified by the application.conf.
+     */
     public CqlSession keyspace() {
         return config.builder(Config.keyspace).build();
     }
 
-    /** Creates the keyspace for this example. */
+    /**
+     * Creates the keyspace for this example.
+     */
     public void createKeyspace() {
         LOG.info("creating keyspace...");
         try (CqlSession session = connect()) {
@@ -42,17 +47,21 @@ public class Migrate {
         }
     }
 
-    /** Creates the tables for this example. */
+    /**
+     * Creates the tables for this example.
+     */
     public void createSchema() {
         LOG.info("creating table...");
         try (CqlSession session = keyspace()) {
-            for (String cql: Config.getResource("care-pet-ddl.cql").split(";")) {
+            for (String cql : Config.getResource("care-pet-ddl.cql").split(";")) {
                 session.execute(cql);
             }
         }
     }
 
-    /** Prints keyspace metadata. */
+    /**
+     * Prints keyspace metadata.
+     */
     public void printMetadata() {
         try (CqlSession session = keyspace()) {
             KeyspaceMetadata keyspace = session.getMetadata().getKeyspace(Config.keyspace).get();
