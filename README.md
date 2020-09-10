@@ -17,8 +17,8 @@ Quick Start
 Language-specific implementation resides in the corresponding folder:
 
 - [Go](go)
+- [Java](java)
 - Rust
-- Java
 - CPP
 - Python
 - Node.js
