@@ -161,7 +161,7 @@ Expected output:
 This is ok. If you see this JSON in the end with 404, it means everything works as expected.
 To read an owner data you can use saved `owner_id` as follows:
 
-    $ curl -v http://127.0.0.1:8000/api/owner/{owner_id}
+    $ curl http://127.0.0.1:8000/api/owner/{owner_id}
 
 For example:
 
@@ -173,7 +173,7 @@ Expected result:
 
 To list the owners pets use:
 
-    $ curl -v http://127.0.0.1:8000/api/owner/{owner_id}/pets
+    $ curl http://127.0.0.1:8000/api/owner/{owner_id}/pets
 
 For example:
 
@@ -185,7 +185,7 @@ Expected output:
 
 To list pet's sensors use:
 
-    $ curl -v curl -v http://127.0.0.1:8000/api/pet/{pet_id}/sensors
+    $ curl http://127.0.0.1:8000/api/pet/{pet_id}/sensors
 
 For example:
 
@@ -211,7 +211,7 @@ To read the pet's daily average per sensor use:
 
 For example:
 
-    $ curl -v http://127.0.0.1:8000/api/sensor/5a9da084-ea49-4ab1-b2f8-d3e3d9715e7d/values/day/2020-08-06
+    $ curl http://127.0.0.1:8000/api/sensor/5a9da084-ea49-4ab1-b2f8-d3e3d9715e7d/values/day/2020-08-06
 
 Expected output:
 

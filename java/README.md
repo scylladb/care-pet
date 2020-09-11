@@ -18,6 +18,7 @@ Quick Start
 Prerequisites:
 
 - [JDK](https://openjdk.java.net/install/) at least OpenJDK 8
+- [maven](http://maven.apache.org/)
 - [docker](https://www.docker.com/)
 - [docker-compose](https://docs.docker.com/compose/)
 
@@ -126,7 +127,196 @@ You can check the database structure with:
 
     cqlsh:carepet> exit
 
-...
+To start pet collar simulation execute the following in the separate terminal:
+
+    $ mvn package
+    $ NODE1=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' carepet-scylla1)
+    $ ./bin/sensor.sh --hosts $NODE1 --datacenter datacenter1 --measure PT1M --buffer-interval PT1M
+
+Expected output:
+
+    SLF4J: Class path contains multiple SLF4J bindings.
+    SLF4J: Found binding in [jar:file:/home/sitano/.m2/repository/org/slf4j/slf4j-simple/1.7.26/slf4j-simple-1.7.26.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+    SLF4J: Found binding in [jar:file:/home/sitano/.m2/repository/ch/qos/logback/logback-classic/1.2.3/logback-classic-1.2.3.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+    SLF4J: See http://www.slf4j.org/codes.html#multiple_bindings for an explanation.
+    SLF4J: Actual binding is of type [org.slf4j.impl.SimpleLoggerFactory]
+    Using Scylla optimized driver!!!
+    [main] INFO com.datastax.oss.driver.api.core.session.SessionBuilder - Using Scylla optimized driver!!!
+    [main] INFO com.datastax.oss.driver.internal.core.DefaultMavenCoordinates - DataStax Java driver for Apache Cassandra(R) (com.scylladb:java-driver-core) version 4.8.0-scylla-0
+    [s0-admin-0] INFO com.datastax.oss.driver.internal.core.time.Clock - Using native clock for microsecond precision
+    [main] INFO com.carepet.Migrate - owner = Owner{ownerId=0701da30-52f0-4ee4-911c-f9ac951bf3b1, name='OBahu5A3', address='5UtxnIxqfa'}
+    [main] INFO com.carepet.Migrate - pet = Pet{ownerId=0701da30-52f0-4ee4-911c-f9ac951bf3b1, petId=765ac83f-9744-450b-a4ec-9d40359edeae, chipId='', species='', breed='', color='', gender='', age=55, weight=7.937521, address='home', name='0YaLHRJq'}
+    [main] INFO com.carepet.Migrate - sensor = Sensor{petId=765ac83f-9744-450b-a4ec-9d40359edeae, sensorId=25ce6029-20a2-4532-a154-d82ea8da800d, type='R'}
+    [main] INFO com.carepet.Migrate - sensor = Sensor{petId=765ac83f-9744-450b-a4ec-9d40359edeae, sensorId=14a94142-12e8-414f-861e-15571d087c41, type='P'}
+    [main] INFO com.carepet.Migrate - sensor = Sensor{petId=765ac83f-9744-450b-a4ec-9d40359edeae, sensorId=630b2f96-bd0c-43c1-93a7-7750229f6da8, type='R'}
+    [main] INFO com.carepet.Migrate - sensor = Sensor{petId=765ac83f-9744-450b-a4ec-9d40359edeae, sensorId=06ffd4ba-21e6-4973-bda9-e0346c48334c, type='R'}
+    Using Scylla optimized driver!!!
+    [main] INFO com.datastax.oss.driver.api.core.session.SessionBuilder - Using Scylla optimized driver!!!
+    [s1-admin-0] INFO com.datastax.oss.driver.internal.core.time.Clock - Using native clock for microsecond precision
+    [main] INFO com.carepet.Migrate - Measure{sensorId=25ce6029-20a2-4532-a154-d82ea8da800d, ts=2020-09-11T12:47:26.807Z, value=34.0}
+    [main] INFO com.carepet.Migrate - Measure{sensorId=14a94142-12e8-414f-861e-15571d087c41, ts=2020-09-11T12:47:26.809Z, value=84.0}
+    [main] INFO com.carepet.Migrate - Measure{sensorId=630b2f96-bd0c-43c1-93a7-7750229f6da8, ts=2020-09-11T12:47:26.809Z, value=35.0}
+    [main] INFO com.carepet.Migrate - Measure{sensorId=06ffd4ba-21e6-4973-bda9-e0346c48334c, ts=2020-09-11T12:47:26.809Z, value=37.0}
+    [main] INFO com.carepet.Migrate - pushing data
+    ...
+
+Write down the pet Owner ID (ID is something after the `#` sign without trailing spaces).
+To start REST API service execute the following in the separate terminal:
+
+    $ mvn package
+    $ NODE1=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' carepet-scylla1)
+    $ ./bin/server.sh --hosts $NODE1 --datacenter datacenter1
+
+Expected output:
+
+    SLF4J: Class path contains multiple SLF4J bindings.
+    SLF4J: Found binding in [jar:file:/home/sitano/.m2/repository/org/slf4j/slf4j-simple/1.7.26/slf4j-simple-1.7.26.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+    SLF4J: Found binding in [jar:file:/home/sitano/.m2/repository/ch/qos/logback/logback-classic/1.2.3/logback-classic-1.2.3.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+    SLF4J: See http://www.slf4j.org/codes.html#multiple_bindings for an explanation.
+    SLF4J: Actual binding is of type [org.slf4j.impl.SimpleLoggerFactory]
+    Using Scylla optimized driver!!!
+    [main] INFO com.datastax.oss.driver.api.core.session.SessionBuilder - Using Scylla optimized driver!!!
+    [main] INFO com.datastax.oss.driver.internal.core.DefaultMavenCoordinates - DataStax Java driver for Apache Cassandra(R) (com.scylladb:java-driver-core) version 4.8.0-scylla-0
+    [s0-admin-0] INFO com.datastax.oss.driver.internal.core.time.Clock - Using native clock for microsecond precision
+    [main] INFO io.micronaut.runtime.Micronaut - Startup completed in 684ms. Server Running: http://localhost:8080
+
+Now you can open `http://127.0.0.1:8080/` in the browser or send an HTTP request from the CLI:
+
+    $ curl -v http://127.0.0.1:8080/
+
+Expected output:
+
+    *   Trying 127.0.0.1:8080...
+    * Connected to localhost (127.0.0.1) port 8080 (#0)
+    > GET / HTTP/1.1
+    > Host: localhost:8080
+    > User-Agent: curl/7.72.0
+    > Accept: */*
+    > 
+    * Mark bundle as not supporting multiuse
+    < HTTP/1.1 404 Not Found
+    < Date: Fri, 11 Sep 2020 12:50:12 GMT
+    < content-type: application/json
+    < content-length: 77
+    < connection: close
+    < 
+    * Closing connection 0
+    {"message":"Page Not Found","_links":{"self":{"href":"/","templated":false}}}
+
+This is ok. If you see this JSON in the end with 404, it means everything works as expected.
+To read an owner data you can use saved `owner_id` as follows:
+
+    $ curl http://127.0.0.1:8080/api/owner/{owner_id}
+
+For example:
+
+    $ curl http://127.0.0.1:8080/api/owner/0701da30-52f0-4ee4-911c-f9ac951bf3b1
+
+Expected result:
+
+    {"name":"OBahu5A3","address":"5UtxnIxqfa","owner_id":"0701da30-52f0-4ee4-911c-f9ac951bf3b1"}
+
+To list the owners pets use:
+
+    $ curl http://127.0.0.1:8080/api/owner/{owner_id}/pets
+
+For example:
+
+    $ curl http://127.0.0.1:8080/api/owner/0701da30-52f0-4ee4-911c-f9ac951bf3b1/pets
+
+Expected output:
+
+    [{"age":55,"weight":7.937521,"address":"home","name":"0YaLHRJq","owner_id":"0701da30-52f0-4ee4-911c-f9ac951bf3b1","pet_id":"765ac83f-9744-450b-a4ec-9d40359edeae"}]
+
+To list pet's sensors use:
+
+    $ curl http://127.0.0.1:8080/api/pet/{pet_id}/sensors
+
+For example:
+
+    $ curl http://127.0.0.1:8080/api/pet/765ac83f-9744-450b-a4ec-9d40359edeae/sensors
+ 
+    [{"type":"R","pet_id":"765ac83f-9744-450b-a4ec-9d40359edeae","sensor_id":"06ffd4ba-21e6-4973-bda9-e0346c48334c"},{"type":"P","pet_id":"765ac83f-9744-450b-a4ec-9d40359edeae","sensor_id":"14a94142-12e8-414f-861e-15571d087c41"},{"type":"R","pet_id":"765ac83f-9744-450b-a4ec-9d40359edeae","sensor_id":"25ce6029-20a2-4532-a154-d82ea8da800d"},{"type":"R","pet_id":"765ac83f-9744-450b-a4ec-9d40359edeae","sensor_id":"630b2f96-bd0c-43c1-93a7-7750229f6da8"}]
+
+To review the pet's sensors data use:
+
+    $ curl http://127.0.0.1:8080/api/sensor/{sensor_id}/values?from=2006-01-02T15:04:05Z07:00&to=2006-01-02T15:04:05Z07:00
+
+For example:
+
+    $ curl http://localhost:8080/api/sensor/06ffd4ba-21e6-4973-bda9-e0346c48334c/values\?from\="2020-09-11T00:00:00Z"\&to\="2020-09-11T23:59:59Z"
+
+ Expected output:
+
+    [37.0, ...]
+
+To read the pet's daily average per sensor use:
+
+    $ curl http://127.0.0.1:8080/api/sensor/{sensor_id}/values/day/{date}
+
+For example:
+
+    $ curl http://localhost:8080/api/sensor/06ffd4ba-21e6-4973-bda9-e0346c48334c/values/day/2020-09-11                                    
+
+Expected output:
+
+    [0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,37.0]
+
+Structure
+---
+
+Package structure is as follows:
+
+| Name                        | Purpose                                   |
+| ----                        | -------                                   |
+| /src/main/java/com/carepet  | java application source code              |
+| com.carepet.model           | database models, both ORM and REST        |
+| com.carepet.Migrate         | install database schema                   |
+| com.carepet.Sensor          | simulate pet collar                       |
+| com.carepet.server.App      | web application backend                   |
+| com.carepet.Config          | database configuration                    |
+
+API
+---
+
+See annotations to `com.carepet.server.ModelController`. Application
+uses the `Micronaut` web framework to serve REST. It's possible to
+expose auto-generated OpenAPI spec.
+
+Implementation
+---
+
+Collars are small devices that attach to pets and collect data
+with the help of different sensors. After the data is collected
+it may be delivered to the central database for the analysis and
+health status checking.
+
+Collar code sits in the `com.carepet.Sensor` and uses `scylladb/java-driver`
+Java driver to connect to the database directly and publish its data.
+Collar gathers sensors measurements, aggregates data in a buffer and
+sends it every hour.
+
+Overall all applications in this repository use `scylladb/java-driver` for:
+
+- Connect to the database
+- Map objects (ORM) and generate DAO layer
+- Build Queries
+
+The web application REST API server resides in `com.carepet.server` and uses
+`micronaut` that supports OpenAPI to expose its API. The API
+handlers reside in `com.carepet.server.ModelController`.
+Most of the queries are reads.
+
+The application is capable of caching sensor measurements data
+on hourly basis. It uses lazy evaluation to manage `sensor_avg`.
+It can be viewed as an application-level lazy-evaluated
+materialized view.
+
+The algorithm is simple and resides in `com.carepet.server.ModelController.avg()`:
+
+- read `sensor_avg`
+- if no data, read `measurement` data, aggregate in memory, save
+- serve request
 
 Architecture
 ---
