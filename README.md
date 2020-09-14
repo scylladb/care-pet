@@ -4,8 +4,8 @@ ScyllaDB IoT example
 This example project demonstrates a generic IoT use case
 for ScyllaDB.
 
-The application allows tracking of pets health indicators
-and consist of 3 parts:
+The application allows tracking of pets' health indicators
+and consists of 3 parts:
 
 - a collar that reads and pushes sensors data
 - a web app for reading and analyzing the pets' data
