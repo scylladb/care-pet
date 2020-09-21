@@ -1,0 +1,83 @@
+#
+# This is a care-pet YAML profile for cassandra-stress
+#
+# insert data
+# $ cassandra-stress user profile=./care-pet-stress.yaml n=100 "ops(insert=1)" no-warmup -node $NODE1 -scylla1 -log level=verbose -rate threads=1 -mode native cql3
+#
+# read, using query simple1:
+# $ cassandra-stress profile=care-pet-stress.yaml ops(simple1=1)
+#
+# mixed workload (90/10)
+# $ cassandra-stress user profile=care-pet-stress.yaml ops(insert=1,simple1=9)
+#
+# https://cassandra.apache.org/doc/latest/tools/cassandra_stress.html
+# https://docs.datastax.com/en/dse/6.8/dse-admin/datastax_enterprise/tools/toolsCStress.html
+
+# specname: carepet_pet_10m
+
+# Keyspace Name
+keyspace: carepet
+
+# The CQL for creating a keyspace (optional if it already exists)
+keyspace_definition: |
+  CREATE KEYSPACE IF NOT EXISTS carepet WITH replication = { 'class': 'NetworkTopologyStrategy', 'replication_factor': '3' } AND durable_writes = TRUE;
+
+# Table name
+table: measurement
+
+# The CQL for creating a table you wish to stress (optional if it already exists)
+table_definition: |
+  CREATE TABLE IF NOT EXISTS carepet.measurement
+  (
+      sensor_id UUID,
+      ts    TIMESTAMP,
+      value FLOAT,
+      PRIMARY KEY (sensor_id, ts)
+  ) WITH compaction = { 'class' : 'TimeWindowCompactionStrategy' };
+
+### Column Distribution Specifications ###
+#
+# Optional meta information on the generated columns in the above table
+# The min and max only apply to text and blob types
+# The distribution field represents the total unique population
+# distribution of that column across rows.  Supported types are
+# 
+#      EXP(min..max)                        An exponential distribution over the range [min..max]
+#      EXTREME(min..max,shape)              An extreme value (Weibull) distribution over the range [min..max]
+#      GAUSSIAN(min..max,stdvrng)           A gaussian/normal distribution, where mean=(min+max)/2, and stdev is (mean-min)/stdvrng
+#      GAUSSIAN(min..max,mean,stdev)        A gaussian/normal distribution, with explicitly defined mean and stdev
+#      UNIFORM(min..max)                    A uniform distribution over the range [min, max]
+#      FIXED(val)                           A fixed distribution, always returning the same value
+#      SEQ(min..max)                        A fixed sequence, returning values in the range min to max sequentially (starting based on seed), wrapping if necessary.
+#      Aliases: extr, gauss, normal, norm, weibull
+#
+#      If preceded by ~, the distribution is inverted
+#
+# Defaults for all columns are size: uniform(4..8), population: uniform(1..100B), cluster: fixed(1)
+#
+columnspec:
+  - name: sensor_id
+    size: FIXED(12)
+    population: UNIFORM(1..10M)
+  - name: ts
+    population: SEQ(1577840400000..1609462800000) # 2020-01-01 -> 2021 UNIX EPOCH in millis
+    cluster: FIXED(43200)    # once a minute * 60 minutes an hour * 24 hours a day * 30 days a month data retention
+  - name: value
+    population: GAUSSIAN(30..40, 2)
+
+insert:
+   partitions: fixed(1)      # number of unique partitions to update in a single operation
+                             # if batchcount > 1, multiple batches will be used but all partitions will
+                             # occur in all batches (unless they finish early); only the row counts will vary
+   batchtype: UNLOGGED       # type of batch to use
+   select:    fixed(1)/43200 # uniform chance any single generated CQL row will be visited in a partition;
+                             # generated for each partition independently, each time we visit it
+
+#
+# A list of queries you wish to run against the schema
+#
+queries:
+  insert_query:
+    cql: insert into pet (sensor_id, ts, value) values (?,?,?)
+    fields: samerow
+
