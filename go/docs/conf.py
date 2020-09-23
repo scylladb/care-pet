@@ -177,7 +177,7 @@ html_style = ''
 
 html_theme_options = {
     'header_links': [
-    ('Scylla IoT Example', 'https://scylladb.github.io/scylla-care-pet/'),
+    ('Scylla IoT Example', 'https://scylladb.github.io/care-pet/'),
     ('Scylla Cloud', 'https://docs.scylladb.com/scylla-cloud/'),
     ('Scylla University', 'https://university.scylladb.com/'),
     ('ScyllaDB Home', 'https://www.scylladb.com/')],
