@@ -4,7 +4,7 @@ on:
   push:
     branches:
     - master
-    tags:       
+    tags:
     - '**'
 jobs:
   release:
@@ -23,10 +23,10 @@ jobs:
     - name: Build docs
       run: |
         export PATH=$PATH:~/.local/bin
-        cd go/docs
+        cd docs
         make multiversion
     - name: Deploy
-      run : ./go/docs/_utils/deploy.sh
+      run : ./docs/_utils/deploy.sh
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         LATEST_VERSION: master
