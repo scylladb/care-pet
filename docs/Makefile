@@ -5,13 +5,14 @@ SPHINXOPTS    =
 SPHINXBUILD   = poetry run sphinx-build
 PAPER         =
 BUILDDIR      = _build
+SOURCEDIR	  = .
 
 # Internal variables.
 PAPEROPT_a4     = -D latex_paper_size=a4
 PAPEROPT_letter = -D latex_paper_size=letter
-ALLSPHINXOPTS   = -d $(BUILDDIR)/doctrees $(PAPEROPT_$(PAPER)) $(SPHINXOPTS) .
+ALLSPHINXOPTS   = -d $(BUILDDIR)/doctrees $(PAPEROPT_$(PAPER)) $(SPHINXOPTS) $(SOURCEDIR)
 # the i18n builder cannot share the environment and doctrees with the others
-I18NSPHINXOPTS  = $(PAPEROPT_$(PAPER)) $(SPHINXOPTS) .
+I18NSPHINXOPTS  = $(PAPEROPT_$(PAPER)) $(SPHINXOPTS) $(SOURCEDIR)
 
 .PHONY: all
 all: dirhtml
@@ -64,10 +65,10 @@ dummy: 	setup
 
 .PHONY: linkcheck
 linkcheck: setup
-	$(SPHINXBUILD) -b linkcheck . $(BUILDDIR)/linkcheck
+	$(SPHINXBUILD) -b linkcheck $(SOURCEDIR) $(BUILDDIR)/linkcheck
 
 .PHONY: multiversion
 multiversion: setup
-	cd .. && poetry run sphinx-multiversion docs docs/$(BUILDDIR)/dirhtml
+	poetry run sphinx-multiversion $(SOURCEDIR) $(BUILDDIR)/dirhtml
 	@echo
 	@echo "Build finished. The HTML pages are in $(BUILDDIR)/dirhtml."
