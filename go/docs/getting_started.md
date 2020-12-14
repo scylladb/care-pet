@@ -218,12 +218,13 @@ expected output:
 ### Code Structure and Implementation
 
 The code package structure is as follows:
+
 |     Name     |               Purpose               |
 |:------------:|:-----------------------------------:|
 | /api         | swagger api spec                    |
 | /cmd         | applications executables            |
 | /cmd/migrate | install database schema             |
-| /cmd/sensor  | Simulates the pet's collar                 |
+| /cmd/sensor  | Simulates the pet's collar          |
 | /cmd/server  | web application backend             |
 | /config      | database configuration              |
 | /db          | database handlers (gocql/x)         |
