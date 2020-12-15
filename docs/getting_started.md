@@ -242,18 +242,21 @@ expected output:
 ### Code Structure and Implementation
 
 The code package structure is as follows:
+
++--------------+-------------------------------------+
 |     Name     |               Purpose               |
-|:------------:|:-----------------------------------:|
++==============+=====================================+
 | /api         | swagger api spec                    |
 | /cmd         | applications executables            |
 | /cmd/migrate | install database schema             |
-| /cmd/sensor  | Simulates the pet's collar                 |
+| /cmd/sensor  | Simulates the pet's collar          |
 | /cmd/server  | web application backend             |
 | /config      | database configuration              |
 | /db          | database handlers (gocql/x)         |
 | /db/cql      | database schema                     |
 | /handler     | swagger REST API handlers           |
 | /model       | application models and ORM metadata |
++--------------+-------------------------------------+
 
 After data is collected from the pets via the sensors on their collars, it is
 delivered to the central database for analysis and for health status checking.
