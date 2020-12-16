@@ -243,9 +243,8 @@ expected output:
 
 The code package structure is as follows:
 
-+--------------+-------------------------------------+
-|     Name     |               Purpose               |
-+==============+=====================================+
+| Name         | Purpose                             |
+| ------------ | ----------------------------------- |
 | /api         | swagger api spec                    |
 | /cmd         | applications executables            |
 | /cmd/migrate | install database schema             |
@@ -256,7 +255,6 @@ The code package structure is as follows:
 | /db/cql      | database schema                     |
 | /handler     | swagger REST API handlers           |
 | /model       | application models and ORM metadata |
-+--------------+-------------------------------------+
 
 After data is collected from the pets via the sensors on their collars, it is
 delivered to the central database for analysis and for health status checking.
