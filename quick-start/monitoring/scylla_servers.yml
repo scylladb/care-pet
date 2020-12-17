@@ -1,0 +1,8 @@
+# List Scylla end points
+
+- targets:
+    - carepet-scylla:9180
+  labels:
+    cluster: cluster1
+    dc: dc1
+

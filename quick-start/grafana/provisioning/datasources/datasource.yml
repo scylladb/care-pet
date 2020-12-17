@@ -1,0 +1,41 @@
+apiVersion: 1
+
+datasources:
+- name: prometheus
+  type: prometheus
+  url: http://carepet-monitor:9090
+  access: proxy
+  basicAuth: false
+- name: scylla-datasource
+  type: scylladb-scylla-datasource
+  orgId: 1
+  isDefault:
+  jsonData:
+    host: ''
+#  secureJsonData:
+#    user: 'Scylla-User'
+#    password: 'Scylla-Password'
+
+# - name: alertmanager
+#   type: camptocamp-prometheus-alertmanager-datasource
+#   orgId: 1
+#   typeLogoUrl: public/img/icn-datasource.svg
+#   access: proxy
+#   url: http://AM_ADDRESS
+#   password:
+#   user:
+#   database:
+#   basicAuth:
+#   isDefault:
+#   jsonData:
+#     severity_critical: '4'
+#     severity_high: '3'
+#     severity_warning: '2'
+#     severity_info: '1'
+
+# - name: loki
+#   type: loki
+#   version: 1
+#   orgId: 1
+#   access: proxy
+#   url: http://LOKI_ADDRESS
