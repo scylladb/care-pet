@@ -1,0 +1,46 @@
+version: "3.9"
+
+services:
+  carepet-scylla:
+    image: scylladb/scylla
+    container_name: carepet-scylla
+    command: --smp 1
+    environment:
+      - "SCYLLA_JMX_ADDR=-ja 0.0.0.0"
+      - "SCYLLA_JMX_REMOTE=-r"
+    expose:
+      - "7199"
+
+  carepet-monitor:
+    image: prom/prometheus:v2.18.1
+    container_name: carepet-monitor
+    command: --config.file=/etc/prometheus/prometheus.yml --storage.tsdb.path="/prometheus"
+    volumes:
+      - ./monitoring/scylla_servers.yml:/etc/scylla.d/prometheus/scylla_servers.yml
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./monitoring/prometheus.rules.yml:/etc/prometheus/prometheus.rules.yml
+      - ./monitoring/data:/prometheus/data:rw
+    expose:
+      - "9090"
+    depends_on:
+      - carepet-scylla
+
+  carepet-grafana:
+    image: grafana/grafana:7.3.5
+    container_name: carepet-grafana
+    volumes:
+      - ./grafana/build:/var/lib/grafana/dashboards
+      - ./grafana/provisioning:/var/lib/grafana/provisioning
+    environment:
+      - GF_AUTH_BASIC_ENABLED=false
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
+      - GF_PANELS_DISABLE_SANITIZE_HTML=true
+      - GF_PATHS_PROVISIONING=/var/lib/grafana/provisioning
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_PLUGINS_ALLOW_LOADING_UNSIGNED_PLUGINS=scylladb-scylla-datasource
+    expose:
+      - "3000"
+    depends_on:
+      - carepet-monitor
+

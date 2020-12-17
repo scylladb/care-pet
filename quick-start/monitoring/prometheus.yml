@@ -1,0 +1,93 @@
+global:
+  scrape_interval: 20s # By default, scrape targets every 20 second.
+  scrape_timeout: 15s # Timeout before trying to scape a target again
+
+  # Attach these labels to any time series or alerts when communicating with
+  # external systems (federation, remote storage, Alertmanager).
+  external_labels:
+    monitor: 'scylla-monitor'
+
+rule_files:
+  - /etc/prometheus/prometheus.rules.yml
+    #
+
+# Alerting specifies settings related to the Alertmanager.
+alerting:
+        #  alert_relabel_configs:
+        #    [ - <relabel_config> ... ]
+  alertmanagers:
+    #- static_configs:
+    #- targets:
+    #    - AM_ADDRESS
+
+scrape_configs:
+- job_name: scylla
+  honor_labels: false
+  file_sd_configs:
+    - files:
+      - /etc/scylla.d/prometheus/scylla_servers.yml
+  relabel_configs:
+    - source_labels: ["carepet_scylla"]
+      regex:  '([^:]+)'
+      target_label: "carepet_scylla"
+      replacement: '${1}:9180'
+
+    - source_labels: ["carepet_scylla"]
+      regex:  '(.*):.+'
+      target_label: instance
+      replacement: '${1}'
+  metric_relabel_configs:
+    - source_labels: [version]
+      regex:  '(.+)'
+      target_label: CPU
+      replacement: 'cpu'
+    - source_labels: [version]
+      regex:  '(.+)'
+      target_label: CQL
+      replacement: 'cql'
+    - source_labels: [version]
+      regex:  '(.+)'
+      target_label: OS
+      replacement: 'os'
+    - source_labels: [version]
+      regex:  '(.+)'
+      target_label: IO
+      replacement: 'io'
+    - source_labels: [version]
+      regex:  '(.+)'
+      target_label: Errors
+      replacement: 'errors'
+    - regex: 'help|exported_instance|type'
+      action: labeldrop
+    - source_labels: [version]
+      regex: '([0-9]+\.[0-9]+)(\.?[0-9]*).*'
+      replacement: '$1$2'
+      target_label: svr
+
+- job_name: node_exporter
+  honor_labels: false
+  scrape_interval: 1m # By default, scrape targets every 20 second.
+  scrape_timeout: 20s # Timeout before trying to scape a target again
+  file_sd_configs:
+    - files:
+      - /etc/scylla.d/prometheus/node_exporter_servers.yml
+  relabel_configs:
+    #    - source_labels: ["carepet_scylla"]
+    #      regex:  '(.*):\d+'
+    #      target_label: instance
+    #      replacement: '${1}'
+    #    - source_labels: ["carepet_scylla"]
+    #      regex:  '([^:]+)'
+    #      target_label: instance
+    #      replacement: '${1}'
+    - source_labels: [instance]
+      regex:  '(.*)'
+      target_label: "carepet_scylla"
+      replacement: '${1}:9100'
+
+- job_name: 'prometheus'
+  # Override the global default and scrape targets from this job every 5 seconds.
+  scrape_interval: 5s
+  static_configs:
+    - targets:
+      - localhost:9090
