@@ -1,0 +1,57 @@
+# Pay attention that those commands ignore Coordinated Omission problem:
+#
+# $ cassandra-stress user profile=./spec.yaml n=1000 "ops(insert=1)" -node $(cat node1)
+#       -rate threads=1 -mode native cql3 user=cassandra password=cassandra
+#       -log level=verbose hdrfile=store.hdr -graph file=store.html title=store revision=benchmark
+#
+# $ cassandra-stress user profile=./spec.yaml n=1000 "ops(select1=1)" -node $(cat node1)
+#       -rate threads=1 -mode native cql3 user=cassandra password=cassandra
+#       -log level=verbose hdrfile=load.hdr -graph file=load.html title=load revision=benchmark
+keyspace: carepet
+
+keyspace_definition: |
+  CREATE KEYSPACE IF NOT EXISTS carepet WITH replication = { 'class': 'NetworkTopologyStrategy', 'replication_factor': '3' } AND durable_writes = TRUE;
+
+table: measurement
+
+# 2 notes:
+# - TWCS default time window is 1 day => no promoted index
+# - use PER PARTITION LIMIT with LIMIT
+# - use TTL for 1 month for care-pet for inserts
+table_definition: |
+  CREATE TABLE IF NOT EXISTS carepet.measurement
+  (
+      sensor_id UUID,
+      ts    TIMESTAMP,
+      value FLOAT,
+      PRIMARY KEY (sensor_id, ts)
+  ) WITH compaction = { 'class' : 'TimeWindowCompactionStrategy' };
+
+columnspec:
+  - name: sensor_id
+    size: FIXED(12)
+    population: SEQ(1..1000)
+  - name: ts
+    population: SEQ(1577840400000..15778404043200) # 2020-01-01 -> 2021 UNIX EPOCH in millis
+    cluster: FIXED(43200)    # once a minute * 60 minutes an hour * 24 hours a day * 30 days a month data retention
+  - name: value
+    population: GAUSSIAN(30..40, 2)
+
+insert:
+   partitions: fixed(1)
+   batchtype: UNLOGGED
+   select:    fixed(43200)/43200
+
+queries:
+  select1:
+    cql: select * from measurement where sensor_id = ? and ts >= ? LIMIT 1440
+    fields: samerow
+  select2:
+    cql: select * from measurement where sensor_id = ? and ts >= ? LIMIT 1440 BYPASS CACHE
+    fields: samerow
+  select3:
+    cql: select * from measurement where sensor_id = ? and ts >= ? PER PARTITION LIMIT 1440 LIMIT 1440 
+    fields: samerow
+  select4:
+    cql: select * from measurement where sensor_id = ? and ts >= ? PER PARTITION LIMIT 1440 LIMIT 1440 BYPASS CACHE
+    fields: samerow

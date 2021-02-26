@@ -2,7 +2,7 @@
 # This is a care-pet YAML profile for cassandra-stress
 #
 # insert data
-# $ cassandra-stress user profile=./care-pet-stress.yaml n=100 "ops(insert=1)" no-warmup -node $NODE1 -scylla1 -log level=verbose -rate threads=1 -mode native cql3
+# $ cassandra-stress user profile=./care-pet-stress.yaml n=100 "ops(insert=1)" no-warmup -node $NODE1 -log level=verbose -rate threads=1 -mode native cql3
 #
 # read, using query simple1:
 # $ cassandra-stress profile=care-pet-stress.yaml ops(simple1=1)
