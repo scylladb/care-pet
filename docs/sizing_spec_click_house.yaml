@@ -1,0 +1,68 @@
+CREATE DATABASE carepet;
+
+CREATE TABLE carepet.m (
+    sensor_id UUID,
+    ts DateTime Codec(DoubleDelta, LZ4),
+    val Decimal(2,1) Codec(T64, LZ4)
+) Engine = MergeTree
+PARTITION BY toYYYYMMDD(ts)
+ORDER BY (sensor_id, ts);
+
+INSERT INTO carepet.m (sensor_id, ts, val)
+WITH
+  toDateTime(toDate('2019-01-01')) as start_time,
+  1000 as num_sensors,
+  30 as num_days,
+  24*60 as num_minutes,
+  num_days * num_minutes as total_minutes
+SELECT
+  reinterpretAsUUID(toString(intDiv(number, total_minutes))) as sensor_id,
+  start_time + ((intDiv(number,num_minutes)%num_days) as day)*24*60*60 + (number % num_minutes as minute)*60 as ts,
+  37 + (25-rand()%50)/10 as val
+FROM numbers_mt(43200 * 1000)
+SETTINGS max_block_size=1048576;
+
+SELECT
+    table,
+    sum(rows) rows,
+    count() parts,
+    sum(data_compressed_bytes) AS comp_bytes,
+    sum(data_uncompressed_bytes) AS uncomp_bytes,
+    round(uncomp_bytes/comp_bytes, 2) AS ratio,
+    round(comp_bytes/rows,2) avg_row
+FROM system.parts
+WHERE active AND database = 'carepet' and table like '%m%'
+group by table
+order by table;
+
+┌─table─┬─────rows─┬─parts─┬─comp_bytes─┬─uncomp_bytes─┬─ratio─┬─avg_row─┐
+│ m     │ 43200000 │    60 │   46958139 │   1036800000 │ 22.08 │    1.09 │
+└───────┴──────────┴───────┴────────────┴──────────────┴───────┴─────────┘
+
+x22 compression ratio for 37+/-[2.5] rand values for a month of data.
+
+INSERT INTO carepet.m (sensor_id, ts, val)
+WITH
+  toDateTime(toDate('2019-01-01')) as start_time,
+  1000 as num_sensors,
+  1 as num_days,
+  24*60 as num_minutes,
+  num_days * num_minutes as total_minutes
+SELECT
+  reinterpretAsUUID(toString(intDiv(number, total_minutes))) as sensor_id,
+  start_time + ((intDiv(number,num_minutes)%num_days) as day)*24*60*60 + (number % num_minutes as minute)*60 as ts,
+  37 + (25-rand()%50)/10 as val
+FROM numbers_mt(1440 * 1000)
+SETTINGS max_block_size=1048576;
+
+┌─table─┬────rows─┬─parts─┬─comp_bytes─┬─uncomp_bytes─┬─ratio─┬─avg_row─┐
+│ m     │ 1440000 │     2 │    1568778 │     34560000 │ 22.03 │    1.09 │
+└───────┴─────────┴───────┴────────────┴──────────────┴───────┴─────────┘
+
+x22 compression ratio for 37+/-[2.5] rand values for a day of data.
+
+┌─table─┬─rows─┬─parts─┬─comp_bytes─┬─uncomp_bytes─┬─ratio─┬─avg_row─┐
+│ m     │ 1440 │     1 │       1717 │        34560 │ 20.13 │    1.19 │
+└───────┴──────┴───────┴────────────┴──────────────┴───────┴─────────┘
+
+x20 compression ratio for 37+/-[2.5] rand values for a day of data of a single sensor.
