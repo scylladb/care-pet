@@ -38,7 +38,7 @@ author = u'Scylla Project Contributors'
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
-exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
+exclude_patterns = ["_build", "Thumbs.db", ".DS_Store", "sizing.md"]
 
 # The name of the Pygments (syntax highlighting) style to use.
 pygments_style = 'sphinx'
