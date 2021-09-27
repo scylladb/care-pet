@@ -75,7 +75,7 @@ html_theme = 'sphinx_scylladb_theme'
 #
 html_theme_options = {
     'default_branch': 'master',
-    'hide_sidebar_index': 'true',
+    'hide_sidebar_index': 'false',
     'hide_edit_this_page_button': 'false',
     'github_issues_repository': 'scylladb/care-pet',
     'github_repository': 'scylladb/care-pet',
