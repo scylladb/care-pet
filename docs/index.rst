@@ -6,7 +6,7 @@
 
 .. hero-box::
   :title: Scylla Care-Pet Example
-  :image: :image: /_static/img/mascots/scylla-care-pet-mascot.svg
+  :image: /_static/img/mascots/scylla-care-pet-mascot.png
   :button_icon: fa fa-github
   :button_url: https://github.com/scylladb/care-pet
   :button_text: Care-Pet Project
