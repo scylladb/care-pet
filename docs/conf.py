@@ -75,12 +75,12 @@ html_theme = 'sphinx_scylladb_theme'
 #
 html_theme_options = {
     'default_branch': 'master',
-    'hide_sidebar_index': 'false',
+    'hide_sidebar_index': 'true',
     'hide_edit_this_page_button': 'false',
     'github_issues_repository': 'scylladb/care-pet',
     'github_repository': 'scylladb/care-pet',
     'site_description': 'ScyllaDB IoT Example Documentation',
-    'conf_py_path': 'docs/'
+    'conf_py_path': 'docs/',
 }
 
 extlinks = {
