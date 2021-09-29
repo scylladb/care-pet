@@ -45,9 +45,9 @@
   :link: https://github.com/scylladb/care-pet
   :icon: fa fa-github
   :class: large-6,small-12
-  :anchor: Explore the code (Link opens a new window)
+  :anchor: Explore the code
 
-  See the source code, or better yet, contribute to it!
+  See the source code, or better yet, contribute to it! (Link opens a new window)
 
 .. topic-box::
   :title: Care-Pet Blog
