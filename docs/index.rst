@@ -49,6 +49,10 @@
 
   Read our blog!
 
+.. raw:: html
+
+  </div></div></div></div>
+  
 .. toctree::
    :maxdepth: 2
    :hidden:
