@@ -123,6 +123,8 @@ notfound_urls_prefix = ""
 # Read a YAML dictionary of redirections and generate an HTML file for each
 redirects_file = "_utils/redirections.yaml"
 
+html_static_path = ["_static"]
+
 # -- Options for multiversion --------------------------------------------
 
 # Whitelist pattern for tags (set to None to ignore all tags)
