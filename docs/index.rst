@@ -27,7 +27,7 @@
   :link: getting_started
   :icon: scylla-icon scylla-icon--getting-started
   :class: large-6
-  :anchor: Learn more
+  :anchor: Get Started
 
   Create an IoT app from scratch and configure it to use ScyllaDB as the backend datastore.
 
@@ -40,42 +40,23 @@
 
   Learn more about the queries used in the example, make the primary key and clustering key selection, and create the database schema.
 
-.. raw:: html
-
-  </div></div>
-
-  <div class="topics-grid">
-
-      <h2 class="topics-grid__title">External links</h2>
-
-      <div class="grid-container full">
-          <div class="grid-x grid-margin-x">
-
 .. topic-box::
   :title: Care-Pet GitHub Repository
   :link: https://github.com/scylladb/care-pet
   :icon: fa fa-github
   :class: large-6,small-12
-  :anchor: Explore code
+  :anchor: Explore the code
 
   See the source code, or better yet, contribute to it!
 
 .. topic-box::
   :title: Care-Pet Blog
-  :icon: scylla-icon scylla-icon--developers-blog
+  :icon: fa fa-newspaper
   :link: https://www.scylladb.com/2020/09/09/carepet-an-example-iot-use-case-for-hands-on-app-developers/
   :class: large-6,small-12
-  :anchor: Read article
+  :anchor: Read the article
 
   Read our blog!
-
-.. raw:: html
-
-  </div></div></div>
-
-.. raw:: html
-
-  </div></div>
 
 .. toctree::
    :maxdepth: 2
