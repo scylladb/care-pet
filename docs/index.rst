@@ -23,7 +23,7 @@
   <div class="grid-x grid-margin-x">
 
 .. topic-box::
-  :title: Getting Started with CarePet
+  :title: Getting Started with Care-Pet
   :link: getting_started
   :icon: scylla-icon scylla-icon--getting-started
   :class: large-6
@@ -41,22 +41,13 @@
   Learn more about the queries used in the example, make the primary key and clustering key selection, and create the database schema.
 
 .. topic-box::
-  :title: Care-Pet GitHub Repository
-  :link: https://github.com/scylladb/care-pet
-  :icon: fa fa-github
-  :class: large-6,small-12
-  :anchor: Explore the code
-
-  See the source code, or better yet, contribute to it! (Link opens a new window)
-
-.. topic-box::
   :title: Care-Pet Blog
   :icon: fa fa-newspaper
   :link: https://www.scylladb.com/2020/09/09/carepet-an-example-iot-use-case-for-hands-on-app-developers/
   :class: large-6,small-12
   :anchor: Read the article
 
-  Read our blog! (Link opens a new window)
+  Read our blog!
 
 .. toctree::
    :maxdepth: 2
