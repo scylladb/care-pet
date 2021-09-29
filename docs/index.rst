@@ -45,7 +45,7 @@
   :link: https://github.com/scylladb/care-pet
   :icon: fa fa-github
   :class: large-6,small-12
-  :anchor: Explore the code
+  :anchor: Explore the code (Link opens a new window)
 
   See the source code, or better yet, contribute to it!
 
@@ -56,7 +56,7 @@
   :class: large-6,small-12
   :anchor: Read the article
 
-  Read our blog!
+  Read our blog! (Link opens a new window)
 
 .. toctree::
    :maxdepth: 2
