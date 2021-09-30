@@ -48,7 +48,7 @@
   :class: large-6,small-12
   :anchor: Read the article
 
-  Read our blog!
+  The Care-Pet Example blog walks you trhough the example and adds additional information. 
 
 .. raw:: html
 
