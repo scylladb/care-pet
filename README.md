@@ -11,6 +11,8 @@ and consists of 3 parts:
 - a web app for reading and analyzing the pets' data
 - a database migration tool
 
+Read the [Documentation for the Care-Pet Example](https://care-pet.docs.scylladb.com/)
+
 Quick Start
 ---
 
@@ -44,6 +46,7 @@ of the data aggregates.
 
 Links
 ---
-
+- [Care-Pet Example Guide](https://care-pet.docs.scylladb.com/)
+- [Scylla Docs](https://docs.scylladb.com/)
 - [ScyllaDB Docker image](https://hub.docker.com/r/scylladb/scylla/)
 - [ScyllaDB drivers page](https://docs.scylladb.com/using-scylla/scylla_drivers/)
