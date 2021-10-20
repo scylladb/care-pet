@@ -1,7 +1,17 @@
 Getting Started with CarePet: A sample IoT App
 ----------------------------------------------
+## Table of Contents
 
-### Introduction
+* [Introduction](#introduction)
+* [Requirements](#requirements)
+* [Deploying the Application](#deploying-the-application)
+* [Using the Application ](#using-the-application )
+* [Code Structure and Implementation](#code-structure-and-implementation)
+* [Design and Data Model](#design-and-data-model)
+* [Additional Resources](#additional-resources)
+
+
+## Introduction
 
 In this guided exercise, you'll create an IoT app from scratch and configure it
 to use ScyllaDB as the backend datastore.
@@ -14,7 +24,26 @@ The example can be used, with minimal changes, for any IoT like application.
 
 We'll go over the different stages of the development, from gathering
 requirements, creating the data model, cluster sizing and hardware needed to
-match the requirements, and finally building and running the application. 
+match the requirements, and finally building and running the application.
+
+### About the CarePet Application
+
+The example application uses Docker to run a three-node ScyllaDB cluster. It
+allows tracking of pet's health indicators and consists of three parts:
+
+-   migrate (/cmd/migrate) - creates the CarePet keyspace and tables
+-   collar (/cmd/sensor) - generates a pet health data and pushes it into the
+    storage
+-   web app (/cmd/server) - REST API service for tracking the pets' health
+    state
+
+## Requirements
+
+### Prerequisites for Deploying the Application
+
+-   [go](https://golang.org/dl/), version 1.14 or newer
+-   [docker](https://www.docker.com/)
+-   [docker-compose](https://docs.docker.com/compose/)
 
 ### Use Case Requirements
 
@@ -44,54 +73,34 @@ ScyllaDB node goes down or becomes unavailable, the cluster is expected to
 remain available and continue to provide service. You can learn more about
 Scylla high availability in [this lesson](https://university.scylladb.com/courses/scylla-essentials-overview/lessons/high-availability/). 
 
-### Design and Data Model
 
-In this part  we’ll think about our queries, make the primary key and
-clustering key selection, and create the database schema. See more in the data
-model design [document](./design_and_data_model.md).
+## Deploying the Application
 
-### Deploying the App 
-
-Prerequisites:
-
--   [go](https://golang.org/dl/), version 1.14 or newer
--   [docker](https://www.docker.com/)
--   [docker-compose](https://docs.docker.com/compose/)
-
-The example application uses Docker to run a three-node ScyllaDB cluster. It
-allows tracking of pet's health indicators and consists of three parts:
-
--   migrate (/cmd/migrate) - creates the CarePet keyspace and tables
--   collar (/cmd/sensor) - generates a pet health data and pushes it into the
-    storage
--   web app (/cmd/server) - REST API service for tracking the pets' health
-    state
-
-Download the example code from git:
+1. Download the example code from git:
 
     $ git clone git@github.com:scylladb/care-pet.git
 
-Start by creating a local ScyllaDB cluster consisting of 3 nodes:
+2. Start by creating a local ScyllaDB cluster consisting of 3 nodes:
 
     $ docker-compose up -d
 
-Docker-compose will spin up a ScyllaDB cluster consisting of 3 nodes: carepet-scylla1, carepet-scylla2 and carepet-scylla3.  Wait for about two minutes and check the status of the cluster:
+3. Docker-compose will spin up a ScyllaDB cluster consisting of 3 nodes: carepet-scylla1, carepet-scylla2 and carepet-scylla3.  Wait for about two minutes and check the status of the cluster:
 To check the status of the cluster:
 
     $ docker exec -it carepet-scylla1 nodetool status
 
-Once all the nodes are in UN - Up Normal status, initialize the database. This will create the keyspaces and tables:
+4. Once all the nodes are in UN - Up Normal status, initialize the database. This will create the keyspaces and tables:
 
     $ go build ./cmd/migrate
     $ NODE1=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' carepet-scylla1)
     $ ./migrate --hosts $NODE1
 
-expected output:
+	expected output:
 
     2020/08/06 16:43:01 Bootstrap database...
     2020/08/06 16:43:13 Keyspace metadata = {Name:carepet DurableWrites:true StrategyClass:org.apache.cassandra.locator.NetworkTopologyStrategy StrategyOptions:map[datacenter1:3] Tables:map[gocqlx_migrate:0xc00016ca80 measurement:0xc00016cbb0 owner:0xc00016cce0 pet:0xc00016ce10 sensor:0xc00016cf40 sensor_avg:0xc00016d070] Functions:map[] Aggregates:map[] Types:map[] Indexes:map[] Views:map[]}
 
-You can check the database structure with:
+5. (Optional)You can check the database structure with:
 
        $ docker exec -it carepet-scylla1 cqlsh
        
@@ -130,13 +139,13 @@ You can check the database structure with:
 
        cqlsh:carepet> exit
 
-Next, start the pet collar simulation. From a separate terminal execute the following command to generate the pet's health data and save it to the database:
+6. Next, start the pet collar simulation. From a separate terminal execute the following command to generate the pet's health data and save it to the database:
 
     $ go build ./cmd/sensor
     $ NODE1=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' carepet-scylla1)
     $ ./sensor --hosts $NODE1
 
-expected output:
+	expected output:
 
     2020/08/06 16:44:33 Welcome to the Pet collar simulator
     2020/08/06 16:44:33 New owner # 9b20764b-f947-45bb-a020-bf6d02cc2224
@@ -146,24 +155,26 @@ expected output:
     2020/08/06 16:44:33 sensor # 821588e0-840d-48c6-b9c9-7d1045e0f38c type L new measure 26.380281 ts 2020-08-06T16:44:33+02:00
     ...
 
-Write down the pet Owner ID (the ID is the part after the # sign without trailing spaces). We will use it later.
-Now, start the REST API service in a separate, third, terminal. This server exposes a REST API that allows for tracking the pet's health state:
+7. Write down the pet Owner ID (the ID is the part after the # sign without trailing spaces). We will use it later.
+8. Now, start the REST API service in a separate, third, terminal. This server exposes a REST API that allows for tracking the pet's health state:
 
     $ go build ./cmd/server
     $ NODE1=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' carepet-scylla1)
     $ ./server --port 8000 --hosts $NODE1
 
-expected output:
+	expected output:
 
     2020/08/06 16:45:58 Serving care pet at http://127.0.0.1:8000
 
-### Using the Application 
+## Using the Application 
+
+### Accessing the Application
 
 Open http://127.0.0.1:8000/ in a browser or send an HTTP request from the CLI:
 
     $ curl -v http://127.0.0.1:8000/
 
-expected output:
+	expected output:
 
     > GET / HTTP/1.1
     > Host: 127.0.0.1:8000
@@ -180,18 +191,23 @@ expected output:
     * Closing connection 0
     {"code":404,"message":"path / was not found"}
 
-If you see this JSON in the end with 404, it means everything works as
-expected. To read an owner's data use the previously saved owner_id as follows:
+	If you see this JSON in the end with 404, it means everything works as
+	expected.
+	
+### Displaying the Owner Data	
+	To read an owner's data use the previously saved owner_id as follows:
 
     $ curl -v http://127.0.0.1:8000/api/owner/{owner_id}
 
-for example:
+	for example:
 
     $ curl http://127.0.0.1:8000/api/owner/a05fd0df-0f97-4eec-a211-cad28a6e5360
 
-expected result:
+	expected result:
 
     {"address":"home","name":"gmwjgsap","owner_id":"a05fd0df-0f97-4eec-a211-cad28a6e5360"} 
+
+### Listing Pets
 
 To list the owner's pets run:
 
@@ -205,6 +221,8 @@ expected output:
 
     [{"address":"home","age":57,"name":"tlmodylu","owner_id":"a05fd0df-0f97-4eec-a211-cad28a6e5360","pet_id":"a52adc4e-7cf4-47ca-b561-3ceec9382917","weight":5}]
 
+### Listing Sensors
+
 To list each specifc pet's sensor:
 
     $ curl -v curl -v http://127.0.0.1:8000/api/pet/{pet_id}/sensors
@@ -214,6 +232,8 @@ i
     $ curl http://127.0.0.1:8000/api/pet/cef72f58-fc78-4cae-92ae-fb3c3eed35c4/sensors
 
     [{"pet_id":"cef72f58-fc78-4cae-92ae-fb3c3eed35c4","sensor_id":"5a9da084-ea49-4ab1-b2f8-d3e3d9715e7d","type":"L"},{"pet_id":"cef72f58-fc78-4cae-92ae-fb3c3eed35c4","sensor_id":"5c70cd8a-d9a6-416f-afd6-c99f90578d99","type":"R"},{"pet_id":"cef72f58-fc78-4cae-92ae-fb3c3eed35c4","sensor_id":"fbefa67a-ceb1-4dcc-bbf1-c90d71176857","type":"L"}]
+
+### Displaying Data Collected by a Sensor
 
 To review the data from a specific sensor:
 
@@ -227,6 +247,8 @@ expected output:
 
     [51.360596,26.737432,77.88015,...]
 
+### Displaying the Avergage Value per Sensor
+
 To read the pet's daily average per sensor use:
 
     $ curl http://127.0.0.1:8000/api/sensor/{sensor_id}/values/day/{date}
@@ -239,7 +261,7 @@ expected output:
 
     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,42.55736]
 
-### Code Structure and Implementation
+## Code Structure and Implementation
 
 The code package structure is as follows:
 
@@ -283,7 +305,11 @@ The algorithm is simple and resides in /handler/avg.go:
 -   if there is no data, read measurement data, aggregate in memory, save
 -   serve request
 
-### Additional Resources
+## Design and Data Model
+
+See [Design and Data Model](./design_and_data_model.md) for details about data modeling in Scylla 
+
+## Additional Resources
 
 -   [Scylla Essentials](https://university.scylladb.com/courses/scylla-essentials-overview/) course on Scylla University. It provides an introduction to Scylla and explains the basics
 -   [Data Modeling and Application Development](https://university.scylladb.com/courses/data-modeling/) course on Scylla University. It explains basic and advanced data modeling techniques, including information on workflow application, query analysis, denormalization, and other NoSQL data modeling topics.
