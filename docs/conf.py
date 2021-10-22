@@ -59,9 +59,6 @@ def setup(sphinx):
     sphinx.add_transform(AutoStructify)
 
 
-# List of substitutions
-rst_prolog = """
-"""
 # -- Options for HTML output ----------------------------------------------
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
@@ -74,16 +71,13 @@ html_theme = 'sphinx_scylladb_theme'
 # documentation.
 #
 html_theme_options = {
+    'conf_py_path': 'docs/',
     'default_branch': 'master',
-    'hide_sidebar_index': 'true',
-    'hide_edit_this_page_button': 'false',
     'github_issues_repository': 'scylladb/care-pet',
     'github_repository': 'scylladb/care-pet',
+    'hide_edit_this_page_button': 'false',
+    'hide_sidebar_index': 'true',
     'site_description': 'ScyllaDB IoT Example Documentation',
-    'conf_py_path': 'docs/',
-}
-
-extlinks = {
 }
 
 # If not None, a 'Last updated on:' timestamp is inserted at every page
