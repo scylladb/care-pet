@@ -43,7 +43,7 @@
 
 .. topic-box::
   :title: Care-Pet Blog
-  :icon: fa fa-newspaper
+  :icon: scylla-icon scylla-icon--blog
   :link: https://www.scylladb.com/2020/09/09/carepet-an-example-iot-use-case-for-hands-on-app-developers/
   :class: large-6,small-12
   :anchor: Read the article
