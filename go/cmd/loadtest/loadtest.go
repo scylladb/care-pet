@@ -44,6 +44,7 @@ func main() {
 
 	if *writer {
 		for i := 0; i < *workers; i++ {
+			i := i
 			f.Go(func() { worker(ctx, f, i+1, ses) })
 		}
 		log.Println("Writers started")
