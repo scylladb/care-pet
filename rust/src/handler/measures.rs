@@ -28,7 +28,6 @@ pub async fn find_sensor_data_by_sensor_id_and_time_range(
         .into_typed::<(f32,)>();
 
     let values = rows
-        .into_iter()
         .map(|v| v.map(|v| v.0))
         .collect::<Result<Vec<_>, _>>()
         .map_err(|err| json_err(Status::InternalServerError, err))?;

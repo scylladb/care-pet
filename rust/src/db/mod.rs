@@ -86,3 +86,15 @@ pub fn fields(f: &[&'static str]) -> String {
 pub fn values<const N: usize>() -> String {
     [0; N].map(|_| "?").join(", ")
 }
+
+#[macro_export]
+macro_rules! insert_query {
+    ($table:expr, $T:ty) => {{
+        scylla::query::Query::new(format!(
+            "INSERT INTO {} ({}) VALUES ({})",
+            $table,
+            $crate::db::fields(<$T>::FIELD_NAMES_AS_ARRAY),
+            $crate::db::values::<{ <$T>::FIELD_NAMES_AS_ARRAY.len() }>()
+        ))
+    }};
+}

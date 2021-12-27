@@ -9,8 +9,8 @@ default-run = "care-pet"
 [dependencies]
 rocket = {version = "0.5.0-rc.1", features = ["json"]}
 structopt = "0.3"
-log = "0.4.0"
-pretty_env_logger = "0.4.0"
+log = "0.4"
+pretty_env_logger = "0.4"
 tokio = {version = "1.1", features = ["full"]}
 scylla = "0.3"
 chrono = "0.4"
@@ -21,8 +21,11 @@ uuid = {version = "0.8", features = ["v4", "serde"]}
 rand = "0.8"
 serde = "1.0"
 struct_field_names = "0.2"
-struct-field-names-as-array = "0.1.2"
-itertools = "0.10.3"
+struct-field-names-as-array = "0.1"
+itertools = "0.10"
+rlimit = "0.6"
+num_cpus = "1.13"
+hdrhistogram = "7.4"
 
 [[bin]]
 name = "sensor"
@@ -31,6 +34,10 @@ path = "src/bin/sensor/main.rs"
 [[bin]]
 name = "migrate"
 path = "src/bin/migrate/main.rs"
+
+[[bin]]
+name = "loadtest"
+path = "src/bin/loadtest/main.rs"
 
 [[bin]]
 name = "care-pet"

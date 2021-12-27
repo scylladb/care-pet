@@ -2,12 +2,12 @@ use std::time::{self, Instant};
 
 use log::*;
 use scylla::batch::Batch;
-use scylla::query::Query;
 use scylla::Session;
 use structopt::StructOpt;
 use tokio::time::sleep;
 
 use care_pet::db::{TABLE_MEASUREMENT, TABLE_OWNER, TABLE_PET, TABLE_SENSOR};
+use care_pet::insert_query;
 use care_pet::model::duration::Duration;
 use care_pet::model::*;
 use care_pet::{db, Result};
@@ -56,41 +56,17 @@ fn random_data() -> (Owner, Pet, Vec<Sensor>) {
 }
 
 async fn save_data(sess: &Session, owner: &Owner, pet: &Pet, sensors: &[Sensor]) -> Result<()> {
-    sess.query(
-        format!(
-            "INSERT INTO {} ({}) VALUES ({})",
-            TABLE_OWNER,
-            db::fields(Owner::FIELD_NAMES_AS_ARRAY),
-            db::values::<{ Owner::FIELD_NAMES_AS_ARRAY.len() }>()
-        ),
-        owner.clone(),
-    )
-    .await?;
+    sess.query(insert_query!(TABLE_OWNER, Owner), owner.clone())
+        .await?;
     info!("New owner # {}", owner.owner_id);
 
-    sess.query(
-        format!(
-            "INSERT INTO {} ({}) VALUES ({})",
-            TABLE_PET,
-            db::fields(Pet::FIELD_NAMES_AS_ARRAY),
-            db::values::<{ Pet::FIELD_NAMES_AS_ARRAY.len() }>()
-        ),
-        pet.clone(),
-    )
-    .await?;
+    sess.query(insert_query!(TABLE_PET, Pet), pet.clone())
+        .await?;
     info!("New pet # {}", pet.pet_id);
 
     for sensor in sensors.iter().cloned() {
-        sess.query(
-            format!(
-                "INSERT INTO {} ({}) VALUES ({})",
-                TABLE_SENSOR,
-                db::fields(Sensor::FIELD_NAMES_AS_ARRAY),
-                db::values::<{ Sensor::FIELD_NAMES_AS_ARRAY.len() }>()
-            ),
-            sensor.clone(),
-        )
-        .await?;
+        sess.query(insert_query!(TABLE_SENSOR, Sensor), sensor.clone())
+            .await?;
     }
 
     Ok(())
@@ -101,8 +77,8 @@ async fn run_sensor_data(cfg: &App, sess: &Session, sensors: Vec<Sensor>) -> Res
     let buffer_interval: time::Duration = cfg.buffer_interval.into();
 
     let mut last = Instant::now();
-    let mut measures = vec![];
     loop {
+        let mut measures = vec![];
         while last.elapsed() < buffer_interval {
             sleep(measure).await;
 
@@ -127,23 +103,12 @@ async fn run_sensor_data(cfg: &App, sess: &Session, sensors: Vec<Sensor>) -> Res
 
         info!("Pushing data");
 
-        let (batch, values) = measures.drain(..).fold(
-            (Batch::default(), vec![]),
-            |(mut batch, mut values), measure| {
-                let query = Query::new(format!(
-                    "INSERT INTO {} ({}) VALUES ({})",
-                    TABLE_MEASUREMENT,
-                    db::fields(Measure::FIELD_NAMES_AS_ARRAY),
-                    db::values::<{ Measure::FIELD_NAMES_AS_ARRAY.len() }>()
-                ));
+        let batch = measures.iter().fold(Batch::default(), |mut batch, _| {
+            batch.append_statement(insert_query!(TABLE_MEASUREMENT, Measure));
+            batch
+        });
 
-                batch.append_statement(query);
-                values.push(measure);
-                (batch, values)
-            },
-        );
-
-        sess.batch(&batch, values)
+        sess.batch(&batch, measures)
             .await
             .map_err(|err| error!("execute batch query {:?}", err))
             .ok();
