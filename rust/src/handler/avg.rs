@@ -1,5 +1,6 @@
 use std::collections::HashMap;
 
+use anyhow::anyhow;
 use chrono::{DateTime, Datelike, NaiveDateTime, NaiveTime, Timelike, Utc};
 use log::*;
 use rocket::http::Status;
@@ -24,7 +25,7 @@ pub async fn find_sensor_avg_by_sensor_id_and_day(
     if date.ordinal() > chrono::Utc::now().ordinal() {
         return Err(json_err(
             Status::BadRequest,
-            anyhow::anyhow!("day cannot be in the future"),
+            anyhow!("day cannot be in the future"),
         ));
     }
 
@@ -49,7 +50,7 @@ pub async fn find_sensor_avg_by_sensor_id_and_day(
     if avg.len() < 24 {
         avg = aggregate(sess, id.0, date, avg)
             .await
-            .ok_or_else(|| json_err(Status::InternalServerError, anyhow::anyhow!("aggregating")))?
+            .ok_or_else(|| json_err(Status::InternalServerError, anyhow!("aggregating")))?
     }
 
     Ok(Json(avg.into_iter().map(|avg| avg.value).collect()))

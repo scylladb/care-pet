@@ -1,5 +1,6 @@
 use std::collections::HashMap;
 
+use anyhow::anyhow;
 use log::*;
 use rand::Rng;
 use scylla::Session;
@@ -46,14 +47,14 @@ pub async fn save(sess: &Session, f: &Flock) -> Result<()> {
         sess.query(insert_query!(TABLE_OWNER, Owner), owner)
             .await
             .map(|_| ())
-            .map_err(|err| anyhow::anyhow!("insert owner {}: {:?}", owner.owner_id, err))?;
+            .map_err(|err| anyhow!("insert owner {}: {:?}", owner.owner_id, err))?;
     }
 
     for pet in &f.1 {
         sess.query(insert_query!(TABLE_PET, Pet), pet)
             .await
             .map(|_| ())
-            .map_err(|err| anyhow::anyhow!("insert pet {}: {:?}", pet.pet_id, err))?;
+            .map_err(|err| anyhow!("insert pet {}: {:?}", pet.pet_id, err))?;
     }
 
     for sensors in f.2.values() {
@@ -61,7 +62,7 @@ pub async fn save(sess: &Session, f: &Flock) -> Result<()> {
             sess.query(insert_query!(TABLE_SENSOR, Sensor), sensor)
                 .await
                 .map(|_| ())
-                .map_err(|err| anyhow::anyhow!("insert sensor {}: {:?}", sensor.sensor_id, err))?;
+                .map_err(|err| anyhow!("insert sensor {}: {:?}", sensor.sensor_id, err))?;
         }
     }
 

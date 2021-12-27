@@ -1,3 +1,4 @@
+use anyhow::anyhow;
 use rocket::http::Status;
 use rocket::serde::json::Json;
 use rocket::{get, State};
@@ -29,7 +30,7 @@ pub async fn find_owner_by_id(
     if results.is_empty() {
         return Err(json_err(
             Status::NotFound,
-            anyhow::anyhow!("owner {} not found", id.0),
+            anyhow!("owner {} not found", id.0),
         ));
     }
 

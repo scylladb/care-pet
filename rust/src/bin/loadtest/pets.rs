@@ -1,4 +1,4 @@
-use log::{debug, error};
+use log::*;
 use scylla::Session;
 
 use crate::flock::Flock;
@@ -25,7 +25,7 @@ pub fn start(sess: &'static Session, interval: humantime::Duration, mut f: Flock
                     let query = insert_query!(TABLE_MEASUREMENT, Measure);
                     sess.query(query, measure)
                         .await
-                        .map(|_| debug!("pet # {} insert", pet.pet_id))
+                        .map(|_| trace!("pet # {} insert", pet.pet_id))
                         .map_err(|err| error!("pet # {} error {:?}", pet.pet_id, err))
                         .ok();
                 }

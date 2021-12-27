@@ -31,7 +31,7 @@ pub async fn work(sess: &'static Session, id: usize, sensors: Arc<HashMap<Uuid, 
                 let ts = Instant::now();
                 sess.query(query, &measure)
                     .await
-                    .map(|_| debug!("worker # {} insert {:?}", id, &measure))
+                    .map(|_| trace!("worker # {} insert {:?}", id, &measure))
                     .map_err(|err| error!("worker # {} error {:?}", id, err))
                     .ok();
 
