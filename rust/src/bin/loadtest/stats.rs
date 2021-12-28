@@ -45,15 +45,17 @@ impl Stats {
         let cd = self
             .hist
             .iter_quantiles(1)
-            .map(|val| {
-                (
+            .enumerate()
+            .filter_map(|(i, val)| match i {
+                4 | 6 | 14 => Some((
                     val.percentile(),
                     humantime::Duration::from(Duration::from_millis(val.value_iterated_to())),
-                )
+                )),
+                _ => None,
             })
             .collect::<Vec<_>>();
 
-        if cd.len() > 15 {
+        if cd.len() == 3 {
             info!(
                 "{} total = {}, DT = {}, mean/stddev {:.2}/{:.2} {:.2}%[{}]/{:.2}%[{}]/{:.2}%[{}]",
                 prefix,
@@ -61,12 +63,12 @@ impl Stats {
                 len - self.total,
                 self.hist.mean(),
                 self.hist.stdev(),
-                cd[4].0,
-                cd[4].1,
-                cd[6].0,
-                cd[6].1,
-                cd[14].0,
-                cd[14].1,
+                cd[0].0,
+                cd[0].1,
+                cd[1].0,
+                cd[1].1,
+                cd[2].0,
+                cd[2].1,
             );
         } else {
             info!(
