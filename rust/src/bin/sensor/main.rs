@@ -56,16 +56,14 @@ fn random_data() -> (Owner, Pet, Vec<Sensor>) {
 }
 
 async fn save_data(sess: &Session, owner: &Owner, pet: &Pet, sensors: &[Sensor]) -> Result<()> {
-    sess.query(insert_query!(TABLE_OWNER, Owner), owner.clone())
-        .await?;
+    sess.query(insert_query!(TABLE_OWNER, Owner), owner).await?;
     info!("New owner # {}", owner.owner_id);
 
-    sess.query(insert_query!(TABLE_PET, Pet), pet.clone())
-        .await?;
+    sess.query(insert_query!(TABLE_PET, Pet), pet).await?;
     info!("New pet # {}", pet.pet_id);
 
-    for sensor in sensors.iter().cloned() {
-        sess.query(insert_query!(TABLE_SENSOR, Sensor), sensor.clone())
+    for sensor in sensors {
+        sess.query(insert_query!(TABLE_SENSOR, Sensor), sensor)
             .await?;
     }
 
@@ -82,7 +80,7 @@ async fn run_sensor_data(cfg: &App, sess: &Session, sensors: Vec<Sensor>) -> Res
         while last.elapsed() < buffer_interval {
             sleep(measure).await;
 
-            for sensor in sensors.iter() {
+            for sensor in &sensors {
                 let measure = read_sensor_data(sensor);
                 info!(
                     "sensor # {} type {} new measure {} ts {}",
