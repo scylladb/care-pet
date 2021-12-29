@@ -21,23 +21,24 @@ pub fn new(owners_count: usize, pets_count: usize, sensors_count: usize) -> Floc
 
     let mut rng = rand::thread_rng();
 
-    let (pets, sensors) = (0..pets_count).fold(
-        (Vec::with_capacity(pets_count), HashMap::new()),
-        |(mut pets, mut sensors_map), _| {
-            let pet = Pet::random(&owners[rng.gen_range(0..owners.len())]);
-
-            let sensors = (0..rng.gen_range(1..sensors_count))
-                .map(|_| Sensor::random(&pet))
-                .collect::<Vec<_>>();
-
-            sensors_map.insert(pet.pet_id, sensors);
-            pets.push(pet);
-
-            (pets, sensors_map)
-        },
-    );
+    let pets = (0..pets_count)
+        .map(|_| Pet::random(&owners[rng.gen_range(0..owners.len())]))
+        .collect::<Vec<_>>();
 
     info!("Pets created");
+
+    let sensors = pets
+        .iter()
+        .map(|pet| {
+            let sensors = (0..rng.gen_range(1..sensors_count))
+                .map(|_| Sensor::random(pet))
+                .collect::<Vec<_>>();
+
+            (pet.pet_id, sensors)
+        })
+        .collect::<HashMap<_, _>>();
+
+    info!("Sensors created");
 
     (owners, pets, sensors)
 }
