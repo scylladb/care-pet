@@ -36,12 +36,10 @@ impl Owner {
     Debug, Default, Clone, ValueList, FromRow, Serialize, StructFieldNames, FieldNamesAsArray,
 )]
 pub struct Pet {
-    // The species field is empty in the database but the driver can't deserialze it for some reason
-    // Bad CQL type in the column with index 0
-    pub species: Option<String>,
     pub owner_id: Uuid,
     pub pet_id: Uuid,
     pub chip_id: Option<String>,
+    pub species: Option<String>,
     pub breed: Option<String>,
     pub color: Option<String>,
     pub gender: Option<String>,
