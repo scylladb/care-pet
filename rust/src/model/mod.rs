@@ -13,7 +13,22 @@ use struct_field_names_as_array::FieldNamesAsArray;
 use uuid::Uuid;
 
 use crate::date::Date;
+use crate::db;
 use crate::duration::Duration;
+
+pub trait ModelTable {
+    fn table() -> &'static str;
+}
+
+macro_rules! impl_model_table {
+    ($table:expr, $T:ty) => {
+        impl ModelTable for $T {
+            fn table() -> &'static str {
+                $table
+            }
+        }
+    };
+}
 
 #[derive(Clone, ValueList, FromRow, Serialize, StructFieldNames, FieldNamesAsArray)]
 pub struct Owner {
@@ -21,6 +36,8 @@ pub struct Owner {
     pub address: String,
     pub name: String,
 }
+
+impl_model_table!(db::TABLE_OWNER, Owner);
 
 impl Owner {
     pub fn random() -> Self {
@@ -49,6 +66,8 @@ pub struct Pet {
     pub name: String,
 }
 
+impl_model_table!(db::TABLE_PET, Pet);
+
 impl Pet {
     pub fn random(o: &Owner) -> Self {
         let mut rng = rand::thread_rng();
@@ -71,6 +90,8 @@ pub struct Sensor {
     pub sensor_id: Uuid,
     pub r#type: SensorType,
 }
+
+impl_model_table!(db::TABLE_SENSOR, Sensor);
 
 #[derive(Clone, Serialize)]
 pub enum SensorType {
@@ -170,6 +191,8 @@ pub struct Measure {
     pub value: f32,
 }
 
+impl_model_table!(db::TABLE_MEASUREMENT, Measure);
+
 #[derive(
     Debug, ValueList, FromRow, Serialize, Default, Clone, StructFieldNames, FieldNamesAsArray,
 )]
@@ -179,6 +202,8 @@ pub struct SensorAvg {
     pub hour: i32,
     pub value: f32,
 }
+
+impl_model_table!(db::TABLE_SENSOR_AVG, SensorAvg);
 
 fn random_string(len: usize) -> String {
     let mut rng = rand::thread_rng();

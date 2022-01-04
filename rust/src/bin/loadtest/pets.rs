@@ -2,7 +2,7 @@ use log::*;
 use scylla::Session;
 
 use crate::flock::Flock;
-use care_pet::db::TABLE_MEASUREMENT;
+
 use care_pet::duration::Duration;
 use care_pet::insert_query;
 use care_pet::model::{random_sensor_data, Measure};
@@ -22,7 +22,7 @@ pub fn start(sess: &'static Session, interval: humantime::Duration, mut f: Flock
                         value: random_sensor_data(sensor),
                     };
 
-                    let query = insert_query!(TABLE_MEASUREMENT, Measure);
+                    let query = insert_query!(Measure);
                     sess.query(query, measure)
                         .await
                         .map(|_| trace!("pet # {} insert", pet.pet_id))

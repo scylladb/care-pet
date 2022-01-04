@@ -7,7 +7,7 @@ use scylla::Session;
 use uuid::Uuid;
 
 use crate::stats::Stats;
-use care_pet::db::TABLE_MEASUREMENT;
+
 use care_pet::duration::Duration;
 use care_pet::{insert_query, random_sensor_data, Measure, Sensor};
 
@@ -26,7 +26,7 @@ pub async fn work(sess: &'static Session, id: usize, sensors: Arc<HashMap<Uuid, 
                     value: random_sensor_data(sensor),
                 };
 
-                let query = insert_query!(TABLE_MEASUREMENT, Measure);
+                let query = insert_query!(Measure);
 
                 let ts = Instant::now();
                 sess.query(query, &measure)

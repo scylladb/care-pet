@@ -89,10 +89,12 @@ pub fn values<const N: usize>() -> String {
 
 #[macro_export]
 macro_rules! insert_query {
-    ($table:expr, $T:ty) => {{
+    ($T:ty) => {{
+        use $crate::model::ModelTable;
+
         scylla::query::Query::new(format!(
             "INSERT INTO {} ({}) VALUES ({})",
-            $table,
+            <$T>::table(),
             $crate::db::fields(<$T>::FIELD_NAMES_AS_ARRAY),
             $crate::db::values::<{ <$T>::FIELD_NAMES_AS_ARRAY.len() }>()
         ))

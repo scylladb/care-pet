@@ -191,7 +191,7 @@ async fn save_aggregate(
         avg.date = Date(Duration::from_millis(start_date.timestamp_millis()));
         info!("inserting sensor aggregate {:?}", &avg);
 
-        sess.query(insert_query!(TABLE_SENSOR_AVG, SensorAvg), avg.clone())
+        sess.query(insert_query!(SensorAvg), avg.clone())
             .await
             .map_err(|err| error!("save sensor aggregate {:?}: {:?}", avg, err))
             .ok();
