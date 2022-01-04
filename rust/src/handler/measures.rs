@@ -3,8 +3,8 @@ use rocket::serde::json::Json;
 use rocket::{get, State};
 use scylla::{IntoTypedRows, Session};
 
-use crate::db;
 use crate::handler::{json_err, DateTimeParam, JsonError, UuidParam};
+use crate::{Measure, ModelTable};
 
 #[get("/sensor/<id>/values?<from>&<to>")]
 pub async fn find_sensor_data_by_sensor_id_and_time_range(
@@ -16,8 +16,12 @@ pub async fn find_sensor_data_by_sensor_id_and_time_range(
     let rows = session
         .query(
             format!(
-                "SELECT value FROM {} WHERE sensor_id = ? and ts >= ? and ts <= ?",
-                db::TABLE_MEASUREMENT
+                "SELECT {} FROM {} WHERE {} = ? and {} >= ? and {} <= ?",
+                Measure::FIELD_NAMES.value,
+                Measure::table(),
+                Measure::FIELD_NAMES.sensor_id,
+                Measure::FIELD_NAMES.ts,
+                Measure::FIELD_NAMES.ts,
             ),
             (id.0, from.0, to.0),
         )

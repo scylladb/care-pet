@@ -3,9 +3,9 @@ use rocket::serde::json::Json;
 use rocket::{get, State};
 use scylla::{IntoTypedRows, Session};
 
-use crate::db::TABLE_SENSOR;
+use crate::db;
 use crate::handler::{json_err, JsonError, UuidParam};
-use crate::{Pet, Sensor};
+use crate::{ModelTable, Sensor};
 
 #[get("/pet/<id>/sensors")]
 pub async fn find_sensors_by_pet_id(
@@ -15,9 +15,10 @@ pub async fn find_sensors_by_pet_id(
     let pets = sess
         .query(
             format!(
-                "SELECT * FROM {} WHERE {} = ?",
-                TABLE_SENSOR,
-                Pet::FIELD_NAMES.pet_id,
+                "SELECT {} FROM {} WHERE {} = ?",
+                db::fields(Sensor::FIELD_NAMES_AS_ARRAY),
+                Sensor::table(),
+                Sensor::FIELD_NAMES.pet_id,
             ),
             (id.0,),
         )

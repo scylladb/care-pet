@@ -10,10 +10,10 @@ use scylla::{IntoTypedRows, Session};
 use uuid::Uuid;
 
 use crate::date::Date;
-use crate::db::{TABLE_MEASUREMENT, TABLE_SENSOR_AVG};
+use crate::db;
 use crate::duration::Duration;
 use crate::handler::{json_err, DateParam, JsonError, UuidParam};
-use crate::{insert_query, Measure, SensorAvg};
+use crate::{insert_query, Measure, ModelTable, SensorAvg};
 
 #[get("/sensor/<id>/values/day/<date>")]
 pub async fn find_sensor_avg_by_sensor_id_and_day(
@@ -22,7 +22,7 @@ pub async fn find_sensor_avg_by_sensor_id_and_day(
     date: DateParam,
 ) -> Result<Json<Vec<f32>>, JsonError> {
     let date = date.0.to_date();
-    if date.ordinal() > chrono::Utc::now().ordinal() {
+    if date > chrono::Utc::now() {
         return Err(json_err(
             Status::BadRequest,
             anyhow!("day cannot be in the future"),
@@ -32,8 +32,9 @@ pub async fn find_sensor_avg_by_sensor_id_and_day(
     let mut avg = sess
         .query(
             format!(
-                "SELECT * FROM {} WHERE {} = ? AND {} = ?",
-                TABLE_SENSOR_AVG,
+                "SELECT {} FROM {} WHERE {} = ? AND {} = ?",
+                db::fields(SensorAvg::FIELD_NAMES_AS_ARRAY),
+                SensorAvg::table(),
                 SensorAvg::FIELD_NAMES.sensor_id,
                 SensorAvg::FIELD_NAMES.date,
             ),
@@ -97,7 +98,7 @@ async fn load_data(
     sess.query(
         format!(
             "SELECT ts, value FROM {} WHERE {} = ? and {} >= ? and {} <= ?",
-            TABLE_MEASUREMENT,
+            Measure::table(),
             Measure::FIELD_NAMES.sensor_id,
             Measure::FIELD_NAMES.ts,
             Measure::FIELD_NAMES.ts,
