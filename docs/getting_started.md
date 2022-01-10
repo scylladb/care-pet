@@ -109,9 +109,14 @@ You can check the database structure with:
            pet_id uuid,
            address text,
            age int,
+           breed text,
+           chip_id text,
+           color text,
+           gender text,
            name text,
+           species text,
            weight float,
-           PRIMARY KEY (owner_id, pet_id)
+           PRIMARY KEY (owner_id, pet_id)  
        ) WITH CLUSTERING ORDER BY (pet_id ASC)
            AND bloom_filter_fp_chance = 0.01
            AND caching = {'keys': 'ALL', 'rows_per_partition': 'ALL'}
