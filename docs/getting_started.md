@@ -67,24 +67,24 @@ allows tracking of pet's health indicators and consists of three parts:
 -   web app (/cmd/server) - REST API service for tracking the pets' health
     state
 
-Download the example code from git:
+Download the example code from git and change to the directory of your language of choice:
 
     $ git clone git@github.com:scylladb/care-pet.git
+    $ cd go
 
 Start by creating a local ScyllaDB cluster consisting of 3 nodes:
 
     $ docker-compose up -d
 
-Docker-compose will spin up a ScyllaDB cluster consisting of 3 nodes: carepet-scylla1, carepet-scylla2 and carepet-scylla3.  Wait for about two minutes and check the status of the cluster:
+Docker-compose will spin up a ScyllaDB cluster consisting of 3 nodes (carepet-scylla1, carepet-scylla2 and carepet-scylla3) along with the app (for example go-app) container.  Wait for about two minutes and check the status of the cluster:
 To check the status of the cluster:
 
     $ docker exec -it carepet-scylla1 nodetool status
 
 Once all the nodes are in UN - Up Normal status, initialize the database. This will create the keyspaces and tables:
 
-    $ go build ./cmd/migrate
     $ NODE1=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' carepet-scylla1)
-    $ ./migrate --hosts $NODE1
+    $ docker exec -it go-app ./migrate --hosts $NODE1
 
 expected output:
 
@@ -130,11 +130,9 @@ You can check the database structure with:
 
        cqlsh:carepet> exit
 
-Next, start the pet collar simulation. From a separate terminal execute the following command to generate the pet's health data and save it to the database:
+Next, start the pet collar simulation. Execute the following command to generate the pet's health data and save it to the database:
 
-    $ go build ./cmd/sensor
-    $ NODE1=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' carepet-scylla1)
-    $ ./sensor --hosts $NODE1
+    $ docker exec -it go-app ./sensor --hosts $NODE1
 
 expected output:
 
@@ -147,11 +145,10 @@ expected output:
     ...
 
 Write down the pet Owner ID (the ID is the part after the # sign without trailing spaces). We will use it later.
-Now, start the REST API service in a separate, third, terminal. This server exposes a REST API that allows for tracking the pet's health state:
+Now, start the REST API service in a separate terminal. This server exposes a REST API that allows for tracking the pet's health state:
 
-    $ go build ./cmd/server
     $ NODE1=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' carepet-scylla1)
-    $ ./server --port 8000 --hosts $NODE1
+    $ docker exec -it go-app ./server --port 8000 --hosts $NODE1
 
 expected output:
 
@@ -159,8 +156,9 @@ expected output:
 
 ### Using the Application 
 
-Open http://127.0.0.1:8000/ in a browser or send an HTTP request from the CLI:
+Open a different terminal to send an HTTP request from the CLI:
 
+    $ docker exec -it go-app sh
     $ curl -v http://127.0.0.1:8000/
 
 expected output:
