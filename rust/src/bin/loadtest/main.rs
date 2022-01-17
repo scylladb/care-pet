@@ -50,7 +50,9 @@ async fn main() -> Result<()> {
     debug!("Configuration = {:?}", app);
 
     info!("Welcome to the Pets simulator");
-    rlimit::utils::increase_nofile_limit(102400).unwrap();
+    rlimit::utils::increase_nofile_limit(102400)
+        .map_err(|err| error!("unable to increase NOFILE limit: {:?}", err))
+        .ok();
 
     // an easy way to get a static lifetime Session without wrapping it in an Arc
     // this is fine since we know that the session will last for the lifetime
@@ -60,13 +62,13 @@ async fn main() -> Result<()> {
     ));
 
     info!("Creating flock");
-    let f = flock::new(app.owners, app.pets, app.sensors);
+    let f = flock::Flock::new(app.owners, app.pets, app.sensors);
 
-    flock::save(sess, &f).await?;
+    f.save(sess).await?;
 
     let workers = app.workers.unwrap_or_else(num_cpus::get);
     if app.writer {
-        let sensors = Arc::new(f.2);
+        let sensors = Arc::new(f.sensors);
         for i in 1..=workers {
             let sensors = sensors.clone();
             tokio::spawn(async move {
@@ -80,9 +82,6 @@ async fn main() -> Result<()> {
         info!("Flock started");
     }
 
-    // the application can only be terminated with interrupt signals, nothing to wait for
-    // specifically, so waiting for a channel that will never receive a value is fine
-    let (tx, rx) = tokio::sync::oneshot::channel::<()>();
-    std::mem::forget(tx);
-    rx.await.map_err(From::from)
+    let () = std::future::pending().await;
+    Ok(())
 }

@@ -8,8 +8,8 @@ use care_pet::insert_query;
 use care_pet::model::{random_sensor_data, Measure};
 
 pub fn start(sess: &'static Session, interval: humantime::Duration, mut f: Flock) {
-    for pet in f.1 {
-        let sensors = f.2.remove(&pet.pet_id).unwrap();
+    for pet in f.pets {
+        let sensors = f.sensors.remove(&pet.pet_id).unwrap();
 
         debug!("pet # {} ready", pet.pet_id);
 

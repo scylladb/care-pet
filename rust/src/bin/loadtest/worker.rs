@@ -18,7 +18,7 @@ pub async fn work(sess: &'static Session, id: usize, sensors: Arc<HashMap<Uuid, 
     let mut s = Stats::new();
 
     loop {
-        for (_, sensors) in sensors.iter() {
+        for sensors in sensors.values() {
             for sensor in sensors {
                 let measure = Measure {
                     sensor_id: sensor.sensor_id,
