@@ -5,13 +5,14 @@
   <div class="landing landing--floating">
 
 .. hero-box::
-  :title: Scylla Care-Pet Example
+  :title: Build a low latency IoT project with a Real-Time NoSQL Database
   :image: /_static/img/mascots/scylla-care-pet-mascot.svg
   :button_icon: fa fa-github
   :button_url: https://github.com/scylladb/care-pet
   :button_text: Care-Pet Project
 
-  This example project demonstrates a generic IoT use case for ScyllaDB.
+  This tutorial is a step-by-step guide to build an IoT project connected to Scylla Cloud.
+  Afte completing the project, you will be able to create back-end services that share data through a Scylla Cloud cluster.
 
 .. raw:: html
 
@@ -24,10 +25,33 @@
   <div class="grid-x grid-margin-x">
 
 .. topic-box::
+  :title: Build with Go
+  :image: /_static/img/programming_languages/go-lang.png
+  :link: getting_started
+  :class: large-4
+
+
+.. topic-box::
+  :title: Build with Java
+  :image: /_static/img/programming_languages/java.png
+  :link: getting_started
+  :class: large-4
+
+
+.. topic-box::
+  :title: Build with Rust
+  :image: /_static/img/programming_languages/rust.png
+  :link: getting_started
+  :class: large-4
+
+
+
+
+.. topic-box::
   :title: Getting Started with Care-Pet
   :link: getting_started
   :icon: scylla-icon scylla-icon--getting-started
-  :class: large-6
+  :class: large-4
   :anchor: Get Started
 
   Create an IoT app from scratch and configure it to use ScyllaDB as the backend datastore.
@@ -36,16 +60,17 @@
   :title: Design and Data Model
   :link: design_and_data_model
   :icon: scylla-icon scylla-icon--overview
-  :class: large-6
+  :class: large-4
   :anchor: Learn more
 
   Learn more about the queries used in the example, make the primary key and clustering key selection, and create the database schema.
+  
 
 .. topic-box::
   :title: Care-Pet Blog
   :icon: scylla-icon scylla-icon--blog
   :link: https://www.scylladb.com/2020/09/09/carepet-an-example-iot-use-case-for-hands-on-app-developers/
-  :class: large-6,small-12
+  :class: large-4,small-12
   :anchor: Read the article
 
   The Care-Pet Example blog walks you trhough the example and adds additional information. 
