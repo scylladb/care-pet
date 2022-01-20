@@ -12,7 +12,7 @@
   :button_text: Care-Pet Project
 
   This tutorial is a step-by-step guide to build an IoT project connected to Scylla Cloud.
-  Afte completing the project, you will be able to create back-end services that share data through a Scylla Cloud cluster.
+  After completing the project, you will be able to create back-end services that share data through a Scylla Cloud cluster.
 
 .. raw:: html
 
