@@ -25,29 +25,6 @@
   <div class="grid-x grid-margin-x">
 
 .. topic-box::
-  :title: Build with Go
-  :image: /_static/img/programming_languages/go-lang.png
-  :link: getting_started
-  :class: large-4
-
-
-.. topic-box::
-  :title: Build with Java
-  :image: /_static/img/programming_languages/java.png
-  :link: getting_started
-  :class: large-4
-
-
-.. topic-box::
-  :title: Build with Rust
-  :image: /_static/img/programming_languages/rust.png
-  :link: getting_started
-  :class: large-4
-
-
-
-
-.. topic-box::
   :title: Getting Started with Care-Pet
   :link: getting_started
   :icon: scylla-icon scylla-icon--getting-started
@@ -75,16 +52,39 @@
 
   The Care-Pet Example blog walks you trhough the example and adds additional information. 
 
+
+
+.. topic-box::
+  :title: Build with Go
+  :image: /_static/img/programming_languages/go-lang.png
+  :link: build_with_go
+  :class: large-4
+
+
+.. topic-box::
+  :title: Build with Java
+  :image: /_static/img/programming_languages/java.png
+  :link: getting_started
+  :class: large-4
+
+
+.. topic-box::
+  :title: Build with Rust
+  :image: /_static/img/programming_languages/rust.png
+  :link: getting_started
+  :class: large-4
+
 .. raw:: html
 
   </div></div></div></div>
   
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
    :hidden:
 
    Getting Started with CarePet: A sample IoT App <getting_started>
    Design and Data Model <design_and_data_model>
+   Build with Go <build_with_go>
    Care-Pet GitHub Repository <https://github.com/scylladb/care-pet>
    Care-Pet Blog <https://www.scylladb.com/2020/09/09/carepet-an-example-iot-use-case-for-hands-on-app-developers/>
 
