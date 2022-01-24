@@ -25,29 +25,6 @@
   <div class="grid-x grid-margin-x">
 
 .. topic-box::
-  :title: Build with Go
-  :image: /_static/img/programming_languages/go-lang.png
-  :link: getting_started
-  :class: large-4
-
-
-.. topic-box::
-  :title: Build with Java
-  :image: /_static/img/programming_languages/java.png
-  :link: getting_started
-  :class: large-4
-
-
-.. topic-box::
-  :title: Build with Rust
-  :image: /_static/img/programming_languages/rust.png
-  :link: getting_started
-  :class: large-4
-
-
-
-
-.. topic-box::
   :title: Getting Started with Care-Pet
   :link: getting_started
   :icon: scylla-icon scylla-icon--getting-started
@@ -74,6 +51,28 @@
   :anchor: Read the article
 
   The Care-Pet Example blog walks you trhough the example and adds additional information. 
+
+
+
+.. topic-box::
+  :title: Build with Go
+  :image: /_static/img/programming_languages/go-lang.png
+  :link: https://university.scylladb.com/courses/using-scylla-drivers/lessons/golang-and-scylla-part-1/
+  :class: large-4
+
+
+.. topic-box::
+  :title: Build with Java
+  :image: /_static/img/programming_languages/java.png
+  :link: https://university.scylladb.com/courses/using-scylla-drivers/lessons/coding-with-java-part-1/
+  :class: large-4
+
+
+.. topic-box::
+  :title: Build with Rust
+  :image: /_static/img/programming_languages/rust.png
+  :link: https://university.scylladb.com/courses/using-scylla-drivers/lessons/rust-and-scylla-2/
+  :class: large-4
 
 .. raw:: html
 
