@@ -57,7 +57,7 @@
 .. topic-box::
   :title: Build with Go
   :image: /_static/img/programming_languages/go-lang.png
-  :link: https://university.scylladb.com/courses/using-scylla-drivers/lessons/golang-and-scylla-part-1/
+  :link: build-with-go
   :class: large-4
 
 
@@ -84,7 +84,7 @@
 
    Getting Started with CarePet: A sample IoT App <getting_started>
    Design and Data Model <design_and_data_model>
-   Build with Go <build_with_go>
+   Build with Go <build-with-go>
    Care-Pet GitHub Repository <https://github.com/scylladb/care-pet>
    Care-Pet Blog <https://www.scylladb.com/2020/09/09/carepet-an-example-iot-use-case-for-hands-on-app-developers/>
 
