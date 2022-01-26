@@ -57,7 +57,7 @@
 .. topic-box::
   :title: Build with Go
   :image: /_static/img/programming_languages/go-lang.png
-  :link: https://university.scylladb.com/courses/using-scylla-drivers/lessons/golang-and-scylla-part-1/
+  :link: build_with_go
   :class: large-4
 
 
