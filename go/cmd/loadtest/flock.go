@@ -120,6 +120,7 @@ func save(ctx context.Context, ses gocqlx.Session, f *flock) error {
 
 func startPets(ctx context.Context, f *flock, ses gocqlx.Session) {
 	for id := range f.Pets {
+		id := id
 		f.Go(func() {
 			defer ses.Close()
 			NewPet(id, ses, f).run(ctx)

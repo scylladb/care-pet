@@ -1,0 +1,44 @@
+[package]
+name = "care-pet"
+version = "0.1.0"
+edition = "2021"
+default-run = "care-pet"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+rocket = {version = "0.5.0-rc.1", features = ["json"]}
+structopt = "0.3"
+log = "0.4"
+pretty_env_logger = "0.4"
+tokio = {version = "1.1", features = ["full"]}
+scylla = "0.3"
+chrono = "0.4"
+humantime = "2.1"
+anyhow = "1.0"
+once_cell = "1.9"
+uuid = {version = "0.8", features = ["v4", "serde"]}
+rand = "0.8"
+serde = "1.0"
+struct_field_names = "0.2"
+struct-field-names-as-array = "0.1"
+itertools = "0.10"
+rlimit = "0.6"
+num_cpus = "1.13"
+hdrhistogram = "7.4"
+
+[[bin]]
+name = "sensor"
+path = "src/bin/sensor/main.rs"
+
+[[bin]]
+name = "migrate"
+path = "src/bin/migrate/main.rs"
+
+[[bin]]
+name = "loadtest"
+path = "src/bin/loadtest/main.rs"
+
+[[bin]]
+name = "care-pet"
+path = "src/main.rs"
