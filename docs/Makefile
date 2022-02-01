@@ -2,7 +2,7 @@
 #
 # You can set these variables from the command line.
 
-POETRY        = $(HOME)/.poetry/bin/poetry
+POETRY        = $(HOME)/.local/bin/poetry
 SPHINXOPTS    = -j auto
 SPHINXBUILD   = $(POETRY) run sphinx-build
 PAPER         =
@@ -27,7 +27,8 @@ pristine: clean
 
 .PHONY: setup
 setup:
-	./_utils/setup.sh
+	$(POETRY) install
+	$(POETRY) update
 
 .PHONY: clean
 clean:
@@ -79,11 +80,10 @@ linkcheck: setup
 
 .PHONY: multiversion
 multiversion: setup
-	@mkdir -p $(HOME)/.cache/pypoetry/virtualenv
 	$(POETRY) run sphinx-multiversion $(SOURCEDIR) $(BUILDDIR)/dirhtml
 	@echo
 	@echo "Build finished. The HTML pages are in $(BUILDDIR)/dirhtml."
 
 .PHONY: multiversionpreview
 multiversionpreview: multiversion
-	$(POETRY) run python3 -m http.server 5500 --directory $(BUILDDIR)/dirhtml
+	$(POETRY) run python -m http.server 5500 --directory $(BUILDDIR)/dirhtml
