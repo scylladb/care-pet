@@ -1,8 +1,10 @@
+:full-width:
+:hide-version-warning:
+:hide-pre-content:
+:hide-post-content:
+:landing:
+
 .. title:: Scylla Care-Pet Example
-
-.. raw:: html
-
-  <div class="landing landing--floating">
 
 .. hero-box::
   :title: Build a low latency IoT project with a Real-Time NoSQL Database
@@ -76,7 +78,7 @@
 
 .. raw:: html
 
-  </div></div></div></div>
+  </div></div></div>
   
 .. toctree::
    :maxdepth: 3
