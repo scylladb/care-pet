@@ -1,6 +1,9 @@
 Getting Started with CarePet: A sample IoT App
 ----------------------------------------------
 
+## Hello Anna!
+
+
 ### Introduction
 
 In this guided exercise, you'll create an IoT app from scratch and configure it
