@@ -1,14 +1,14 @@
 Build an IoT App with Go
 ------------------------
 
-### Architecture
+### Introduction
 
-In this section, we will walk through and explain the code for the different commands.
-As explained in the Getting Started page, the project is structured as follow:
-- Migrate (/cmd/migrate) - creates the CarePet keyspace and tables
-- Collar (/cmd/sensor) - generates a pet health data and pushes it into the storage
-- Server (/cmd/server) - REST API service for tracking the pets’ health state
+In this section, we will walk you through the CarePet commands and explain the code behind them.
 
+As explained in [Getting Started with CarePet](/getting_started), the project is structured as follows:
+- Migrate (/cmd/migrate) - Creates the CarePet keyspace and tables.
+- Collar (/cmd/sensor) - Simulates a pet's collar by generating the health data of the pet and pushes the data into the storage.
+- Server (/cmd/server) - REST API service for tracking the pets’ health state.
 
 
 ### Migrate
