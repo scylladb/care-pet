@@ -1,0 +1,21 @@
+{
+  "name": "javascript",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cassandra-driver": "^4.6.3",
+    "commander": "^9.0.0",
+    "express": "^4.17.3",
+    "hdr-histogram-js": "^3.0.0",
+    "moment": "^2.29.1",
+    "parse-duration": "^1.0.2",
+    "posix": "^4.2.0",
+    "winston": "^3.6.0"
+  }
+}
