@@ -19,6 +19,10 @@ Prerequisites:
 - [docker](https://www.docker.com/)
 - [docker-compose](https://docs.docker.com/compose/)
 
+Make sure to install all NodeJS dependencies with:
+
+    $ npm install
+
 To run a local ScyllaDB cluster consisting of three nodes with
 the help of `docker` and `docker-compose` execute:
 
