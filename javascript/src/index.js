@@ -1,4 +1,4 @@
-const { program, dbConfig } = require('./config');
+const config = require('./config');
 const { getClientWithKeyspace } = require('./db');
 
 const app = require('express')();
@@ -11,11 +11,11 @@ const avg = require('./api/avg');
 const log = require('./logger');
 
 async function main() {
-  const opts = dbConfig(program('care-pet')).parse().opts();
+  const options = config('care-pet').parse().opts();
 
-  log.debug(`Configuration = ${JSON.stringify(opts)}`);
+  log.debug(`Configuration = ${JSON.stringify(options)}`);
 
-  const client = await getClientWithKeyspace(opts);
+  const client = await getClientWithKeyspace(options);
 
   app.get(owner.ROUTE, asyncHandler(owner.handler(client)));
   app.get(pets.ROUTE, asyncHandler(pets.handler(client)));

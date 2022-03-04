@@ -6,9 +6,9 @@ The documentation for this application and guided exercise is [here](../docs).
 
 The application allows tracking of pets health indicators and consist of three parts:
 
-- migrate (`/src/cmd/migrate/index.js`) - creates the `carepet` keyspace and tables
-- collar (`/src/cmd/sensor/index.js`) - generates a pet health data and pushes it into the storage
-- web app (`/src/index.js`) - REST API service for tracking pets health state
+- migrate (`npm run migrate`) - creates the `carepet` keyspace and tables
+- collar (`npm run sensor`) - generates a pet health data and pushes it into the storage
+- web app (`npm run dev`) - REST API service for tracking pets health state
 
 ## Quick Start
 
@@ -55,7 +55,7 @@ To get node IP address run:
 To initialize database execute:
 
     $ NODE1=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' carepet-scylla1)
-    $ node src/cmd/migrate/index.js --hosts $NODE1
+    $ npm run migrate -- --hosts $NODE1
 
 Expected output:
 
@@ -113,7 +113,7 @@ You can check the database structure with:
 To start pet collar simulation execute the following in the separate terminal:
 
     $ NODE1=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' carepet-scylla1)
-    $ node src/cmd/sensor/index.js --hosts $NODE1 --measure 5s --buffer-interval 1m
+    $ npm run sensor -- --hosts $NODE1 --measure 5s --buffer-interval 1m
 
 Expected output:
 
@@ -134,7 +134,7 @@ Write down the pet Owner ID (ID is something after the `#` sign without trailing
 To start REST API service execute the following in the separate terminal:
 
     $ NODE1=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' carepet-scylla1)
-    $ node src/index.js --hosts $NODE1
+    $ npm run dev -- --hosts $NODE1
 
 Expected output:
 

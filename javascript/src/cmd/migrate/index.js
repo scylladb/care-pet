@@ -1,17 +1,17 @@
-const { program, dbConfig } = require('../../config');
+const config = require('../../config');
 const { getClient } = require('../../db');
 const cql = require('../../cql');
 
 const log = require('../../logger');
 
 async function main() {
-  const opts = dbConfig(program('migrate')).parse().opts();
+  const options = config('migrate').parse().opts();
 
-  log.debug(`Configuration = ${JSON.stringify(opts)}`);
+  log.debug(`Configuration = ${JSON.stringify(options)}`);
 
   log.info('Bootstrapping database...');
 
-  const client = await getClient(opts);
+  const client = await getClient(options);
 
   log.info('Creating keyspace...');
   await client.execute(cql.KEYSPACE);

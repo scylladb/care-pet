@@ -1,12 +1,9 @@
 const { Command } = require('commander');
 
-function program(name) {
+function dbConfig(name) {
   const program = new Command();
   program.name(name).version('1.0.0');
-  return program;
-}
 
-function dbConfig(program) {
   return program
     .option('-h, --hosts [hosts...]', 'Cluster nodes address list', [
       '127.0.0.1',
@@ -21,7 +18,4 @@ function dbConfig(program) {
     );
 }
 
-module.exports = {
-  program,
-  dbConfig,
-};
+module.exports = dbConfig

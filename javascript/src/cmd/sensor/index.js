@@ -1,5 +1,5 @@
 const { delay } = require('../../util');
-const { dbConfig, program } = require('../../config');
+const config = require('../../config');
 const { getClientWithKeyspace, insertQuery } = require('../../db');
 const {
   Owner,
@@ -15,18 +15,18 @@ const moment = require('moment');
 const log = require('../../logger');
 
 async function main() {
-  const opts = cli(dbConfig(program('sensor simulator')))
+  const options = cli(config('sensor simulator'))
     .parse()
     .opts();
 
-  const bufferInterval = parseDuration(opts.bufferInterval);
-  const measure = parseDuration(opts.measure);
+  const bufferInterval = parseDuration(options.bufferInterval);
+  const measure = parseDuration(options.measure);
 
-  log.debug(`Configuration = ${JSON.stringify(opts)}`);
+  log.debug(`Configuration = ${JSON.stringify(options)}`);
 
   log.info(`Welcome to the Pet collar simulator`);
 
-  const client = await getClientWithKeyspace(opts);
+  const client = await getClientWithKeyspace(options);
 
   const { owner, pet, sensors } = randomData();
 

@@ -39,13 +39,13 @@ async function saveFlock(client, { owners, pets, sensors }) {
     [Owner, owners],
     [Pet, pets],
     [Sensor, sensors],
-  ].flatMap(([klass, data]) => {
+  ].flatMap(([table, data]) => {
     if (!Array.isArray(data)) {
       data = Object.keys(data).flatMap(key => data[key]);
     }
 
     return data.map(data =>
-      client.execute(insertQuery(klass), data, { prepare: true })
+      client.execute(insertQuery(table), data, { prepare: true })
     );
   });
 

@@ -27,7 +27,7 @@ class Owner {
     return owner;
   }
 
-  static get table() {
+  static get tableName() {
     return 'owner';
   }
 
@@ -49,7 +49,7 @@ class Pet {
     return pet;
   }
 
-  static get table() {
+  static get tableName() {
     return 'pet';
   }
 
@@ -65,7 +65,7 @@ class Measure {
     this.value = value;
   }
 
-  static get table() {
+  static get tableName() {
     return 'measurement';
   }
 
@@ -82,7 +82,7 @@ class SensorAvg {
     this.value = value;
   }
 
-  static get table() {
+  static get tableName() {
     return 'sensor_avg';
   }
 
@@ -101,7 +101,7 @@ class Sensor {
     return sensor;
   }
 
-  static get table() {
+  static get tableName() {
     return 'sensor';
   }
 

@@ -22,14 +22,14 @@ async function getClientWithKeyspace(config) {
   return getClient(config, KEYSPACE);
 }
 
-function insertQuery(klass) {
-  const table = klass.table;
-  const values = klass.columns.map(() => '?').join(', ');
-  return `INSERT INTO ${table} (${fields(klass)}) VALUES (${values})`;
+function insertQuery(table) {
+  const tableName = table.tableName;
+  const values = table.columns.map(() => '?').join(', ');
+  return `INSERT INTO ${tableName} (${fields(table)}) VALUES (${values})`;
 }
 
-function fields(klass) {
-  return klass.columns.join(', ');
+function fields(table) {
+  return table.columns.join(', ');
 }
 
 module.exports = {

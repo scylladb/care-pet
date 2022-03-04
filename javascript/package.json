@@ -4,7 +4,10 @@
   "description": "",
   "main": "src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "migrate": "node src/cmd/migrate/index.js",
+    "sensor": "node src/cmd/sensor/index.js",
+    "dev": "node src/index.js",
+    "loadtest": "node src/cmd/loadtest/index.js"
   },
   "author": "",
   "license": "ISC",

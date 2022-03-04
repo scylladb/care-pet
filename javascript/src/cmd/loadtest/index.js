@@ -1,7 +1,7 @@
 const { setrlimit } = require('posix');
 const parseDuration = require('parse-duration');
 
-const { dbConfig, program } = require('../../config');
+const config = require('../../config');
 const { getClientWithKeyspace } = require('../../db');
 const { createFlock, saveFlock } = require('./flock');
 const { work } = require('./worker');
@@ -10,29 +10,29 @@ const { start } = require('./pets');
 const log = require('../../logger');
 
 async function main() {
-  const opts = cli(dbConfig(program('loadtest')))
+  const options = cli(config('loadtest'))
     .parse()
     .opts();
 
-  opts.interval = parseDuration(opts.interval);
+  options.interval = parseDuration(options.interval);
 
-  log.debug(`Configuration = ${JSON.stringify(opts)}`);
+  log.debug(`Configuration = ${JSON.stringify(options)}`);
 
   log.info('Welcome to the Pets simulator');
 
   setrlimit('nofile', { soft: 102400, hard: 102400 });
 
-  const client = await getClientWithKeyspace(opts);
+  const client = await getClientWithKeyspace(options);
 
-  const { owners, pets, sensors } = createFlock(opts);
+  const { owners, pets, sensors } = createFlock(options);
   await saveFlock(client, { owners, pets, sensors });
 
-  if (opts.writer) {
+  if (options.writer) {
     await Promise.all(
-      new Array(opts.workers).fill().map((_, id) => work(client, id, sensors))
+      new Array(options.workers).fill().map((_, id) => work(client, id, sensors))
     );
   } else {
-    await Promise.all(start(client, opts.interval, { pets, sensors }));
+    await Promise.all(start(client, options.interval, { pets, sensors }));
   }
 
   return client;
