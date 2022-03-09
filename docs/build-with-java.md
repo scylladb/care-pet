@@ -26,29 +26,29 @@ The below code in the `Migrate.java` file call the `createKeyspace` , `createSch
     }
 ```
 
-The `createKeyspace` function creates a new session then executes the following CQL query stored in the `db.go` file:
+There is a lot to unpack here. Let's break the code down line by line:
+
+The `config` object parses the arguments passed in the migrate command. In our case it's `hosts` and `datacenter`. The `hosts` argument expect the IP address of one of the nodes. The `datacenter` argument is `datacenter1` by default but could be different if you are using Scylla Cloud for instance. The command also accepts `username` and `password` arguments if required.
+
+The `createKeyspace` function creates a new `CqlSession` then executes the following CQL query stored in the `resources/care-pet-keyspace.cql` file:
+
+```
+public void createKeyspace() {
+		LOG.info("creating keyspace...");
+		try (CqlSession session = connect()) {
+				session.execute(Config.getResource("care-pet-keyspace.cql"));
+		}
+}
+```
 
 ```
 CREATE KEYSPACE IF NOT EXISTS carepet WITH replication = { 'class': 'NetworkTopologyStrategy', 'replication_factor': '3' } AND durable_writes = TRUE;
 ```
 
-```
-func createKeyspace() {
-        // Creates a new session
-	ses, err := config.Session()
-	if err != nil {
-		log.Fatalln("session: ", err)
-	}
-	defer ses.Close()
+The CQL query above creates a new keyspace named carepet, with `NetworkTopologyStrategy` as replication strategy and a replication factor of 3.
+More information about keyspace and replication on [Scylla University](https://university.scylladb.com/courses/data-modeling/lessons/basic-data-modeling-2/topic/keyspace/).
 
-        // Executes the CREATE KEYSPACE query and checks for errors
-	if err := ses.Query(db.KeySpaceCQL).Exec(); err != nil {
-		log.Fatalln("ensure keyspace exists: ", err)
-	}
-}
-```
-
-The `migrateKeyspace` function opens a new session with the `carepet` keyspace and creates the following tables in the carepet keyspace using the CQL file located in `/db/cql/care-pet-ddl.cql`:
+The `createSchema` function opens a new session with the `carepet` keyspace and creates the following tables in the carepet keyspace using the CQL file located in `resources/care-pet-ddl.cql`:
 
 -   `owner`
 -   `pet`
@@ -57,51 +57,161 @@ The `migrateKeyspace` function opens a new session with the `carepet` keyspace a
 -   `sensor_avg`
 
 ```
-func migrateKeyspace() {
-        // Create a new session with the carepet keyspace
-	ses, err := config.Keyspace()
-	if err != nil {
-		log.Fatalln("session: ", err)
-	}T
-	defer ses.Close()
-
-        // Execute the queries in the migration file om db/cql
-	if err := migrate.Migrate(context.Background(), ses, "db/cql"); err != nil {
-		log.Fatalln("migrate: ", err)
-	}
-}
+    public void createSchema() {
+        LOG.info("creating table...");
+        try (CqlSession session = keyspace()) {
+            for (String cql : Config.getResource("care-pet-ddl.cql").split(";")) {
+                session.execute(cql);
+            }
+        }
+    }
 ```
 
-As the name suggests, the `printKeyspaceMetadata` function will then print the metadata related to the `carepet` keyspace and confirm that the tables were properly created.
+As the name suggests, the `printMetadata` function will then print the metadata related to the `carepet` keyspace and confirm that the tables were properly created.
+
+You can check the database structure with:
+
+```
+	$ docker exec -it carepet-scylla1 cqlsh
+	cqlsh> USE carepet;
+	cqlsh:carepet> DESCRIBE TABLES
+	cqlsh:carepet> DESCRIBE TABLE pet
+```
+
+You should expect the following result:
+
+```
+    CREATE TABLE carepet.pet (
+        owner_id uuid,
+        pet_id uuid,
+        chip_id text,
+        species text,
+        breed   text,
+        color   text,
+        gender  text,
+        address text,
+        age int,
+        name text,
+        weight float,
+        PRIMARY KEY (owner_id, pet_id)
+    ) WITH CLUSTERING ORDER BY (pet_id ASC)
+        AND bloom_filter_fp_chance = 0.01
+        AND caching = {'keys': 'ALL', 'rows_per_partition': 'ALL'}
+        AND comment = ''
+        AND compaction = {'class': 'SizeTieredCompactionStrategy'}
+        AND compression = {'sstable_compression': 'org.apache.cassandra.io.compress.LZ4Compressor'}
+        AND crc_check_chance = 1.0
+        AND dclocal_read_repair_chance = 0.1
+        AND default_time_to_live = 0
+        AND gc_grace_seconds = 864000
+        AND max_index_interval = 2048
+        AND memtable_flush_period_in_ms = 0
+        AND min_index_interval = 128
+        AND read_repair_chance = 0.0
+        AND speculative_retry = '99.0PERCENTILE';
+```
 
 ### Sensor
 
-The sensor service simulates the collar's activity. The service uses the `pet struct` and its functions defined in `sensor/pet.go` to create a new `pet` along with an `owner` and `sensorType` then saves it to the database.
+The sensor service simulates the collar's activity. You can use the below command to run the sensor service:
 
 ```
-func main() {
+$ mvn package
+$ NODE1=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' carepet-scylla1)
+$ ./bin/sensor.sh --hosts $NODE1 --datacenter datacenter1 --measure PT1M --buffer-interval PT1M
+```
 
-	/// ...
+The above command executes `Sensor.java` and the below main function:
 
-	// Create a new session with carepet keyspace
-	ses, err := config.Keyspace()
-	if err != nil {
-		log.Fatalln("session: ", err)
-	}
-	defer ses.Close()
+```
+public static void main(String[] args) {
+        final Sensor client = new Sensor(Config.parse(new SensorConfig(), args));
+        client.save();
+        client.run();
+    }
+}
+```
 
-	// Generate new pet
-	pet := NewPet()
+First, we create a client obkect which is an instance of the Sensor class. Just like in the `Migrate` class, we parse args using `Config.parse()` method to connect to the database.
 
-	// Save new pet to the database
-	if err := pet.save(context.Background(), ses); err != nil {
-		log.Fatalln("pet save: ", err)
-	}
+In the `Sensor` constructor, we attribute a random ID to the `owner`, `pet` and `sensors`.
 
-	log.Println("New owner #", pet.p.OwnerID)
-	log.Println("New pet #", pet.p.PetID)
+```
+public Sensor(SensorConfig config) {
+		this.config = config;
 
-	pet.run(context.Background(), ses)
+		this.owner = Owner.random();
+		this.pet = Pet.random(this.owner.getOwnerId());
+		this.sensors = new com.carepet.model.Sensor[SensorType.values().length];
+		for (int i = 0; i < this.sensors.length; i++) {
+				this.sensors[i] = com.carepet.model.Sensor.random(this.pet.getPetId());
+		}
+}
+```
+
+The `client.save()` method connects to the datbase and saves the generated `owner`, `pet` and the `sensors`.
+
+```
+private void save() {
+		try (CqlSession session = keyspace()) {
+				// Connect to the database
+				Mapper m = Mapper.builder(session).build();
+
+				LOG.info("owner = " + owner);
+				LOG.info("pet = " + pet);
+
+				m.owner().create(owner);
+				m.pet().create(pet);
+
+				for (com.carepet.model.Sensor s : sensors) {
+						LOG.info("sensor = " + s);
+
+						m.sensor().create(s);
+				}
+		}
+}
+```
+
+The `client.run()` generates random data and pushes it to the database. In this code, we are using `PreparedStatement` to define the query and `BatchStatementBuilder` to run multiple queries at the same time. More about `PreparedStatement` on the [docs](https://java-driver.docs.scylladb.com/stable/manual/statements/prepared/).
+
+```
+private void run() {
+		try (CqlSession session = keyspace()) {
+				PreparedStatement statement = session.prepare("INSERT INTO measurement (sensor_id, ts, value) VALUES (?, ?, ?)");
+				BatchStatementBuilder builder = new BatchStatementBuilder(BatchType.UNLOGGED);
+
+				List<Measure> ms = new ArrayList<>();
+				Instant prev = Instant.now();
+
+				while (true) {
+						while (Duration.between(prev, Instant.now()).compareTo(config.bufferInterval) < 0) {
+								if (!sleep(config.measurement)) {
+										return;
+								}
+
+								for (com.carepet.model.Sensor s : sensors) {
+										Measure m = readSensorData(s);
+										ms.add(m);
+										LOG.info(m.toString());
+								}
+						}
+
+						prev = prev.plusMillis((Duration.between(prev, Instant.now()).toMillis() / config.bufferInterval.toMillis()) * config.bufferInterval.toMillis());
+
+						LOG.info("pushing data");
+						// this is simplified example of batch execution. standard
+						// best practice is to batch values that end up in the same partition:
+						// https://www.scylladb.com/2019/03/27/best-practices-for-scylla-applications/
+						for (Measure m : ms) {
+								builder = builder.addStatement(statement.bind(m.getSensorId(), m.getTs(), m.getValue()));
+						}
+
+						session.execute(builder.build());
+
+						builder.clearStatements();
+						ms.clear();
+				}
+		}
 }
 ```
 
@@ -109,68 +219,43 @@ func main() {
 
 The server service is a REST API for tracking the pets’ health state. The service allows users to query the database via http.
 
+Run the following commands to start the server:
+
+````
+$ mvn package
+$ NODE1=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' carepet-scylla1)
+$ ./bin/server.sh --hosts $NODE1 --datacenter datacenter1
+```
+
 In the care-pet example, you will use `$ curl http://127.0.0.1:8000/api/owner/{id}` and expect the following response:
 
-```
+````
+
 [{"address":"home","age":57,"name":"tlmodylu","owner_id":"a05fd0df-0f97-4eec-a211-cad28a6e5360","pet_id":"a52adc4e-7cf4-47ca-b561-3ceec9382917","weight":5}]
-```
-
-Let's first discuss the code from line 23 to 28 in `server/main.go`.
 
 ```
-func main() {
 
-	// ...
+The controller is defined in `ModelController.java`, and implements the GET methods to acces owners, pets and sensors data.
 
-	api := operations.NewCarePetAPI(spec())
-	server := restapi.NewServer(api)
-	defer server.Shutdown()
-
-	configure(server)
-	server.ConfigureAPI()
-
-	// ...
-
-}
-```
-
-The `api` object represent a list of functions and codes generated by the swagger tool. Those operations are then passed to the NewServer method to configure the API and handler methods:
+The server also aggregates the data and saves it to the database in the sensor_avg table:
 
 ```
-// ConfigureAPI configures the API and handlers.
-func (s *Server) ConfigureAPI() {
-	if s.api != nil {
-		s.handler = configureAPI(s.api)
-	}
-}
+
+// saveAggregate saves the result monotonically sequentially to the database
+private void saveAggregate(UUID sensorId, List<Float> data, int prevAvgSize, LocalDate day, LocalDateTime now) {
+// if it's the same day, we can't aggregate current hour
+boolean sameDate = now.getDayOfYear() == day.getDayOfYear();
+int current = now.getHour();
+
+        for (int hour = prevAvgSize; hour < data.size(); hour++) {
+            if (sameDate && hour >= current) {
+                break;
+            }
+
+            mapper.sensorAvg().create(new SensorAvg(sensorId, day, hour, data.get(hour)));
+        }
+    }
+
 ```
 
-One example of a handler method is the `FindOwnerByID` in `handler/owner.go`.
-
 ```
-func FindOwnerByID(ses gocqlx.Session) operations.FindOwnerByIDHandlerFunc {
-	return func(params operations.FindOwnerByIDParams) middleware.Responder {
-		var owner model.Owner
-
-		if err := db.TableOwner.GetQuery(ses).Bind(params.ID.String()).GetRelease(&owner); err == gocql.ErrNotFound {
-			// Returns FindOwnerByIDDefault with with status code 404
-			return operations.NewFindOwnerByIDDefault(http.StatusNotFound)
-		} else if err != nil {
-			log.Println("find owner by id query: ", err)
-			// Returns FindOwnerByIDDefault with with status code 500
-			return operations.NewFindOwnerByIDDefault(http.StatusInternalServerError)
-		}
-
-		// Return status 200 and owner information
-		return &operations.FindOwnerByIDOK{Payload: &models.Owner{
-			Address: owner.Address,
-			Name:    owner.Name,
-			OwnerID: conv.UUID(strfmt.UUID(owner.OwnerID.String())),
-		}}
-	}
-}
-```
-
-Line 25 queries the `owner` table then saves the result in the owner object or throws a not found 404 status error.
-
-Line 32 returns a FindOwnerByIDOK object with code status 200 and the owner's information.
