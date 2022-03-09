@@ -66,7 +66,7 @@
 .. topic-box::
   :title: Build with Java
   :image: /_static/img/programming_languages/java.png
-  :link: build-with-java
+  :link: https://university.scylladb.com/courses/using-scylla-drivers/lessons/coding-with-java-part-1/
   :class: large-4
 
 
