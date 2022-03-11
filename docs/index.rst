@@ -73,7 +73,7 @@
 .. topic-box::
   :title: Build with Rust
   :image: /_static/img/programming_languages/rust.png
-  :link: https://university.scylladb.com/courses/using-scylla-drivers/lessons/rust-and-scylla-2/
+  :link: build-with-rust
   :class: large-4
 
 .. raw:: html
@@ -87,6 +87,7 @@
    Getting Started with CarePet: A sample IoT App <getting_started>
    Design and Data Model <design_and_data_model>
    Build with Go <build-with-go>
+   Build with Rust <build-with-rust>
    Care-Pet GitHub Repository <https://github.com/scylladb/care-pet>
    Care-Pet Blog <https://www.scylladb.com/2020/09/09/carepet-an-example-iot-use-case-for-hands-on-app-developers/>
 
