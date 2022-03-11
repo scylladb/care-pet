@@ -16,14 +16,14 @@ The `./bin/migrate.sh --hosts $NODE1 --datacenter datacenter1` command executes 
 The below code in the `Migrate.java` file call the `createKeyspace` , `createSchema` then the `printMetadata` functions.
 
 ```
-    public static void main(String[] args) {
-        final Config config = Config.parse(new Config(), args);
+public static void main(String[] args) {
+	final Config config = Config.parse(new Config(), args);
 
-        final Migrate client = new Migrate(config);
-        client.createKeyspace();
-        client.createSchema();
-        client.printMetadata();
-    }
+	final Migrate client = new Migrate(config);
+	client.createKeyspace();
+	client.createSchema();
+	client.printMetadata();
+}
 ```
 
 There is a lot to unpack here. Let's break the code down line by line:
@@ -34,10 +34,10 @@ The `createKeyspace` function creates a new `CqlSession` then executes the follo
 
 ```
 public void createKeyspace() {
-		LOG.info("creating keyspace...");
-		try (CqlSession session = connect()) {
-				session.execute(Config.getResource("care-pet-keyspace.cql"));
-		}
+	LOG.info("creating keyspace...");
+	try (CqlSession session = connect()) {
+			session.execute(Config.getResource("care-pet-keyspace.cql"));
+	}
 }
 ```
 
@@ -57,14 +57,14 @@ The `createSchema` function opens a new session with the `carepet` keyspace and 
 -   `sensor_avg`
 
 ```
-    public void createSchema() {
-        LOG.info("creating table...");
-        try (CqlSession session = keyspace()) {
-            for (String cql : Config.getResource("care-pet-ddl.cql").split(";")) {
-                session.execute(cql);
-            }
-        }
-    }
+public void createSchema() {
+	LOG.info("creating table...");
+	try (CqlSession session = keyspace()) {
+	    for (String cql : Config.getResource("care-pet-ddl.cql").split(";")) {
+		session.execute(cql);
+	    }
+	}
+}
 ```
 
 As the name suggests, the `printMetadata` function will then print the metadata related to the `carepet` keyspace and confirm that the tables were properly created.
@@ -72,43 +72,43 @@ As the name suggests, the `printMetadata` function will then print the metadata 
 You can check the database structure with:
 
 ```
-	$ docker exec -it carepet-scylla1 cqlsh
-	cqlsh> USE carepet;
-	cqlsh:carepet> DESCRIBE TABLES
-	cqlsh:carepet> DESCRIBE TABLE pet
+$ docker exec -it carepet-scylla1 cqlsh
+cqlsh> USE carepet;
+cqlsh:carepet> DESCRIBE TABLES
+cqlsh:carepet> DESCRIBE TABLE pet
 ```
 
 You should expect the following result:
 
 ```
-    CREATE TABLE carepet.pet (
-        owner_id uuid,
-        pet_id uuid,
-        chip_id text,
-        species text,
-        breed   text,
-        color   text,
-        gender  text,
-        address text,
-        age int,
-        name text,
-        weight float,
-        PRIMARY KEY (owner_id, pet_id)
-    ) WITH CLUSTERING ORDER BY (pet_id ASC)
-        AND bloom_filter_fp_chance = 0.01
-        AND caching = {'keys': 'ALL', 'rows_per_partition': 'ALL'}
-        AND comment = ''
-        AND compaction = {'class': 'SizeTieredCompactionStrategy'}
-        AND compression = {'sstable_compression': 'org.apache.cassandra.io.compress.LZ4Compressor'}
-        AND crc_check_chance = 1.0
-        AND dclocal_read_repair_chance = 0.1
-        AND default_time_to_live = 0
-        AND gc_grace_seconds = 864000
-        AND max_index_interval = 2048
-        AND memtable_flush_period_in_ms = 0
-        AND min_index_interval = 128
-        AND read_repair_chance = 0.0
-        AND speculative_retry = '99.0PERCENTILE';
+CREATE TABLE carepet.pet (
+owner_id uuid,
+pet_id uuid,
+chip_id text,
+species text,
+breed   text,
+color   text,
+gender  text,
+address text,
+age int,
+name text,
+weight float,
+PRIMARY KEY (owner_id, pet_id)
+) WITH CLUSTERING ORDER BY (pet_id ASC)
+AND bloom_filter_fp_chance = 0.01
+AND caching = {'keys': 'ALL', 'rows_per_partition': 'ALL'}
+AND comment = ''
+AND compaction = {'class': 'SizeTieredCompactionStrategy'}
+AND compression = {'sstable_compression': 'org.apache.cassandra.io.compress.LZ4Compressor'}
+AND crc_check_chance = 1.0
+AND dclocal_read_repair_chance = 0.1
+AND default_time_to_live = 0
+AND gc_grace_seconds = 864000
+AND max_index_interval = 2048
+AND memtable_flush_period_in_ms = 0
+AND min_index_interval = 128
+AND read_repair_chance = 0.0
+AND speculative_retry = '99.0PERCENTILE';
 ```
 
 ### Sensor
@@ -138,14 +138,14 @@ In the `Sensor` constructor, we attribute a random ID to the `owner`, `pet` and 
 
 ```
 public Sensor(SensorConfig config) {
-		this.config = config;
+	this.config = config;
 
-		this.owner = Owner.random();
-		this.pet = Pet.random(this.owner.getOwnerId());
-		this.sensors = new com.carepet.model.Sensor[SensorType.values().length];
-		for (int i = 0; i < this.sensors.length; i++) {
-				this.sensors[i] = com.carepet.model.Sensor.random(this.pet.getPetId());
-		}
+	this.owner = Owner.random();
+	this.pet = Pet.random(this.owner.getOwnerId());
+	this.sensors = new com.carepet.model.Sensor[SensorType.values().length];
+	for (int i = 0; i < this.sensors.length; i++) {
+			this.sensors[i] = com.carepet.model.Sensor.random(this.pet.getPetId());
+	}
 }
 ```
 
@@ -153,22 +153,22 @@ The `client.save()` method connects to the datbase and saves the generated `owne
 
 ```
 private void save() {
-		try (CqlSession session = keyspace()) {
-				// Connect to the database
-				Mapper m = Mapper.builder(session).build();
+	try (CqlSession session = keyspace()) {
+			// Connect to the database
+			Mapper m = Mapper.builder(session).build();
 
-				LOG.info("owner = " + owner);
-				LOG.info("pet = " + pet);
+			LOG.info("owner = " + owner);
+			LOG.info("pet = " + pet);
 
-				m.owner().create(owner);
-				m.pet().create(pet);
+			m.owner().create(owner);
+			m.pet().create(pet);
 
-				for (com.carepet.model.Sensor s : sensors) {
-						LOG.info("sensor = " + s);
+			for (com.carepet.model.Sensor s : sensors) {
+					LOG.info("sensor = " + s);
 
-						m.sensor().create(s);
-				}
-		}
+					m.sensor().create(s);
+			}
+	}
 }
 ```
 
@@ -176,42 +176,42 @@ The `client.run()` generates random data and pushes it to the database. In this 
 
 ```
 private void run() {
-		try (CqlSession session = keyspace()) {
-				PreparedStatement statement = session.prepare("INSERT INTO measurement (sensor_id, ts, value) VALUES (?, ?, ?)");
-				BatchStatementBuilder builder = new BatchStatementBuilder(BatchType.UNLOGGED);
+	try (CqlSession session = keyspace()) {
+			PreparedStatement statement = session.prepare("INSERT INTO measurement (sensor_id, ts, value) VALUES (?, ?, ?)");
+			BatchStatementBuilder builder = new BatchStatementBuilder(BatchType.UNLOGGED);
 
-				List<Measure> ms = new ArrayList<>();
-				Instant prev = Instant.now();
+			List<Measure> ms = new ArrayList<>();
+			Instant prev = Instant.now();
 
-				while (true) {
-						while (Duration.between(prev, Instant.now()).compareTo(config.bufferInterval) < 0) {
-								if (!sleep(config.measurement)) {
-										return;
-								}
+			while (true) {
+					while (Duration.between(prev, Instant.now()).compareTo(config.bufferInterval) < 0) {
+							if (!sleep(config.measurement)) {
+									return;
+							}
 
-								for (com.carepet.model.Sensor s : sensors) {
-										Measure m = readSensorData(s);
-										ms.add(m);
-										LOG.info(m.toString());
-								}
-						}
+							for (com.carepet.model.Sensor s : sensors) {
+									Measure m = readSensorData(s);
+									ms.add(m);
+									LOG.info(m.toString());
+							}
+					}
 
-						prev = prev.plusMillis((Duration.between(prev, Instant.now()).toMillis() / config.bufferInterval.toMillis()) * config.bufferInterval.toMillis());
+					prev = prev.plusMillis((Duration.between(prev, Instant.now()).toMillis() / config.bufferInterval.toMillis()) * config.bufferInterval.toMillis());
 
-						LOG.info("pushing data");
-						// this is simplified example of batch execution. standard
-						// best practice is to batch values that end up in the same partition:
-						// https://www.scylladb.com/2019/03/27/best-practices-for-scylla-applications/
-						for (Measure m : ms) {
-								builder = builder.addStatement(statement.bind(m.getSensorId(), m.getTs(), m.getValue()));
-						}
+					LOG.info("pushing data");
+					// this is simplified example of batch execution. standard
+					// best practice is to batch values that end up in the same partition:
+					// https://www.scylladb.com/2019/03/27/best-practices-for-scylla-applications/
+					for (Measure m : ms) {
+							builder = builder.addStatement(statement.bind(m.getSensorId(), m.getTs(), m.getValue()));
+					}
 
-						session.execute(builder.build());
+					session.execute(builder.build());
 
-						builder.clearStatements();
-						ms.clear();
-				}
-		}
+					builder.clearStatements();
+					ms.clear();
+			}
+	}
 }
 ```
 
@@ -221,7 +221,7 @@ The server service is a REST API for tracking the pets’ health state. The serv
 
 Run the following commands to start the server:
 
-````
+```
 $ mvn package
 $ NODE1=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' carepet-scylla1)
 $ ./bin/server.sh --hosts $NODE1 --datacenter datacenter1
@@ -229,7 +229,7 @@ $ ./bin/server.sh --hosts $NODE1 --datacenter datacenter1
 
 In the care-pet example, you will use `$ curl http://127.0.0.1:8000/api/owner/{id}` and expect the following response:
 
-````
+```
 
 [{"address":"home","age":57,"name":"tlmodylu","owner_id":"a05fd0df-0f97-4eec-a211-cad28a6e5360","pet_id":"a52adc4e-7cf4-47ca-b561-3ceec9382917","weight":5}]
 
