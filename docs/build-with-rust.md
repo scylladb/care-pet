@@ -1,4 +1,4 @@
-## Build an IoT App with Go
+## Build an IoT App with Rust
 
 ### Architecture
 
@@ -10,6 +10,17 @@ As explained in the Getting Started page, the project is structured as follow:
 -   web app (`/main.rs`) - REST API service for tracking pets health state
 
 ### Migrate
+
+Start by creating a local ScyllaDB cluster consisting of 3 nodes:
+
+```
+$ docker-compose up -d
+```
+Docker-compose will spin up a ScyllaDB cluster consisting of 3 nodes (carepet-scylla1, carepet-scylla2 and carepet-scylla3) along with the app (for example go-app) container.  Wait for about two minutes and check the status of the cluster: To check the status of the cluster:
+```
+$ docker exec -it carepet-scylla1 nodetool status
+```
+Once all the nodes are in UN - Up Normal status, run the below commands:
 
 The below command allows you to get node IP address:
 
