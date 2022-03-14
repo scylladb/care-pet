@@ -52,7 +52,7 @@
   :class: large-4,small-12
   :anchor: Read the article
 
-  The Care-Pet Example blog walks you trhough the example and adds additional information. 
+  The Care-Pet Example blog walks you through the example and adds additional information. 
 
 
 
