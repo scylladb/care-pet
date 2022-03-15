@@ -270,7 +270,6 @@ The server service is a REST API for tracking the pets’ health state. The serv
 
 Run the following commands to start the server:
 
-````
 $ NODE1=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' carepet-scylla1)
 $ cargo run -- --hosts $NODE1
 ```
