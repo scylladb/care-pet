@@ -59,7 +59,7 @@ async fn main() -> Result<()> {
 }
 ```
 
-The `new_session` function takes a the config as a parameter and uses `SessionBuilder` class to crete a new session.
+The `new_session` function takes the config as a parameter and uses `SessionBuilder` class to crete a new session.
 
 ```
 // db/mod.rs
