@@ -80,7 +80,7 @@ pub async fn new_session(config: &Config) -> Result<Session> {
 }
 ```
 
-For more information about how to create a new session with the Rust Driver, please have a look at the [docs](https://rust-driver.docs.scylladb.com/stable/quickstart/example.html).
+For more information about creating a new session with the Rust Driver, please have a look at the [docs](https://rust-driver.docs.scylladb.com/stable/quickstart/example.html).
 
 `create_keyspace` function takes a session as an argument and creates a keyspace as defined in `db/keyspace.cql`:
 
