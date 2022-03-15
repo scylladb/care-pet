@@ -37,7 +37,7 @@ $ cargo run --bin migrate -- --hosts $NODE1
 
 The command executes the main function in the `bin/migrate/main.rs`. The function creates the keyspace and tables that you need to run the collar and server services.
 
-The below code in the `bin/migrate/main.rs` cretes a new session then calls the `create_keyspace` , `migrate` functions.
+The below code in the `bin/migrate/main.rs` creates a new session then calls the `create_keyspace` , `migrate` functions.
 
 ```
 migrate/main.rs
