@@ -2,7 +2,7 @@
 
 ### Architecture
 
-In this section, we will walk through and explain the code for the different commands.
+This section will walk through and explain the code for the different commands.
 As explained in the Getting Started page, the project is structured as follow:
 
 -   migrate (`/bin/migrate/main.rs`) - creates the `carepet` keyspace and tables
