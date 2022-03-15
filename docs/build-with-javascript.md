@@ -5,9 +5,28 @@
 This section will walk through and explain the code for the different commands.
 As explained in the Getting Started page, the project is structured as follow:
 
+![Build your first ScyllaDB Powered App - Raouf](https://user-images.githubusercontent.com/13738772/158383650-0dfcc9d0-68b5-457a-a043-27f6cda12de3.jpg)
+
 - migrate (`npm run migrate`) - creates the `carepet` keyspace and tables
 - collar (`npm run sensor`) - generates a pet health data and pushes it into the storage
 - web app (`npm run dev`) - REST API service for tracking pets health state
+
+### Code Structure and Implementation
+
+The code package structure is as follows:
+
+| Name         | Purpose                             |
+| ------------ | ----------------------------------- |
+| /            | web application backend             |
+| /api         | API spec                            |
+| /cmd         | applications executables            |
+| /cmd/migrate | install database schema             |
+| /cmd/sensor  | Simulates the pet's collar          |
+| /config      | database configuration              |
+| /db          | database handlers (gocql/x)         |
+| /db/cql      | database schema                     |
+| /handler     | REST API handlers                   |
+| /model       | application models and ORM metadata |
 
 ## Quick Start
 
@@ -17,6 +36,13 @@ Prerequisites:
 - [NPM](https://www.npmjs.com/) tested with v8.1.0
 - [docker](https://www.docker.com/) (not required if you use Scylla Cloud)
 - [docker-compose](https://docs.docker.com/compose/) (not required if you use Scylla Cloud)
+
+
+Clone the repository and move to `javascript` directory:
+```
+git clone git@github.com:scylladb/care-pet.git
+cd javascript
+```
 
 Make sure to install all NodeJS dependencies with:
 
@@ -63,6 +89,77 @@ npm run migrate -- --hosts [NODE-IP] --username [USERNAME] --password[PASSWORD]
 ```
 
 Replace the NODE-IP, USERNAME and PASSWORD with the information provided in your cluster on https://cloud.scylladb.com.
+
+expected output:
+```
+2020/08/06 16:43:01 Bootstrap database...
+2020/08/06 16:43:13 Keyspace metadata = {Name:carepet DurableWrites:true StrategyClass:org.apache.cassandra.locator.NetworkTopologyStrategy StrategyOptions:map[datacenter1:3] Tables:map[gocqlx_migrate:0xc00016ca80 measurement:0xc00016cbb0 owner:0xc00016cce0 pet:0xc00016ce10 sensor:0xc00016cf40 sensor_avg:0xc00016d070] Functions:map[] Aggregates:map[] Types:map[] Indexes:map[] Views:map[]}
+```
+
+You can check the database structure with:
+
+#### Using ScyllaDB on local machine
+```
+docker exec -it carepet-scylla1 cqlsh
+```
+
+#### Using Scylla Cloud
+
+`docker run -it --rm --entrypoint cqlsh scylladb/scylla -u [USERNAME] -p [PASSOWRD] [NODE-IP]`
+
+Once connect to cqlsh, run the below commands:
+
+`DESCRIBE KEYSPACES`
+
+expected output: 
+```
+carepet  system_schema  system_auth  system  system_distributed  system_traces
+```
+then, 
+```
+ carepet;
+DESCRIBE TABLES
+```
+expected output: 
+
+`pet  sensor_avg  gocqlx_migrate  measurement  owner  sensor`
+
+then:
+`DESCRIBE TABLE pet`
+
+expected output:
+```
+CREATE TABLE carepet.pet (
+       owner_id uuid,
+       pet_id uuid,
+       address text,
+       age int,
+       breed text,
+       chip_id text,
+       color text,
+       gender text,
+       name text,
+       species text,
+       weight float,
+       PRIMARY KEY (owner_id, pet_id)  
+   ) WITH CLUSTERING ORDER BY (pet_id ASC)
+       AND bloom_filter_fp_chance = 0.01
+       AND caching = {'keys': 'ALL', 'rows_per_partition': 'ALL'}
+       AND comment = ''
+       AND compaction = {'class': 'SizeTieredCompactionStrategy'}
+       AND compression = {'sstable_compression': 'org.apache.cassandra.io.compress.LZ4Compressor'}
+       AND crc_check_chance = 1.0
+       AND dclocal_read_repair_chance = 0.1
+       AND default_time_to_live = 0
+       AND gc_grace_seconds = 864000
+       AND max_index_interval = 2048
+       AND memtable_flush_period_in_ms = 0
+       AND min_index_interval = 128
+       AND read_repair_chance = 0.0
+       AND speculative_retry = '99.0PERCENTILE';
+```
+
+Run `exit` to exit the cqlsh.
 
 #### migrate/index.js
 
@@ -204,6 +301,17 @@ npm run sensor -- --hosts [NODE-IP] --username [USERNAME] --password [PASSOWRD] 
 ```
 Replace the NODE-IP, USERNAME and PASSWORD with the information provided in your cluster on https://cloud.scylladb.com.
 
+expected output:
+```
+2020/08/06 16:44:33 Welcome to the Pet collar simulator
+2020/08/06 16:44:33 New owner # 9b20764b-f947-45bb-a020-bf6d02cc2224
+2020/08/06 16:44:33 New pet # f3a836c7-ec64-44c3-b66f-0abe9ad2befd
+2020/08/06 16:44:33 sensor # 48212af8-afff-43ea-9240-c0e5458d82c1 type L new measure 51.360596 ts 2020-08-06T16:44:33+02:00
+2020/08/06 16:44:33 sensor # 2ff06ffb-ecad-4c55-be78-0a3d413231d9 type R new measure 36 ts 2020-08-06T16:44:33+02:00
+2020/08/06 16:44:33 sensor # 821588e0-840d-48c6-b9c9-7d1045e0f38c type L new measure 26.380281 ts 2020-08-06T16:44:33+02:00
+...
+```
+
 The above command executes `cmd/sensor/index.js` and and takes the following as arguments.
 
 -   `hosts` : the IP address of the ScyllaDB node.
@@ -335,6 +443,12 @@ npm run dev -- --hosts $NODE1
 npm run dev -- --hosts [NODE-IP] --username [USERNAME] --password [PASSOWRD]
 ```
 
+expected output:
+
+```
+2020/08/06 16:45:58 Serving care pet at http://127.0.0.1:8000
+```
+
 The `src/index.js` main function mounts the api on `/api` and defines the routes.
 
 ```
@@ -359,10 +473,86 @@ async function main() {
 }
 ```
 
-To test out the API in your terminal, use the following command: `$ curl http://127.0.0.1:8000/api/owner/{id}` and expect the following response:
+### Using the Application 
 
-````
+Open a different terminal to send an HTTP request from the CLI:
 
-[{"address":"home","age":57,"name":"tlmodylu","owner_id":"a05fd0df-0f97-4eec-a211-cad28a6e5360","pet_id":"a52adc4e-7cf4-47ca-b561-3ceec9382917","weight":5}]
+`curl -v http://127.0.0.1:8000/`
+
+expected output:
+
+    > GET / HTTP/1.1
+    > Host: 127.0.0.1:8000
+    > User-Agent: curl/7.71.1
+    > Accept: */*
+    > 
+    * Mark bundle as not supporting multiuse
+    < HTTP/1.1 404 Not Found
+    < Content-Type: application/json
+    < Date: Thu, 06 Aug 2020 14:47:41 GMT
+    < Content-Length: 45
+    < Connection: close
+    < 
+    * Closing connection 0
+    {"code":404,"message":"path / was not found"}
+
+If you see this JSON in the end with 404, it means everything works as
+expected. To read an owner's data use the previously saved owner_id as follows:
+
+`curl -v http://127.0.0.1:8000/api/owner/{owner_id}`
+
+for example:
+
+`curl http://127.0.0.1:8000/api/owner/a05fd0df-0f97-4eec-a211-cad28a6e5360`
+
+expected result:
+
+    {"address":"home","name":"gmwjgsap","owner_id":"a05fd0df-0f97-4eec-a211-cad28a6e5360"} 
+
+To list the owner's pets run:
+
+`curl -v http://127.0.0.1:8000/api/owner/{owner_id}/pets`
+
+for example:
+
+`curl http://127.0.0.1:8000/api/owner/a05fd0df-0f97-4eec-a211-cad28a6e5360/pets`
+
+expected output:
+
+`[{"address":"home","age":57,"name":"tlmodylu","owner_id":"a05fd0df-0f97-4eec-a211-cad28a6e5360","pet_id":"a52adc4e-7cf4-47ca-b561-3ceec9382917","weight":5}]`
+
+To list each specifc pet's sensor:
+
+`curl -v curl -v http://127.0.0.1:8000/api/pet/{pet_id}/sensors`
+
+for example:
+
+`curl http://127.0.0.1:8000/api/pet/cef72f58-fc78-4cae-92ae-fb3c3eed35c4/sensors`
 
 ```
+[{"pet_id":"cef72f58-fc78-4cae-92ae-fb3c3eed35c4","sensor_id":"5a9da084-ea49-4ab1-b2f8-d3e3d9715e7d","type":"L"},{"pet_id":"cef72f58-fc78-4cae-92ae-fb3c3eed35c4","sensor_id":"5c70cd8a-d9a6-416f-afd6-c99f90578d99","type":"R"},{"pet_id":"cef72f58-fc78-4cae-92ae-fb3c3eed35c4","sensor_id":"fbefa67a-ceb1-4dcc-bbf1-c90d71176857","type":"L"}]
+```
+
+To review the data from a specific sensor:
+
+`curl http://127.0.0.1:8000/api/sensor/{sensor_id}/values?from=2006-01-02T15:04:05Z07:00&to=2006-01-02T15:04:05Z07:00`
+
+for example:
+
+`curl http://127.0.0.1:8000/api/sensor/5a9da084-ea49-4ab1-b2f8-d3e3d9715e7d/values\?from\="2020-08-06T00:00:00Z"\&to\="2020-08-06T23:59:59Z"`
+
+expected output:
+
+`[51.360596,26.737432,77.88015,...]`
+
+To read the pet's daily average per sensor use:
+
+`curl http://127.0.0.1:8000/api/sensor/{sensor_id}/values/day/{date}`
+
+for example:
+
+`curl -v http://127.0.0.1:8000/api/sensor/5a9da084-ea49-4ab1-b2f8-d3e3d9715e7d/values/day/2020-08-06`
+
+expected output:
+
+`[0,0,0,0,0,0,0,0,0,0,0,0,0,0,42.55736]`
