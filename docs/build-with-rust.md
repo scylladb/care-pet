@@ -31,8 +31,8 @@ docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' car
 The run the following commands to execute the migrate main function.
 
 ```
-$ NODE1=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' carepet-scylla1)
-$ cargo run --bin migrate -- --hosts $NODE1
+NODE1=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' carepet-scylla1)
+cargo run --bin migrate -- --hosts $NODE1
 ```
 
 The command executes the main function in the `bin/migrate/main.rs`. The function creates the keyspace and tables that you need to run the collar and server services.
