@@ -91,7 +91,7 @@ CREATE KEYSPACE IF NOT EXISTS carepet WITH replication = { 'class': 'NetworkTopo
 The CQL query above creates a new keyspace named carepet, with `NetworkTopologyStrategy` as replication strategy and a replication factor of 3.
 More information about keyspace and replication on [Scylla University](https://university.scylladb.com/courses/data-modeling/lessons/basic-data-modeling-2/topic/keyspace/).
 
-Finally, `migrate` will execte the queries listed in `db/migrate.cql` to create the tables you need for the project.
+Finally, `migrate` will execute the queries listed in `db/migrate.cql` to create the tables you need for the project.
 
 ```
 CREATE TABLE IF NOT EXISTS carepet.owner
