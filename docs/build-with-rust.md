@@ -25,7 +25,7 @@ Once all the nodes are in UN - Up Normal status, run the below commands:
 The below command allows you to get node IP address:
 
 ```
-$ docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' carepet-scylla1
+docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' carepet-scylla1
 ```
 
 The run the following commands to execute the migrate main function.
