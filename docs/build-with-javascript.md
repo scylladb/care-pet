@@ -111,7 +111,7 @@ Once connect to cqlsh, run the below commands:
 
 `DESCRIBE KEYSPACES`
 
-expected output: 
+Expected output: 
 ```
 carepet  system_schema  system_auth  system  system_distributed  system_traces
 ```
