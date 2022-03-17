@@ -7,7 +7,7 @@ The project is structured as follows:
 
 ![Build your first ScyllaDB Powered App - Raouf](https://user-images.githubusercontent.com/13738772/158383650-0dfcc9d0-68b5-457a-a043-27f6cda12de3.jpg)
 
-- migrate (`npm run migrate`) - creates the `carepet` keyspace and tables
+- migrate (`npm run migrate`) - Creates the `carepet` keyspace and tables.
 - collar (`npm run sensor`) - generates a pet health data and pushes it into the storage
 - web app (`npm run dev`) - REST API service for tracking pets health state
 
