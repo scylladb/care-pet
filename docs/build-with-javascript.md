@@ -9,7 +9,7 @@ The project is structured as follows:
 
 - migrate (`npm run migrate`) - Creates the `carepet` keyspace and tables.
 - collar (`npm run sensor`) - generates a pet health data and pushes it into the storage
-- web app (`npm run dev`) - REST API service for tracking pets health state
+- web app (`npm run dev`) - REST API service for tracking pets' health state.
 
 ### Code Structure and Implementation
 
