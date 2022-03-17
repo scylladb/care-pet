@@ -68,7 +68,7 @@ Execute the following nodetool command:
 
 Once all the nodes are in UN - Up Normal status, run the commands below.
 
-The below command allows you to get node IP address:
+The following command allows you to get the node IP address:
 
 ```
 docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' carepet-scylla1
