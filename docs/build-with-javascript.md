@@ -38,7 +38,7 @@ Prerequisites:
 - [docker-compose](https://docs.docker.com/compose/) (not required if you use Scylla Cloud)
 
 
-Clone the repository and move to `javascript` directory:
+Clone the repository and change to `javascript` directory:
 ```
 git clone git@github.com:scylladb/care-pet.git
 cd javascript
