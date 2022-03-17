@@ -109,7 +109,7 @@ docker exec -it carepet-scylla1 cqlsh
 
 Once you connect to cqlsh, run the following commands:
 
-`DESCRIBE KEYSPACES`
+#. Run `DESCRIBE KEYSPACES`.
 
 Expected output: 
 ```
