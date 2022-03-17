@@ -66,7 +66,7 @@ Execute the following nodetool command:
 
 #### Using ScyllaDB on your local machine
 
-Once all the nodes are in UN - Up Normal status, run the below commands:
+Once all the nodes are in UN - Up Normal status, run the commands below.
 
 The below command allows you to get node IP address:
 
