@@ -124,7 +124,6 @@ Expected output:
 
 `pet  sensor_avg  gocqlx_migrate  measurement  owner  sensor`
 
-then:
 #. Run `DESCRIBE TABLE pet`.
 
 Expected output:
