@@ -120,7 +120,7 @@ then,
  carepet;
 DESCRIBE TABLES
 ```
-expected output: 
+Expected output: 
 
 `pet  sensor_avg  gocqlx_migrate  measurement  owner  sensor`
 
