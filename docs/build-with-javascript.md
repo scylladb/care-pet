@@ -127,7 +127,7 @@ Expected output:
 then:
 #. Run `DESCRIBE TABLE pet`.
 
-expected output:
+Expected output:
 ```
 CREATE TABLE carepet.pet (
        owner_id uuid,
