@@ -88,7 +88,7 @@ If you are using Scylla Cloud, use the the following command:
 npm run migrate -- --hosts [NODE-IP] --username [USERNAME] --password[PASSWORD]
 ```
 
-Replace the NODE-IP, USERNAME and PASSWORD with the information provided in your cluster on https://cloud.scylladb.com.
+Replace the NODE-IP, USERNAME, and PASSWORD with the information provided in your cluster on https://cloud.scylladb.com.
 
 expected output:
 ```
