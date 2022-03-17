@@ -125,7 +125,7 @@ Expected output:
 `pet  sensor_avg  gocqlx_migrate  measurement  owner  sensor`
 
 then:
-`DESCRIBE TABLE pet`
+#. Run `DESCRIBE TABLE pet`.
 
 expected output:
 ```
