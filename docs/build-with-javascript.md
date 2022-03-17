@@ -3,7 +3,7 @@
 ### Architecture
 
 In this section, we will walk you through the CarePet commands and explain the code behind them.
-As explained in the Getting Started page, the project is structured as follow:
+The project is structured as follows:
 
 ![Build your first ScyllaDB Powered App - Raouf](https://user-images.githubusercontent.com/13738772/158383650-0dfcc9d0-68b5-457a-a043-27f6cda12de3.jpg)
 
