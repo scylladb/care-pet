@@ -74,7 +74,7 @@ The following command allows you to get the node IP address:
 docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' carepet-scylla1
 ```
 
-The run the following commands to execute the migrate main function.
+The following commands execute the migrate `main` function.
 
 ```
 NODE1=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' carepet-scylla1)
