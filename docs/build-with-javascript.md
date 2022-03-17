@@ -55,7 +55,7 @@ the help of `docker` and `docker-compose` execute:
 
     $ docker-compose up -d
 
-Docker-compose will spin up three nodes: `carepet-scylla1`, `carepet-scylla2`
+Docker-compose will spin up three nodes: `carepet-scylla1`, `carepet-scylla2`,
 and `carepet-scylla3`. You can access them with the `docker` command.
 
 Execute the following nodetool command:
