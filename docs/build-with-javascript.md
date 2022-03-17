@@ -107,7 +107,7 @@ docker exec -it carepet-scylla1 cqlsh
 
 `docker run -it --rm --entrypoint cqlsh scylladb/scylla -u [USERNAME] -p [PASSOWRD] [NODE-IP]`
 
-Once connect to cqlsh, run the below commands:
+Once you connect to cqlsh, run the following commands:
 
 `DESCRIBE KEYSPACES`
 
