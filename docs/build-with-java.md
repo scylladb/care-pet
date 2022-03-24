@@ -5,7 +5,7 @@
 This section will walk through and explain the code for the different commands.
 The project is structured as follows:
 
--   Migrate (`com.carepet.Migrate`) - creates the `carepet` keyspace and tables
+-   Migrate (`com.carepet.Migrate`) - Creates the `carepet` keyspace and tables.
 -   Collar (`com.carepet.Sensor`) - generates a pet health data and pushes it into the storage
 -   Web app (`com.carepet.server.App`) - REST API service for tracking pets health state
 
