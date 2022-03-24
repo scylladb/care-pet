@@ -158,7 +158,7 @@ CREATE TABLE carepet.pet (
        AND speculative_retry = '99.0PERCENTILE';
 ```
 
-Run `exit` to exit the cqlsh.
+#. Run `exit` to exit the cqlsh.
 
 #### migrate/index.js
 
