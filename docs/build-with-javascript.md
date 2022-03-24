@@ -164,7 +164,7 @@ CREATE TABLE carepet.pet (
 
 The above commands execute the main function in the `cmd/migrate/index.js`. The function creates the keyspace and tables that you need to run the collar and server services.
 
-The below code in the `cmd/migrate/index.js` creates a new session then calls the `create_keyspace` , `migrate` functions.
+The following code in the `cmd/migrate/index.js` creates a new session, then calls the `create_keyspace`  and `migrate` functions.
 
 ```
 migrate/index.js
