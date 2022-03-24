@@ -496,7 +496,7 @@ Expected output:
     {"code":404,"message":"path / was not found"}
 
 The JSON with the 404 at the end indicates expected behavior.
-expected. To read an owner's data use the previously saved owner_id as follows:
+To read an owner's data use the previously saved owner_id as follows:
 
 `curl -v http://127.0.0.1:8000/api/owner/{owner_id}`
 
