@@ -296,7 +296,7 @@ npm run sensor -- --hosts $NODE1 --measure 5s --buffer-interval 1m
 
 #### Using Scylla Cloud
 ```
-npm run sensor -- --hosts [NODE-IP] --username [USERNAME] --password [PASSOWRD] --measure 5s --buffer-interval 1m
+npm run sensor -- --hosts [NODE-IP] --username [USERNAME] --password [PASSWORD] --measure 5s --buffer-interval 1m
 ```
 Replace the NODE-IP, USERNAME and PASSWORD with the information provided in your cluster on https://cloud.scylladb.com.
 
