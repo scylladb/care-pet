@@ -366,7 +366,7 @@ async function getClientWithKeyspace(config) {
 }
 ```
 
-The `saveData` method connects to the datbase and saves random `owner`, `pet` and the `sensors` to the database.
+The `saveData` method connects to the database and saves random `owner`, `pet`, and `sensors` to the database.
 
 ```
 // sensor/index.js
