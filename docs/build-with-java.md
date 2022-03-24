@@ -121,7 +121,7 @@ $ NODE1=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{
 $ ./bin/sensor.sh --hosts $NODE1 --datacenter datacenter1 --measure PT1M --buffer-interval PT1M
 ```
 
-The above command executes `Sensor.java` and the below main function:
+The above command executes `Sensor.java` and the following `main` function:
 
 ```
 public static void main(String[] args) {
