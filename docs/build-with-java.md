@@ -28,7 +28,7 @@ public static void main(String[] args) {
 
 There is a lot to unpack here. Let's break the code down line by line:
 
-The `config` object parses the arguments passed in the migrate command. In our case it's `hosts` and `datacenter`. The `hosts` argument expect the IP address of one of the nodes. The `datacenter` argument is `datacenter1` by default but could be different if you are using Scylla Cloud for instance. The command also accepts `username` and `password` arguments if required.
+The `config` object parses the arguments passed in the migrate command. In our case it's `hosts` and `datacenter`. The `hosts` argument expects the IP address of one of the nodes. The `datacenter` argument is `datacenter1` by default but could be different if you use Scylla Cloud. The command also accepts `username` and `password` arguments if required.
 
 The `createKeyspace` function creates a new `CqlSession` then executes the following CQL query stored in the `resources/care-pet-keyspace.cql` file:
 
