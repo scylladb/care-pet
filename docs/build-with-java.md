@@ -227,7 +227,11 @@ $ NODE1=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{
 $ ./bin/server.sh --hosts $NODE1 --datacenter datacenter1
 ```
 
-In the care-pet example, you will use `$ curl http://127.0.0.1:8000/api/owner/{id}` and expect the following response:
+In the care-pet example, run:
+
+  `$ curl http://127.0.0.1:8000/api/owner/{id}`.
+  
+  You can expect the following response:
 
 ```
 
