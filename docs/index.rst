@@ -75,6 +75,12 @@
   :image: /_static/img/programming_languages/rust.png
   :link: build-with-rust
   :class: large-4
+  
+.. topic-box::
+  :title: Build with JavaScript
+  :image: /_static/img/programming_languages/javascript.png
+  :link: build-with-javascript
+  :class: large-4
 
 .. raw:: html
 
@@ -87,6 +93,7 @@
    Getting Started with CarePet: A sample IoT App <getting_started>
    Design and Data Model <design_and_data_model>
    Build with Go <build-with-go>
+   Build with JavaScript <build-with-javascript>
    Build with Rust <build-with-rust>
    Build with Java <build-with-java>
    Care-Pet GitHub Repository <https://github.com/scylladb/care-pet>
