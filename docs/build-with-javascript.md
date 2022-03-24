@@ -478,7 +478,7 @@ Open a different terminal to send an HTTP request from the CLI:
 
 `curl -v http://127.0.0.1:8000/`
 
-expected output:
+Expected output:
 
     > GET / HTTP/1.1
     > Host: 127.0.0.1:8000
