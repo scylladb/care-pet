@@ -508,7 +508,7 @@ Expected result:
 
     {"address":"home","name":"gmwjgsap","owner_id":"a05fd0df-0f97-4eec-a211-cad28a6e5360"} 
 
-To list the owner's pets run:
+To list the owner's pets, run:
 
 `curl -v http://127.0.0.1:8000/api/owner/{owner_id}/pets`
 
