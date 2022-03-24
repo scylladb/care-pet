@@ -311,7 +311,7 @@ Expected output:
 ...
 ```
 
-The above command executes `cmd/sensor/index.js` and and takes the following as arguments.
+The above command executes `cmd/sensor/index.js` and takes the following as arguments:
 
 -   `hosts` : the IP address of the ScyllaDB node.
 -   `username`: when Password Authentication enabled
