@@ -1,4 +1,5 @@
-## Build an IoT App with JavaScript
+Build an IoT App with JavaScript
+------------------------
 
 ### Architecture
 
@@ -28,7 +29,7 @@ The code package structure is as follows:
 | /handler     | REST API handlers                   |
 | /model       | application models and ORM metadata |
 
-## Quick Start
+### Quick Start
 
 Prerequisites:
 
