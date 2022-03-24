@@ -29,7 +29,7 @@ directly to the app.
 -   migrate - Creates the CarePet keyspace and tables.
 -   sensor - generates a pet health data and pushes it into the
     storage.
--   server - REST API service for tracking the pets' health
+-   server - REST API service for tracking pets' health
     state.
 
 ![Build your first ScyllaDB Powered App - Raouf](https://user-images.githubusercontent.com/13738772/158378310-11a39630-b390-4df0-8096-2c1751e56570.jpg)
