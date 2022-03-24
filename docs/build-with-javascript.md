@@ -105,7 +105,7 @@ docker exec -it carepet-scylla1 cqlsh
 
 #### Using Scylla Cloud
 
-`docker run -it --rm --entrypoint cqlsh scylladb/scylla -u [USERNAME] -p [PASSOWRD] [NODE-IP]`
+`docker run -it --rm --entrypoint cqlsh scylladb/scylla -u [USERNAME] -p [PASSWORD] [NODE-IP]`
 
 Once you connect to cqlsh, run the following commands:
 
