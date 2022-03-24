@@ -46,7 +46,7 @@ CREATE KEYSPACE IF NOT EXISTS carepet WITH replication = { 'class': 'NetworkTopo
 ```
 
 The CQL query above creates a new keyspace named carepet, with `NetworkTopologyStrategy` as replication strategy and a replication factor of 3.
-More information about keyspace and replication on [Scylla University](https://university.scylladb.com/courses/data-modeling/lessons/basic-data-modeling-2/topic/keyspace/).
+See [Scylla University](https://university.scylladb.com/courses/data-modeling/lessons/basic-data-modeling-2/topic/keyspace/) for more information about keyspaces and replication.
 
 The `createSchema` function opens a new session with the `carepet` keyspace and creates the following tables in the carepet keyspace using the CQL file located in `resources/care-pet-ddl.cql`:
 
