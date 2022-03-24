@@ -81,7 +81,7 @@ To check the status of the cluster:
 
 `docker exec -it carepet-scylla1 nodetool status`
 
-### Use your preffered programming language
+### Use Your Preferred Programming Language
 
 - [Build with Go](/build-with-go.md)
 - [Build with Java](/build-with-java.md)
