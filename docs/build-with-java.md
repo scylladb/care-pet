@@ -11,7 +11,7 @@ As explained in the Getting Started page, the project is structured as follow:
 
 ### Migrate
 
-The `./bin/migrate.sh --hosts $NODE1 --datacenter datacenter1` command executes the main function in the `Migrate` class located `Migrate.java`. The function creates the keyspace and tables that will be used by the collar and server services.
+The `./bin/migrate.sh --hosts $NODE1 --datacenter datacenter1` command executes the main function in the `Migrate` class located `Migrate.java`. The function creates the keyspace and tables used by the collar and server services.
 
 The below code in the `Migrate.java` file call the `createKeyspace` , `createSchema` then the `printMetadata` functions.
 
