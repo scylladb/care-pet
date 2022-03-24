@@ -439,7 +439,7 @@ npm run dev -- --hosts $NODE1
 
 #### Using Scylla Cloud
 ```
-npm run dev -- --hosts [NODE-IP] --username [USERNAME] --password [PASSOWRD]
+npm run dev -- --hosts [NODE-IP] --username [USERNAME] --password [PASSWORD]
 ```
 
 Expected output:
