@@ -544,7 +544,7 @@ expected output:
 
 `[51.360596,26.737432,77.88015,...]`
 
-To read the pet's daily average per sensor use:
+To read the pet's daily average per sensor, use:
 
 `curl http://127.0.0.1:8000/api/sensor/{sensor_id}/values/day/{date}`
 
