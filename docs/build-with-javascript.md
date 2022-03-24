@@ -552,6 +552,6 @@ for example:
 
 `curl -v http://127.0.0.1:8000/api/sensor/5a9da084-ea49-4ab1-b2f8-d3e3d9715e7d/values/day/2020-08-06`
 
-expected output:
+Expected output:
 
 `[0,0,0,0,0,0,0,0,0,0,0,0,0,0,42.55736]`
