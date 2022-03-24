@@ -3,7 +3,7 @@
 ### Architecture
 
 This section will walk through and explain the code for the different commands.
-As explained in the Getting Started page, the project is structured as follow:
+The project is structured as follows:
 
 -   Migrate (`com.carepet.Migrate`) - creates the `carepet` keyspace and tables
 -   Collar (`com.carepet.Sensor`) - generates a pet health data and pushes it into the storage
