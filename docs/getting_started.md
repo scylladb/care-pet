@@ -28,7 +28,7 @@ directly to the app.
 
 -   migrate - Creates the CarePet keyspace and tables.
 -   sensor - generates a pet health data and pushes it into the
-    storage
+    storage.
 -   server - REST API service for tracking the pets' health
     state
 
