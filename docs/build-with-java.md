@@ -134,7 +134,7 @@ public static void main(String[] args) {
 
 First, we create a client object, an instance of the Sensor class. Like in the `Migrate` class, we parse args using the `Config.parse()` method to connect to the database.
 
-In the `Sensor` constructor, we attribute a random ID to the `owner`, `pet` and `sensors`.
+In the `Sensor` constructor, a random ID is attributed to the `owner`, `pet`, and `sensors`.
 
 ```
 public Sensor(SensorConfig config) {
