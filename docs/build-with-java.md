@@ -2,7 +2,7 @@
 
 ### Architecture
 
-This section will walk through and explain the code for the different commands.
+In this section, we will walk you through the CarePet commands and explain the code behind them.
 The project is structured as follows:
 
 -   Migrate (`com.carepet.Migrate`) - Creates the `carepet` keyspace and tables.
