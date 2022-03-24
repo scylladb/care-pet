@@ -1,4 +1,6 @@
 :full-width:
+:hide-sidebar:
+:hide-secondary-sidebar:
 :hide-version-warning:
 :hide-pre-content:
 :hide-post-content:
