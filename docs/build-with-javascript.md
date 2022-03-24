@@ -520,7 +520,7 @@ Expected output:
 
 `[{"address":"home","age":57,"name":"tlmodylu","owner_id":"a05fd0df-0f97-4eec-a211-cad28a6e5360","pet_id":"a52adc4e-7cf4-47ca-b561-3ceec9382917","weight":5}]`
 
-To list each specifc pet's sensor:
+To list each pet's sensor, run:
 
 `curl -v curl -v http://127.0.0.1:8000/api/pet/{pet_id}/sensors`
 
