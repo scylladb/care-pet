@@ -113,7 +113,7 @@ AND speculative_retry = '99.0PERCENTILE';
 
 ### Sensor
 
-The sensor service simulates the collar's activity. You can use the below command to run the sensor service:
+The sensor service simulates the collar's activity. You can use the following command to run the sensor service:
 
 ```
 $ mvn package
