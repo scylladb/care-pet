@@ -315,7 +315,7 @@ The above command executes `cmd/sensor/index.js` and takes the following as argu
 
 -   `hosts` : the IP address of the ScyllaDB node.
 -   `username`: when Password Authentication enabled
--   `passowrd`: when Password Authentication enabled
+-   `password`: when Password Authentication enabled
 -   `measure`: the interval between to sensor measures.
 -   `buffer-interval`: the interval between two database queries.
 
