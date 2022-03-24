@@ -66,7 +66,7 @@ model design [document](./design_and_data_model.md).
 The example application uses Docker to run a three-node ScyllaDB cluster. You can also use Scylla Cloud as your database.
 Claim your free Scylla Cloud account [here](https://scylladb.com/cloud).
 
-Clone the repository and change to the directory of your language of choice:
+Clone the repository and change to the directory of a language (Go, Java, etc.):
 ```
 git clone git@github.com:scylladb/care-pet.git
 cd go
