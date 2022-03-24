@@ -235,7 +235,7 @@ In the care-pet example, you will use `$ curl http://127.0.0.1:8000/api/owner/{i
 
 ```
 
-The controller is defined in `ModelController.java`, and implements the GET methods to acces owners, pets and sensors data.
+The controller is defined in `ModelController.java`, and implements the GET methods to access owners, pets and sensors data.
 
 The server also aggregates the data and saves it to the database in the sensor_avg table:
 
