@@ -217,7 +217,7 @@ private void run() {
 
 ### Server
 
-The server service is a REST API for tracking the pets’ health state. The service allows users to query the database via http.
+The server service is a REST API for tracking the pets’ health state. The service allows you to query the database via HTTP.
 
 Run the following commands to start the server:
 
