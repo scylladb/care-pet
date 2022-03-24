@@ -52,7 +52,7 @@
   :class: large-4,small-12
   :anchor: Read the article
 
-  The Care-Pet Example blog walks you trhough the example and adds additional information. 
+  The Care-Pet Example blog walks you through the example and adds additional information. 
 
 
 
@@ -66,7 +66,7 @@
 .. topic-box::
   :title: Build with Java
   :image: /_static/img/programming_languages/java.png
-  :link: https://university.scylladb.com/courses/using-scylla-drivers/lessons/coding-with-java-part-1/
+  :link: build-with-java
   :class: large-4
 
 
@@ -88,6 +88,7 @@
    Design and Data Model <design_and_data_model>
    Build with Go <build-with-go>
    Build with Rust <build-with-rust>
+   Build with Java <build-with-java>
    Care-Pet GitHub Repository <https://github.com/scylladb/care-pet>
    Care-Pet Blog <https://www.scylladb.com/2020/09/09/carepet-an-example-iot-use-case-for-hands-on-app-developers/>
 
