@@ -67,7 +67,7 @@ public void createSchema() {
 }
 ```
 
-As the name suggests, the `printMetadata` function will then print the metadata related to the `carepet` keyspace and confirm that the tables were properly created.
+The `printMetadata` function will print the metadata related to the `carepet` keyspace and confirm that the tables are properly created.
 
 You can check the database structure with:
 
