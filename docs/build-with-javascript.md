@@ -495,7 +495,7 @@ Expected output:
     * Closing connection 0
     {"code":404,"message":"path / was not found"}
 
-If you see this JSON in the end with 404, it means everything works as
+The JSON with the 404 at the end indicates expected behavior.
 expected. To read an owner's data use the previously saved owner_id as follows:
 
 `curl -v http://127.0.0.1:8000/api/owner/{owner_id}`
