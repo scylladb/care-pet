@@ -524,7 +524,7 @@ To list each pet's sensor, run:
 
 `curl -v curl -v http://127.0.0.1:8000/api/pet/{pet_id}/sensors`
 
-for example:
+For example:
 
 `curl http://127.0.0.1:8000/api/pet/cef72f58-fc78-4cae-92ae-fb3c3eed35c4/sensors`
 
