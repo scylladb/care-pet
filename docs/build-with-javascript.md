@@ -442,7 +442,7 @@ npm run dev -- --hosts $NODE1
 npm run dev -- --hosts [NODE-IP] --username [USERNAME] --password [PASSOWRD]
 ```
 
-expected output:
+Expected output:
 
 ```
 2020/08/06 16:45:58 Serving care pet at http://127.0.0.1:8000
