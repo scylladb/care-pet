@@ -40,7 +40,7 @@ The command executes the main function in the `bin/migrate/main.rs`. The functio
 The below code in the `bin/migrate/main.rs` creates a new session then calls the `create_keyspace` , `migrate` functions.
 
 ```
-migrate/main.rs
+// migrate/main.rs
 
 async fn main() -> Result<()> {
     care_pet::log::init();
@@ -108,7 +108,7 @@ CREATE TABLE IF NOT EXISTS carepet.owner
 You can check the database structure with:
 
 ```
-$ docker exec -it carepet-scylla1 cqlsh
+docker exec -it carepet-scylla1 cqlsh
 cqlsh> USE carepet;
 cqlsh:carepet> DESCRIBE TABLES
 cqlsh:carepet> DESCRIBE TABLE pet
@@ -269,9 +269,9 @@ async fn run_sensor_data(cfg: &App, sess: &Session, sensors: Vec<Sensor>) -> Res
 The server service is a REST API for tracking the pets’ health state. The service was built using [Rocket](https://rocket.rs) and allows users to query the database via HTTP.
 
 Run the following commands to start the server:
-
-$ NODE1=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' carepet-scylla1)
-$ cargo run -- --hosts $NODE1
+```
+NODE1=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' carepet-scylla1)
+cargo run -- --hosts $NODE1
 ```
 
 The `src/main.rs` main function mounts the api on `/api` and defines the routes.
