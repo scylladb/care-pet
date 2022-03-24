@@ -170,7 +170,7 @@ The following code in the `cmd/migrate/index.js` creates a new session, then cal
 migrate/index.js
 
 async function main() {
-  // Parse the command arguments: --hosts --username and --passowrd
+  // Parse the command arguments: --hosts --username and --password
   const options = config('migrate').parse().opts();
   
   // Create a new session with options 
