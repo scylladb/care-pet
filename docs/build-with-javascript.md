@@ -188,7 +188,7 @@ async function main() {
   return client;
 }
 ```
-Let's breakdown the code above:
+Let's break down the code above.
 
 The `getClient` function takes the options as a parameter and creates a new session.
 
