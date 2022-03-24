@@ -356,7 +356,7 @@ async function main() {
 ```
 
 Just like in `migrate/index.js`, the function parses the `npm run sensor` command arguments.
-We then create a new session `client` using `carepet` keyspace.
+Now you can create a new session `client` using `carepet` keyspace.
 
 ```
 // db.js
