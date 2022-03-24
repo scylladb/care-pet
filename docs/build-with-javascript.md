@@ -300,7 +300,7 @@ npm run sensor -- --hosts [NODE-IP] --username [USERNAME] --password [PASSOWRD] 
 ```
 Replace the NODE-IP, USERNAME and PASSWORD with the information provided in your cluster on https://cloud.scylladb.com.
 
-expected output:
+Expected output:
 ```
 2020/08/06 16:44:33 Welcome to the Pet collar simulator
 2020/08/06 16:44:33 New owner # 9b20764b-f947-45bb-a020-bf6d02cc2224
