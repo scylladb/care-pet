@@ -64,7 +64,7 @@ Execute the following nodetool command:
 
 ### Migrate
 
-#### Using ScyllaDB on your local machine
+#### Run ScyllaDB on your local machine
 
 Once all the nodes are in UN - Up Normal status, run the commands below.
 
@@ -80,9 +80,15 @@ The following commands execute the migrate `main` function.
 NODE1=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' carepet-scylla1)
 npm run migrate -- --hosts $NODE1
 ```
+You can check the database structure with:
+
+```
+docker exec -it carepet-scylla1 cqlsh
+```
+
 #### Using Scylla Cloud
 
-If you are using Scylla Cloud, use the the following command:
+If you are using Scylla Cloud, use the the following command to run the `migrate` service:
 
 ```
 npm run migrate -- --hosts [NODE-IP] --username [USERNAME] --password[PASSWORD]
@@ -90,7 +96,9 @@ npm run migrate -- --hosts [NODE-IP] --username [USERNAME] --password[PASSWORD]
 
 Replace the NODE-IP, USERNAME, and PASSWORD with the information provided in your cluster on https://cloud.scylladb.com.
 
-expected output:
+### Output
+
+Expected output:
 ```
 2020/08/06 16:43:01 Bootstrap database...
 2020/08/06 16:43:13 Keyspace metadata = {Name:carepet DurableWrites:true StrategyClass:org.apache.cassandra.locator.NetworkTopologyStrategy StrategyOptions:map[datacenter1:3] Tables:map[gocqlx_migrate:0xc00016ca80 measurement:0xc00016cbb0 owner:0xc00016cce0 pet:0xc00016ce10 sensor:0xc00016cf40 sensor_avg:0xc00016d070] Functions:map[] Aggregates:map[] Types:map[] Indexes:map[] Views:map[]}
@@ -98,14 +106,9 @@ expected output:
 
 You can check the database structure with:
 
-#### Using ScyllaDB on local machine
-```
-docker exec -it carepet-scylla1 cqlsh
-```
-
-#### Using Scylla Cloud
-
 `docker run -it --rm --entrypoint cqlsh scylladb/scylla -u [USERNAME] -p [PASSWORD] [NODE-IP]`
+
+Note: use `-u [USERNAME]` and `-p [PASSWORD]` if you are using Scylla Cloud.
 
 Once you connect to cqlsh, run the following commands:
 
@@ -236,6 +239,7 @@ CREATE TABLE IF NOT EXISTS carepet.owner
 ```
 
 You can check the database structure. Connect to your local ScyllaDB instance using:
+
 `docker exec -it carepet-scylla1 cqlsh`
 
 With Scylla Cloud, use: 
