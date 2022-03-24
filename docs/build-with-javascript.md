@@ -240,7 +240,7 @@ You can check the database structure. Connect to your local ScyllaDB instance us
 
 With Scylla Cloud, use: 
 ```
-docker run -it --rm --entrypoint cqlsh scylladb/scylla -u [USERNAME] -p [PASSOWRD] [NODE-IP]
+docker run -it --rm --entrypoint cqlsh scylladb/scylla -u [USERNAME] -p [PASSWORD] [NODE-IP]
 ```
 
 Once connected to your machine, run the following commands:
