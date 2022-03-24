@@ -238,7 +238,7 @@ CREATE TABLE IF NOT EXISTS carepet.owner
 You can check the database structure. Connect to your local ScyllaDB instance using:
 `docker exec -it carepet-scylla1 cqlsh`
 
-with Scylla Cloud, use: 
+With Scylla Cloud, use: 
 ```
 docker run -it --rm --entrypoint cqlsh scylladb/scylla -u [USERNAME] -p [PASSOWRD] [NODE-IP]
 ```
