@@ -548,7 +548,7 @@ To read the pet's daily average per sensor use:
 
 `curl http://127.0.0.1:8000/api/sensor/{sensor_id}/values/day/{date}`
 
-for example:
+For example:
 
 `curl -v http://127.0.0.1:8000/api/sensor/5a9da084-ea49-4ab1-b2f8-d3e3d9715e7d/values/day/2020-08-06`
 
