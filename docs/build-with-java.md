@@ -149,7 +149,7 @@ public Sensor(SensorConfig config) {
 }
 ```
 
-The `client.save()` method connects to the datbase and saves the generated `owner`, `pet` and the `sensors`.
+The `client.save()` method connects to the datbase and saves the generated `owner`, `pet`, and the `sensors`.
 
 ```
 private void save() {
