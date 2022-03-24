@@ -504,7 +504,7 @@ For example:
 
 `curl http://127.0.0.1:8000/api/owner/a05fd0df-0f97-4eec-a211-cad28a6e5360`
 
-expected result:
+Expected result:
 
     {"address":"home","name":"gmwjgsap","owner_id":"a05fd0df-0f97-4eec-a211-cad28a6e5360"} 
 
