@@ -26,6 +26,7 @@ extensions = [
     "sphinx.ext.extlinks",
     "sphinx_scylladb_theme",
     "sphinx_multiversion",
+    "sphinx_sitemap",
     "recommonmark",
     "sphinx_markdown_tables"
 ]
@@ -112,6 +113,10 @@ notfound_urls_prefix = ""
 
 # Read a YAML dictionary of redirections and generate an HTML file for each
 redirects_file = "_utils/redirections.yaml"
+
+# -- Options for sitemap extension ---------------------------------------
+
+sitemap_url_scheme = "stable/{link}"
 
 # -- Options for multiversion --------------------------------------------
 
