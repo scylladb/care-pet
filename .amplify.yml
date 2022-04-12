@@ -1,0 +1,20 @@
+version: 1
+applications:
+  - frontend:
+      phases:
+        preBuild:
+          commands:
+            - ln -fs /usr/local/bin/pip3.8 /usr/bin/pip
+            - ln -fs /usr/local/bin/python3.8 /usr/bin/python
+            - pip install --user pipenv
+        build:
+          commands:
+            - make setupenv
+            - make dirhtml
+      artifacts:
+        baseDirectory: _build/dirhtml
+        files:
+          - '**/*'
+      cache:
+        paths: []
+    appRoot: docs
