@@ -30,7 +30,7 @@
 
 .. topic-box::
   :title: Getting Started with Care-Pet
-  :link: getting_started
+  :link: getting-started
   :icon: scylla-icon scylla-icon--getting-started
   :class: large-4
   :anchor: Get Started
@@ -92,7 +92,7 @@
    :maxdepth: 3
    :hidden:
 
-   Getting Started with CarePet: A sample IoT App <getting_started>
+   Getting Started with CarePet: A sample IoT App <getting-started>
    Design and Data Model <design_and_data_model>
    Build with Go <build-with-go>
    Build with JavaScript <build-with-javascript>
