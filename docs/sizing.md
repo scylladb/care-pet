@@ -13,7 +13,7 @@ model for this project that has the following characteristics:
     measurement * 60 minutes / hour * 24 hours * 30 days =
     = 43,200 rows / partition
 
-#### Considerations
+#### Considerations and notes
 
 There are 4 kinds of workloads:
 
