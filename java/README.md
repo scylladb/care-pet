@@ -1,5 +1,5 @@
 Care Pet ScyllaDB IoT example
-===
+====
 
 This example project demonstrates a generic IoT use case
 for ScyllaDB in Java.
