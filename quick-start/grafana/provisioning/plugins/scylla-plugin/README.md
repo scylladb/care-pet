@@ -2,7 +2,7 @@
 
 The plugin is currently in Alpha and not ready for comercial usage.
 
-[![CircleCI](https://circleci.com/gh/grafana/simple-datasource-backend/tree/master.svg?style=svg)](https://circleci.com/gh/grafana/simple-datasource-backend/tree/master)
+[CircleCI](https://github.com/briangann/grafana-circleci-datasource)
 
 This plugin allows connecting Scylla or Appahe Cassandra to Grafana.
 
