@@ -262,12 +262,12 @@ with the help of different sensors. After the data is collected
 it may be delivered to the central database for the analysis and
 health status checking.
 
-Collar code sits in the `/bin/sensor` and uses [https://github.com/scylladb/scylla-rust-driver](scylla-rust-driver)
+Collar code sits in the `/bin/sensor` and uses [Scylla Rust Driver](https://github.com/scylladb/scylla-rust-driver)
 driver to connect to the database directly and publish its data.
 Collar gathers sensors measurements, aggregates data in a buffer and
 sends it every hour.
 
-Overall all applications in this repository use [scylla-rust-driver](https://github.com/scylladb/scylla-rust-driver) for:
+Overall all applications in this repository use [Scylla Rust Driver](https://github.com/scylladb/scylla-rust-driver) for:
 
 - Relational Object Mapping (ORM)
 - Build Queries
