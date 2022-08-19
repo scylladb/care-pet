@@ -13,7 +13,7 @@ BRANCHES = ["master"]
 # Set the latest version.
 LATEST_VERSION = "master"
 # Set which versions are not released yet.
-UNSTABLE_VERSIONS = []
+UNSTABLE_VERSIONS = ["master"]
 # Set which versions are deprecated
 DEPRECATED_VERSIONS = []
 
@@ -67,7 +67,6 @@ html_theme_options = {
     'github_issues_repository': 'scylladb/care-pet',
     'github_repository': 'scylladb/care-pet',
     'hide_edit_this_page_button': 'false',
-    'hide_version_dropdown': UNSTABLE_VERSIONS,
     'site_description': 'ScyllaDB IoT Example Documentation',
     "versions_unstable": UNSTABLE_VERSIONS,
     "versions_deprecated": DEPRECATED_VERSIONS,
