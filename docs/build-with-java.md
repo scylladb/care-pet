@@ -172,7 +172,7 @@ private void save() {
 }
 ```
 
-The `client.run()` generates random data and pushes it to the database. In this code, we are using `PreparedStatement` to define the query and `BatchStatementBuilder` to run multiple queries at the same time. See the [Scylla Java Driver documentation] (https://java-driver.docs.scylladb.com/stable/manual/statements/prepared/) for details on `PreparedStatement`.
+The `client.run()` generates random data and pushes it to the database. In this code, we are using `PreparedStatement` to define the query and `BatchStatementBuilder` to run multiple queries at the same time. See the [Scylla Java Driver documentation] (https://java-driver.docs.scylladb.com/stable/manual/core/statements/prepared/) for details on `PreparedStatement`.
 
 ```
 private void run() {
