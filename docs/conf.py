@@ -15,7 +15,7 @@ LATEST_VERSION = "master"
 # Set which versions are not released yet.
 UNSTABLE_VERSIONS = ["master"]
 # Set which versions are deprecated
-DEPRECATED_VERSIONS = [""]
+DEPRECATED_VERSIONS = []
 
 # Add any Sphinx extension module names here, as strings.
 extensions = [
@@ -67,7 +67,6 @@ html_theme_options = {
     'github_issues_repository': 'scylladb/care-pet',
     'github_repository': 'scylladb/care-pet',
     'hide_edit_this_page_button': 'false',
-    'hide_version_dropdown': UNSTABLE_VERSIONS,
     'site_description': 'ScyllaDB IoT Example Documentation',
     "versions_unstable": UNSTABLE_VERSIONS,
     "versions_deprecated": DEPRECATED_VERSIONS,
@@ -108,11 +107,6 @@ notfound_template = "404.html"
 
 # Prefix added to all the URLs generated in the 404 page.
 notfound_urls_prefix = ""
-
-# -- Options for redirect extension ---------------------------------------
-
-# Read a YAML dictionary of redirections and generate an HTML file for each
-redirects_file = "_utils/redirections.yaml"
 
 # -- Options for sitemap extension ---------------------------------------
 
