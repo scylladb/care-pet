@@ -1,5 +1,4 @@
-Build an IoT App with Go
-------------------------
+## Build an IoT App with Go
 
 ### Introduction
 
