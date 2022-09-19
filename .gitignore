@@ -1,4 +1,4 @@
 docs/_build
 docs/poetry.lock
 source/.doctrees
-test
+test/
