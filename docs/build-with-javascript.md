@@ -1,6 +1,8 @@
 Build an IoT App with JavaScript
 ------------------------
 
+Test
+
 ### Architecture
 
 In this section, we will walk you through the CarePet commands and explain the code behind them.

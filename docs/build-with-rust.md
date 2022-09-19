@@ -1,5 +1,7 @@
 ## Build an IoT App with Rust
 
+Test
+
 ### Architecture
 
 This section will walk through and explain the code for the different commands.
