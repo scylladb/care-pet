@@ -2,7 +2,7 @@
 
 This example project demonstrates a generic IoT use case for ScyllaDB in PHP.
 
-Here you will find a list with possible drivers to integrate.
+Here you will find a list of possible drivers to integrate with.
 
 | PHP Version | Driver                                                                         |
 |-------------|--------------------------------------------------------------------------------|
