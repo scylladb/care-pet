@@ -1,0 +1,25 @@
+{
+  "name": "danielhe4rt/care-pet-php",
+  "type": "project",
+  "license": "MIT",
+  "autoload": {
+    "files": [
+      "src/helpers.php"
+    ],
+    "psr-4": {
+      "App\\": "src/"
+    }
+  },
+  "authors": [
+    {
+      "name": "danielhe4rt",
+      "email": "hey@danielheart.dev"
+    }
+  ],
+  "require": {
+    "sunrise/http-router": "^2.15",
+    "fakerphp/faker": "^1.20",
+    "ext-cassandra": "*",
+    "vlucas/phpdotenv": "^5.5"
+  }
+}

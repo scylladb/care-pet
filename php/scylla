@@ -1,0 +1,33 @@
+<?php
+
+use App\Core\Commands\Base\AbstractCommand;
+use App\Core\Commands\Base\CommandException;
+use App\Core\Commands\MigrateCommand;
+use App\Core\Commands\SeedCommand;
+use App\Core\Commands\ServeCommand;
+
+require_once 'vendor/autoload.php';
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->load();
+
+if(count($argv) <= 1) {
+    echo "Please select a valid option" . PHP_EOL;
+    return;
+}
+
+function getCommand($command): AbstractCommand
+{
+    switch($command) {
+        case 'serve':
+            return new ServeCommand();
+        case 'migrate':
+            return new MigrateCommand();
+        case 'seed':
+            return new SeedCommand();
+    }
+
+    throw CommandException::notFound($command);
+}
+
+getCommand($argv[1])->handle($argv);
+
