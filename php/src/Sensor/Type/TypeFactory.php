@@ -4,7 +4,7 @@ namespace App\Sensor\Type;
 
 use Faker\Factory;
 
-class TypeFactory
+final class TypeFactory
 {
     public static function make(array $fields = []): TypeDTO
     {

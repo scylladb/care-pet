@@ -8,7 +8,7 @@ use App\Owner\OwnerDTO;
 use App\Owner\OwnerRepository;
 use Exception;
 
-class FindOwnerById
+final class FindOwnerById
 {
     /** @var OwnerRepository */
     private $repository;

@@ -7,7 +7,7 @@ use App\Core\Entities\AbstractFactory;
 use Cassandra\Uuid;
 use Faker\Factory;
 
-class OwnerFactory extends AbstractFactory
+final class OwnerFactory extends AbstractFactory
 {
     public static function make(array $fields = []): OwnerDTO
     {

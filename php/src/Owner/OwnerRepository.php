@@ -4,7 +4,7 @@ namespace App\Owner;
 
 use App\Core\Database\AbstractRepository;
 
-class OwnerRepository extends AbstractRepository
+final class OwnerRepository extends AbstractRepository
 {
     /** @var string */
     public $table = 'owner';

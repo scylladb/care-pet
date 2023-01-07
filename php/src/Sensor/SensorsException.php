@@ -4,7 +4,7 @@ namespace App\Sensor;
 
 use Exception;
 
-class SensorsException extends Exception
+final class SensorsException extends Exception
 {
     public static function invalidSensorType(string $type): self
     {

@@ -8,7 +8,7 @@ use Cassandra\Uuid;
 use Faker\Factory;
 use Faker\Generator;
 
-class SensorFactory extends AbstractFactory
+final class SensorFactory extends AbstractFactory
 {
     public function __construct()
     {

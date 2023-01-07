@@ -5,18 +5,36 @@ namespace App\Pet;
 use App\Core\Entities\AbstractDTO;
 use Cassandra\Uuid;
 
-class PetDTO extends AbstractDTO
+final class PetDTO extends AbstractDTO
 {
-
+    /** @var \Cassandra\Uuid */
     public $ownerId;
+
+    /** @var string */
     public $chipId;
+
+    /** @var string */
     public $color;
+
+    /** @var string */
     public $breed;
+
+    /** @var string */
     public $species;
+
+    /** @var string */
     public $gender;
+
+    /** @var int */
     public $age;
+
+    /** @var float */
     public $weight;
+
+    /** @var string */
     public $address;
+
+    /** @var string */
     public $name;
 
     public function __construct(

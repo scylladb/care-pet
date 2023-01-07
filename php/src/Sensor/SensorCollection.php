@@ -5,7 +5,7 @@ namespace App\Sensor;
 use App\Core\Entities\Collection;
 use Cassandra\Rows;
 
-class SensorCollection extends Collection
+final class SensorCollection extends Collection
 {
     public static function make(Rows $rows): self
     {

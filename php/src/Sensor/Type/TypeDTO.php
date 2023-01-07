@@ -5,18 +5,14 @@ namespace App\Sensor\Type;
 use App\Core\Entities\AbstractDTO;
 use App\Sensor\SensorsException;
 
-class TypeDTO extends AbstractDTO
+final class TypeDTO extends AbstractDTO
 {
     private $validTypes = ['T', 'P', 'L', 'R'];
 
-    /**
-     * @var string $name
-     */
+    /** @var string $name */
     public $name;
 
-    /**
-     * @throws SensorsException
-     */
+    /** @throws SensorsException */
     public function __construct(string $name)
     {
         if (!in_array($name, $this->validTypes)) {

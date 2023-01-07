@@ -7,7 +7,7 @@ use App\Owner\OwnerDTO;
 use App\Owner\OwnerFactory;
 use App\Owner\OwnerRepository;
 
-class CreateOwner
+final class CreateOwner
 {
     /**
      * @var \App\Owner\OwnerRepository

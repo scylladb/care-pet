@@ -5,7 +5,7 @@ namespace App\Pet;
 use App\Core\Entities\Collection;
 use Cassandra\Rows;
 
-class PetCollection extends Collection
+final class PetCollection extends Collection
 {
     public static function make(Rows $databaseRows): self
     {

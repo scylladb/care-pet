@@ -5,7 +5,7 @@ namespace App\Pet;
 use App\Core\Database\AbstractRepository;
 use Cassandra\Rows;
 
-class PetRepository extends AbstractRepository
+final class PetRepository extends AbstractRepository
 {
     public $table = 'pet';
 

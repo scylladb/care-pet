@@ -6,7 +6,7 @@ use App\Core\Entities\AbstractDTO;
 use App\Sensor\Type\TypeDTO;
 use Cassandra\Uuid;
 
-class SensorDTO extends AbstractDTO
+final class SensorDTO extends AbstractDTO
 {
     /*** @var Uuid $id */
     public $id;

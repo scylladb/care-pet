@@ -6,7 +6,7 @@ use App\Owner\OwnerRepository;
 use App\Pet\PetCollection;
 use App\Pet\PetRepository;
 
-class GetOwnerPets
+final class GetOwnerPets
 {
     /** @var \App\Pet\PetRepository */
     private $repository;

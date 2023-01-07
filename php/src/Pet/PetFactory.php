@@ -6,7 +6,7 @@ use App\Core\Entities\AbstractFactory;
 use Cassandra\Uuid;
 use Faker\Factory;
 
-class PetFactory extends AbstractFactory
+final class PetFactory extends AbstractFactory
 {
     public static function make(array $fields = []): PetDTO
     {

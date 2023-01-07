@@ -4,7 +4,7 @@ namespace App\Owner\Exceptions;
 
 use Exception;
 
-class OwnerException extends Exception
+final class OwnerException extends Exception
 {
     public static function notFound(string $id): self
     {

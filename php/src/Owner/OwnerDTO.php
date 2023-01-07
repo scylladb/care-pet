@@ -5,7 +5,7 @@ namespace App\Owner;
 use App\Core\Entities\AbstractDTO;
 use Cassandra\Uuid;
 
-class OwnerDTO extends AbstractDTO
+final class OwnerDTO extends AbstractDTO
 {
     /** @var Uuid $id */
     public $id;
