@@ -33,5 +33,4 @@ class SensorFactory extends AbstractFactory
         }, $emptyCollection);
         return new SensorCollection($collection);
     }
-
 }

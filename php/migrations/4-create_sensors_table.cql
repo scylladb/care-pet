@@ -4,4 +4,4 @@ CREATE TABLE IF NOT EXISTS carepet.sensor
     sensor_id UUID,
     type TEXT,
     PRIMARY KEY (pet_id, sensor_id)
-    );
+);

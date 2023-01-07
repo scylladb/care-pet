@@ -7,8 +7,7 @@ use App\Core\Database\Connector;
 
 class MigrateCommand extends AbstractCommand
 {
-
-    public function handle(array $args): int
+    public function __invoke(array $args): int
     {
         $this->info('Fetching Migrations...');
         $connector = new Connector(config('database'));
