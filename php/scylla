@@ -30,5 +30,3 @@ function getCommand($command)
 
 $command = getCommand($argv[1]);
 $container->call($command, ['args' => $argv]);
-
-
