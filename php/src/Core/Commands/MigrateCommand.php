@@ -5,22 +5,31 @@ namespace App\Core\Commands;
 use App\Core\Commands\Base\AbstractCommand;
 use App\Core\Database\Connector;
 
-class MigrateCommand extends AbstractCommand
+final class MigrateCommand extends AbstractCommand
 {
+    /**
+     * @var \App\Core\Database\Connector
+     */
+    private $connector;
+
+    public function __construct(Connector $connector)
+    {
+        $this->connector = $connector;
+    }
+
     public function __invoke(array $args): int
     {
         $this->info('Fetching Migrations...');
-        $connector = new Connector(config('database'));
+        $this->info('Preparing Keyspace ' . config('database.keyspace'));
 
         $keyspaceCQL = $this->getMigrations()[0];
-        $this->info('Preparing Keyspace ' . config('database.keyspace'));
-        $connector->prepare($keyspaceCQL)->execute();
+        $this->connector->prepare($keyspaceCQL)->execute();
 
-        $connector = $connector
+        $this->connector = $this->connector
             ->setKeyspace(config('database.keyspace'));
 
         foreach ($this->getMigrations() as $migrationFile) {
-            $connector->prepare(file_get_contents($migrationFile))->execute();
+            $this->connector->prepare(file_get_contents($migrationFile))->execute();
             $this->info(sprintf('Migrated: %s', $migrationFile));
         }
 
@@ -28,10 +37,8 @@ class MigrateCommand extends AbstractCommand
         return self::SUCCESS;
     }
 
-    /**
-     * @return array|false
-     */
-    public function getMigrations()
+    /** @return array<int, string> */
+    public function getMigrations(): array
     {
         return glob(basePath('/migrations/*.cql'));
     }

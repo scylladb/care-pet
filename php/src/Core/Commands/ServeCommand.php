@@ -4,7 +4,7 @@ namespace App\Core\Commands;
 
 use App\Core\Commands\Base\AbstractCommand;
 
-class ServeCommand extends AbstractCommand
+final class ServeCommand extends AbstractCommand
 {
     public function __invoke(array $args = []): int
     {

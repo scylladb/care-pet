@@ -12,20 +12,16 @@ use App\Pet\PetRepository;
 use App\Sensor\SensorFactory;
 use App\Sensor\SensorRepository;
 
-class SeedCommand extends AbstractCommand
+final class SeedCommand extends AbstractCommand
 {
 
-    /**
-     * @var \App\Owner\OwnerRepository
-     */
+    /** @var OwnerRepository */
     private $ownerRepository;
-    /**
-     * @var \App\Pet\PetRepository
-     */
+
+    /** @var \App\Pet\PetRepository */
     private $petRepository;
-    /**
-     * @var \App\Sensor\SensorRepository
-     */
+
+    /** @var \App\Sensor\SensorRepository */
     private $sensorRepository;
 
     public function __construct(
@@ -45,12 +41,7 @@ class SeedCommand extends AbstractCommand
     {
         foreach (range(0, self::AMOUNT_BASE) as $i) {
             $this->info("Batch: " . $i);
-            $ownerDTO = OwnerFactory::make();
-            $petsDTO = PetFactory::makeMany(5, ['owner_id' => $ownerDTO->id]);
-            $sensorDTOs = SensorFactory::makeMany(5, [
-                'pet_id' => $petsDTO[0]->id,
-                'owner_id' => $ownerDTO->id
-            ]);
+            [$ownerDTO, $petsDTO, $sensorDTOs] = $this->generateFakeData();
 
             $this->ownerRepository->create($ownerDTO);
             $this->info(sprintf('Owner %s', $ownerDTO->id));
@@ -71,5 +62,17 @@ class SeedCommand extends AbstractCommand
         $this->info('Done :D');
 
         return self::SUCCESS;
+    }
+
+    public function generateFakeData(): array
+    {
+        $ownerDTO = OwnerFactory::make();
+        $petsDTO = PetFactory::makeMany(5, ['owner_id' => $ownerDTO->id]);
+        $sensorDTOs = SensorFactory::makeMany(5, [
+            'pet_id' => $petsDTO[0]->id,
+            'owner_id' => $ownerDTO->id
+        ]);
+
+        return [$ownerDTO, $petsDTO, $sensorDTOs];
     }
 }
