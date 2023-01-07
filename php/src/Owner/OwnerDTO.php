@@ -2,7 +2,7 @@
 
 namespace App\Owner;
 
-use App\Core\AbstractDTO;
+use App\Core\Entities\AbstractDTO;
 use Cassandra\Uuid;
 
 class OwnerDTO extends AbstractDTO
@@ -31,7 +31,7 @@ class OwnerDTO extends AbstractDTO
     public function toDatabase(): array
     {
         return [
-            'owner_id' => $this->id,
+            'owner_id' => $this->id->uuid(),
             'name' => $this->name,
             'address' => $this->address
         ];

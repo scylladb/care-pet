@@ -2,7 +2,7 @@
 
 namespace App\Pet;
 
-use App\Core\AbstractDTO;
+use App\Core\Entities\AbstractDTO;
 use Cassandra\Uuid;
 
 class PetDTO extends AbstractDTO
@@ -66,7 +66,8 @@ class PetDTO extends AbstractDTO
     public function toDatabase(): array
     {
         return [
-            'owner_id' => $this->ownerId,
+            'pet_id' => $this->id->uuid(),
+            'owner_id' => $this->ownerId->uuid(),
             'chip_id' => $this->chipId,
             'species' => $this->species,
             'breed' => $this->breed,

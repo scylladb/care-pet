@@ -2,32 +2,35 @@
 
 namespace App\Core\Database;
 
-use App\Core\AbstractDTO;
-use App\Owner\OwnerDTO;
-use Cassandra\FutureRows;
+use App\Core\Entities\AbstractDTO;
 use Cassandra\Rows;
 
 abstract class AbstractRepository
 {
 
+    /** @var string */
     public $table = '';
 
+    /** @var string */
     public $primaryKey = '';
 
-    /**
-     * @var Connector
-     */
+    /** @var Connector */
     public $connection;
 
-    public function __construct()
+    /** @var array */
+    public $keys = [];
+
+    public function __construct(Connector $connector)
     {
-        $this->connection = new Connector(config('database'));
+        $this->connection = $connector;
     }
 
     public function getById(string $id): Rows
     {
+        $query = sprintf("SELECT * FROM %s WHERE %s = %s", $this->table, $this->primaryKey, $id);
+
         return $this->connection
-            ->prepare(sprintf('SELECT * FROM %s WHERE %s = %s', $this->table, $this->primaryKey, $id))
+            ->prepare($query)
             ->execute()
             ->get(5);
     }
@@ -46,22 +49,21 @@ abstract class AbstractRepository
         $dataValues = array_values($dto->toDatabase());
 
         foreach ($dataValues as $key => $value) {
-            if (is_string($value)) {
+            if (is_string($value) && !in_array($keys[$key], $this->keys)) {
+                $value = addslashes($value);
                 $dataValues[$key] = "'$value'";
             }
         }
 
         $query = sprintf(
-            "INSERT INTO %s (%s, %s) VALUES (uuid(), %s)",
+            "INSERT INTO %s (%s) VALUES (%s)",
             $this->table,
-            $this->primaryKey,
             implode(', ', $keys),
             implode(', ', $dataValues)
         );
 
 
-        return (bool) $this->connection
-            ->prepare($query)
-            ->execute();
+        $this->connection->prepare($query)->execute()->get(5);
+        return true;
     }
 }

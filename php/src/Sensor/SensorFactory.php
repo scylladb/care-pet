@@ -2,13 +2,18 @@
 
 namespace App\Sensor;
 
-use App\Pet\PetDTO;
+use App\Core\Entities\AbstractFactory;
 use App\Sensor\Type\TypeFactory;
 use Cassandra\Uuid;
 use Faker\Factory;
+use Faker\Generator;
 
-class SensorFactory
+class SensorFactory extends AbstractFactory
 {
+    public function __construct()
+    {
+    }
+
     public static function make(array $fields = []): SensorDTO
     {
         $faker = Factory::create();
@@ -22,12 +27,11 @@ class SensorFactory
 
     public static function makeMany(int $amount, array $fields = []): SensorCollection
     {
-        return new SensorCollection(array_fill(
-            0,
-            $amount,
-            self::make($fields)
-        ));
-
+        $emptyCollection = array_fill(0, $amount, null);
+        $collection = array_map(function () use ($fields) {
+            return self::make($fields);
+        }, $emptyCollection);
+        return new SensorCollection($collection);
     }
 
 }

@@ -2,9 +2,10 @@
 
 namespace App\Owner;
 
+use App\Core\Entities\Collection;
 use Cassandra\Rows;
 
-class OwnerCollection extends \ArrayIterator
+class OwnerCollection extends Collection
 {
 
     public static function make(Rows $ownerList): self

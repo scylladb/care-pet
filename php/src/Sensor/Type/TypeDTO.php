@@ -2,7 +2,7 @@
 
 namespace App\Sensor\Type;
 
-use App\Core\AbstractDTO;
+use App\Core\Entities\AbstractDTO;
 use App\Sensor\SensorsException;
 
 class TypeDTO extends AbstractDTO

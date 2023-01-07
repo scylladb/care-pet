@@ -2,9 +2,10 @@
 
 namespace App\Sensor;
 
+use App\Core\Entities\Collection;
 use Cassandra\Rows;
 
-class SensorCollection extends \ArrayIterator
+class SensorCollection extends Collection
 {
     public static function make(Rows $rows): self
     {
