@@ -2,17 +2,18 @@
 
 This example project demonstrates a generic IoT use case for ScyllaDB in PHP.
 
-Here you will find a list with possible drivers to integrate.
+Here you will find a list of possible drivers to integrate with.
 
 | PHP Version | Driver                                                                         |
 |-------------|--------------------------------------------------------------------------------|
 | PHP 7.1 [x] | [DataStax PHP Driver](https://github.com/datastax/php-driver)                  |
 | PHP 8.1     | [Cassandra PHP Driver (dev)](https://github.com/qkdreyer/cassandra-php-driver) |
 
-The documentation for this application and guided exercise is [here](../docs).
+The documentation for this application and the guided exercise is [here](../docs).
+
 
 ## Quick Start
-The application allows tracking of pets health indicators and consist in a CLI of three parts:
+The application allows the tracking of the pets health indicators and it consist in a CLI of three parts:
 
 | Command             | Description                                                |
 |---------------------|------------------------------------------------------------|
@@ -34,7 +35,7 @@ the help of `docker` and `docker-compose` execute:
 $ docker-compose up -d
 ````    
 
-Docker-compose will spin up three nodes which is:
+Docker-compose will spin up three nodes which are:
 
 - carepet-scylla1
 - carepet-scylla2
@@ -54,7 +55,7 @@ CONTAINER ID   IMAGE                    COMMAND                  CREATED       S
 > If you have any error regarding "premature connection", restart your docker instance and wait a minute until
 > your ScyllaDB connection be established. 
 
-... and also will create the **php-workspace**, where your web server will run. You can access them with the `docker`
+... and it will also create the **php-workspace**, where your web server will run. You can access them with the `docker`
 command.
 
 ### Useful Commands
@@ -207,7 +208,7 @@ CREATE TABLE carepet.owner (
 cqlsh:carepet> exit
 ````
 
-To start pet collar simulation execute the following in the separate terminal:
+To start pet collar simulation, execute the following in a separate terminal:
 
 Expected output:
 
