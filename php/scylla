@@ -7,27 +7,28 @@ use App\Core\Commands\SeedCommand;
 use App\Core\Commands\ServeCommand;
 
 require_once 'vendor/autoload.php';
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
-$dotenv->load();
+use App\Core\Bootstrap;
 
 if(count($argv) <= 1) {
     echo "Please select a valid option" . PHP_EOL;
     return;
 }
-
-function getCommand($command): AbstractCommand
+$container = (new Bootstrap())->init();
+function getCommand($command)
 {
     switch($command) {
         case 'serve':
-            return new ServeCommand();
+            return ServeCommand::class;
         case 'migrate':
-            return new MigrateCommand();
+            return MigrateCommand::class;
         case 'seed':
-            return new SeedCommand();
+            return SeedCommand::class;
     }
 
     throw CommandException::notFound($command);
 }
 
-getCommand($argv[1])->handle($argv);
+$command = getCommand($argv[1]);
+$container->call($command, ['args' => $argv]);
+
 
