@@ -7,8 +7,10 @@ use App\Owner\OwnerFactory;
 use App\Owner\OwnerRepository;
 use App\Pet\PetFactory;
 use App\Pet\PetRepository;
+use App\Sensors\Sensor\SensorDTO;
 use App\Sensors\Sensor\SensorFactory;
 use App\Sensors\Sensor\SensorRepository;
+use Closure;
 
 final class SeedCommand extends AbstractCommand
 {
@@ -49,10 +51,7 @@ final class SeedCommand extends AbstractCommand
                 $this->petRepository->create($petDTO);
 
                 SensorFactory::makeMany(5, ['pet_id' => $petDTO->id])
-                    ->each(function ($sensorDTO) {
-                        $this->sensorRepository->create($sensorDTO);
-                        $this->info(sprintf('Sensor: %s | Pet %s', $sensorDTO->id, $sensorDTO->petId));
-                    });
+                    ->each($this->handleSensors());
             });
         }
         $this->info('Done :D');
@@ -60,15 +59,24 @@ final class SeedCommand extends AbstractCommand
         return self::SUCCESS;
     }
 
-    public function generateFakeData(): array
+    private function generateFakeData(): array
     {
         $ownerDTO = OwnerFactory::make();
         $petsDTO = PetFactory::makeMany(5, ['owner_id' => $ownerDTO->id]);
-        $sensorDTOs = SensorFactory::makeMany(5, [
-            'pet_id' => $petsDTO[0]->id,
-            'owner_id' => $ownerDTO->id
-        ]);
 
-        return [$ownerDTO, $petsDTO, $sensorDTOs];
+        return [$ownerDTO, $petsDTO];
+    }
+
+    private function handleSensors(): Closure
+    {
+        return function (SensorDTO $sensorDTO) {
+            $this->sensorRepository->create($sensorDTO);
+            $this->info(sprintf(
+                'Sensor: %s (%s) | Pet %s',
+                $sensorDTO->id,
+                $sensorDTO->type->name,
+                $sensorDTO->petId
+            ));
+        };
     }
 }
