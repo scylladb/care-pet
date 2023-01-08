@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Sensor\Type;
+namespace App\Sensors\Type;
 
 use Faker\Factory;
 

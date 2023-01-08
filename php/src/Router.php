@@ -4,6 +4,8 @@ namespace App;
 
 use App\Owner\Controllers\FindOwnerController;
 use App\Owner\Controllers\OwnerPetsController;
+use App\Pet\Controllers\FindPetController;
+use App\Sensors\Controllers\GetPetSensorsController;
 use FastRoute\Dispatcher;
 use FastRoute\RouteCollector;
 use function FastRoute\simpleDispatcher;
@@ -15,8 +17,8 @@ class Router
         return simpleDispatcher(function(RouteCollector $router) {
             $router->get('/owners/{ownerId}', [FindOwnerController::class]);
             $router->get('/owners/{ownerId}/pets', [OwnerPetsController::class]);
-            $router->get('/pets/{id:\d+}/', [x::class, 'handle']);
-            $router->get('/pets/{id:\d+}/sensors', [x::class, 'handle']);
+            $router->get('/pets/{petId}', [FindPetController::class]);
+            $router->get('/pets/{petId}/sensors', [GetPetSensorsController::class]);
             $router->get('/sensors/{id:\d+}', [x::class, 'handle']);
             $router->get('/sensors/{id:\d+}/daily', [x::class, 'handle']);
         });

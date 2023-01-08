@@ -2,10 +2,9 @@
 
 namespace App\Owner\Actions;
 
-use App\Owner\OwnerRepository;
+use App\Pet\Exceptions\PetException;
 use App\Pet\PetCollection;
 use App\Pet\PetDTO;
-use App\Pet\PetException;
 use App\Pet\PetRepository;
 
 final class GetOwnerPets

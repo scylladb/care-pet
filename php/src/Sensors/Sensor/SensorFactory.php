@@ -1,12 +1,11 @@
 <?php
 
-namespace App\Sensor;
+namespace App\Sensors\Sensor;
 
 use App\Core\Entities\AbstractFactory;
-use App\Sensor\Type\TypeFactory;
+use App\Sensors\Type\TypeFactory;
 use Cassandra\Uuid;
 use Faker\Factory;
-use Faker\Generator;
 
 final class SensorFactory extends AbstractFactory
 {
@@ -19,7 +18,7 @@ final class SensorFactory extends AbstractFactory
         $faker = Factory::create();
 
         return new SensorDTO(
-            $fields['owner_id'] ?? new Uuid($faker->uuid()),
+            new Uuid($faker->uuid()),
             $fields['pet_id'] ?? new Uuid($faker->uuid()),
             $fields['type'] ?? TypeFactory::make()
         );
@@ -28,7 +27,7 @@ final class SensorFactory extends AbstractFactory
     /**
      * @param int $amount
      * @param array $fields
-     * @return SensorCollection<int, \App\Sensor\SensorDTO>
+     * @return SensorCollection<int, \App\Sensors\Sensor\SensorDTO>
      */
     public static function makeMany(int $amount, array $fields = []): SensorCollection
     {

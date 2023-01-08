@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Sensor;
+namespace App\Sensors\Sensor;
 
 use App\Core\Entities\Collection;
 use Cassandra\Rows;

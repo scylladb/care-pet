@@ -3,14 +3,12 @@
 namespace App\Core\Commands;
 
 use App\Core\Commands\Base\AbstractCommand;
-use App\Core\Database\Connector;
-use App\Owner\OwnerDTO;
 use App\Owner\OwnerFactory;
 use App\Owner\OwnerRepository;
 use App\Pet\PetFactory;
 use App\Pet\PetRepository;
-use App\Sensor\SensorFactory;
-use App\Sensor\SensorRepository;
+use App\Sensors\Sensor\SensorFactory;
+use App\Sensors\Sensor\SensorRepository;
 
 final class SeedCommand extends AbstractCommand
 {
@@ -21,7 +19,7 @@ final class SeedCommand extends AbstractCommand
     /** @var \App\Pet\PetRepository */
     private $petRepository;
 
-    /** @var \App\Sensor\SensorRepository */
+    /** @var \App\Sensors\Sensor\SensorRepository */
     private $sensorRepository;
 
     public function __construct(
@@ -41,7 +39,7 @@ final class SeedCommand extends AbstractCommand
     {
         foreach (range(0, self::AMOUNT_BASE) as $i) {
             $this->info("Batch: " . $i);
-            [$ownerDTO, $petsDTO, $sensorDTOs] = $this->generateFakeData();
+            [$ownerDTO, $petsDTO] = $this->generateFakeData();
 
             $this->ownerRepository->create($ownerDTO);
             $this->info(sprintf('Owner %s', $ownerDTO->id));
@@ -49,15 +47,13 @@ final class SeedCommand extends AbstractCommand
             $petsDTO->each(function ($petDTO) {
                 $this->info(sprintf('Pet: %s | Owner %s', $petDTO->id->uuid(), $petDTO->ownerId));
                 $this->petRepository->create($petDTO);
-            });
 
-            while(true) {
-                $sensorDTOs->each(function ($sensorDTO) {
-                    $this->sensorRepository->create($sensorDTO);
-                    $this->info(sprintf('Sensor: %s | Pet %s', $sensorDTO->id, $sensorDTO->petId));
-                    sleep(1);
-                });
-            }
+                SensorFactory::makeMany(5, ['pet_id' => $petDTO->id])
+                    ->each(function ($sensorDTO) {
+                        $this->sensorRepository->create($sensorDTO);
+                        $this->info(sprintf('Sensor: %s | Pet %s', $sensorDTO->id, $sensorDTO->petId));
+                    });
+            });
         }
         $this->info('Done :D');
 

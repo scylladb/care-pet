@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Sensor\Type;
+namespace App\Sensors\Type;
 
 use App\Core\Entities\AbstractDTO;
-use App\Sensor\SensorsException;
+use App\Sensors\Sensor\SensorsException;
 
 final class TypeDTO extends AbstractDTO
 {

@@ -12,7 +12,8 @@ abstract class Collection extends ArrayIterator implements JsonSerializable
     public function jsonSerialize(): array
     {
         return [
-            'data' => $this->getArrayCopy()
+            'data' => $this->getArrayCopy(),
+            'total' => $this->count()
         ];
     }
 

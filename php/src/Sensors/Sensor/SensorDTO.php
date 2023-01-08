@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Sensor;
+namespace App\Sensors\Sensor;
 
 use App\Core\Entities\AbstractDTO;
-use App\Sensor\Type\TypeDTO;
+use App\Sensors\Type\TypeDTO;
 use Cassandra\Uuid;
 
 final class SensorDTO extends AbstractDTO
