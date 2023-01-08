@@ -149,7 +149,7 @@ More documentation available at:
 root@7e2b1b94389b:/#
 ````
 ##### Inspecting a Container
-_You can inspect any node by means of the `docker inspect` command as follows. For example:_
+_You can inspect any node using the `docker inspect` command as follows. For example:_
 
 ````shell
 $ docker inspect carepet-scylla1
