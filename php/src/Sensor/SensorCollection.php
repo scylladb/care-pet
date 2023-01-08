@@ -11,7 +11,7 @@ final class SensorCollection extends Collection
     {
         $collection = new self();
         foreach ($rows as $row) {
-            $collection->append(SensorDTO::make($row));
+            $collection->add(SensorDTO::make($row));
         }
 
         return $collection;

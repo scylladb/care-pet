@@ -4,13 +4,15 @@ namespace App\Owner\Actions;
 
 use App\Owner\OwnerRepository;
 use App\Pet\PetCollection;
+use App\Pet\PetDTO;
+use App\Pet\PetException;
 use App\Pet\PetRepository;
 
 final class GetOwnerPets
 {
-    /** @var \App\Pet\PetRepository */
+    /** @var PetRepository */
     private $repository;
-    /** @var \App\Owner\Actions\FindOwnerById */
+    /** @var FindOwnerById */
     private $ownerAction;
 
     public function __construct(PetRepository $repository, FindOwnerById $ownerAction)
@@ -20,11 +22,16 @@ final class GetOwnerPets
         $this->ownerAction = $ownerAction;
     }
 
-    public function handle(string $ownerId)
+    /** @return PetCollection<int, PetDTO> */
+    public function handle(string $ownerId): PetCollection
     {
         $owner = $this->ownerAction->handle($ownerId);
-        return PetCollection::make(
-            $this->repository->getByOwnerId($owner->id->uuid())
-        );
+
+        $pets = $this->repository->getByOwnerId($owner->id->uuid());
+        if ($pets->count() == 0) {
+            throw PetException::noPetsFound();
+        }
+
+        return PetCollection::make($pets);
     }
 }

@@ -2,7 +2,7 @@
 
 namespace App\Core\Commands\Base;
 
-abstract class AbstractCommand implements CommandInterface
+abstract class AbstractCommand
 {
     const SUCCESS = 0;
     const FAIL = 1;

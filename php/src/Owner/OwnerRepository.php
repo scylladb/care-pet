@@ -12,7 +12,7 @@ final class OwnerRepository extends AbstractRepository
     /** @var string */
     public $primaryKey = 'owner_id';
 
-    /** @var array */
+    /** @var string[] */
     public $keys = [
         'owner_id'
     ];

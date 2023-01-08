@@ -25,12 +25,18 @@ final class SensorFactory extends AbstractFactory
         );
     }
 
+    /**
+     * @param int $amount
+     * @param array $fields
+     * @return SensorCollection<int, \App\Sensor\SensorDTO>
+     */
     public static function makeMany(int $amount, array $fields = []): SensorCollection
     {
         $emptyCollection = array_fill(0, $amount, null);
         $collection = array_map(function () use ($fields) {
             return self::make($fields);
         }, $emptyCollection);
+
         return new SensorCollection($collection);
     }
 }

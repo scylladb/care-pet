@@ -11,7 +11,7 @@ final class PetCollection extends Collection
     {
         $collection = new self();
         foreach ($databaseRows as $row) {
-            $collection->append(PetDTO::make($row));
+            $collection->add(PetDTO::make($row));
         }
 
         return $collection;

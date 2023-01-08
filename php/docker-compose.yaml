@@ -13,6 +13,8 @@ services:
       - carepet-scylla1
       - carepet-scylla2
       - carepet-scylla3
+    ports:
+      - "8000:8000"
     networks:
       - php
   carepet-scylla1:

@@ -7,7 +7,7 @@ use App\Owner\Actions\GetOwnerPets;
 
 final class OwnerPetsController extends BaseController
 {
-    /**@var \App\Owner\Actions\GetOwnerPets */
+    /**@var GetOwnerPets */
     private $action;
 
     public function __construct(GetOwnerPets $action)

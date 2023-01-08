@@ -9,7 +9,7 @@ use App\Owner\Actions\FindOwnerById;
 
 final class FindOwnerController extends BaseController
 {
-
+    /** @var FindOwnerById */
     private $action;
 
     public function __construct(FindOwnerById $action)

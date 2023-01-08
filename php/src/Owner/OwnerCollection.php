@@ -12,7 +12,7 @@ final class OwnerCollection extends Collection
     {
         $collection = new self();
         foreach ($ownerList as $owner) {
-            $collection->append(OwnerDTO::make($owner));
+            $collection->add(OwnerDTO::make($owner));
         }
 
         return $collection;

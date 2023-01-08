@@ -22,7 +22,11 @@ final class OwnerFactory extends AbstractFactory
 
     public static function makeMany(int $amount, array $fields = []): OwnerCollection
     {
-        $collection = array_fill(0, $amount, self::make($fields));
+        $emptyCollection = array_fill(0, $amount, null);
+        $collection = array_map(function () use ($fields) {
+            return self::make($fields);
+        }, $emptyCollection);
+
         return new OwnerCollection($collection);
     }
 }

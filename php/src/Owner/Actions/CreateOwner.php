@@ -9,9 +9,7 @@ use App\Owner\OwnerRepository;
 
 final class CreateOwner
 {
-    /**
-     * @var \App\Owner\OwnerRepository
-     */
+    /** @var OwnerRepository */
     private $repository;
 
     public function __construct(OwnerRepository $repository)
