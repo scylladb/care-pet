@@ -12,7 +12,7 @@ use App\Sensors\Sensor\SensorFactory;
 use App\Sensors\Sensor\SensorRepository;
 use Closure;
 
-final class SeedCommand extends AbstractCommand
+final class SimulateCommand extends AbstractCommand
 {
 
     /** @var OwnerRepository */
@@ -39,6 +39,7 @@ final class SeedCommand extends AbstractCommand
 
     public function __invoke(array $args = []): int
     {
+        $this->info('Starting Sensor simulator...');
         foreach (range(0, self::AMOUNT_BASE) as $i) {
             $this->info("Batch: " . $i);
             [$ownerDTO, $petsDTO] = $this->generateFakeData();

@@ -18,4 +18,9 @@ final class SensorsException extends Exception
     {
         return new self('This pet doesn\'t has any sensor.', 404);
     }
+
+    public static function notFound(string $sensorId): self
+    {
+        return new self(sprintf('Sensor %s not found :/', $sensorId), 404);
+    }
 }

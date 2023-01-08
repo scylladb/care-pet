@@ -70,7 +70,6 @@ These commands you can execute by `entering the container` or through `docker ex
 ##### Entering App Container:
 ````shell
 $ docker exec -it workspace-php php scylla bash
-root@14a656685517:/var/www# 
 root@14a656685517:/var/www# php scylla help
 ````
 
@@ -89,10 +88,26 @@ $ docker exec -it workspace-php php scylla migrate
 
 ##### Starting Web Server:
 ````shell
-$ php scylla serve
+$ docker exec -it workspace-php php scylla serve
 [INFO] CarePet Web started!
 [INFO] Development Server: http://0.0.0.0:8000
 [Thu Jan  5 17:32:01 2023] PHP 7.4.33 Development Server (http://0.0.0.0:8000) started
+````
+
+##### Simulate Environment Sensors:
+````shell
+$ docker exec -it workspace-php php scylla simulate
+[INFO] Starting Sensor simulator... 
+[INFO] Batch: 0
+[INFO] Owner 593dec12-6bea-3c93-8f49-26d8b6d589b1 
+[INFO] Pet: 14d9f304-5600-34af-8622-3d4505d617d7 | Owner 593dec12-6bea-3c93-8f49-26d8b6d589b1
+[INFO] Sensor: 869bd01e-e0ba-364f-bbfb-8c7c496a3318 (R) | Pet 14d9f304-5600-34af-8622-3d4505d617d7 
+[INFO] Sensor: c86f63b0-1439-3404-8750-b71b90a685cb (L) | Pet 14d9f304-5600-34af-8622-3d4505d617d7 
+[INFO] Sensor: e0550426-8832-3d17-9025-77726b3009c5 (P) | Pet 14d9f304-5600-34af-8622-3d4505d617d7 
+[INFO] Sensor: bf960c81-8e0f-3012-b50d-18596b50db18 (P) | Pet 14d9f304-5600-34af-8622-3d4505d617d7 
+[INFO] Sensor: 933245de-812e-34e4-8d50-2ab072726217 (T) | Pet 14d9f304-5600-34af-8622-3d4505d617d7 
+[INFO] Pet: 319ec566-d6b0-3868-ac5e-76253ee7c236 | Owner 593dec12-6bea-3c93-8f49-26d8b6d589b1
+[INFO] ...
 ````
 
 #### ScyllaDB Commands
@@ -208,127 +223,9 @@ CREATE TABLE carepet.owner (
 cqlsh:carepet> exit
 ````
 
-To start pet collar simulation, execute the following in a separate terminal:
-
-Expected output:
-
-````log
-info: Welcome to the Pet collar simulator
-info: New owner # aab6069c-b224-416f-95b5-0f418b08fd62
-info: New pet # a5f36a41-249f-4689-9bea-5f4ac65ea69a
-info: New sensor # 6d509c73-01b9-4006-8398-3891c7c0f23f
-info: New sensor # 6700676b-9b22-43d3-82b3-d56a31f8559d
-info: sensor # 6d509c73-01b9-4006-8398-3891c7c0f23f type L new measure 33.446360291975644 ts 2022-02-25T18:26:59.487Z
-info: sensor # 6700676b-9b22-43d3-82b3-d56a31f8559d type L new measure 34.20680666491499 ts 2022-02-25T18:26:59.488Z
-info: sensor # 6d509c73-01b9-4006-8398-3891c7c0f23f type L new measure 33.36286546273347 ts 2022-02-25T18:27:04.489Z
-...
-````
-
-In a minute (a `--buffer-interval`) you will see a data push (`Pushing data`) log line.
-That means that the collar has been pushed buffered measurements to the app.
-
-Write down the pet Owner ID (ID is something after the `#` sign without trailing spaces).
-To start REST API service execute the following in the separate terminal:
-
-````shell
-$ docker exec -it workspace-php php scylla serve
-````
-
-Expected output:
-
-````log
-[INFO] CarePet Web started! 
-[INFO] Development Server: http://0.0.0.0:8000 
-````
-
-## Structure
-
-Package structure is as follows:
-
-| Name            | Purpose                                             |
-|-----------------|-----------------------------------------------------|
-| /src/Core       | Application Core (Connection, abstractions etc)     |
-| /src/Owner      | Owner Domain: DTO, Repository, Services             |
-
-## Implementation
-
-Collars are small devices that attach to pets and collect data
-with the help of different sensors. After the data is collected
-it may be delivered to the central database for the analysis and
-health status checking.
-
-Collar code sits in the `/src/cmd/sensor` and uses [Cassandra NodeJS](https://github.com/datastax/nodejs-driver)
-driver to connect to the database directly and publish its data.
-Collar gathers sensors measurements, aggregates data in a buffer and
-sends it every hour.
-
-Overall all applications in this repository use [Cassandra NodeJS](https://github.com/datastax/nodejs-driver) for:
-
-- Relational Object Mapping (ORM)
-- Build Queries
-- Migrate database schemas
-
-The web application REST API server resides in `/src/index.js` and uses
-[ExpressJS](https://expressjs.com/). API handlers reside in `/src/api`.
-Most of the queries are reads.
-
-The application is capable of caching sensor measurements data
-on hourly basis. It uses lazy evaluation to manage `sensor_avg`.
-It can be viewed as an application-level lazy-evaluated
-materialized view.
-
-The algorithm is simple and resides in `/src/api/avg.js`:
-
-- read `sensor_avg`
-- if no data, read `measurement` data, aggregate in memory, save
-- serve request
-
 ## Architecture
 
-    Pet --> Sensor --> ScyllaDB <-> REST API Server <-> User
-
-## How to start a new project with NodeJS
-
-[Install NodeJS and NPM](https://nodejs.org/en/download/). Create a repository. Clone it. Execute inside of
-your repository:
-
-    $ mkdir project_name && cd project_name && npm init
-
-Now install the driver by running:
-
-    $ npm install cassandra-driver
-
-Now you are ready to connect to the database and start working.
-To connect to the database, do the following:
-
-```javascript
-const client = new cassandra.Client({
-    contactPoints: ['127.0.0.1:9042'],
-    authProvider: new cassandra.auth.PlainTextAuthProvider('', ''),
-    localDataCenter: 'datacenter1',
-    keyspace: 'keyspace',
-});
-
-await client.connect();
-```
-
-Now you can issue CQL commands:
-
-```javascript
-const {rows} = await client.execute('SELECT a, b, c FROM ks.t');
-console.log(JSON.stringify(rows));
-```
-
-Or save models:
-
-```javascript
-const toInsert = 12345;
-await client.execute('INSERT INTO keyspace.table (a) VALUES(?)', [toInsert]);
-```
-
-For more details, check out `/src/api`, `/src/db.js` and `/src/model.js` files.
-
-## Links
+Pet --> Sensor --> ScyllaDB <-> REST API Server <-> User
 
 - https://hub.docker.com/r/scylladb/scylla
-- https://github.com/datastax/nodejs-driver
+- https://github.com/datastax/php-driver

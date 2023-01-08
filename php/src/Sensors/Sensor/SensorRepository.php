@@ -28,4 +28,20 @@ final class SensorRepository extends AbstractRepository
             ->execute()
             ->get(5);
     }
+
+    public function getSensorsValuesByDateRange(string $sensorId, string $startAt, string $endAt): Rows
+    {
+        $query = sprintf(
+            "SELECT value FROM %s WHERE sensor_id = %s AND ts >= %s AND ts <= %s",
+            $this->table,
+            $sensorId,
+            $startAt,
+            $endAt
+        );
+
+        return $this->connection
+            ->prepare($query)
+            ->execute()
+            ->get(5);
+    }
 }

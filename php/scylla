@@ -4,7 +4,7 @@
 use App\Core\Commands\Base\AbstractCommand;
 use App\Core\Commands\Base\CommandException;
 use App\Core\Commands\MigrateCommand;
-use App\Core\Commands\SeedCommand;
+use App\Core\Commands\SimulateCommand;
 use App\Core\Commands\ServeCommand;
 
 require_once 'vendor/autoload.php';
@@ -22,8 +22,8 @@ function getCommand($command)
             return ServeCommand::class;
         case 'migrate':
             return MigrateCommand::class;
-        case 'seed':
-            return SeedCommand::class;
+        case 'simulate':
+            return SimulateCommand::class;
     }
 
     throw CommandException::notFound($command);
