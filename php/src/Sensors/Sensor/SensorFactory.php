@@ -9,10 +9,6 @@ use Faker\Factory;
 
 final class SensorFactory extends AbstractFactory
 {
-    public function __construct()
-    {
-    }
-
     public static function make(array $fields = []): SensorDTO
     {
         $faker = Factory::create();
@@ -24,11 +20,7 @@ final class SensorFactory extends AbstractFactory
         );
     }
 
-    /**
-     * @param int $amount
-     * @param array $fields
-     * @return SensorCollection<int, \App\Sensors\Sensor\SensorDTO>
-     */
+    /** @return SensorCollection<int, SensorDTO> */
     public static function makeMany(int $amount, array $fields = []): SensorCollection
     {
         $emptyCollection = array_fill(0, $amount, null);

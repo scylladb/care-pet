@@ -16,7 +16,6 @@ final class GetOwnerPets
 
     public function __construct(PetRepository $repository, FindOwnerById $ownerAction)
     {
-
         $this->repository = $repository;
         $this->ownerAction = $ownerAction;
     }

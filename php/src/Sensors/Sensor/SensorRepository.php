@@ -3,6 +3,7 @@
 namespace App\Sensors\Sensor;
 
 use App\Core\Database\AbstractRepository;
+use App\Core\Database\Connector;
 use Cassandra\Rows;
 
 final class SensorRepository extends AbstractRepository
@@ -26,7 +27,7 @@ final class SensorRepository extends AbstractRepository
         return $this->connection
             ->prepare($query)
             ->execute()
-            ->get(5);
+            ->get(Connector::BASE_TIMEOUT);
     }
 
     public function getSensorsValuesByDateRange(string $sensorId, string $startAt, string $endAt): Rows
@@ -42,6 +43,6 @@ final class SensorRepository extends AbstractRepository
         return $this->connection
             ->prepare($query)
             ->execute()
-            ->get(5);
+            ->get(Connector::BASE_TIMEOUT);
     }
 }

@@ -17,6 +17,8 @@ class Connector
     /** @var SimpleStatement */
     public $query;
 
+    const BASE_TIMEOUT = 10;
+
     public function __construct(array $config)
     {
         $this->cluster = Cassandra::cluster()
@@ -33,7 +35,7 @@ class Connector
 
     public function setKeyspace(string $keyspace = ''): self
     {
-        $this->session->close(10);
+        $this->session->close(self::BASE_TIMEOUT);
         $this->session = $this->cluster->connect($keyspace);
 
         return $this;

@@ -32,7 +32,7 @@ abstract class AbstractRepository
         return $this->connection
             ->prepare($query)
             ->execute()
-            ->get(5);
+            ->get(Connector::BASE_TIMEOUT);
     }
 
     public function all(): Rows
@@ -40,7 +40,7 @@ abstract class AbstractRepository
         return $this->connection
             ->prepare(sprintf('SELECT * FROM %s', $this->table))
             ->execute()
-            ->get(5);
+            ->get(Connector::BASE_TIMEOUT);
     }
 
     public function create(AbstractDTO $dto): bool
@@ -63,7 +63,10 @@ abstract class AbstractRepository
         );
 
 
-        $this->connection->prepare($query)->execute()->get(5);
+        $this->connection
+            ->prepare($query)
+            ->execute()
+            ->get(Connector::BASE_TIMEOUT);
         return true;
     }
 }

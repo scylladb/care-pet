@@ -3,6 +3,7 @@
 namespace App\Pet;
 
 use App\Core\Database\AbstractRepository;
+use App\Core\Database\Connector;
 use Cassandra\Rows;
 
 final class PetRepository extends AbstractRepository
@@ -26,6 +27,6 @@ final class PetRepository extends AbstractRepository
         return $this->connection
             ->prepare($query)
             ->execute()
-            ->get(5);
+            ->get(Connector::BASE_TIMEOUT);
     }
 }

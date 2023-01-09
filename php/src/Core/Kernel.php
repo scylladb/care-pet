@@ -17,11 +17,10 @@ class Kernel
         $routeInfo = Router::map()->dispatch($httpMethod, $uri);
         switch ($routeInfo[0]) {
             case Dispatcher::NOT_FOUND:
-                echo 'rota errada irmão';
+                http_response_code(404);
                 break;
             case Dispatcher::METHOD_NOT_ALLOWED:
-                $allowedMethods = $routeInfo[1];
-                // ... 405 Method Not Allowed
+                http_response_code(405);
                 break;
             case Dispatcher::FOUND:
                 [$controller] = $routeInfo[1];
