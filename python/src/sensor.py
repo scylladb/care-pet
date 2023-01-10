@@ -131,9 +131,3 @@ def main():
             client.insert_batch_data("carepet.measurement", measurements_data)
         
 main()
-
-
-
-
-
-
