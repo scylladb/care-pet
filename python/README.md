@@ -23,8 +23,8 @@ The application has three modules:
 ### Clone repository and install dependencies
 Clone the repository and open the root directory of the project:
 ```bash
-git clone https://github.com/zseta/carepet-python
-cd carepet-python
+git clone https://github.com/scylladb/care-pet
+cd care-pet/python
 ```
 
 Create a new virtual environment and activate it:
