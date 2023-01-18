@@ -21,41 +21,41 @@ Prerequisites:
 
 Make sure to install all NodeJS dependencies with:
 
-    $ npm install
+    npm install
 
 To run a local ScyllaDB cluster consisting of three nodes with
 the help of `docker` and `docker-compose` execute:
 
-    $ docker-compose up -d
+    docker-compose up -d
 
 Docker-compose will spin up three nodes: `carepet-scylla1`, `carepet-scylla2`
 and `carepet-scylla3`. You can access them with the `docker` command.
 
 To execute CQLSH:
 
-    $ docker exec -it carepet-scylla1 cqlsh
+    docker exec -it carepet-scylla1 cqlsh
 
 To execute nodetool:
 
-    $ docker exec -it carepet-scylla1 nodetool status
+    docker exec -it carepet-scylla1 nodetool status
 
 Shell:
 
-    $ docker exec -it carepet-scylla1 shell
+    docker exec -it carepet-scylla1 shell
 
 You can inspect any node by means of the `docker inspect` command
 as follows. for example:
 
-    $ docker inspect carepet-scylla1
+    docker inspect carepet-scylla1
 
 To get node IP address run:
 
-    $ docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' carepet-scylla1
+    docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' carepet-scylla1
 
-To initialize database execute:
+To initialize database execute (replace datacenter1 with the name of your datacenter):
 
-    $ NODE1=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' carepet-scylla1)
-    $ npm run migrate -- --hosts $NODE1
+    NODE1=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' carepet-scylla1)
+    npm run migrate -- --hosts $NODE1 --datacenter datacenter1
 
 Expected output:
 
@@ -67,7 +67,7 @@ Expected output:
 
 You can check the database structure with:
 
-    $ docker exec -it carepet-scylla1 cqlsh
+    docker exec -it carepet-scylla1 cqlsh
     cqlsh> DESCRIBE KEYSPACES
 
     carepet  system_schema  system_auth  system  system_distributed  system_traces
@@ -112,8 +112,8 @@ You can check the database structure with:
 
 To start pet collar simulation execute the following in the separate terminal:
 
-    $ NODE1=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' carepet-scylla1)
-    $ npm run sensor -- --hosts $NODE1 --measure 5s --buffer-interval 1m
+    NODE1=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' carepet-scylla1)
+    npm run sensor -- --hosts $NODE1 --measure 5s --buffer-interval 1m --datacenter datacenter1
 
 Expected output:
 
@@ -133,8 +133,8 @@ That means that the collar has been pushed buffered measurements to the app.
 Write down the pet Owner ID (ID is something after the `#` sign without trailing spaces).
 To start REST API service execute the following in the separate terminal:
 
-    $ NODE1=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' carepet-scylla1)
-    $ npm run dev -- --hosts $NODE1
+    NODE1=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' carepet-scylla1)
+    npm run dev -- --hosts $NODE1 --datacenter datacenter1
 
 Expected output:
 
@@ -142,7 +142,7 @@ Expected output:
 
 Now you can open `http://127.0.0.1:8000/` in the browser or send an HTTP request from the CLI:
 
-    $ curl -v http://127.0.0.1:8000/
+    curl -v http://127.0.0.1:8000/
 
     > GET / HTTP/1.1
     > Host: 127.0.0.1:8000
@@ -178,11 +178,11 @@ Now you can open `http://127.0.0.1:8000/` in the browser or send an HTTP request
 This is ok. If you see this page in the end with 404, it means everything works as expected.
 To read an owner data you can use saved `owner_id` as follows:
 
-    $ curl http://127.0.0.1:8000/api/owner/{owner_id}
+    curl http://127.0.0.1:8000/api/owner/{owner_id}
 
 For example:
 
-    $ curl http://127.0.0.1:8000/api/owner/a05fd0df-0f97-4eec-a211-cad28a6e5360
+    curl http://127.0.0.1:8000/api/owner/a05fd0df-0f97-4eec-a211-cad28a6e5360
 
 Expected result:
 
@@ -190,11 +190,11 @@ Expected result:
 
 To list the owners pets use:
 
-    $ curl http://127.0.0.1:8000/api/owner/{owner_id}/pets
+    curl http://127.0.0.1:8000/api/owner/{owner_id}/pets
 
 For example:
 
-    $ curl http://127.0.0.1:8000/api/owner/a05fd0df-0f97-4eec-a211-cad28a6e5360/pets
+    curl http://127.0.0.1:8000/api/owner/a05fd0df-0f97-4eec-a211-cad28a6e5360/pets
 
 Expected output:
 
@@ -202,21 +202,21 @@ Expected output:
 
 To list pet's sensors use:
 
-    $ curl http://127.0.0.1:8000/api/pet/{pet_id}/sensors
+    curl http://127.0.0.1:8000/api/pet/{pet_id}/sensors
 
 For example:
 
-    $ curl http://127.0.0.1:8000/api/pet/cef72f58-fc78-4cae-92ae-fb3c3eed35c4/sensors
+    curl http://127.0.0.1:8000/api/pet/cef72f58-fc78-4cae-92ae-fb3c3eed35c4/sensors
 
     [{"pet_id":"cef72f58-fc78-4cae-92ae-fb3c3eed35c4","sensor_id":"5a9da084-ea49-4ab1-b2f8-d3e3d9715e7d","type":"L"},{"pet_id":"cef72f58-fc78-4cae-92ae-fb3c3eed35c4","sensor_id":"5c70cd8a-d9a6-416f-afd6-c99f90578d99","type":"R"},{"pet_id":"cef72f58-fc78-4cae-92ae-fb3c3eed35c4","sensor_id":"fbefa67a-ceb1-4dcc-bbf1-c90d71176857","type":"L"}]
 
 To review the pet's sensors data use:
 
-    $ curl http://127.0.0.1:8000/api/sensor/{sensor_id}/values?from=2006-01-02T15:04:05Z07:00&to=2006-01-02T15:04:05Z07:00
+    curl http://127.0.0.1:8000/api/sensor/{sensor_id}/values?from=2006-01-02T15:04:05Z07:00&to=2006-01-02T15:04:05Z07:00
 
 For example:
 
-    $  curl http://127.0.0.1:8000/api/sensor/5a9da084-ea49-4ab1-b2f8-d3e3d9715e7d/values\?from\="2020-08-06T00:00:00Z"\&to\="2020-08-06T23:59:59Z"
+    curl http://127.0.0.1:8000/api/sensor/5a9da084-ea49-4ab1-b2f8-d3e3d9715e7d/values\?from\="2020-08-06T00:00:00Z"\&to\="2020-08-06T23:59:59Z"
 
 Expected output:
 
@@ -224,11 +224,11 @@ Expected output:
 
 To read the pet's daily average per sensor use:
 
-    $ curl http://127.0.0.1:8000/api/sensor/{sensor_id}/values/day/{date}
+    curl http://127.0.0.1:8000/api/sensor/{sensor_id}/values/day/{date}
 
 For example:
 
-    $ curl http://127.0.0.1:8000/api/sensor/5a9da084-ea49-4ab1-b2f8-d3e3d9715e7d/values/day/2020-08-06
+    curl http://127.0.0.1:8000/api/sensor/5a9da084-ea49-4ab1-b2f8-d3e3d9715e7d/values/day/2020-08-06
 
 Expected output:
 
@@ -290,11 +290,11 @@ The algorithm is simple and resides in `/src/api/avg.js`:
 [Install NodeJS and NPM](https://nodejs.org/en/download/). Create a repository. Clone it. Execute inside of
 your repository:
 
-    $ mkdir project_name && cd project_name && npm init
+    mkdir project_name && cd project_name && npm init
 
 Now install the driver by running:
 
-    $ npm install cassandra-driver
+    npm install cassandra-driver
 
 Now you are ready to connect to the database and start working.
 To connect to the database, do the following:
