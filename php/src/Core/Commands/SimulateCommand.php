@@ -15,24 +15,12 @@ use Closure;
 final class SimulateCommand extends AbstractCommand
 {
 
-    /** @var OwnerRepository */
-    private $ownerRepository;
-
-    /** @var \App\Pet\PetRepository */
-    private $petRepository;
-
-    /** @var \App\Sensors\Sensor\SensorRepository */
-    private $sensorRepository;
-
     public function __construct(
-        OwnerRepository  $ownerRepository,
-        PetRepository    $petRepository,
-        SensorRepository $sensorRepository
+        private readonly OwnerRepository $ownerRepository,
+        private readonly PetRepository    $petRepository,
+        private readonly SensorRepository $sensorRepository
     )
     {
-        $this->ownerRepository = $ownerRepository;
-        $this->petRepository = $petRepository;
-        $this->sensorRepository = $sensorRepository;
     }
 
     const AMOUNT_BASE = 50000;

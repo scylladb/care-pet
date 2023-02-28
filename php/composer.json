@@ -18,7 +18,7 @@
   ],
   "require": {
     "fakerphp/faker": "^1.20",
-    "ext-cassandra": "*",
+    "ext-cassandra": "^1.3.9-dev",
     "vlucas/phpdotenv": "^5.5",
     "nikic/fast-route": "^1.3",
     "ext-json": "*",

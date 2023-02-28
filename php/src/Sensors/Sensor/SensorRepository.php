@@ -9,7 +9,7 @@ use Cassandra\Rows;
 final class SensorRepository extends AbstractRepository
 {
     /** @var string */
-    public $table = 'sensor';
+    public string $table = 'sensor';
 
     /** @var string */
     public $primaryKey = 'sensor_id';

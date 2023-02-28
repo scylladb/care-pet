@@ -7,18 +7,13 @@ use Cassandra\Rows;
 
 abstract class AbstractRepository
 {
+    public string $table = '';
 
-    /** @var string */
-    public $table = '';
+    public string $primaryKey = '';
 
-    /** @var string */
-    public $primaryKey = '';
+    public Connector $connection;
 
-    /** @var Connector */
-    public $connection;
-
-    /** @var array */
-    public $keys = [];
+    public array $keys = [];
 
     public function __construct(Connector $connector)
     {
@@ -43,7 +38,7 @@ abstract class AbstractRepository
             ->get(Connector::BASE_TIMEOUT);
     }
 
-    public function create(AbstractDTO $dto): bool
+    public function create(AbstractDTO $dto): void
     {
         $keys = array_keys($dto->toDatabase());
         $dataValues = array_values($dto->toDatabase());
@@ -65,8 +60,6 @@ abstract class AbstractRepository
 
         $this->connection
             ->prepare($query)
-            ->execute()
-            ->get(Connector::BASE_TIMEOUT);
-        return true;
+            ->execute();
     }
 }

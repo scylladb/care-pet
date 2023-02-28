@@ -3,33 +3,37 @@
 namespace App\Core\Database;
 
 use Cassandra;
+use Cassandra\Cluster;
+use Cassandra\Cluster\Builder;
 use Cassandra\FutureRows;
 use Cassandra\Session;
 use Cassandra\SimpleStatement;
 
 class Connector
 {
-    /** @var \Cassandra\Cluster\Builder */
-    public $cluster;
 
-    public $session;
+    public Builder $connectionBuilder;
 
-    /** @var SimpleStatement */
-    public $query;
+    public Cluster $cluster;
+
+    public Session $session;
+
+    public SimpleStatement $query;
 
     const BASE_TIMEOUT = 10;
 
     public function __construct(array $config)
     {
-        $this->cluster = Cassandra::cluster()
+        $this->connectionBuilder = Cassandra::cluster()
             ->withContactPoints($config['nodes'])
             ->withDefaultConsistency($config['consistency_level'])
             ->withPort($config['port']);
 
         if (!empty($config['username'] && !empty($config['password']))) {
-            $this->cluster = $this->cluster->withCredentials($config['username'], $config['password']);
+            $this->connectionBuilder = $this->cluster->withCredentials($config['username'], $config['password']);
         }
-        $this->cluster = $this->cluster->build();
+        $this->cluster = $this->connectionBuilder->build();
+
         $this->session = $this->cluster->connect($config['keyspace']);
     }
 

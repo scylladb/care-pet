@@ -9,7 +9,7 @@ use Cassandra\Rows;
 final class PetRepository extends AbstractRepository
 {
     /** @var string */
-    public $table = 'pet';
+    public string $table = 'pet';
 
     /** @var string */
     public $primaryKey = 'pet_id';

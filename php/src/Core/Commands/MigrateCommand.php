@@ -7,14 +7,8 @@ use App\Core\Database\Connector;
 
 final class MigrateCommand extends AbstractCommand
 {
-    /**
-     * @var \App\Core\Database\Connector
-     */
-    private $connector;
-
-    public function __construct(Connector $connector)
+    public function __construct(private  Connector $connector)
     {
-        $this->connector = $connector;
     }
 
     public function __invoke(array $args): int

@@ -10,6 +10,9 @@ if (!function_exists('basePath')) {
 }
 
 if (!function_exists('config')) {
+    /**
+     * @throws \Exception
+     */
     function config(string $key = '')
     {
         $config = require(basePath('/config/app.php'));

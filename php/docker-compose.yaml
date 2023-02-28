@@ -1,22 +1,6 @@
 version: '3.8'
 
 services:
-  workspace:
-    build: ./docker
-    tty: true
-    container_name: workspace-php
-    volumes:
-      - ./:/var/www
-    working_dir: /var/www
-    command: "/init/init.sh"
-    depends_on:
-      - carepet-scylla1
-      - carepet-scylla2
-      - carepet-scylla3
-    ports:
-      - "8000:8000"
-    networks:
-      - php
   carepet-scylla1:
     image: scylladb/scylla
     container_name: carepet-scylla1
@@ -26,6 +10,8 @@ services:
       - "SCYLLA_JMX_REMOTE=-r"
     expose:
       - "7199"
+    ports:
+      - "9042:9042"
     networks:
       php:
         ipv4_address: 10.10.5.2

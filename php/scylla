@@ -1,14 +1,13 @@
 #!/usr/bin/env php
 <?php
 
-use App\Core\Commands\Base\AbstractCommand;
+use App\Core\Bootstrap;
 use App\Core\Commands\Base\CommandException;
 use App\Core\Commands\MigrateCommand;
-use App\Core\Commands\SimulateCommand;
 use App\Core\Commands\ServeCommand;
+use App\Core\Commands\SimulateCommand;
 
 require_once 'vendor/autoload.php';
-use App\Core\Bootstrap;
 
 if(count($argv) <= 1) {
     echo "Please select a valid option" . PHP_EOL;
