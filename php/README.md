@@ -4,16 +4,16 @@ This example project demonstrates a generic IoT use case for ScyllaDB in PHP.
 
 Here you will find a list of possible drivers to integrate with.
 
-| PHP Version | Driver                                                                         |
-|-------------|--------------------------------------------------------------------------------|
-| PHP 7.1 [x] | [DataStax PHP Driver](https://github.com/datastax/php-driver)                  |
-| PHP 8.1     | [Cassandra PHP Driver (dev)](https://github.com/qkdreyer/cassandra-php-driver) |
+| PHP Version | Driver                                                                    |
+|-------------|---------------------------------------------------------------------------|
+| PHP 7.1     | [DataStax PHP Driver](https://github.com/datastax/php-driver)             |
+| PHP 8.2 [x] | [ScyllaDB PHP Driver (dev)](https://github.com/he4rt/scylladb-php-driver) |
 
 The documentation for this application and the guided exercise is [here](../docs).
 
-
 ## Quick Start
-The application allows the tracking of the pets health indicators and it consist in a CLI of three parts:
+
+The application allows the tracking of the pets health indicators, and it consists in a CLI of three parts:
 
 | Command             | Description                                                |
 |---------------------|------------------------------------------------------------|
@@ -21,8 +21,8 @@ The application allows the tracking of the pets health indicators and it consist
 | php scylla simulate | generates a pet health data and pushes it into the storage |
 | php scylla serve    | REST API service for tracking pets health state            |
 
-
 Prerequisites:
+
 - [docker](https://www.docker.com/)
 - [docker-compose](https://docs.docker.com/compose/)
 
@@ -53,7 +53,7 @@ CONTAINER ID   IMAGE                    COMMAND                  CREATED       S
 `````
 
 > If you have any error regarding "premature connection", restart your docker instance and wait a minute until
-> your ScyllaDB connection be established. 
+> your ScyllaDB connection be established.
 
 ... and it will also create the **php-workspace**, where your web server will run. You can access them with the `docker`
 command.
@@ -66,14 +66,15 @@ Here's a list of everything that you can execute and make your own research thro
 
 These commands you can execute by `entering the container` or through `docker exec` remotely:
 
-
 ##### Entering App Container:
+
 ````shell
-$ docker exec -it workspace-php php scylla bash
-root@14a656685517:/var/www# php scylla help
+$ docker exec -it workspace-php bash
+root@14a656685517:/var/www# php scylla migrate
 ````
 
 ##### Initializing Database:
+
 ````shell
 $ docker exec -it workspace-php php scylla migrate
 [INFO] Fetching Migrations... 
@@ -87,6 +88,7 @@ $ docker exec -it workspace-php php scylla migrate
 ````
 
 ##### Starting Web Server:
+
 ````shell
 $ docker exec -it workspace-php php scylla serve
 [INFO] CarePet Web started!
@@ -95,6 +97,7 @@ $ docker exec -it workspace-php php scylla serve
 ````
 
 ##### Simulate Environment Sensors:
+
 ````shell
 $ docker exec -it workspace-php php scylla simulate
 [INFO] Starting Sensor simulator... 
@@ -113,6 +116,7 @@ $ docker exec -it workspace-php php scylla simulate
 #### ScyllaDB Commands
 
 ##### Running Nodetool:
+
 `````shell
 $ docker exec -it carepet-scylla1 nodetool status
 =======================
@@ -148,7 +152,9 @@ More documentation available at:
 
 root@7e2b1b94389b:/#
 ````
+
 ##### Inspecting a Container
+
 _You can inspect any node using the `docker inspect` command as follows. For example:_
 
 ````shell
@@ -174,6 +180,7 @@ $ docker inspect carepet-scylla1
 ````
 
 ###### Get Node IP Address:
+
 ````shell
 $ docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' carepet-scylla1
 10.10.5.2
@@ -190,42 +197,49 @@ cqlsh>
 ````
 
 ````sql
-cqlsh> DESCRIBE KEYSPACES
+cqlsh
+> DESCRIBE KEYSPACES
 carepet  system_schema  system_auth  system  system_distributed  system_traces
 ````
 
-````sql
-cqlsh> USE carepet;
-cqlsh:carepet> DESCRIBE TABLES
+```sql
+cqlsh
+> USE carepet;
+cqlsh
+:carepet> DESCRIBE TABLES
 pet  sensor_avg  gocqlx_migrate  measurement  owner  sensor
-````
-````sql
-cqlsh:carepet> DESCRIBE TABLE pet
-CREATE TABLE carepet.owner (
-    owner_id uuid PRIMARY KEY,
-    address text,
-    name text
-) WITH bloom_filter_fp_chance = 0.01
-    AND caching = {'keys': 'ALL', 'rows_per_partition': 'ALL'}
-    AND comment = ''
-    AND compaction = {'class': 'SizeTieredCompactionStrategy'}
-    AND compression = {'sstable_compression': 'org.apache.cassandra.io.compress.LZ4Compressor'}
-    AND crc_check_chance = 1.0
-    AND dclocal_read_repair_chance = 0.0
-    AND default_time_to_live = 0
-    AND gc_grace_seconds = 864000
-    AND max_index_interval = 2048
-    AND memtable_flush_period_in_ms = 0
-    AND min_index_interval = 128
-    AND read_repair_chance = 0.0
-    AND speculative_retry = '99.0PERCENTILE';
+```
 
-cqlsh:carepet> exit
-````
+```sql
+cqlsh
+:carepet> DESCRIBE TABLE pet
+CREATE TABLE carepet.owner
+(
+    owner_id uuid PRIMARY KEY,
+    address  text,
+    name     text
+) WITH bloom_filter_fp_chance = 0.01
+      AND caching = {'keys': 'ALL', 'rows_per_partition': 'ALL'}
+      AND comment = ''
+      AND compaction = {'class': 'SizeTieredCompactionStrategy'}
+      AND compression = {'sstable_compression': 'org.apache.cassandra.io.compress.LZ4Compressor'}
+      AND crc_check_chance = 1.0
+      AND dclocal_read_repair_chance = 0.0
+      AND default_time_to_live = 0
+      AND gc_grace_seconds = 864000
+      AND max_index_interval = 2048
+      AND memtable_flush_period_in_ms = 0
+      AND min_index_interval = 128
+      AND read_repair_chance = 0.0
+      AND speculative_retry = '99.0PERCENTILE';
+
+cqlsh
+:carepet> exit
+```
 
 ## Architecture
 
 Pet --> Sensor --> ScyllaDB <-> REST API Server <-> User
 
 - https://hub.docker.com/r/scylladb/scylla
-- https://github.com/datastax/php-driver
+- https://github.com/he4rt/scylladb-php-driver
