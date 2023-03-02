@@ -4,10 +4,13 @@ This example project demonstrates a generic IoT use case for ScyllaDB in PHP.
 
 Here you will find a list of possible drivers to integrate with.
 
-| PHP Version  | Driver                                                                        |
-|--------------|-------------------------------------------------------------------------------|
-| PHP 7.1      | [DataStax PHP Driver](https://github.com/datastax/php-driver)                 |
-| PHP 8.2  [x] | [ScyllaDB PHP Driver (dev)](https://github.com/qkdreyer/cassandra-php-driver) |
+| PHP Version  | Driver                                                                              |
+|--------------|-------------------------------------------------------------------------------------|
+| PHP 7.1      | [DataStax PHP Driver](https://github.com/datastax/php-driver)                       |
+| PHP 8.2  [x] | [ScyllaDB PHP Driver (community)](https://github.com/qkdreyer/cassandra-php-driver) |
+
+You will need to build the driver following the instructions of each repository. We strongly recommend that you go for
+PHP 8.x since this project still being maintained and developed by community itself.
 
 The documentation for this application and the guided exercise is [here](getting-started.md).
 
@@ -28,7 +31,7 @@ Prerequisites:
 
 ## Setup
 
-To run a local **ScyllaDB cluster** consisting of three nodes and the **PHP Workspace** with
+To run a local **ScyllaDB cluster** consisting of three nodes and the **PHP Environment** with
 the help of `docker` and `docker-compose` execute:
 
 ```shell
@@ -46,7 +49,6 @@ If you want to see your containers running, run the `docker ps` command, and you
 ```shell
 $ docker ps
 CONTAINER ID   IMAGE                    COMMAND                  CREATED       STATUS       PORTS                                                                      NAMES
-14a656685517   care-pet-php-workspace   "/bin/sh -c /bin/bas…"   1 minute ago   Up 1 minute   9000/tcp                                                                   workspace-php
 4e351dfe3987   scylladb/scylla          "/docker-entrypoint.…"   1 minute ago   Up 1 minute   22/tcp, 7000-7001/tcp, 7199/tcp, 9042/tcp, 9160/tcp, 9180/tcp, 10000/tcp   carepet-scylla2
 9e7e4d3992df   scylladb/scylla          "/docker-entrypoint.…"   1 minute ago   Up 1 minute   22/tcp, 7000-7001/tcp, 7199/tcp, 9042/tcp, 9160/tcp, 9180/tcp, 10000/tcp   carepet-scylla3
 7e2b1b94389b   scylladb/scylla          "/docker-entrypoint.…"   1 minute ago   Up 1 minute   22/tcp, 7000-7001/tcp, 7199/tcp, 9042/tcp, 9160/tcp, 9180/tcp, 10000/tcp   carepet-scylla1
@@ -54,9 +56,6 @@ CONTAINER ID   IMAGE                    COMMAND                  CREATED       S
 
 > If you have any error regarding "premature connection", restart your docker instance and wait a minute until
 > your ScyllaDB connection be established.
-
-... and it will also create the **php-workspace**, where your web server will run. You can access them with the `docker`
-command.
 
 ### Useful Commands
 
@@ -66,17 +65,52 @@ Here's a list of everything that you can execute and make your own research thro
 
 These commands you can execute by `entering the container` or through `docker exec` remotely:
 
-##### Entering App Container:
+##### Configuring the Environment
 
-```shell
-$ docker exec -it workspace-php php scylla bash
-root@14a656685517:/var/www# php scylla help
+Make a copy of `.env.example` and name it `.env`. This file will store your application secrets.
+
+````shell
+$ cp .env.example .env
+````
+
+By default, the config to connect on your local ScyllaDB instances will be ready to use.
+
+```
+# Development
+DB_KEYSPACE="carepet"
+DB_NODES="localhost"
+DB_USERNAME=""
+DB_PASSWORD=""
+DB_PORT=9042
+
+# Production (Cloud)
+#DB_KEYSPACE="carepet"
+#DB_NODES="node-0.aws_sa_east_1.c106d1ac5f3117a20bf0.clusters.scylla.cloud"
+#DB_USERNAME="scylla"
+#DB_PASSWORD="p50bonFq8cuxwXS"
+#DB_PORT=9042
 ```
 
-##### Initializing Database:
+> If you want to use ScyllaDB Cloud, remember to change at your keyspace the **Replication Factor** related to 
+> for each environment.
+
+##### Initializing Keyspace:
+
+First, let's create our keyspace using CQLSH.
 
 ```shell
-$ docker exec -it workspace-php php scylla migrate
+$ docker exec -it carepet-scylla1 cqlsh
+Connected to  at 10.10.5.2:9042.
+[cqlsh 5.0.1 | Cassandra 3.0.8 | CQL spec 3.3.1 | Native protocol v4]
+Use HELP for help.
+cqlsh> CREATE KEYSPACE IF NOT EXISTS carepet WITH replication = { 'class': 'NetworkTopologyStrategy', 'replication_factor': '2' };
+cqlsh>
+```
+
+Then you can run the CLI command to migrate all your tables inside the keyspace.
+
+```shell
+$ php scylla migrate
 [INFO] Fetching Migrations... 
 [INFO] Migrated: /var/www/migrations/1-create_keyspace.cql 
 [INFO] Migrated: /var/www/migrations/2-create_owner_table.cql 
@@ -90,7 +124,7 @@ $ docker exec -it workspace-php php scylla migrate
 ##### Starting Web Server:
 
 ```shell
-$ docker exec -it workspace-php php scylla serve
+$ php scylla serve
 [INFO] CarePet Web started!
 [INFO] Development Server: http://0.0.0.0:8000
 [Thu Jan  5 17:32:01 2023] PHP 7.4.33 Development Server (http://0.0.0.0:8000) started
@@ -99,7 +133,7 @@ $ docker exec -it workspace-php php scylla serve
 ##### Simulate Environment Sensors:
 
 ```shell
-$ docker exec -it workspace-php php scylla simulate
+$ php scylla simulate
 [INFO] Starting Sensor simulator... 
 [INFO] Batch: 0
 [INFO] Owner 593dec12-6bea-3c93-8f49-26d8b6d589b1 
@@ -112,6 +146,189 @@ $ docker exec -it workspace-php php scylla simulate
 [INFO] Pet: 319ec566-d6b0-3868-ac5e-76253ee7c236 | Owner 593dec12-6bea-3c93-8f49-26d8b6d589b1
 [INFO] ...
 ```
+
+````php
+final class SimulateCommand extends AbstractCommand
+{
+
+    public function __construct(
+        private readonly OwnerRepository $ownerRepository,
+        private readonly PetRepository    $petRepository,
+        private readonly SensorRepository $sensorRepository
+    )
+    {
+    }
+
+    const AMOUNT_BASE = 50000;
+
+    public function __invoke(array $args = []): int
+    {
+        $this->info('Starting Sensor simulator...');
+        foreach (range(0, self::AMOUNT_BASE) as $i) {
+            $this->info("Batch: " . $i);
+            [$ownerDTO, $petsDTO] = $this->generateFakeData();
+
+            $this->ownerRepository->create($ownerDTO);
+            $this->info(sprintf('Owner %s', $ownerDTO->id));
+
+            $petsDTO->each(function ($petDTO) {
+                $this->info(sprintf('Pet: %s | Owner %s', $petDTO->id->uuid(), $petDTO->ownerId));
+                $this->petRepository->create($petDTO);
+
+                SensorFactory::makeMany(5, ['pet_id' => $petDTO->id])
+                    ->each($this->handleSensors());
+            });
+        }
+        $this->info('Done :D');
+
+        return self::SUCCESS;
+    }
+
+    private function generateFakeData(): array
+    {
+        $ownerDTO = OwnerFactory::make();
+        $petsDTO = PetFactory::makeMany(5, ['owner_id' => $ownerDTO->id]);
+
+        return [$ownerDTO, $petsDTO];
+    }
+
+    private function handleSensors(): Closure
+    {
+        return function (SensorDTO $sensorDTO) {
+            $this->sensorRepository->create($sensorDTO);
+            $this->info(sprintf(
+                'Sensor: %s (%s) | Pet %s',
+                $sensorDTO->id,
+                $sensorDTO->type->name,
+                $sensorDTO->petId
+            ));
+        };
+    }
+}
+````
+
+##### Inserting Data
+
+You can use `Cassandra::cluster()` and setup your cluster.
+
+````php
+use Cassandra;
+use Cassandra\Cluster;
+use Cassandra\Cluster\Builder;
+use Cassandra\FutureRows;
+use Cassandra\Session;
+use Cassandra\SimpleStatement;
+
+class Connector
+{
+    public Builder $connectionBuilder;
+    public Cluster $cluster;
+    public Session $session;
+    public SimpleStatement $query;
+
+    const BASE_TIMEOUT = 10;
+
+    public function __construct(array $config)
+    {
+        $this->connectionBuilder = Cassandra::cluster()
+            ->withContactPoints($config['nodes'])
+            ->withDefaultConsistency($config['consistency_level'])
+            ->withPort($config['port']);
+
+        if (!empty($config['username'] && !empty($config['password']))) {
+            $this->connectionBuilder = $this->connectionBuilder->withCredentials($config['username'], $config['password']);
+        }
+        $this->cluster = $this->connectionBuilder->build();
+
+        $this->session = $this->cluster->connect($config['keyspace']);
+    }
+
+    public function setKeyspace(string $keyspace = ''): self
+    {
+        $this->session->close(self::BASE_TIMEOUT);
+        $this->session = $this->cluster->connect($keyspace);
+
+        return $this;
+    }
+
+    public function prepare(string $query): self
+    {
+        $this->query = new SimpleStatement($query);
+
+        return $this;
+    }
+
+    public function execute(): FutureRows
+    {
+        return $this->session->executeAsync($this->query, []);
+    }
+}
+
+````
+
+````php
+use App\Core\Entities\AbstractDTO;
+use Cassandra\Rows;
+
+abstract class AbstractRepository
+{
+    public string $table = '';
+
+    public string $primaryKey = '';
+
+    public Connector $connection;
+
+    public array $keys = [];
+
+    public function __construct(Connector $connector)
+    {
+        $this->connection = $connector;
+    }
+
+    public function getById(string $id): Rows
+    {
+        $query = sprintf("SELECT * FROM %s WHERE %s = %s", $this->table, $this->primaryKey, $id);
+
+        return $this->connection
+            ->prepare($query)
+            ->execute()
+            ->get(Connector::BASE_TIMEOUT);
+    }
+
+    public function all(): Rows
+    {
+        return $this->connection
+            ->prepare(sprintf('SELECT * FROM %s', $this->table))
+            ->execute()
+            ->get(Connector::BASE_TIMEOUT);
+    }
+
+    public function create(AbstractDTO $dto): void
+    {
+        $keys = array_keys($dto->toDatabase());
+        $dataValues = array_values($dto->toDatabase());
+
+        foreach ($dataValues as $key => $value) {
+            if (is_string($value) && !in_array($keys[$key], $this->keys)) {
+                $value = addslashes($value);
+                $dataValues[$key] = "'$value'";
+            }
+        }
+
+        $query = sprintf(
+            "INSERT INTO %s (%s) VALUES (%s)",
+            $this->table,
+            implode(', ', $keys),
+            implode(', ', $dataValues)
+        );
+
+
+        $this->connection
+            ->prepare($query)
+            ->execute();
+    }
+}
+````
 
 #### ScyllaDB Commands
 
@@ -185,61 +402,3 @@ $ docker inspect carepet-scylla1
 $ docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' carepet-scylla1
 10.10.5.2
 ```
-
-##### Entering CQLSH (Database)
-
-```shell
-$ docker exec -it carepet-scylla1 cqlsh
-Connected to  at 10.10.5.2:9042.
-[cqlsh 5.0.1 | Cassandra 3.0.8 | CQL spec 3.3.1 | Native protocol v4]
-Use HELP for help.
-cqlsh>
-```
-
-```
-cqlsh
-> DESCRIBE KEYSPACES
-carepet  system_schema  system_auth  system  system_distributed  system_traces
-```
-
-```
-cqlsh
-> USE carepet;
-cqlsh
-:carepet> DESCRIBE TABLES
-pet  sensor_avg  gocqlx_migrate  measurement  owner  sensor
-```
-
-```
-cqlsh
-:carepet> DESCRIBE TABLE pet
-CREATE TABLE carepet.owner
-(
-    owner_id uuid PRIMARY KEY,
-    address  text,
-    name     text
-) WITH bloom_filter_fp_chance = 0.01
-      AND caching = {'keys': 'ALL', 'rows_per_partition': 'ALL'}
-      AND comment = ''
-      AND compaction = {'class': 'SizeTieredCompactionStrategy'}
-      AND compression = {'sstable_compression': 'org.apache.cassandra.io.compress.LZ4Compressor'}
-      AND crc_check_chance = 1.0
-      AND dclocal_read_repair_chance = 0.0
-      AND default_time_to_live = 0
-      AND gc_grace_seconds = 864000
-      AND max_index_interval = 2048
-      AND memtable_flush_period_in_ms = 0
-      AND min_index_interval = 128
-      AND read_repair_chance = 0.0
-      AND speculative_retry = '99.0PERCENTILE';
-
-cqlsh
-:carepet> exit
-```
-
-## Architecture
-
-Pet --> Sensor --> ScyllaDB <-> REST API Server <-> User
-
-- https://hub.docker.com/r/scylladb/scylla
-- https://github.com/datastax/php-driver
