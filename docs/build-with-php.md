@@ -4,15 +4,15 @@ This example project demonstrates a generic IoT use case for ScyllaDB in PHP.
 
 Here you will find a list of possible drivers to integrate with.
 
-| PHP Version | Driver                                                                         |
-|-------------|--------------------------------------------------------------------------------|
-| PHP 7.1  | [DataStax PHP Driver](https://github.com/datastax/php-driver)                  |
-| PHP 8.2  [x]    | [ScyllaDB PHP Driver (dev)](https://github.com/qkdreyer/cassandra-php-driver) |
+| PHP Version  | Driver                                                                        |
+|--------------|-------------------------------------------------------------------------------|
+| PHP 7.1      | [DataStax PHP Driver](https://github.com/datastax/php-driver)                 |
+| PHP 8.2  [x] | [ScyllaDB PHP Driver (dev)](https://github.com/qkdreyer/cassandra-php-driver) |
 
 The documentation for this application and the guided exercise is [here](getting-started.md).
 
-
 ## Quick Start
+
 The application allows the tracking of the pets health indicators and it consist in a CLI of three parts:
 
 | Command             | Description                                                |
@@ -21,8 +21,8 @@ The application allows the tracking of the pets health indicators and it consist
 | php scylla simulate | generates a pet health data and pushes it into the storage |
 | php scylla serve    | REST API service for tracking pets health state            |
 
-
 Prerequisites:
+
 - [docker](https://www.docker.com/)
 - [docker-compose](https://docs.docker.com/compose/)
 
@@ -43,17 +43,17 @@ Docker-compose will spin up three nodes which are:
 
 If you want to see your containers running, run the `docker ps` command, and you should see something like this:
 
-````shell
+```shell
 $ docker ps
 CONTAINER ID   IMAGE                    COMMAND                  CREATED       STATUS       PORTS                                                                      NAMES
 14a656685517   care-pet-php-workspace   "/bin/sh -c /bin/bas…"   1 minute ago   Up 1 minute   9000/tcp                                                                   workspace-php
 4e351dfe3987   scylladb/scylla          "/docker-entrypoint.…"   1 minute ago   Up 1 minute   22/tcp, 7000-7001/tcp, 7199/tcp, 9042/tcp, 9160/tcp, 9180/tcp, 10000/tcp   carepet-scylla2
 9e7e4d3992df   scylladb/scylla          "/docker-entrypoint.…"   1 minute ago   Up 1 minute   22/tcp, 7000-7001/tcp, 7199/tcp, 9042/tcp, 9160/tcp, 9180/tcp, 10000/tcp   carepet-scylla3
 7e2b1b94389b   scylladb/scylla          "/docker-entrypoint.…"   1 minute ago   Up 1 minute   22/tcp, 7000-7001/tcp, 7199/tcp, 9042/tcp, 9160/tcp, 9180/tcp, 10000/tcp   carepet-scylla1
-````
+```
 
 > If you have any error regarding "premature connection", restart your docker instance and wait a minute until
-> your ScyllaDB connection be established. 
+> your ScyllaDB connection be established.
 
 ... and it will also create the **php-workspace**, where your web server will run. You can access them with the `docker`
 command.
@@ -66,14 +66,15 @@ Here's a list of everything that you can execute and make your own research thro
 
 These commands you can execute by `entering the container` or through `docker exec` remotely:
 
-
 ##### Entering App Container:
+
 ```shell
 $ docker exec -it workspace-php php scylla bash
 root@14a656685517:/var/www# php scylla help
 ```
 
 ##### Initializing Database:
+
 ```shell
 $ docker exec -it workspace-php php scylla migrate
 [INFO] Fetching Migrations... 
@@ -87,6 +88,7 @@ $ docker exec -it workspace-php php scylla migrate
 ```
 
 ##### Starting Web Server:
+
 ```shell
 $ docker exec -it workspace-php php scylla serve
 [INFO] CarePet Web started!
@@ -95,6 +97,7 @@ $ docker exec -it workspace-php php scylla serve
 ```
 
 ##### Simulate Environment Sensors:
+
 ```shell
 $ docker exec -it workspace-php php scylla simulate
 [INFO] Starting Sensor simulator... 
@@ -113,7 +116,8 @@ $ docker exec -it workspace-php php scylla simulate
 #### ScyllaDB Commands
 
 ##### Running Nodetool:
-````shell
+
+```shell
 $ docker exec -it carepet-scylla1 nodetool status
 =======================
 Datacenter: datacenter1
@@ -124,7 +128,7 @@ Status=Up/Down
 UN  10.10.5.2  212 KB     256          ?       f6121e15-48df-4b31-b725-3ad2795b8b94  rack1
 UN  10.10.5.3  1.06 MB    256          ?       871795f3-67d2-47ba-83ef-15714b89c02a  rack1
 UN  10.10.5.4  1.06 MB    256          ?       cbe74a63-2cf4-41c2-bf7f-c831c0d2689f  rack1
-````
+```
 
 ##### Running Container Shell:
 
@@ -148,7 +152,9 @@ More documentation available at:
 
 root@7e2b1b94389b:/#
 ```
+
 ##### Inspecting a Container
+
 _You can inspect any node by means of the `docker inspect` command as follows. For example:_
 
 ```shell
@@ -174,6 +180,7 @@ $ docker inspect carepet-scylla1
 ```
 
 ###### Get Node IP Address:
+
 ```shell
 $ docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' carepet-scylla1
 10.10.5.2
@@ -189,38 +196,45 @@ Use HELP for help.
 cqlsh>
 ```
 
-```sql
-cqlsh> DESCRIBE KEYSPACES
+```
+cqlsh
+> DESCRIBE KEYSPACES
 carepet  system_schema  system_auth  system  system_distributed  system_traces
 ```
 
-```sql
-cqlsh> USE carepet;
-cqlsh:carepet> DESCRIBE TABLES
+```
+cqlsh
+> USE carepet;
+cqlsh
+:carepet> DESCRIBE TABLES
 pet  sensor_avg  gocqlx_migrate  measurement  owner  sensor
 ```
-```sql
-cqlsh:carepet> DESCRIBE TABLE pet
-CREATE TABLE carepet.owner (
-    owner_id uuid PRIMARY KEY,
-    address text,
-    name text
-) WITH bloom_filter_fp_chance = 0.01
-    AND caching = {'keys': 'ALL', 'rows_per_partition': 'ALL'}
-    AND comment = ''
-    AND compaction = {'class': 'SizeTieredCompactionStrategy'}
-    AND compression = {'sstable_compression': 'org.apache.cassandra.io.compress.LZ4Compressor'}
-    AND crc_check_chance = 1.0
-    AND dclocal_read_repair_chance = 0.0
-    AND default_time_to_live = 0
-    AND gc_grace_seconds = 864000
-    AND max_index_interval = 2048
-    AND memtable_flush_period_in_ms = 0
-    AND min_index_interval = 128
-    AND read_repair_chance = 0.0
-    AND speculative_retry = '99.0PERCENTILE';
 
-cqlsh:carepet> exit
+```
+cqlsh
+:carepet> DESCRIBE TABLE pet
+CREATE TABLE carepet.owner
+(
+    owner_id uuid PRIMARY KEY,
+    address  text,
+    name     text
+) WITH bloom_filter_fp_chance = 0.01
+      AND caching = {'keys': 'ALL', 'rows_per_partition': 'ALL'}
+      AND comment = ''
+      AND compaction = {'class': 'SizeTieredCompactionStrategy'}
+      AND compression = {'sstable_compression': 'org.apache.cassandra.io.compress.LZ4Compressor'}
+      AND crc_check_chance = 1.0
+      AND dclocal_read_repair_chance = 0.0
+      AND default_time_to_live = 0
+      AND gc_grace_seconds = 864000
+      AND max_index_interval = 2048
+      AND memtable_flush_period_in_ms = 0
+      AND min_index_interval = 128
+      AND read_repair_chance = 0.0
+      AND speculative_retry = '99.0PERCENTILE';
+
+cqlsh
+:carepet> exit
 ```
 
 ## Architecture
