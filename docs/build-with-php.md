@@ -6,10 +6,10 @@ Here you will find a list of possible drivers to integrate with.
 
 | PHP Version | Driver                                                                         |
 |-------------|--------------------------------------------------------------------------------|
-| PHP 7.1 [x] | [DataStax PHP Driver](https://github.com/datastax/php-driver)                  |
-| PHP 8.1     | [Cassandra PHP Driver (dev)](https://github.com/qkdreyer/cassandra-php-driver) |
+| PHP 7.1  | [DataStax PHP Driver](https://github.com/datastax/php-driver)                  |
+| PHP 8.2  [x]    | [ScyllaDB PHP Driver (dev)](https://github.com/qkdreyer/cassandra-php-driver) |
 
-The documentation for this application and the guided exercise is [here](../docs).
+The documentation for this application and the guided exercise is [here](getting-started.md).
 
 
 ## Quick Start
@@ -31,9 +31,9 @@ Prerequisites:
 To run a local **ScyllaDB cluster** consisting of three nodes and the **PHP Workspace** with
 the help of `docker` and `docker-compose` execute:
 
-````shell
+```shell
 $ docker-compose up -d
-````    
+```    
 
 Docker-compose will spin up three nodes which are:
 
@@ -43,14 +43,14 @@ Docker-compose will spin up three nodes which are:
 
 If you want to see your containers running, run the `docker ps` command, and you should see something like this:
 
-`````shell
+````shell
 $ docker ps
 CONTAINER ID   IMAGE                    COMMAND                  CREATED       STATUS       PORTS                                                                      NAMES
 14a656685517   care-pet-php-workspace   "/bin/sh -c /bin/bas…"   1 minute ago   Up 1 minute   9000/tcp                                                                   workspace-php
 4e351dfe3987   scylladb/scylla          "/docker-entrypoint.…"   1 minute ago   Up 1 minute   22/tcp, 7000-7001/tcp, 7199/tcp, 9042/tcp, 9160/tcp, 9180/tcp, 10000/tcp   carepet-scylla2
 9e7e4d3992df   scylladb/scylla          "/docker-entrypoint.…"   1 minute ago   Up 1 minute   22/tcp, 7000-7001/tcp, 7199/tcp, 9042/tcp, 9160/tcp, 9180/tcp, 10000/tcp   carepet-scylla3
 7e2b1b94389b   scylladb/scylla          "/docker-entrypoint.…"   1 minute ago   Up 1 minute   22/tcp, 7000-7001/tcp, 7199/tcp, 9042/tcp, 9160/tcp, 9180/tcp, 10000/tcp   carepet-scylla1
-`````
+````
 
 > If you have any error regarding "premature connection", restart your docker instance and wait a minute until
 > your ScyllaDB connection be established. 
@@ -68,13 +68,13 @@ These commands you can execute by `entering the container` or through `docker ex
 
 
 ##### Entering App Container:
-````shell
+```shell
 $ docker exec -it workspace-php php scylla bash
 root@14a656685517:/var/www# php scylla help
-````
+```
 
 ##### Initializing Database:
-````shell
+```shell
 $ docker exec -it workspace-php php scylla migrate
 [INFO] Fetching Migrations... 
 [INFO] Migrated: /var/www/migrations/1-create_keyspace.cql 
@@ -84,18 +84,18 @@ $ docker exec -it workspace-php php scylla migrate
 [INFO] Migrated: /var/www/migrations/5-create_measurements_table.cql 
 [INFO] Migrated: /var/www/migrations/6-create_sensor_avg_table.cql 
 [INFO] Done :D 
-````
+```
 
 ##### Starting Web Server:
-````shell
+```shell
 $ docker exec -it workspace-php php scylla serve
 [INFO] CarePet Web started!
 [INFO] Development Server: http://0.0.0.0:8000
 [Thu Jan  5 17:32:01 2023] PHP 7.4.33 Development Server (http://0.0.0.0:8000) started
-````
+```
 
 ##### Simulate Environment Sensors:
-````shell
+```shell
 $ docker exec -it workspace-php php scylla simulate
 [INFO] Starting Sensor simulator... 
 [INFO] Batch: 0
@@ -108,12 +108,12 @@ $ docker exec -it workspace-php php scylla simulate
 [INFO] Sensor: 933245de-812e-34e4-8d50-2ab072726217 (T) | Pet 14d9f304-5600-34af-8622-3d4505d617d7 
 [INFO] Pet: 319ec566-d6b0-3868-ac5e-76253ee7c236 | Owner 593dec12-6bea-3c93-8f49-26d8b6d589b1
 [INFO] ...
-````
+```
 
 #### ScyllaDB Commands
 
 ##### Running Nodetool:
-`````shell
+````shell
 $ docker exec -it carepet-scylla1 nodetool status
 =======================
 Datacenter: datacenter1
@@ -124,11 +124,11 @@ Status=Up/Down
 UN  10.10.5.2  212 KB     256          ?       f6121e15-48df-4b31-b725-3ad2795b8b94  rack1
 UN  10.10.5.3  1.06 MB    256          ?       871795f3-67d2-47ba-83ef-15714b89c02a  rack1
 UN  10.10.5.4  1.06 MB    256          ?       cbe74a63-2cf4-41c2-bf7f-c831c0d2689f  rack1
-`````
+````
 
 ##### Running Container Shell:
 
-````shell
+```shell
 $ docker exec -it carepet-scylla1 bash
 
    _____            _ _       _____  ____
@@ -147,11 +147,11 @@ More documentation available at:
         http://www.scylladb.com/doc/
 
 root@7e2b1b94389b:/#
-````
+```
 ##### Inspecting a Container
 _You can inspect any node by means of the `docker inspect` command as follows. For example:_
 
-````shell
+```shell
 $ docker inspect carepet-scylla1
 [
     {
@@ -171,35 +171,35 @@ $ docker inspect carepet-scylla1
         }
     }
 ]
-````
+```
 
 ###### Get Node IP Address:
-````shell
+```shell
 $ docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' carepet-scylla1
 10.10.5.2
-````
+```
 
 ##### Entering CQLSH (Database)
 
-````shell
+```shell
 $ docker exec -it carepet-scylla1 cqlsh
 Connected to  at 10.10.5.2:9042.
 [cqlsh 5.0.1 | Cassandra 3.0.8 | CQL spec 3.3.1 | Native protocol v4]
 Use HELP for help.
 cqlsh>
-````
+```
 
-````sql
+```sql
 cqlsh> DESCRIBE KEYSPACES
 carepet  system_schema  system_auth  system  system_distributed  system_traces
-````
+```
 
-````sql
+```sql
 cqlsh> USE carepet;
 cqlsh:carepet> DESCRIBE TABLES
 pet  sensor_avg  gocqlx_migrate  measurement  owner  sensor
-````
-````sql
+```
+```sql
 cqlsh:carepet> DESCRIBE TABLE pet
 CREATE TABLE carepet.owner (
     owner_id uuid PRIMARY KEY,
@@ -221,7 +221,7 @@ CREATE TABLE carepet.owner (
     AND speculative_retry = '99.0PERCENTILE';
 
 cqlsh:carepet> exit
-````
+```
 
 ## Architecture
 
