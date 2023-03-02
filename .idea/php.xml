@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="MessDetectorOptionsConfiguration">
+    <option name="transferred" value="true" />
+  </component>
+  <component name="PHPCSFixerOptionsConfiguration">
+    <option name="transferred" value="true" />
+  </component>
+  <component name="PHPCodeSnifferOptionsConfiguration">
+    <option name="highlightLevel" value="WARNING" />
+    <option name="transferred" value="true" />
+  </component>
+  <component name="PhpIncludePathManager">
+    <include_path>
+      <path value="$PROJECT_DIR$/php/vendor/symfony/polyfill-ctype" />
+      <path value="$PROJECT_DIR$/php/vendor/nikic/php-parser" />
+      <path value="$PROJECT_DIR$/php/vendor/nikic/fast-route" />
+      <path value="$PROJECT_DIR$/php/vendor/vlucas/phpdotenv" />
+      <path value="$PROJECT_DIR$/php/vendor/graham-campbell/result-type" />
+      <path value="$PROJECT_DIR$/php/vendor/phpoption/phpoption" />
+      <path value="$PROJECT_DIR$/php/vendor/fakerphp/faker" />
+      <path value="$PROJECT_DIR$/php/vendor/composer" />
+      <path value="$PROJECT_DIR$/php/vendor/jeremeamia/superclosure" />
+      <path value="$PROJECT_DIR$/php/vendor/php-di/php-di" />
+      <path value="$PROJECT_DIR$/php/vendor/psr/container" />
+      <path value="$PROJECT_DIR$/php/vendor/php-di/phpdoc-reader" />
+      <path value="$PROJECT_DIR$/php/vendor/php-di/invoker" />
+      <path value="$PROJECT_DIR$/php/vendor/symfony/polyfill-mbstring" />
+      <path value="$PROJECT_DIR$/php/vendor/symfony/deprecation-contracts" />
+      <path value="$PROJECT_DIR$/php/vendor/symfony/polyfill-php80" />
+    </include_path>
+  </component>
+  <component name="PhpProjectSharedConfiguration" php_language_level="8.1">
+    <option name="suggestChangeDefaultLanguageLevel" value="false" />
+  </component>
+  <component name="PhpStanOptionsConfiguration">
+    <option name="transferred" value="true" />
+  </component>
+  <component name="PsalmOptionsConfiguration">
+    <option name="transferred" value="true" />
+  </component>
+</project>
