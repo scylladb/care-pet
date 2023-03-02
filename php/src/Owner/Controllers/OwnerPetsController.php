@@ -7,12 +7,8 @@ use App\Owner\Actions\GetOwnerPets;
 
 final class OwnerPetsController extends BaseController
 {
-    /**@var GetOwnerPets */
-    private $action;
-
-    public function __construct(GetOwnerPets $action)
+    public function __construct(private readonly GetOwnerPets $action)
     {
-        $this->action = $action;
     }
 
     public function __invoke(string $ownerId)

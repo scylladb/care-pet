@@ -7,25 +7,21 @@ use Cassandra\Uuid;
 
 final class OwnerDTO extends AbstractDTO
 {
-    /** @var Uuid $id */
-    public $id;
-
-    /** @var string $name */
-    public $name;
-
-    /** @var string $address */
-    public $address;
-
-    public function __construct(string $name, string $address, Uuid $id = null)
+    public function __construct(
+        public readonly string $name,
+        public readonly string $address,
+        public readonly ?Uuid  $id = null
+    )
     {
-        $this->id = $id;
-        $this->name = $name;
-        $this->address = $address;
     }
 
     public static function make(array $payload): self
     {
-        return new self($payload['name'], $payload['address'], $payload['owner_id']);
+        return new self(
+            name: $payload['name'],
+            address: $payload['address'],
+            id: $payload['owner_id']
+        );
     }
 
     public function toDatabase(): array

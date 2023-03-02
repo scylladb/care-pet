@@ -8,20 +8,13 @@ use Cassandra\Uuid;
 
 final class SensorDTO extends AbstractDTO
 {
-    /*** @var Uuid $id */
-    public $id;
 
-    /** @var Uuid $petId */
-    public $petId;
-
-    /** @var TypeDTO $type */
-    public $type;
-
-    public function __construct(Uuid $id, Uuid $petId, TypeDTO $type)
+    public function __construct(
+        public readonly ?Uuid   $id,
+        public readonly Uuid    $petId,
+        public readonly TypeDTO $type,
+    )
     {
-        $this->id = $id;
-        $this->petId = $petId;
-        $this->type = $type;
     }
 
     public function toDatabase(): array

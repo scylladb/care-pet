@@ -8,12 +8,9 @@ use App\Sensors\Sensor\SensorsException;
 
 class FindSensorById
 {
-    /** @var SensorRepository */
-    private $sensorRepository;
 
-    public function __construct(SensorRepository $sensorRepository)
+    public function __construct(private readonly SensorRepository $sensorRepository)
     {
-        $this->sensorRepository = $sensorRepository;
     }
 
     public function handle(string $sensorId): SensorDTO

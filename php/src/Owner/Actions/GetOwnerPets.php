@@ -9,15 +9,11 @@ use App\Pet\PetRepository;
 
 final class GetOwnerPets
 {
-    /** @var PetRepository */
-    private $repository;
-    /** @var FindOwnerById */
-    private $ownerAction;
-
-    public function __construct(PetRepository $repository, FindOwnerById $ownerAction)
+    public function __construct(
+        private readonly PetRepository $repository,
+        private readonly FindOwnerById $ownerAction
+    )
     {
-        $this->repository = $repository;
-        $this->ownerAction = $ownerAction;
     }
 
     /** @return PetCollection<int, PetDTO> */

@@ -7,12 +7,10 @@ use App\Sensors\Actions\FindSensorsByPetId;
 
 class GetPetSensorsController extends BaseController
 {
-    /** @var FindSensorsByPetId */
-    private $action;
-
-    public function __construct(FindSensorsByPetId $action)
+    public function __construct(
+        private readonly FindSensorsByPetId $action
+    )
     {
-        $this->action = $action;
     }
 
     public function __invoke(string $petId)

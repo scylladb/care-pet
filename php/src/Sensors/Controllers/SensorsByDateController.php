@@ -7,12 +7,8 @@ use App\Sensors\Actions\FindSensorsByDate;
 
 class SensorsByDateController extends BaseController
 {
-    /** @var FindSensorsByDate */
-    private $action;
-
-    public function __construct(FindSensorsByDate $action)
+    public function __construct(private readonly FindSensorsByDate $action)
     {
-        $this->action = $action;
     }
 
     public function handle(string $sensorId): void

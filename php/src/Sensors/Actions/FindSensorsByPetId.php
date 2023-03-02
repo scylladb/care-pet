@@ -10,16 +10,12 @@ use App\Sensors\Sensor\SensorsException;
 
 class FindSensorsByPetId
 {
-    /** @var SensorRepository */
-    private $sensorRepository;
 
-    /** @var FindPetById */
-    private $findPetAction;
-
-    public function __construct(SensorRepository $sensorRepository, FindPetById $findPetAction)
+    public function __construct(
+        private readonly SensorRepository $sensorRepository,
+        private readonly FindPetById      $findPetAction
+    )
     {
-        $this->sensorRepository = $sensorRepository;
-        $this->findPetAction = $findPetAction;
     }
 
     /** @return SensorCollection<int, SensorDTO> */

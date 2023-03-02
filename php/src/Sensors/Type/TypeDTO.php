@@ -7,10 +7,9 @@ use App\Sensors\Sensor\SensorsException;
 
 final class TypeDTO extends AbstractDTO
 {
-    private $validTypes = ['T', 'P', 'L', 'R'];
+    private array $validTypes = ['T', 'P', 'L', 'R'];
 
-    /** @var string $name */
-    public $name;
+    public string $name;
 
     /** @throws SensorsException */
     public function __construct(string $name)

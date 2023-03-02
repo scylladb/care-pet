@@ -10,12 +10,8 @@ use Exception;
 
 final class FindOwnerById
 {
-    /** @var OwnerRepository */
-    private $repository;
-
-    public function __construct(OwnerRepository $repository)
+    public function __construct(private readonly OwnerRepository $repository)
     {
-        $this->repository = $repository;
     }
 
     public function handle(string $ownerId): OwnerDTO

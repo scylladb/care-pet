@@ -9,12 +9,8 @@ use App\Owner\Actions\FindOwnerById;
 
 final class FindOwnerController extends BaseController
 {
-    /** @var FindOwnerById */
-    private $action;
-
-    public function __construct(FindOwnerById $action)
+    public function __construct(private readonly FindOwnerById $action)
     {
-        $this->action = $action;
     }
 
     public function __invoke(string $ownerId)

@@ -7,11 +7,9 @@ use JsonSerializable;
 
 abstract class AbstractDTO implements JsonSerializable
 {
-    /** @var Uuid $id */
-    public $id;
+    public readonly ?Uuid $id;
 
-    /** @return \App\Core\Entities\AbstractDTO */
-    public static abstract function make(array $payload);
+    public static abstract function make(array $payload): AbstractDTO;
 
     /** @return string[] */
     public abstract function toDatabase(): array;

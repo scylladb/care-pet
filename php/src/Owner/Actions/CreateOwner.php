@@ -9,12 +9,9 @@ use App\Owner\OwnerRepository;
 
 final class CreateOwner
 {
-    /** @var OwnerRepository */
-    private $repository;
 
-    public function __construct(OwnerRepository $repository)
+    public function __construct(private readonly OwnerRepository $repository)
     {
-        $this->repository = $repository;
     }
 
     public function handle(): OwnerDTO

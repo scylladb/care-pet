@@ -6,16 +6,11 @@ use App\Sensors\Sensor\SensorRepository;
 
 class FindSensorsByDate
 {
-    /** @var SensorRepository */
-    private $sensorRepository;
-
-    /** @var FindSensorById */
-    private $action;
-
-    public function __construct(SensorRepository $sensorRepository, FindSensorById $action)
+    public function __construct(
+        private readonly SensorRepository $sensorRepository,
+        private readonly FindSensorById $action
+    )
     {
-        $this->sensorRepository = $sensorRepository;
-        $this->action = $action;
     }
 
 

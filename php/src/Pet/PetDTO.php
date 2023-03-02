@@ -7,61 +7,21 @@ use Cassandra\Uuid;
 
 final class PetDTO extends AbstractDTO
 {
-    /** @var \Cassandra\Uuid */
-    public $ownerId;
-
-    /** @var string */
-    public $chipId;
-
-    /** @var string */
-    public $color;
-
-    /** @var string */
-    public $breed;
-
-    /** @var string */
-    public $species;
-
-    /** @var string */
-    public $gender;
-
-    /** @var int */
-    public $age;
-
-    /** @var float */
-    public $weight;
-
-    /** @var string */
-    public $address;
-
-    /** @var string */
-    public $name;
 
     public function __construct(
-        Uuid   $ownerId,
-        string   $chipId,
-        string $color,
-        string $breed,
-        string $species,
-        string $gender,
-        int    $age,
-        float  $weight,
-        string $address,
-        string $name,
-        Uuid   $id = null
+        public readonly Uuid   $ownerId,
+        public readonly string   $chipId,
+        public readonly string $color,
+        public readonly string $breed,
+        public readonly string $species,
+        public readonly string $gender,
+        public readonly int    $age,
+        public readonly float  $weight,
+        public readonly string $address,
+        public readonly string $name,
+        public readonly ?Uuid $id = null
     )
     {
-        $this->ownerId = $ownerId;
-        $this->chipId = $chipId;
-        $this->color = $color;
-        $this->breed = $breed;
-        $this->species = $species;
-        $this->gender = $gender;
-        $this->age = $age;
-        $this->weight = $weight;
-        $this->address = $address;
-        $this->name = $name;
-        $this->id = $id;
     }
 
     public static function make(array $payload): self

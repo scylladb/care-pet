@@ -4,7 +4,7 @@ namespace App\Core\Http;
 
 class BaseController
 {
-    public function responseJson($payload, int $statusCode = 200)
+    public function responseJson($payload, int $statusCode = 200): void
     {
         header('Content-type: application/json');
         http_response_code($statusCode);

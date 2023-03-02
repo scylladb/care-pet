@@ -7,12 +7,8 @@ use App\Pet\Actions\FindPetById;
 
 class FindPetController extends BaseController
 {
-    /** @param FindPetById $action */
-    private $action;
-
-    public function __construct(FindPetById $action)
+    public function __construct(private readonly FindPetById $action)
     {
-        $this->action = $action;
     }
 
     public function __invoke(string $petId)

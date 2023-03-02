@@ -30,7 +30,7 @@ class Connector
             ->withPort($config['port']);
 
         if (!empty($config['username'] && !empty($config['password']))) {
-            $this->connectionBuilder = $this->cluster->withCredentials($config['username'], $config['password']);
+            $this->connectionBuilder = $this->connectionBuilder->withCredentials($config['username'], $config['password']);
         }
         $this->cluster = $this->connectionBuilder->build();
 

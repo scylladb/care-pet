@@ -8,14 +8,11 @@ use Cassandra\Rows;
 
 final class SensorRepository extends AbstractRepository
 {
-    /** @var string */
     public string $table = 'sensor';
 
-    /** @var string */
-    public $primaryKey = 'sensor_id';
+    public string $primaryKey = 'sensor_id';
 
-    /**@var array */
-    public $keys = [
+    public array $keys = [
         'sensor_id',
         'pet_id'
     ];

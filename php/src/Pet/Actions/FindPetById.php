@@ -8,12 +8,10 @@ use App\Pet\PetRepository;
 
 class FindPetById
 {
-    /** @var PetRepository */
-    private $petRepository;
-
-    public function __construct(PetRepository $petRepository)
+    public function __construct(
+        private readonly PetRepository $petRepository
+    )
     {
-        $this->petRepository = $petRepository;
     }
 
     public function handle(string $petId): PetDTO

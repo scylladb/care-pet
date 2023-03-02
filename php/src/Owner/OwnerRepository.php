@@ -6,14 +6,11 @@ use App\Core\Database\AbstractRepository;
 
 final class OwnerRepository extends AbstractRepository
 {
-    /** @var string */
     public string $table = 'owner';
 
-    /** @var string */
-    public $primaryKey = 'owner_id';
+    public string $primaryKey = 'owner_id';
 
-    /** @var string[] */
-    public $keys = [
+    public array $keys = [
         'owner_id'
     ];
 }
