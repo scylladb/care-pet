@@ -11,13 +11,9 @@ use Cassandra\SimpleStatement;
 
 class Connector
 {
-
     public Builder $connectionBuilder;
-
     public Cluster $cluster;
-
     public Session $session;
-
     public SimpleStatement $query;
 
     const BASE_TIMEOUT = 10;

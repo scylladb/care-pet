@@ -2,6 +2,7 @@
 <?php
 
 use App\Core\Bootstrap;
+use App\Core\Commands\Base\AbstractCommand;
 use App\Core\Commands\Base\CommandException;
 use App\Core\Commands\MigrateCommand;
 use App\Core\Commands\ServeCommand;
@@ -14,18 +15,14 @@ if(count($argv) <= 1) {
     return;
 }
 $container = (new Bootstrap())->init();
-function getCommand($command)
+function getCommand($command): string
 {
-    switch($command) {
-        case 'serve':
-            return ServeCommand::class;
-        case 'migrate':
-            return MigrateCommand::class;
-        case 'simulate':
-            return SimulateCommand::class;
-    }
-
-    throw CommandException::notFound($command);
+    return match($command) {
+        'serve' => ServeCommand::class,
+        'migrate' => MigrateCommand::class,
+        'simulate' => SimulateCommand::class,
+        default => CommandException::notFound($command)
+    };
 }
 
 $command = getCommand($argv[1]);
