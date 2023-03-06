@@ -11,7 +11,7 @@ and consists of 3 parts:
 - a web app for reading and analyzing the pets' data
 - a database migration tool
 
-Read the [Documentation for the Care-Pet Example](https://care-pet.docs.scylladb.com/)
+Read the [Documentation for the Care-Pet Example](https://iot.docs.scylladb.com/)
 
 Quick Start
 ---
@@ -20,10 +20,12 @@ Language-specific implementation resides in the corresponding folder:
 
 - [Go](go)
 - [Java](java)
-- Rust
+- [Javascript/NodeJS](javascript)
+- [PHP](php)
+- [Rust](rust)
 - CPP
 - Python
-- Node.js
+
 
 The project uses `docker-compose` to provide the simplest local
 deployment of the ScyllaDB database cluster.

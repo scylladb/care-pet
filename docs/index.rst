@@ -84,6 +84,12 @@
   :link: build-with-javascript
   :class: large-4
 
+.. topic-box::
+  :title: Build with PHP
+  :image: /_static/img/programming_languages/php.png
+  :link: build-with-php
+  :class: large-4
+
 .. raw:: html
 
   </div></div></div>
@@ -96,8 +102,9 @@
    Design and Data Model <design_and_data_model>
    Build with Go <build-with-go>
    Build with JavaScript <build-with-javascript>
-   Build with Rust <build-with-rust>
    Build with Java <build-with-java>
+   Build with PHP <build-with-php>
+   Build with Rust <build-with-rust>
    Care-Pet GitHub Repository <https://github.com/scylladb/care-pet>
    Care-Pet Blog <https://www.scylladb.com/2020/09/09/carepet-an-example-iot-use-case-for-hands-on-app-developers/>
 
