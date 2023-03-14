@@ -40,6 +40,7 @@ setup:
 .PHONY: clean
 clean:
 	rm -rf $(BUILDDIR)/*
+	rm -f poetry.lock
 
 .PHONY: pristine
 pristine: clean
