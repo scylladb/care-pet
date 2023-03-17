@@ -84,6 +84,12 @@
   :link: build-with-javascript
   :class: large-4
 
+.. topic-box::
+  :title: Build with Python
+  :image: /_static/img/programming_languages/python.png
+  :link: build-with-python
+  :class: large-4
+
 .. raw:: html
 
   </div></div></div>
