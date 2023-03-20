@@ -104,6 +104,7 @@
    Build with JavaScript <build-with-javascript>
    Build with Rust <build-with-rust>
    Build with Java <build-with-java>
+   Build with Python <build-with-python>
    Care-Pet GitHub Repository <https://github.com/scylladb/care-pet>
    Care-Pet Blog <https://www.scylladb.com/2020/09/09/carepet-an-example-iot-use-case-for-hands-on-app-developers/>
 
