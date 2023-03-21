@@ -91,6 +91,7 @@ Scylla high availability in [this lesson](https://university.scylladb.com/course
 - [Build with Go](/build-with-go.md)
 - [Build with Java](/build-with-java.md)
 - [Build with JavaScript](/build-with-javascript.md)
+- [Build with PHP](/build-with-php.md)
 - [Build with Rust](/build-with-rust.md)
 - [Build with Python](/build-with-python.md)
 

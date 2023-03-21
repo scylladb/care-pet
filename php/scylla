@@ -1,0 +1,29 @@
+#!/usr/bin/env php
+<?php
+
+use App\Core\Bootstrap;
+use App\Core\Commands\Base\AbstractCommand;
+use App\Core\Commands\Base\CommandException;
+use App\Core\Commands\MigrateCommand;
+use App\Core\Commands\ServeCommand;
+use App\Core\Commands\SimulateCommand;
+
+require_once 'vendor/autoload.php';
+
+if(count($argv) <= 1) {
+    echo "Please select a valid option" . PHP_EOL;
+    return;
+}
+$container = (new Bootstrap())->init();
+function getCommand($command): string
+{
+    return match($command) {
+        'serve' => ServeCommand::class,
+        'migrate' => MigrateCommand::class,
+        'simulate' => SimulateCommand::class,
+        default => CommandException::notFound($command)
+    };
+}
+
+$command = getCommand($argv[1]);
+$container->call($command, ['args' => $argv]);
