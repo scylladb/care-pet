@@ -1,0 +1,32 @@
+version: '3'
+
+services:
+  carepet-scylla1:
+    image: scylladb/scylla
+    container_name: carepet-scylla1
+    command: --smp 1
+    environment:
+      - "SCYLLA_JMX_ADDR=-ja 0.0.0.0"
+      - "SCYLLA_JMX_REMOTE=-r"
+    expose:
+      - "7199"
+
+  carepet-scylla2:
+    image: scylladb/scylla
+    container_name: carepet-scylla2
+    command: --smp 1 --seeds=carepet-scylla1
+    environment:
+      - "SCYLLA_JMX_ADDR=-ja 0.0.0.0"
+      - "SCYLLA_JMX_REMOTE=-r"
+    expose:
+      - "7199"
+
+  carepet-scylla3:
+    image: scylladb/scylla
+    container_name: carepet-scylla3
+    command: --smp 1 --seeds=carepet-scylla1
+    environment:
+      - "SCYLLA_JMX_ADDR=-ja 0.0.0.0"
+      - "SCYLLA_JMX_REMOTE=-r"
+    expose:
+      - "7199"

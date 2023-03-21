@@ -1,0 +1,5 @@
+scylla-driver==3.25.11
+dognames==1.0.2
+names==0.3.0
+fastapi==0.89.0
+uvicorn==0.20.0

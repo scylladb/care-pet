@@ -85,6 +85,12 @@
   :class: large-4
 
 .. topic-box::
+  :title: Build with Python
+  :image: /_static/img/programming_languages/python.png
+  :link: build-with-python
+  :class: large-4
+
+.. topic-box::
   :title: Build with PHP
   :image: /_static/img/programming_languages/php.png
   :link: build-with-php
@@ -103,6 +109,7 @@
    Build with Go <build-with-go>
    Build with JavaScript <build-with-javascript>
    Build with Java <build-with-java>
+   Build with Python <build-with-python>
    Build with PHP <build-with-php>
    Build with Rust <build-with-rust>
    Care-Pet GitHub Repository <https://github.com/scylladb/care-pet>
