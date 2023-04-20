@@ -38,14 +38,10 @@ Shell:
 
     $ docker exec -it carepet-scylla1 shell
 
-You can inspect any node by means of the `docker inspect` command
-as follows. for example:
+The port of `carepet-scylla1` is published to the host on port `9042` using the host IP address. 
+To get the host IP address run:
 
-    $ docker inspect carepet-scylla1
-
-To get node IP address run:
-
-    $ docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' carepet-scylla1
+    $ HOST_IP=$(hostname -I | awk '{print $1}')
 
 To initialize database execute:
 
