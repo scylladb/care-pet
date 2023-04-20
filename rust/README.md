@@ -66,26 +66,27 @@ You can check the database structure with:
     $ docker exec -it carepet-scylla1 cqlsh
     cqlsh> DESCRIBE KEYSPACES
 
-    carepet  system_schema  system_auth  system  system_distributed  system_traces
+    carepet        system_auth  system_distributed_everywhere  system_traces
+    system_schema  system       system_distributed
 
     cqlsh> USE carepet;
     cqlsh:carepet> DESCRIBE TABLES
 
-    pet  sensor_avg  gocqlx_migrate  measurement  owner  sensor
+    owner  pet  sensor  sensor_avg  measurement
 
     cqlsh:carepet> DESCRIBE TABLE pet
 
     CREATE TABLE carepet.pet (
         owner_id uuid,
-        pet_id   uuid,
-        chip_id  text,
-        species  text,
-        breed    text,
-        color    text,
-        gender   text,
-        address  text,
+        pet_id uuid,
+        address text,
         age int,
+        breed text,
+        chip_id text,
+        color text,
+        gender text,
         name text,
+        species text,
         weight float,
         PRIMARY KEY (owner_id, pet_id)
     ) WITH CLUSTERING ORDER BY (pet_id ASC)
@@ -95,7 +96,7 @@ You can check the database structure with:
         AND compaction = {'class': 'SizeTieredCompactionStrategy'}
         AND compression = {'sstable_compression': 'org.apache.cassandra.io.compress.LZ4Compressor'}
         AND crc_check_chance = 1.0
-        AND dclocal_read_repair_chance = 0.1
+        AND dclocal_read_repair_chance = 0.0
         AND default_time_to_live = 0
         AND gc_grace_seconds = 864000
         AND max_index_interval = 2048
@@ -103,6 +104,7 @@ You can check the database structure with:
         AND min_index_interval = 128
         AND read_repair_chance = 0.0
         AND speculative_retry = '99.0PERCENTILE';
+
 
     cqlsh:carepet> exit
 
@@ -133,7 +135,7 @@ To start REST API service execute the following in the separate terminal:
 
 Expected output:
 
-    2021-12-24T00:32:48Z INFO  care_pet::db] Connecting to 127.0.0.1
+    2021-12-24T00:32:48Z INFO  care_pet::db] Connecting to 172.nnn.nnn.nnn
     [2021-12-24T00:32:48Z WARN  rocket::config::config] 🔧 Configured for debug.
     [2021-12-24T00:32:48Z WARN  rocket::config::config] address: 127.0.0.1
     [2021-12-24T00:32:48Z WARN  rocket::config::config] port: 8000
