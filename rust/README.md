@@ -291,7 +291,7 @@ The algorithm is simple and resides in `/handler/avg.rs`:
 
 ## How to start a new project with Rust
 
-Install Go. Create a repository. Clone it. Execute inside of
+Install Rust. Create a repository. Clone it. Execute inside of
 your repository:
 
     $ cargo new project_name
