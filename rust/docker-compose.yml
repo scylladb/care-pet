@@ -10,6 +10,8 @@ services:
       - "SCYLLA_JMX_REMOTE=-r"
     expose:
       - "7199"
+    ports:
+      - "9042:9042"
 
   carepet-scylla2:
     image: scylladb/scylla
