@@ -39,7 +39,7 @@
 
 .. topic-box::
   :title: Design and Data Model
-  :link: design_and_data_model
+  :link: design-and-data-model
   :icon: scylla-icon scylla-icon--overview
   :class: large-4
   :anchor: Learn more
@@ -105,7 +105,7 @@
    :hidden:
 
    Getting Started with CarePet: A sample IoT App <getting-started>
-   Design and Data Model <design_and_data_model>
+   Design and Data Model <design-and-data-model>
    Build with Go <build-with-go>
    Build with JavaScript <build-with-javascript>
    Build with Java <build-with-java>
