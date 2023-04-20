@@ -307,7 +307,7 @@ To connect to the database, do the following:
 ```rust
 use scylla::{Session, SessionBuilder};
 
-fn main() {
+async fn main() {
     let uri = "127.0.0.1:9042";
     let session: Session = SessionBuilder::new().known_node(uri).build().await?;
 }
