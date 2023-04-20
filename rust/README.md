@@ -45,13 +45,12 @@ To get the host IP address run:
 
 To initialize database execute:
 
-    $ NODE1=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' carepet-scylla1) 
-    $ cargo run --bin migrate -- --hosts $NODE1
+    $ cargo run --bin migrate -- --hosts $HOST_IP
 
 Expected output:
 
     [2021-12-24T00:39:00Z INFO  migrate] Bootstrapping database...
-    [2021-12-24T00:39:00Z INFO  care_pet::db] Connecting to 127.0.0.1
+    [2021-12-24T00:39:00Z INFO  care_pet::db] Connecting to 172.nnn.nnn.nnn
     [2021-12-24T00:39:00Z INFO  care_pet::db] Creating keyspace carepet
     [2021-12-24T00:39:00Z INFO  care_pet::db] Keyspace carepet created
     [2021-12-24T00:39:00Z INFO  care_pet::db] Migrating database
@@ -109,13 +108,13 @@ You can check the database structure with:
 
 To start pet collar simulation execute the following in the separate terminal:
 
-    $ NODE1=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' carepet-scylla1)    
-    $ cargo run --bin sensor -- --hosts $NODE1 --measure 5s --buffer-interval 1m
+    $ HOST_IP=$(hostname -I | awk '{print $1}')
+    $ cargo run --bin sensor -- --hosts $HOST_IP --measure 5s --buffer-interval 1m
 
 Expected output:
 
     [2021-12-24T00:39:56Z INFO  sensor] Welcome to the Pet collar simulator
-    [2021-12-24T00:39:56Z INFO  care_pet::db] Connecting to 127.0.0.1
+    [2021-12-24T00:39:56Z INFO  care_pet::db] Connecting to 172.nnn.nnn.nnn
     [2021-12-24T00:39:56Z INFO  sensor] New owner # 26b5a174-57f4-4bd8-928a-d5ed065b211b
     [2021-12-24T00:39:56Z INFO  sensor] New pet # 3e0a8390-b27f-4f8b-816e-904dcf2bf40c
     [2021-12-24T00:40:01Z INFO  sensor] sensor # 50ed149f-d657-478a-9e15-aedf43319e25 type R new measure 37.6081 ts 2021-12-24T00:40:01.535000000Z
@@ -129,8 +128,8 @@ That means that the collar has been pushed buffered measurements to the app.
 Write down the pet Owner ID (ID is something after the `#` sign without trailing spaces).
 To start REST API service execute the following in the separate terminal:
 
-    $ NODE1=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' carepet-scylla1)
-    $ cargo run -- --hosts $NODE1
+    $ HOST_IP=$(hostname -I | awk '{print $1}')
+    $ cargo run -- --hosts $HOST_IP
 
 Expected output:
 
