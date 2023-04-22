@@ -300,16 +300,22 @@ Now in `project_name/Cargo.toml`, under `dependencies` specify:
 
     [dependencies]
     scylla = "0.3"
+    tokio = {version = "1.1.0", features = ["full"]}
 
 Now you are ready to connect to the database and start working.
 To connect to the database, do the following:
 
 ```rust
-use scylla::{Session, SessionBuilder};
+use scylla::{Session, SessionBuilder, IntoTypedRows};
+use std::error::Error;
 
-async fn main() {
+#[tokio::main]
+async fn main() -> Result<(), Box<dyn Error>> {
     let uri = "127.0.0.1:9042";
+
     let session: Session = SessionBuilder::new().known_node(uri).build().await?;
+    // ...
+    Ok(())
 }
 ```
 
