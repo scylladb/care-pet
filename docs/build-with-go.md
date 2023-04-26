@@ -63,7 +63,7 @@ func migrateKeyspace() {
 	ses, err := config.Keyspace()
 	if err != nil {
 		log.Fatalln("session: ", err)
-	}T
+	}
 	defer ses.Close()
 
         // Execute the queries in the migration file om db/cql
