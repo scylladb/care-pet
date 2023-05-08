@@ -7,14 +7,14 @@ terraform {
 }
 
 provider "scylladbcloud" {
-	token = "<API-TOKEN>"
+	token = var.scylla_api_token
 }
 
 # Create a cluster on AWS cloud.
 resource "scylladbcloud_cluster" "care_pet" {
     name       = "CarePet"
     cloud      = "AWS"
-    region     = "us-east-1"
+    region     = var.region
     node_count = 3
     node_type  = "t3.micro"
     enable_vpc_peering = false
@@ -33,7 +33,7 @@ output "scylladbcloud_cluster_datacenter" {
 resource "scylladbcloud_allowlist_rule" "example" {
   depends_on = [scylladbcloud_cluster.care_pet]
 	cluster_id = scylladbcloud_cluster.care_pet.id
-	cidr_block = "<IP-ADDRESS>/32"
+	cidr_block = "${var.ip_address}/32"
 }
 
 output "scylladbcloud_allowlist_rule_id" {
@@ -45,10 +45,11 @@ data "scylladbcloud_cql_auth" "cql_auth" {
   depends_on = [scylladbcloud_cluster.care_pet]
 	cluster_id = scylladbcloud_cluster.care_pet.id
 }
+
 resource "null_resource" "execfile" {
   depends_on = [scylladbcloud_cluster.care_pet]
   provisioner "local-exec" {
-    command = "${path.module}/migrate.sh -u ${data.scylladbcloud_cql_auth.cql_auth.username} -p ${data.scylladbcloud_cql_auth.cql_auth.password} -h ${data.scylladbcloud_cql_auth.cql_auth.seeds} -f ${path.module}/migrate.cql"  
+    command = "${path.module}/migrate.sh -u ${data.scylladbcloud_cql_auth.cql_auth.username} -p ${data.scylladbcloud_cql_auth.cql_auth.password} -h ${data.scylladbcloud_cql_auth.cql_auth.seeds} -f ${path.module}/migrate.cql"
   }
 }
 
