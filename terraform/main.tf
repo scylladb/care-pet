@@ -6,6 +6,11 @@ terraform {
 	}
 }
 
+# fetch machine's public IP address
+data "http" "myip" {
+  url = "http://ipv4.icanhazip.com"
+}
+
 provider "scylladbcloud" {
 	token = trim(var.scylla_api_token, " ")
 }
@@ -33,7 +38,7 @@ output "scylladbcloud_cluster_datacenter" {
 resource "scylladbcloud_allowlist_rule" "example" {
   depends_on = [scylladbcloud_cluster.care_pet]
 	cluster_id = scylladbcloud_cluster.care_pet.id
-	cidr_block = "${trim(var.ip_address, " ")}/32" 
+	cidr_block = "${chomp(data.http.myip.response_body)}/32"
 }
 
 output "scylladbcloud_allowlist_rule_id" {
