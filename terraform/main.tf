@@ -7,14 +7,14 @@ terraform {
 }
 
 provider "scylladbcloud" {
-	token = var.scylla_api_token
+	token = trim(var.scylla_api_token, " ")
 }
 
 # Create a cluster on AWS cloud.
 resource "scylladbcloud_cluster" "care_pet" {
     name       = "CarePet"
     cloud      = "AWS"
-    region     = var.region
+    region     = trim(var.region, " ")
     node_count = 3
     node_type  = "t3.micro"
     enable_vpc_peering = false
@@ -33,7 +33,7 @@ output "scylladbcloud_cluster_datacenter" {
 resource "scylladbcloud_allowlist_rule" "example" {
   depends_on = [scylladbcloud_cluster.care_pet]
 	cluster_id = scylladbcloud_cluster.care_pet.id
-	cidr_block = "${var.ip_address}/32"
+	cidr_block = "${trim(var.ip_address, " ")}/32" 
 }
 
 output "scylladbcloud_allowlist_rule_id" {
