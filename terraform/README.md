@@ -6,6 +6,10 @@ You'll set up Terraform to:
 1. Create a new ScyllaDB Cloud cluster (you need a [ScyllaDB Cloud account](https://cloud.scylladb.com/account/sign-up))
 1. Execute a CQL file that creates a new keyspace and tables for the care-pet project
 
+## Prerequisites
+* [Terraform](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli)
+* [Docker](https://docs.docker.com/engine/install/)
+
 
 ## Get started
 Go the the `terraform` directory and run `terraform init`
