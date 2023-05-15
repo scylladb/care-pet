@@ -3,6 +3,10 @@ terraform {
 		scylladbcloud = {
 			source = "registry.terraform.io/scylladb/scylladbcloud"
 		}
+    docker = {
+      source = "kreuzwerker/docker"
+      version = "~> 3.0.1"
+    }
 	}
 }
 
@@ -51,12 +55,20 @@ data "scylladbcloud_cql_auth" "cql_auth" {
 	cluster_id = scylladbcloud_cluster.care_pet.id
 }
 
-resource "null_resource" "execfile" {
-  depends_on = [scylladbcloud_cluster.care_pet]
-  provisioner "local-exec" {
-    command = "${path.module}/migrate.sh -u ${data.scylladbcloud_cql_auth.cql_auth.username} -p ${data.scylladbcloud_cql_auth.cql_auth.password} -h ${data.scylladbcloud_cql_auth.cql_auth.seeds} -f ${path.module}/migrate.cql"
-  }
+provider "docker" {}
+
+resource "docker_image" "cqlsh" {
+  name         = "scylladb/scylla-cqlsh"
+  keep_locally = false
 }
 
-
-
+resource "docker_container" "cqlsh" {
+  depends_on = [scylladbcloud_cluster.care_pet]
+  image = docker_image.cqlsh.image_id
+  name  = "scylla-cqlsh"
+  ports {
+    internal = 9042
+    external = 9042
+  }
+  command = ["/bin/bash", "${path.module}/migrate.sh", "-u", "${data.scylladbcloud_cql_auth.cql_auth.username}", "-p", "${data.scylladbcloud_cql_auth.cql_auth.password}", "-h", "${data.scylladbcloud_cql_auth.cql_auth.seeds}", "-f", "${path.module}/migrate.cql"]
+}
