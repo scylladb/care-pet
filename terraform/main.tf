@@ -65,7 +65,7 @@ resource "docker_image" "cqlsh" {
 resource "docker_container" "cqlsh" {
   depends_on = [scylladbcloud_cluster.care_pet]
   image = docker_image.cqlsh.image_id
-  name  = "scylla-cqlsh"
+  name = "cqlsh_carepet"
   ports {
     internal = 9042
     external = 9042
