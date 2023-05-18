@@ -351,14 +351,76 @@ The GET request on URL `/sensor/<id>/values?<from>&<to>` triggers `find_sensor_d
 
 `find_sensor_data_by_sensor_id_and_time_range` takes `session`, `id`, `from` and `to` as params. The function runs a `SELECT` query then returns `rows`.
 
+#### Retrieving informations from API
 
-
-To test out the API in your terminal, use the following command: `$ curl http://127.0.0.1:8000/api/owner/{id}` and expect the following response:
-
-````
-
-[{"address":"home","age":57,"name":"tlmodylu","owner_id":"a05fd0df-0f97-4eec-a211-cad28a6e5360","pet_id":"a52adc4e-7cf4-47ca-b561-3ceec9382917","weight":5}]
-
+To test out the API in your terminal, use the following command to retrieve informations of a specific pet owner: 
+```shell
+$ curl http://127.0.0.1:8000/owner/{id}
 ```
 
+> If you don't have an owner_id, run the `sensor` command and it will generate users and pets on your terminal.
+
+and you should receive a response with something like:
+
+```json
+{
+  "owner_id": "5b5a7b4d-a2c0-48b0-91e1-de6a5b37c923",
+  "address": "home",
+  "name": "sedtdkaa"
+}
 ```
+
+If you want to list owner's pets you can use the following command:
+
+```shell
+$ curl http://127.0.0.1:8000/owner/{id}/pets
+```
+
+and you should receive a response with something like:
+
+```json
+[
+  {
+    "owner_id": "5b5a7b4d-a2c0-48b0-91e1-de6a5b37c923",
+    "pet_id": "9e9facb9-3bd8-4451-b179-8c951cdf0999",
+    "chip_id": null,
+    "species": "dog",
+    "breed": "golden-retriever",
+    "color": "black",
+    "gender": "M",
+    "age": 4,
+    "weight": 9.523097,
+    "address": "awesome-address",
+    "name": "doggo"
+  }
+]
+```
+
+If you want to list the active pet sensors you can use the following command:
+
+```shell
+$ curl http://127.0.0.1:8000/pet/{pet_id}/sensors
+```
+
+and you should receive a response with something like:
+
+```json
+[
+  {
+    "pet_id": "9e9facb9-3bd8-4451-b179-8c951cdf0999",
+    "sensor_id": "7a8b3831-0512-4501-90f2-700c7133aeed",
+    "type": "T"
+  },
+  {
+    "pet_id": "9e9facb9-3bd8-4451-b179-8c951cdf0999",
+    "sensor_id": "81250bab-cf1c-4c7a-84f1-b291a0f325ef",
+    "type": "P"
+  },
+  {
+    "pet_id": "9e9facb9-3bd8-4451-b179-8c951cdf0999",
+    "sensor_id": "a22a2fdb-4aad-4abe-b0d9-381aa07a26af",
+    "type": "L"
+  }
+]
+```
+
