@@ -1,13 +1,9 @@
 terraform {
-	required_providers {
-		scylladbcloud = {
-			source = "registry.terraform.io/scylladb/scylladbcloud"
-		}
-    docker = {
-      source = "kreuzwerker/docker"
-      version = "~> 3.0.1"
+  required_providers {
+    scylladbcloud = {
+      source = "registry.terraform.io/scylladb/scylladbcloud"
     }
-	}
+  }
 }
 
 # fetch machine's public IP address
@@ -16,59 +12,48 @@ data "http" "myip" {
 }
 
 provider "scylladbcloud" {
-	token = trim(var.scylla_api_token, " ")
+  token = trim(var.scylla_api_token, " ")
 }
 
 # Create a cluster on AWS cloud.
 resource "scylladbcloud_cluster" "care_pet" {
-    name       = "CarePet"
-    cloud      = "AWS"
-    region     = trim(var.region, " ")
-    node_count = 3
-    node_type  = "t3.micro"
-    enable_vpc_peering = false
-    enable_dns         = true
+  name               = "CarePet"
+  cloud              = "AWS"
+  region             = trim(var.region, " ")
+  node_count         = 3
+  node_type          = "t3.micro"
+  enable_vpc_peering = false
+  enable_dns         = true
 }
 
 output "scylladbcloud_cluster_id" {
-    value = scylladbcloud_cluster.care_pet.id
+  value = scylladbcloud_cluster.care_pet.id
 }
 
 output "scylladbcloud_cluster_datacenter" {
-    value = scylladbcloud_cluster.care_pet.datacenter
+  value = scylladbcloud_cluster.care_pet.datacenter
 }
 
 # Add a CIDR block to allowlist for the specified cluster.
 resource "scylladbcloud_allowlist_rule" "example" {
   depends_on = [scylladbcloud_cluster.care_pet]
-	cluster_id = scylladbcloud_cluster.care_pet.id
-	cidr_block = "${chomp(data.http.myip.response_body)}/32"
+  cluster_id = scylladbcloud_cluster.care_pet.id
+  cidr_block = "${chomp(data.http.myip.response_body)}/32"
 }
 
 output "scylladbcloud_allowlist_rule_id" {
-	value = scylladbcloud_allowlist_rule.example.rule_id
+  value = scylladbcloud_allowlist_rule.example.rule_id
 }
 
 # Fetch credential information for cluster
 data "scylladbcloud_cql_auth" "cql_auth" {
   depends_on = [scylladbcloud_cluster.care_pet]
-	cluster_id = scylladbcloud_cluster.care_pet.id
+  cluster_id = scylladbcloud_cluster.care_pet.id
 }
 
-provider "docker" {}
-
-resource "docker_image" "cqlsh" {
-  name         = "scylladb/scylla-cqlsh"
-  keep_locally = false
-}
-
-resource "docker_container" "cqlsh" {
+resource "null_resource" "execfile" {
   depends_on = [scylladbcloud_cluster.care_pet]
-  image = docker_image.cqlsh.image_id
-  name = "cqlsh_carepet"
-  ports {
-    internal = 9042
-    external = 9042
+  provisioner "local-exec" {
+    command = "${path.module}/migrate.sh -u ${data.scylladbcloud_cql_auth.cql_auth.username} -p ${data.scylladbcloud_cql_auth.cql_auth.password} -h ${data.scylladbcloud_cql_auth.cql_auth.seeds}"
   }
-  command = ["/bin/bash", "${path.module}/migrate.sh", "-u", "${data.scylladbcloud_cql_auth.cql_auth.username}", "-p", "${data.scylladbcloud_cql_auth.cql_auth.password}", "-h", "${data.scylladbcloud_cql_auth.cql_auth.seeds}", "-f", "${path.module}/migrate.cql"]
 }

@@ -4,17 +4,15 @@
 username=""
 password=""
 hosts=""
-file=""
 
 # Parse the command-line arguments
-while getopts u:p:h:f: option
+while getopts u:p:h: option
 do
     case "${option}"
     in
         u) username=${OPTARG};;
         p) password=${OPTARG};;
         h) hosts=${OPTARG};;
-        f) file=${OPTARG};;
     esac
 done
 
@@ -26,4 +24,4 @@ host=${host_array[0]}
 
 
 # Run the cqlsh command with all the arguments
-cqlsh -u "$username" -p "$password" "$host" -f "$file"
+cqlsh -u "$username" -p "$password" "$host" -f "migrate.cql"
