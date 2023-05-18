@@ -8,17 +8,27 @@ You'll set up Terraform to:
 
 ## Prerequisites
 * [Terraform](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli)
-* [Docker](https://docs.docker.com/engine/install/)
-
+* [Python](https://www.python.org/downloads/)
+* [ScyllaDB Cloud API token](https://cloud.docs.scylladb.com/stable/api-docs/api-get-started.html)
 
 ## Get started
-Go the the `terraform` directory and run `terraform init`
+
+### Install CQLSH
+Install the standalone CQLSH Python package:
+```bash
+pip install cqlsh
+```
+
+This package will be used to connect to ScyllaDB and create the initial schema.
+
+### Spin up a new ScyllaDB Cloud cluster
+Go to the `terraform` directory and run `terraform init`
 ```bash
 cd terraform/
 terraform init
 ```
 
-Now you are ready to apply the changes that are configure in the `main.tf` file:
+Apply the changes that are configured in the `main.tf` file:
 ```bash
 terraform apply
 ```
@@ -47,4 +57,6 @@ ScyllaDB [Cloud dashboard](https://cloud.scylladb.com/clusters/list) and verify 
 
 ![cluster setting up](./cloud_screen.png)
 
+After the process is completed, go to the "Connect" tab in in the cloud console
+and connect to your newly created cluster with your favourite tool.
 
