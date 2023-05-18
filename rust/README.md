@@ -38,24 +38,19 @@ Shell:
 
     $ docker exec -it carepet-scylla1 shell
 
-You can inspect any node by means of the `docker inspect` command
-as follows. for example:
+The port of `carepet-scylla1` is published to the host on port `9042` using the host IP address. 
+To get the host IP address run:
 
-    $ docker inspect carepet-scylla1
-
-To get node IP address run:
-
-    $ docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' carepet-scylla1
+    $ HOST_IP=$(hostname -I | awk '{print $1}')
 
 To initialize database execute:
 
-    $ NODE1=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' carepet-scylla1) 
-    $ cargo run --bin migrate -- --hosts $NODE1
+    $ cargo run --bin migrate -- --hosts $HOST_IP
 
 Expected output:
 
     [2021-12-24T00:39:00Z INFO  migrate] Bootstrapping database...
-    [2021-12-24T00:39:00Z INFO  care_pet::db] Connecting to 127.0.0.1
+    [2021-12-24T00:39:00Z INFO  care_pet::db] Connecting to 172.nnn.nnn.nnn
     [2021-12-24T00:39:00Z INFO  care_pet::db] Creating keyspace carepet
     [2021-12-24T00:39:00Z INFO  care_pet::db] Keyspace carepet created
     [2021-12-24T00:39:00Z INFO  care_pet::db] Migrating database
@@ -71,26 +66,27 @@ You can check the database structure with:
     $ docker exec -it carepet-scylla1 cqlsh
     cqlsh> DESCRIBE KEYSPACES
 
-    carepet  system_schema  system_auth  system  system_distributed  system_traces
+    carepet        system_auth  system_distributed_everywhere  system_traces
+    system_schema  system       system_distributed
 
     cqlsh> USE carepet;
     cqlsh:carepet> DESCRIBE TABLES
 
-    pet  sensor_avg  gocqlx_migrate  measurement  owner  sensor
+    owner  pet  sensor  sensor_avg  measurement
 
     cqlsh:carepet> DESCRIBE TABLE pet
 
     CREATE TABLE carepet.pet (
         owner_id uuid,
-        pet_id   uuid,
-        chip_id  text,
-        species  text,
-        breed    text,
-        color    text,
-        gender   text,
-        address  text,
+        pet_id uuid,
+        address text,
         age int,
+        breed text,
+        chip_id text,
+        color text,
+        gender text,
         name text,
+        species text,
         weight float,
         PRIMARY KEY (owner_id, pet_id)
     ) WITH CLUSTERING ORDER BY (pet_id ASC)
@@ -100,7 +96,7 @@ You can check the database structure with:
         AND compaction = {'class': 'SizeTieredCompactionStrategy'}
         AND compression = {'sstable_compression': 'org.apache.cassandra.io.compress.LZ4Compressor'}
         AND crc_check_chance = 1.0
-        AND dclocal_read_repair_chance = 0.1
+        AND dclocal_read_repair_chance = 0.0
         AND default_time_to_live = 0
         AND gc_grace_seconds = 864000
         AND max_index_interval = 2048
@@ -109,17 +105,18 @@ You can check the database structure with:
         AND read_repair_chance = 0.0
         AND speculative_retry = '99.0PERCENTILE';
 
+
     cqlsh:carepet> exit
 
 To start pet collar simulation execute the following in the separate terminal:
 
-    $ NODE1=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' carepet-scylla1)    
-    $ cargo run --bin sensor -- --hosts $NODE1 --measure 5s --buffer-interval 1m
+    $ HOST_IP=$(hostname -I | awk '{print $1}')
+    $ cargo run --bin sensor -- --hosts $HOST_IP --measure 5s --buffer-interval 1m
 
 Expected output:
 
     [2021-12-24T00:39:56Z INFO  sensor] Welcome to the Pet collar simulator
-    [2021-12-24T00:39:56Z INFO  care_pet::db] Connecting to 127.0.0.1
+    [2021-12-24T00:39:56Z INFO  care_pet::db] Connecting to 172.nnn.nnn.nnn
     [2021-12-24T00:39:56Z INFO  sensor] New owner # 26b5a174-57f4-4bd8-928a-d5ed065b211b
     [2021-12-24T00:39:56Z INFO  sensor] New pet # 3e0a8390-b27f-4f8b-816e-904dcf2bf40c
     [2021-12-24T00:40:01Z INFO  sensor] sensor # 50ed149f-d657-478a-9e15-aedf43319e25 type R new measure 37.6081 ts 2021-12-24T00:40:01.535000000Z
@@ -133,12 +130,12 @@ That means that the collar has been pushed buffered measurements to the app.
 Write down the pet Owner ID (ID is something after the `#` sign without trailing spaces).
 To start REST API service execute the following in the separate terminal:
 
-    $ NODE1=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' carepet-scylla1)
-    $ cargo run -- --hosts $NODE1
+    $ HOST_IP=$(hostname -I | awk '{print $1}')
+    $ cargo run -- --hosts $HOST_IP
 
 Expected output:
 
-    2021-12-24T00:32:48Z INFO  care_pet::db] Connecting to 127.0.0.1
+    2021-12-24T00:32:48Z INFO  care_pet::db] Connecting to 172.nnn.nnn.nnn
     [2021-12-24T00:32:48Z WARN  rocket::config::config] 🔧 Configured for debug.
     [2021-12-24T00:32:48Z WARN  rocket::config::config] address: 127.0.0.1
     [2021-12-24T00:32:48Z WARN  rocket::config::config] port: 8000
@@ -262,8 +259,8 @@ with the help of different sensors. After the data is collected
 it may be delivered to the central database for the analysis and
 health status checking.
 
-Collar code sits in the `/bin/sensor` and uses [Scylla Rust Driver](https://github.com/scylladb/scylla-rust-driver)
-driver to connect to the database directly and publish its data.
+Collar code sits in the `/bin/sensor` and uses [Scylla Rust Driver](https://github.com/scylladb/scylla-rust-driver) 
+to connect to the database directly and publish its data.
 Collar gathers sensors measurements, aggregates data in a buffer and
 sends it every hour.
 
@@ -294,7 +291,7 @@ The algorithm is simple and resides in `/handler/avg.rs`:
 
 ## How to start a new project with Rust
 
-Install Go. Create a repository. Clone it. Execute inside of
+Install Rust. Create a repository. Clone it. Execute inside of
 your repository:
 
     $ cargo new project_name
@@ -303,16 +300,22 @@ Now in `project_name/Cargo.toml`, under `dependencies` specify:
 
     [dependencies]
     scylla = "0.3"
+    tokio = {version = "1.1.0", features = ["full"]}
 
 Now you are ready to connect to the database and start working.
 To connect to the database, do the following:
 
 ```rust
-use scylla::{Session, SessionBuilder};
+use scylla::{Session, SessionBuilder, IntoTypedRows};
+use std::error::Error;
 
-fn main() {
+#[tokio::main]
+async fn main() -> Result<(), Box<dyn Error>> {
     let uri = "127.0.0.1:9042";
+
     let session: Session = SessionBuilder::new().known_node(uri).build().await?;
+    // ...
+    Ok(())
 }
 ```
 
