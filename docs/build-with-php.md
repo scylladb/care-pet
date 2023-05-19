@@ -405,5 +405,6 @@ $ docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' c
 
 ### Resources
 
-* [ScyllaDB PHP driver for PHP 8.2.x  on Github (maintained by community)](https://github.com/qkdreyer/cassandra-php-driver)
+* [ScyllaDB PHP driver for PHP 8.2.x  on Github (maintained by community)](https://github.com/he4rt/scylladb-php-driver)
+
 * [Driver for PHP 7.1 (third-party, not actively maintained](https://github.com/datastax/php-driver)
