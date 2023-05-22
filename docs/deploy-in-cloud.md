@@ -57,7 +57,7 @@ Do you want to perform these actions?
 Spinning up the cluster takes about ~10 minutes. While the process is underway, you can go to your
 ScyllaDB [Cloud dashboard](https://cloud.scylladb.com/clusters/list) and verify that the cluster is getting set up:
 
-![cluster setting up](./cloud_screen.png)
+![cluster setting up](../terraform/cloud_screen.png)
 
 After the process is completed, go to the "Connect" tab in in the cloud console
 and connect to your newly created cluster with your favourite tool.
