@@ -153,8 +153,8 @@ CREATE TABLE carepet.pet (
 The sensor service simulates the collar's activity and periodically saves data to the database. Use the below commands to run the sensor service:
 
 ```bash
-$ NODE1=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' carepet-scylla1)
-$ cargo run --bin sensor -- --hosts $NODE1 --measure 5s --buffer-interval 1m
+NODE1=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' carepet-scylla1)
+cargo run --bin sensor -- --hosts $NODE1 --measure 5s --buffer-interval 1m
 ```
 
 The above command executes `bin/sensor/main.rs` and and takes the following as arguments.
@@ -363,7 +363,7 @@ curl http://127.0.0.1:8000/owner/{id}
 
 > If you don't have an owner_id, run the `sensor` command and it will generate users and pets on your terminal.
 
-and you should receive a response with something like:
+and you should receive a response similar to this:
 
 ```json
 {
@@ -379,7 +379,7 @@ If you want to list owner's pets you can use the following command:
 curl http://127.0.0.1:8000/owner/{id}/pets
 ```
 
-and you should receive a response with something like:
+and you should receive a response similar to this:
 
 ```json
 [
@@ -405,7 +405,7 @@ If you want to list the active pet sensors you can use the following command:
 curl http://127.0.0.1:8000/pet/{pet_id}/sensors
 ```
 
-and you should receive a response with something like:
+and you should receive a response similar to this:
 
 ```json
 [
