@@ -172,3 +172,9 @@ func FindOwnerByID(ses gocqlx.Session) operations.FindOwnerByIDHandlerFunc {
 Line 25 queries the `owner` table then saves the result in the owner object or throws a not found 404 status error.
 
 Line 32 returns a FindOwnerByIDOK object with code status 200 and the owner's information.
+
+### Resources
+
+* [ScyllaDB Go driver on Github](https://github.com/scylladb/gocql)
+* [Go and ScyllaDB on ScyllaDB University](https://university.scylladb.com/courses/the-mutant-monitoring-system-training-course/lessons/golang-and-scylla-part-1/)
+* [Scylla Go driver documentation page](https://docs.scylladb.com/stable/using-scylla/drivers/cql-drivers/scylla-go-driver.html)

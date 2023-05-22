@@ -560,3 +560,9 @@ For example:
 Expected output:
 
 `[0,0,0,0,0,0,0,0,0,0,0,0,0,0,42.55736]`
+
+### Resources
+
+* [Getting Started with ScyllaDB Cloud Using Node.js](https://www.scylladb.com/2022/03/14/getting-started-with-scylladb-cloud-using-node-js-part-1/)
+* [ScyllaDB University: Coding with Node.js](https://university.scylladb.com/courses/using-scylla-drivers/lessons/scylla-and-node-js/)
+* [NodeJS driver on Github (third-party)](https://github.com/datastax/nodejs-driver/)

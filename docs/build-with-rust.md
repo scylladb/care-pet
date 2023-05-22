@@ -355,10 +355,15 @@ The GET request on URL `/sensor/<id>/values?<from>&<to>` triggers `find_sensor_d
 
 To test out the API in your terminal, use the following command: `$ curl http://127.0.0.1:8000/api/owner/{id}` and expect the following response:
 
-````
+```
 
 [{"address":"home","age":57,"name":"tlmodylu","owner_id":"a05fd0df-0f97-4eec-a211-cad28a6e5360","pet_id":"a52adc4e-7cf4-47ca-b561-3ceec9382917","weight":5}]
 
 ```
 
-```
+### Resources
+
+* [ScyllaDB Rust driver documentation](https://rust-driver.docs.scylladb.com/stable/)
+* [ScyllaDB Rust code examples](https://github.com/scylladb/scylla-rust-driver/tree/main/examples)
+* [ScyllaDB Rust driver on Github](https://github.com/scylladb/scylla-rust-driver)
+* [ScyllaDB University: Getting Started with Rust](https://university.scylladb.com/courses/using-scylla-drivers/lessons/rust-and-scylla-2/)

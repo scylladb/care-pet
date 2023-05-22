@@ -247,3 +247,10 @@ Finally, use a pet id to test this endpoint, for example:
 curl http://127.0.0.1:8000/api/pet/44f1624e-07c2-4971-85a5-85b9ad1ff142/sensors
 
 [{"pet_id":"44f1624e-07c2-4971-85a5-85b9ad1ff142","sensor_id":"4bb1d214-712b-453b-b53a-ac5d4df4a1f8","type":"T"},{"pet_id":"44f1624e-07c2-4971-85a5-85b9ad1ff142","sensor_id":"e81915d6-1155-45e4-9174-c58e4cb8cecf","type":"L"}]
+```
+
+### Resources
+
+* [ScyllaDB Python driver documentation](https://python-driver.docs.scylladb.com/stable/)
+* [ScyllaDB Python driver on Github](https://github.com/scylladb/python-driver/)
+* [ScyllaDB University: Coding with Python](https://university.scylladb.com/courses/the-mutant-monitoring-system-training-course/lessons/coding-with-python/)
