@@ -30,7 +30,7 @@
 
 .. topic-box::
   :title: Terraform integration
-  :icon: scylla-icon scylla-icon--blog
+  :icon: scylla-icon scylla-icon--cloud
   :link: deploy-in-cloud
   :class: large-12
   :anchor: Deploy in the cloud
