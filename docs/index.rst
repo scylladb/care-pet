@@ -29,6 +29,16 @@
   <div class="grid-x grid-margin-x">
 
 .. topic-box::
+  :title: Terraform integration
+  :icon: scylla-icon scylla-icon--cloud
+  :link: deploy-in-cloud
+  :class: large-12
+  :anchor: Deploy in the cloud
+
+  Spin up a new ScyllaDB Cloud cluster with Terraform and get started with this example in a cloud environment.
+
+
+.. topic-box::
   :title: Getting Started with Care-Pet
   :link: getting-started
   :icon: scylla-icon scylla-icon--getting-started
@@ -55,7 +65,6 @@
   :anchor: Read the article
 
   The Care-Pet Example blog walks you through the example and adds additional information. 
-
 
 
 .. topic-box::
@@ -105,6 +114,7 @@
    :hidden:
 
    Getting Started with CarePet: A sample IoT App <getting-started>
+   Deploy in cloud <deploy-in-cloud>
    Design and Data Model <design-and-data-model>
    Build with Go <build-with-go>
    Build with JavaScript <build-with-javascript>

@@ -402,3 +402,9 @@ $ docker inspect carepet-scylla1
 $ docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' carepet-scylla1
 10.10.5.2
 ```
+
+### Resources
+
+* [ScyllaDB PHP driver for PHP 8.2.x  on Github (maintained by community)](https://github.com/he4rt/scylladb-php-driver)
+
+* [Driver for PHP 7.1 (third-party, not actively maintained](https://github.com/datastax/php-driver)

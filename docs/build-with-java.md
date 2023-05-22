@@ -262,4 +262,8 @@ int current = now.getHour();
 
 ```
 
-```
+### Resources
+
+* [Scylla Java driver documentation](https://java-driver.docs.scylladb.com/stable/)
+* [ScyllaDB Java driver on Github](https://github.com/scylladb/java-driver/)
+* [ScyllaDB University: Coding with Java](https://university.scylladb.com/courses/the-mutant-monitoring-system-training-course/lessons/coding-with-java-part-1/)

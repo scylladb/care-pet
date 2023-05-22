@@ -373,6 +373,7 @@ and you should receive a response similar to this:
 }
 ```
 
+
 If you want to list owner's pets you can use the following command:
 
 ```shell
@@ -426,4 +427,12 @@ and you should receive a response similar to this:
   }
 ]
 ```
+
+
+### Resources
+
+* [ScyllaDB Rust driver documentation](https://rust-driver.docs.scylladb.com/stable/)
+* [ScyllaDB Rust code examples](https://github.com/scylladb/scylla-rust-driver/tree/main/examples)
+* [ScyllaDB Rust driver on Github](https://github.com/scylladb/scylla-rust-driver)
+* [ScyllaDB University: Getting Started with Rust](https://university.scylladb.com/courses/using-scylla-drivers/lessons/rust-and-scylla-2/)
 
