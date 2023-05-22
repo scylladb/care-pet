@@ -15,6 +15,12 @@ You'll set up Terraform to:
 
 ## Get started
 
+### Clone the repository
+Clone the repository if you haven't already:
+```bash
+git clone https://github.com/scylladb/care-pet.git
+```
+
 ### Install CQLSH
 Install the standalone CQLSH Python package:
 ```bash
