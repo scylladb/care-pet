@@ -13,24 +13,25 @@ As explained in the Getting Started page, the project is structured as follow:
 
 Start by creating a local ScyllaDB cluster consisting of 3 nodes:
 
+```bash
+docker-compose up -d
 ```
-$ docker-compose up -d
-```
+
 Docker-compose will spin up a ScyllaDB cluster consisting of 3 nodes (carepet-scylla1, carepet-scylla2 and carepet-scylla3) along with the app (for example go-app) container.  Wait for about two minutes and check the status of the cluster: To check the status of the cluster:
-```
-$ docker exec -it carepet-scylla1 nodetool status
+```bash
+docker exec -it carepet-scylla1 nodetool status
 ```
 Once all the nodes are in UN - Up Normal status, run the below commands:
 
 The below command allows you to get node IP address:
 
-```
+```bash
 docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' carepet-scylla1
 ```
 
 The run the following commands to execute the migrate main function.
 
-```
+```bash
 NODE1=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' carepet-scylla1)
 cargo run --bin migrate -- --hosts $NODE1
 ```
@@ -39,7 +40,7 @@ The command executes the main function in the `bin/migrate/main.rs`. The functio
 
 The below code in the `bin/migrate/main.rs` creates a new session then calls the `create_keyspace` , `migrate` functions.
 
-```
+```rs
 // migrate/main.rs
 
 async fn main() -> Result<()> {
@@ -61,7 +62,7 @@ async fn main() -> Result<()> {
 
 The `new_session` function takes the config as a parameter and uses `SessionBuilder` class to crete a new session.
 
-```
+```rs
 // db/mod.rs
 
 pub async fn new_session(config: &Config) -> Result<Session> {
@@ -84,7 +85,7 @@ For more information about creating a new session with the Rust Driver, please h
 
 `create_keyspace` function takes a session as an argument and creates a keyspace as defined in `db/keyspace.cql`:
 
-```
+```cql
 CREATE KEYSPACE IF NOT EXISTS carepet WITH replication = { 'class': 'NetworkTopologyStrategy', 'replication_factor': '3' };
 ```
 
@@ -93,7 +94,7 @@ More information about keyspace and replication on [Scylla University](https://u
 
 Finally, `migrate` will execute the queries listed in `db/migrate.cql` to create the tables you need for the project.
 
-```
+```cql
 CREATE TABLE IF NOT EXISTS carepet.owner
 (
     owner_id UUID,
@@ -107,7 +108,7 @@ CREATE TABLE IF NOT EXISTS carepet.owner
 
 You can check the database structure with:
 
-```
+```bash
 docker exec -it carepet-scylla1 cqlsh
 cqlsh> USE carepet;
 cqlsh:carepet> DESCRIBE TABLES
@@ -116,7 +117,7 @@ cqlsh:carepet> DESCRIBE TABLE pet
 
 You should expect the following result:
 
-```
+```cql
 CREATE TABLE carepet.pet (
     owner_id uuid,
     pet_id uuid,
@@ -151,9 +152,9 @@ CREATE TABLE carepet.pet (
 
 The sensor service simulates the collar's activity and periodically saves data to the database. Use the below commands to run the sensor service:
 
-```
-$ NODE1=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' carepet-scylla1)
-$ cargo run --bin sensor -- --hosts $NODE1 --measure 5s --buffer-interval 1m
+```bash
+NODE1=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' carepet-scylla1)
+cargo run --bin sensor -- --hosts $NODE1 --measure 5s --buffer-interval 1m
 ```
 
 The above command executes `bin/sensor/main.rs` and and takes the following as arguments.
@@ -162,7 +163,7 @@ The above command executes `bin/sensor/main.rs` and and takes the following as a
 -   `measure`: the interval between to sensor measures.
 -   `buffer-interval`: the interval between two database queries.
 
-```
+```rs
 // sensor/main.rs
 
 #[tokio::main]
@@ -187,7 +188,7 @@ async fn main() -> Result<()> {
 The `app` object contains the command's arguments listed above.
 We then create a new session `sess` using `new_session_with_keyspace` function defined in `db/mod.rs`:
 
-```
+```rs
 // db/mod.rs
 
 pub async fn new_session_with_keyspace(config: &Config) -> Result<Session> {
@@ -199,7 +200,7 @@ pub async fn new_session_with_keyspace(config: &Config) -> Result<Session> {
 
 The `save_data` method connects to the datbase and saves random `owner`, `pet` and the `sensors` to the database using `insert_query` macro defined in `src/mod.rs`.
 
-```
+```rs
 // sensor/main.rs
 
 async fn save_data(sess: &Session, owner: &Owner, pet: &Pet, sensors: &[Sensor]) -> Result<()> {
@@ -219,7 +220,7 @@ async fn save_data(sess: &Session, owner: &Owner, pet: &Pet, sensors: &[Sensor])
 
 The `run_sensor_data` generates random data and inserts it to the database every `buffer_interval`.
 
-```
+```rs
 async fn run_sensor_data(cfg: &App, sess: &Session, sensors: Vec<Sensor>) -> Result<()> {
     let measure: time::Duration = cfg.measure.into();
     let buffer_interval: time::Duration = cfg.buffer_interval.into();
@@ -269,14 +270,15 @@ async fn run_sensor_data(cfg: &App, sess: &Session, sensors: Vec<Sensor>) -> Res
 The server service is a REST API for tracking the pets’ health state. The service was built using [Rocket](https://rocket.rs) and allows users to query the database via HTTP.
 
 Run the following commands to start the server:
-```
+
+```bash
 NODE1=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' carepet-scylla1)
 cargo run -- --hosts $NODE1
 ```
 
 The `src/main.rs` main function mounts the api on `/api` and defines the routes.
 
-```
+```rs
 // src/main.rs
 
 #[rocket::main]
@@ -312,7 +314,7 @@ The handlers can be found in the `src/handler` folder for each route.
 
 Let's have a look at `handler/mesure.rs` file:
 
-```
+```rs
 #[get("/sensor/<id>/values?<from>&<to>")]
 pub async fn find_sensor_data_by_sensor_id_and_time_range(
     session: &State<Session>,
@@ -351,15 +353,81 @@ The GET request on URL `/sensor/<id>/values?<from>&<to>` triggers `find_sensor_d
 
 `find_sensor_data_by_sensor_id_and_time_range` takes `session`, `id`, `from` and `to` as params. The function runs a `SELECT` query then returns `rows`.
 
+#### Retrieving informations from API
 
+To test out the API in your terminal, use the following command to retrieve informations of a specific pet owner: 
 
-To test out the API in your terminal, use the following command: `$ curl http://127.0.0.1:8000/api/owner/{id}` and expect the following response:
-
+```bash
+curl http://127.0.0.1:8000/owner/{id}
 ```
 
-[{"address":"home","age":57,"name":"tlmodylu","owner_id":"a05fd0df-0f97-4eec-a211-cad28a6e5360","pet_id":"a52adc4e-7cf4-47ca-b561-3ceec9382917","weight":5}]
+> If you don't have an owner_id, run the `sensor` command and it will generate users and pets on your terminal.
 
+and you should receive a response similar to this:
+
+```json
+{
+  "owner_id": "5b5a7b4d-a2c0-48b0-91e1-de6a5b37c923",
+  "address": "home",
+  "name": "sedtdkaa"
+}
 ```
+
+
+If you want to list owner's pets you can use the following command:
+
+```shell
+curl http://127.0.0.1:8000/owner/{id}/pets
+```
+
+and you should receive a response similar to this:
+
+```json
+[
+  {
+    "owner_id": "5b5a7b4d-a2c0-48b0-91e1-de6a5b37c923",
+    "pet_id": "9e9facb9-3bd8-4451-b179-8c951cdf0999",
+    "chip_id": null,
+    "species": "dog",
+    "breed": "golden-retriever",
+    "color": "black",
+    "gender": "M",
+    "age": 4,
+    "weight": 9.523097,
+    "address": "awesome-address",
+    "name": "doggo"
+  }
+]
+```
+
+If you want to list the active pet sensors you can use the following command:
+
+```shell
+curl http://127.0.0.1:8000/pet/{pet_id}/sensors
+```
+
+and you should receive a response similar to this:
+
+```json
+[
+  {
+    "pet_id": "9e9facb9-3bd8-4451-b179-8c951cdf0999",
+    "sensor_id": "7a8b3831-0512-4501-90f2-700c7133aeed",
+    "type": "T"
+  },
+  {
+    "pet_id": "9e9facb9-3bd8-4451-b179-8c951cdf0999",
+    "sensor_id": "81250bab-cf1c-4c7a-84f1-b291a0f325ef",
+    "type": "P"
+  },
+  {
+    "pet_id": "9e9facb9-3bd8-4451-b179-8c951cdf0999",
+    "sensor_id": "a22a2fdb-4aad-4abe-b0d9-381aa07a26af",
+    "type": "L"
+  }
+]
+```
+
 
 ### Resources
 
@@ -367,3 +435,4 @@ To test out the API in your terminal, use the following command: `$ curl http://
 * [ScyllaDB Rust code examples](https://github.com/scylladb/scylla-rust-driver/tree/main/examples)
 * [ScyllaDB Rust driver on Github](https://github.com/scylladb/scylla-rust-driver)
 * [ScyllaDB University: Getting Started with Rust](https://university.scylladb.com/courses/using-scylla-drivers/lessons/rust-and-scylla-2/)
+
