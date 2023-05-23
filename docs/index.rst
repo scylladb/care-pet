@@ -28,15 +28,6 @@
 
   <div class="grid-x grid-margin-x">
 
-.. topic-box::
-  :title: Terraform integration
-  :icon: scylla-icon scylla-icon--cloud
-  :link: deploy-in-cloud
-  :class: large-12
-  :anchor: Deploy in the cloud
-
-  Spin up a new ScyllaDB Cloud cluster with Terraform and get started with this example in a cloud environment.
-
 
 .. topic-box::
   :title: Getting Started with Care-Pet
@@ -55,7 +46,6 @@
   :anchor: Learn more
 
   Learn more about the queries used in the example, make the primary key and clustering key selection, and create the database schema.
-  
 
 .. topic-box::
   :title: Care-Pet Blog
@@ -66,6 +56,14 @@
 
   The Care-Pet Example blog walks you through the example and adds additional information. 
 
+.. topic-box::
+  :title: Terraform integration
+  :icon: scylla-icon scylla-icon--cloud
+  :link: deploy-in-cloud
+  :class: large-12
+  :anchor: Deploy in the cloud
+
+  Spin up a new ScyllaDB Cloud cluster with Terraform and get started with this example in a cloud environment.
 
 .. topic-box::
   :title: Build with Go
@@ -73,13 +71,11 @@
   :link: build-with-go
   :class: large-4
 
-
 .. topic-box::
   :title: Build with Java
   :image: /_static/img/programming_languages/java.png
   :link: build-with-java
   :class: large-4
-
 
 .. topic-box::
   :title: Build with Rust
