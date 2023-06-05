@@ -67,6 +67,7 @@ html_theme_options = {
     'github_issues_repository': 'scylladb/care-pet',
     'github_repository': 'scylladb/care-pet',
     'hide_edit_this_page_button': 'false',
+    'hide_feedback_buttons': 'false',
     'site_description': 'ScyllaDB IoT Example Documentation',
     "versions_unstable": UNSTABLE_VERSIONS,
     "versions_deprecated": DEPRECATED_VERSIONS,
@@ -110,7 +111,7 @@ notfound_urls_prefix = ""
 
 # -- Options for sitemap extension ---------------------------------------
 
-sitemap_url_scheme = "stable/{link}"
+sitemap_url_scheme = "/stable/{link}"
 
 # -- Options for multiversion --------------------------------------------
 
