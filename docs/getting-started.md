@@ -58,7 +58,11 @@ remain available and continue to provide service. You can learn more about
 Scylla high availability in [this lesson](https://university.scylladb.com/courses/scylla-essentials-overview/lessons/high-availability/). 
 
 
-### Deploying the Application
+### Deploying the Application in ScyllaDB Cloud
+
+Using the ScyllaDB Cloud [Terraform provider](https://registry.terraform.io/providers/scylladb/scylladbcloud/latest/docs), you can easily spin up new ScyllaDB Cloud clusters. Complete this tutorial quicker by creating a new `t3.micro` cluster (the smallest instance) in ScyllaDB Cloud. Go to [Deploy in ScyllaDB Cloud with Terraform](/deploy-in-cloud.md) for instructions.
+
+### Deploying the Application Locally
 
 1. Check out the care-pet repository from GitHub and go to the directory of
    the language you want to use (Go, Java, etc.):
