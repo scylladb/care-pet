@@ -60,7 +60,7 @@ Scylla high availability in [this lesson](https://university.scylladb.com/course
 
 ### Deploying the Application in ScyllaDB Cloud
 
-Using the ScyllaDB Cloud [Terraform provider](https://registry.terraform.io/providers/scylladb/scylladbcloud/latest/docs), you can easily spin up new ScyllaDB Cloud clusters. Complete this tutorial quicker by creating a a new `t3.micro` cluster (which is the smallest and cheapest possible instance) in ScyllaDB Cloud. Go to [Deploy in ScyllaDB Cloud with Terraform](/deploy-in-cloud.md) for instructions.
+Using the ScyllaDB Cloud [Terraform provider](https://registry.terraform.io/providers/scylladb/scylladbcloud/latest/docs), you can easily spin up new ScyllaDB Cloud clusters. Complete this tutorial quicker by creating a new `t3.micro` cluster (the smallest instance) in ScyllaDB Cloud. Go to [Deploy in ScyllaDB Cloud with Terraform](/deploy-in-cloud.md) for instructions.
 
 ### Deploying the Application Locally
 
