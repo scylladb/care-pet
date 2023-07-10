@@ -11,7 +11,7 @@ and consists of 3 parts:
 - a web app for reading and analyzing the pets' data
 - a database migration tool
 
-Read the [Documentation for the Care-Pet Example](https://iot.scylladb.com/stable/)
+Read the [Documentation for the Care-Pet Example](https://iot.scylladb.com)
 
 Quick Start
 ---
