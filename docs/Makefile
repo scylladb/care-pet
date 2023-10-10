@@ -18,11 +18,6 @@ TESTSPHINXOPTS  = $(ALLSPHINXOPTS) -W --keep-going
 # the i18n builder cannot share the environment and doctrees with the others
 I18NSPHINXOPTS  = $(PAPEROPT_$(PAPER)) $(SPHINXOPTS) $(SOURCEDIR)
 
-# Windows variables
-ifeq ($(OS),Windows_NT)
-    POETRY = $(APPDATA)\Python\Scripts\poetry
-endif
-
 .PHONY: all
 all: dirhtml
 
