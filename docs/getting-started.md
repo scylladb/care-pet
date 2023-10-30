@@ -69,7 +69,7 @@ Using the ScyllaDB Cloud [Terraform provider](https://registry.terraform.io/prov
     
     ```
     git clone git@github.com:scylladb/care-pet.git
-    cd go
+    cd care-pet/go
     ```
 
 1. Create a local ScyllaDB cluster consisting of three nodes:
