@@ -3,7 +3,7 @@
 # You can set these variables from the command line.
 
 POETRY        = poetry
-SPHINXOPTS    = 
+SPHINXOPTS    = -j auto
 SPHINXBUILD   = $(POETRY) run sphinx-build
 PAPER         =
 BUILDDIR      = _build
@@ -17,11 +17,6 @@ TESTSPHINXOPTS  = $(ALLSPHINXOPTS) -W --keep-going
 
 # the i18n builder cannot share the environment and doctrees with the others
 I18NSPHINXOPTS  = $(PAPEROPT_$(PAPER)) $(SPHINXOPTS) $(SOURCEDIR)
-
-# Windows variables
-ifeq ($(OS),Windows_NT)
-    POETRY = $(APPDATA)\Python\Scripts\poetry
-endif
 
 .PHONY: all
 all: dirhtml
