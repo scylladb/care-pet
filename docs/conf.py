@@ -27,10 +27,8 @@ extensions = [
     "sphinx_scylladb_theme",
     "sphinx_multiversion",
     "sphinx_sitemap",
-    "recommonmark",
-    "sphinx_markdown_tables"
+    "myst_parser"
 ]
-
 
 # The suffix(es) of source filenames.
 source_suffix = [".rst", ".md"]
@@ -100,6 +98,9 @@ html_context = {'html_baseurl': html_baseurl}
 # A list of paths that contain custom static files. 
 # They are copied to the output’s _static directory.
 html_static_path = ["_static"]
+
+# -- Options for myst parser ----------------------------------------
+myst_enable_extensions = ["colon_fence"]
 
 # -- Options for not found extension -------------------------------------------
 

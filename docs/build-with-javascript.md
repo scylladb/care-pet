@@ -1,7 +1,6 @@
-Build an IoT App with JavaScript
-------------------------
+# Build an IoT App with JavaScript
 
-### Architecture
+## Architecture
 
 In this section, we will walk you through the CarePet commands and explain the code behind them.
 The project is structured as follows:
@@ -12,7 +11,7 @@ The project is structured as follows:
 - collar (`npm run sensor`) - Generates pet health data and pushes it into the storage.
 - web app (`npm run dev`) - REST API service for tracking pets' health state.
 
-### Code Structure and Implementation
+## Code Structure and Implementation
 
 The code package structure is as follows:
 
@@ -29,7 +28,7 @@ The code package structure is as follows:
 | /handler     | REST API handlers                   |
 | /model       | application models and ORM metadata |
 
-### Quick Start
+## Quick Start
 
 Prerequisites:
 
@@ -49,7 +48,7 @@ Make sure to install all NodeJS dependencies with:
 
     $ npm install
     
-### Use ScyllaDB on your local machine
+## Use ScyllaDB on your local machine
 
 To run a local ScyllaDB cluster consisting of three nodes with
 the help of `docker` and `docker-compose` execute:
@@ -63,9 +62,9 @@ Execute the following nodetool command:
 
     $ docker exec -it carepet-scylla1 nodetool status
 
-### Migrate
+## Migrate
 
-#### Run ScyllaDB on your local machine
+### Run ScyllaDB on your local machine
 
 Once all the nodes are in UN - Up Normal status, run the commands below.
 
@@ -87,7 +86,7 @@ You can check the database structure with:
 docker exec -it carepet-scylla1 cqlsh
 ```
 
-#### Using Scylla Cloud
+### Using Scylla Cloud
 
 If you are using Scylla Cloud, use the the following command to run the `migrate` service:
 
@@ -97,7 +96,7 @@ npm run migrate -- --hosts [NODE-IP] --username [USERNAME] --password[PASSWORD]
 
 Replace the NODE-IP, USERNAME, and PASSWORD with the information provided in your cluster on https://cloud.scylladb.com.
 
-### Output
+## Output
 
 Expected output:
 ```
@@ -164,7 +163,7 @@ CREATE TABLE carepet.pet (
 
 #. Run `exit` to exit the cqlsh.
 
-#### migrate/index.js
+### migrate/index.js
 
 The above commands execute the main function in the `cmd/migrate/index.js`. The function creates the keyspace and tables that you need to run the collar and server services.
 
@@ -289,17 +288,17 @@ CREATE TABLE carepet.pet (
     AND speculative_retry = '99.0PERCENTILE';
 ```
 
-### Sensor
+## Sensor
 
 The sensor service simulates the collar's activity and periodically saves data to the database. Use the below commands to run the sensor service:
 
-#### Using ScyllaDB on your local machine
+### Using ScyllaDB on your local machine
 ```
 NODE1=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' carepet-scylla1)
 npm run sensor -- --hosts $NODE1 --measure 5s --buffer-interval 1m
 ```
 
-#### Using Scylla Cloud
+### Using Scylla Cloud
 ```
 npm run sensor -- --hosts [NODE-IP] --username [USERNAME] --password [PASSWORD] --measure 5s --buffer-interval 1m
 ```
@@ -430,19 +429,19 @@ async function runSensorData(client, { bufferInterval, measure }, sensors) {
 }
 ```
 
-### Server
+## Server
 
 The server service is a REST API for tracking the pets’ health state. The service allows you to query the database via HTTP.
 
 Run the following commands to start the server:
 
-#### Using ScyllaDB on your local machine
+### Using ScyllaDB on your local machine
 ```
 NODE1=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' carepet-scylla1)
 npm run dev -- --hosts $NODE1
 ```
 
-#### Using Scylla Cloud
+### Using Scylla Cloud
 ```
 npm run dev -- --hosts [NODE-IP] --username [USERNAME] --password [PASSWORD]
 ```
@@ -477,7 +476,7 @@ async function main() {
 }
 ```
 
-### Using the Application 
+## Using the Application 
 
 Open a different terminal to send an HTTP request from the CLI:
 
@@ -561,7 +560,7 @@ Expected output:
 
 `[0,0,0,0,0,0,0,0,0,0,0,0,0,0,42.55736]`
 
-### Resources
+## Resources
 
 * [Getting Started with ScyllaDB Cloud Using Node.js](https://www.scylladb.com/2022/03/14/getting-started-with-scylladb-cloud-using-node-js-part-1/)
 * [ScyllaDB University: Coding with Node.js](https://university.scylladb.com/courses/using-scylla-drivers/lessons/scylla-and-node-js/)

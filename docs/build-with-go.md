@@ -1,7 +1,6 @@
-Build an IoT App with Go
-------------------------
+# Build an IoT App with Go
 
-### Introduction
+## Introduction
 
 In this section, we will walk you through the CarePet commands and explain the code behind them.
 
@@ -11,7 +10,7 @@ As explained in [Getting Started with CarePet](/getting-started.md), the project
 - Server (/cmd/server) - REST API service for tracking the pets’ health state.
 
 
-### Migrate
+## Migrate
 
 The `/migrate` command creates the keyspace and tables that will be used by the collar and server services.
 
@@ -75,7 +74,7 @@ func migrateKeyspace() {
 
 As the name suggests, the `printKeyspaceMetadata` function will then print the metadata related to the `carepet` keyspace and confirm that the tables were properly created.
 
-### Sensor
+## Sensor
 
 The sensor service simulates the collar's activity. The service uses the `pet struct` and its functions defined in `sensor/pet.go` to create a new `pet` along with an `owner` and `sensorType` then saves it to the database.
 
@@ -106,7 +105,7 @@ func main() {
 }
 ```
 
-### Server
+## Server
 
 The server service is a REST API for tracking the pets’ health state. The service allows users to query the database via http.
 
@@ -173,7 +172,7 @@ Line 25 queries the `owner` table then saves the result in the owner object or t
 
 Line 32 returns a FindOwnerByIDOK object with code status 200 and the owner's information.
 
-### Resources
+## Resources
 
 * [ScyllaDB Go driver on Github](https://github.com/scylladb/gocql)
 * [Go and ScyllaDB on ScyllaDB University](https://university.scylladb.com/courses/the-mutant-monitoring-system-training-course/lessons/golang-and-scylla-part-1/)

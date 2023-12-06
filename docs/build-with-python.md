@@ -1,6 +1,6 @@
-## Build an IoT App with Python
+# Build an IoT App with Python
 
-### Architecture
+## Architecture
 
 This section will walk through and explain the code for the different commands.
 As explained in the Getting Started page, the project is structured as follow:
@@ -9,7 +9,7 @@ As explained in the Getting Started page, the project is structured as follow:
 * Sensor (`python src/sensor.py`) - generates random IoT data and inserts it into ScyllaDB
 * API (`python src/api.py`) - REST API service to fetch data from ScyllaDB
 
-### Clone repository and install dependencies
+## Clone repository and install dependencies
 Clone the repository and open the root directory of the project:
 ```bash
 git clone https://github.com/scylladb/care-pet
@@ -27,7 +27,7 @@ Install all Python dependencies:
 pip install -r requirements.txt
 ```
 
-### Start Docker containers (skip this if you use Scylla Cloud)
+## Start Docker containers (skip this if you use Scylla Cloud)
 Spin up a local ScyllaDB cluster with three nodes using `docker` and `docker-compose`:
 ```bash
 docker-compose up -d
@@ -62,7 +62,7 @@ docker inspect carepet-scylla1
 ...
 ```
 
-### Connect to ScyllaDB and create the database schema
+## Connect to ScyllaDB and create the database schema
 To connect to your ScyllaDB storage within the container, you need to know the
 IP address of one of the running nodes.
 This is how you can get the IP address of the first node running in the container:
@@ -133,7 +133,7 @@ cqlsh:carepet> exit;
 
 At this point you have ScyllaDB running with the correct keyspace and tables.
 
-### Generate and ingest IoT data
+## Generate and ingest IoT data
 Start ingesting IoT data (it's suggested to do this in a new separate terminal
 because this process runs indefinitely). Make sure you're still in the virtual
 environment:
@@ -168,7 +168,7 @@ python src/sensor.py -h $NODE1 --measure 3 --buffer-interval 30
 
 You can run multiple ingestion processes in parallel if you wish.
 
-### Set up and test REST API
+## Set up and test REST API
 In a new terminal, start running the API server (make sure that `port 8000` is free):
 ```bash
 source env/bin/activate
@@ -249,7 +249,7 @@ curl http://127.0.0.1:8000/api/pet/44f1624e-07c2-4971-85a5-85b9ad1ff142/sensors
 [{"pet_id":"44f1624e-07c2-4971-85a5-85b9ad1ff142","sensor_id":"4bb1d214-712b-453b-b53a-ac5d4df4a1f8","type":"T"},{"pet_id":"44f1624e-07c2-4971-85a5-85b9ad1ff142","sensor_id":"e81915d6-1155-45e4-9174-c58e4cb8cecf","type":"L"}]
 ```
 
-### Resources
+## Resources
 
 * [ScyllaDB Python driver documentation](https://python-driver.docs.scylladb.com/stable/)
 * [ScyllaDB Python driver on Github](https://github.com/scylladb/python-driver/)
