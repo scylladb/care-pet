@@ -1,6 +1,6 @@
-## Build an IoT App with Rust
+# Build an IoT App with Rust
 
-### Architecture
+## Architecture
 
 This section will walk through and explain the code for the different commands.
 As explained in the Getting Started page, the project is structured as follow:
@@ -9,7 +9,7 @@ As explained in the Getting Started page, the project is structured as follow:
 -   collar (`/bin/sensor/main.rs`) - generates a pet health data and pushes it into the storage
 -   web app (`/main.rs`) - REST API service for tracking pets health state
 
-### Migrate
+## Migrate
 
 Start by creating a local ScyllaDB cluster consisting of 3 nodes:
 
@@ -148,7 +148,7 @@ CREATE TABLE carepet.pet (
     AND speculative_retry = '99.0PERCENTILE';
 ```
 
-### Sensor
+## Sensor
 
 The sensor service simulates the collar's activity and periodically saves data to the database. Use the below commands to run the sensor service:
 
@@ -265,7 +265,7 @@ async fn run_sensor_data(cfg: &App, sess: &Session, sensors: Vec<Sensor>) -> Res
 }
 ```
 
-### Server
+## Server
 
 The server service is a REST API for tracking the pets’ health state. The service was built using [Rocket](https://rocket.rs) and allows users to query the database via HTTP.
 
@@ -353,7 +353,7 @@ The GET request on URL `/sensor/<id>/values?<from>&<to>` triggers `find_sensor_d
 
 `find_sensor_data_by_sensor_id_and_time_range` takes `session`, `id`, `from` and `to` as params. The function runs a `SELECT` query then returns `rows`.
 
-#### Retrieving informations from API
+## Retrieving informations from API
 
 To test out the API in your terminal, use the following command to retrieve informations of a specific pet owner: 
 
@@ -429,7 +429,7 @@ and you should receive a response similar to this:
 ```
 
 
-### Resources
+## Resources
 
 * [ScyllaDB Rust driver documentation](https://rust-driver.docs.scylladb.com/stable/)
 * [ScyllaDB Rust code examples](https://github.com/scylladb/scylla-rust-driver/tree/main/examples)

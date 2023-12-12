@@ -1,4 +1,4 @@
-### Design and Data Model
+# Design and Data Model
 
 You can learn more about Data Modeling in Scylla (and NoSQL) by taking
 [this course](https://university.scylladb.com/courses/data-modeling/) on Scylla
@@ -20,7 +20,7 @@ the number of writes. You're probably familiar with the steps defined here:
 
 ![](https://lh5.googleusercontent.com/5JqE89v8KJbSuVsnGswHn83sJOV-tjpeH6r1fqdNl6S77ncqAYb3kIZPSgNI8bqN_43OyZNbHQVpXdqMBFrRmsEvG3JORR302EhMnIb9qa6nuNL7cP2JJDZ4Uon_Pp-QmSCoEQ)
 
-#### Conceptual Data Model
+## Conceptual Data Model
 
 Starting with the conceptual data model, we need to identify the key entities
 and the relationships between them. Our application has pets. Each dog can be
@@ -29,7 +29,7 @@ than one dog. Each dog can have a few sensors. Each sensor takes measurements:
 
 ![](https://lh3.googleusercontent.com/GrFS0HY7XgABabCEp5Fbc0dULsujHkvSykFMiMZRI5TjJTYrzckVCJ29L4BgnEqc8dB7t1_VzsRsJCJjwiNI8xHdQ0tGh9qZptZfRsq7gDXHVogwfJG8Y_DIEJrgLX40zjvV5w)
 
-#### Application Workflow
+## Application Workflow
 
 Next, we move on to the Application Workflow. In this part, we identify the main
 queries or what questions we will ask the database. This part is important in
@@ -39,7 +39,7 @@ is built around the queries.
 
 ![](https://lh5.googleusercontent.com/bHN-aBIt-cJ-77s5AWn6Dt0djC-gLQRSArF6b56s3mxpzx-0oG3TgXYOJzTOwrhUUdT0WcEZPTTTdk8B4aY2fbGMgs044DKxwPMC1ATrphI4GBRS8rcVboWpjlg5cO4JRcTZxQ)
 
-#### Queries
+## Queries
 
 Now we can detail the above queries in
 [CQL](https://university.scylladb.com/courses/data-modeling/lessons/basic-data-modeling-2/topic/cql-cqlsh-and-basic-cql-syntax/):
@@ -64,7 +64,7 @@ Q5: Find a daily summary of hour based aggregates
 
     SELECT * FROM sensor_avg WHERE sensor_id = ? AND date = ? ORDER BY date ASC, hour ASC;
 
-#### Logical Data Model
+## Logical Data Model
 
 Using the outcomes of the application workflow and the conceptual data model, we
 can now create the logical data model. At this stage, we determine how our
@@ -78,7 +78,7 @@ about denormalization in
 
 ![](https://lh4.googleusercontent.com/zF8v3divX_VsG5z7pOmGOtdLj7_7AVrembG6ep630WsVqJXKMthEoMyPAkfaJsU7a-np9fO84lmfbcHkPv-dX-_45Aczafnm4V7OroHgt0Kd6Ao7vLF6eK_m-d6X5TJcnylpow)
 
-#### Physical Data Model 
+## Physical Data Model 
 
 In this part, we take the Logical Data Model above and add CQL data types. Make
 sure you're familiar with the ScyllaDB (and Cassandra for that matter)

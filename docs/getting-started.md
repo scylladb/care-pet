@@ -1,7 +1,6 @@
-Getting Started with CarePet: A sample IoT App
-----------------------------------------------
+# Getting Started with CarePet: A sample IoT App
 
-### Introduction
+## Introduction
 
 This guide will show you how to create an IoT app from scratch and configure it
 to use Scylla as the backend datastore. It'll walk you through all the stages
@@ -17,7 +16,7 @@ such as temperature or pulse. The application consists of three parts:
 
 You can use this example with minimal changes for any IoT application. 
 
-### Architecture
+## Architecture
 
 -  `migrate` - Creates the CarePet keyspace and tables.
 -  `sensor` - Generates pet health data and pushes it into storage.
@@ -26,14 +25,14 @@ You can use this example with minimal changes for any IoT application. 
 ![Build your first ScyllaDB Powered App - Raouf](https://user-images.githubusercontent.com/13738772/158378310-11a39630-b390-4df0-8096-2c1751e56570.jpg)
 
 
-### Requirements
+## Requirements
 
-#### Prerequisites for Deploying the Application
+### Prerequisites for Deploying the Application
 
 The example application uses Docker to run a three-node ScyllaDB cluster. You can also use Scylla Cloud as your database.
 Claim your free Scylla Cloud account [here](https://scylladb.com/cloud).
 
-#### Use Case Requirements
+### Use Case Requirements
 
 Each pet collar has sensors that report four different measurements:
 temperature, pulse, location, and respiration.
@@ -41,7 +40,7 @@ temperature, pulse, location, and respiration.
 The collar reads the measurements from the sensors once per second
 and sends the data directly to the app.
 
-#### Performance Requirements
+### Performance Requirements
 
 The application has two performance-related parts: sensors that write to
 the database (throughput sensitive) and a backend dashboard that reads from
@@ -58,11 +57,11 @@ remain available and continue to provide service. You can learn more about
 Scylla high availability in [this lesson](https://university.scylladb.com/courses/scylla-essentials-overview/lessons/high-availability/). 
 
 
-### Deploying the Application in ScyllaDB Cloud
+## Deploying the Application in ScyllaDB Cloud
 
 Using the ScyllaDB Cloud [Terraform provider](https://registry.terraform.io/providers/scylladb/scylladbcloud/latest/docs), you can easily spin up new ScyllaDB Cloud clusters. Complete this tutorial quicker by creating a new `t3.micro` cluster (the smallest instance) in ScyllaDB Cloud. Go to [Deploy in ScyllaDB Cloud with Terraform](/deploy-in-cloud.md) for instructions.
 
-### Deploying the Application Locally
+## Deploying the Application Locally
 
 1. Check out the care-pet repository from GitHub and go to the directory of
    the language you want to use (Go, Java, etc.):
@@ -90,7 +89,8 @@ Using the ScyllaDB Cloud [Terraform provider](https://registry.terraform.io/prov
 
 1. Continue by following the instructions for the programming language you're using. See [Build the Application with Your Programming Language](#build-the-application-with-your-programming-language).
 
-### Build the Application with Your Programming Language
+(build-the-application-with-your-programming-language)=
+## Build the Application with Your Programming Language
 
 - [Build with Go](/build-with-go.md)
 - [Build with Java](/build-with-java.md)
@@ -100,7 +100,7 @@ Using the ScyllaDB Cloud [Terraform provider](https://registry.terraform.io/prov
 - [Build with Python](/build-with-python.md)
 
 
-### Additional Resources
+## Additional Resources
 
 -   [Scylla Essentials](https://university.scylladb.com/courses/scylla-essentials-overview/) course on Scylla University. It provides an introduction to Scylla and explains the basics.
 -   [Data Modeling and Application Development](https://university.scylladb.com/courses/data-modeling/) course on Scylla University. It explains basic and advanced data modeling techniques, including information on workflow application, query analysis, denormalization, and other NoSQL data modeling topics.

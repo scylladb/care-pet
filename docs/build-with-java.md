@@ -1,6 +1,6 @@
-## Build an IoT App with Java
+# Build an IoT App with Java
 
-### Architecture
+## Architecture
 
 In this section, we will walk you through the CarePet commands and explain the code behind them.
 The project is structured as follows:
@@ -9,7 +9,7 @@ The project is structured as follows:
 -   Collar (`com.carepet.Sensor`) - Generates pet health data and pushes it into the storage.
 -   Web app (`com.carepet.server.App`) - REST API service for tracking pets' health state.
 
-### Migrate
+## Migrate
 
 The `./bin/migrate.sh --hosts $NODE1 --datacenter datacenter1` command executes the main function in the `Migrate` class located `Migrate.java`. The function creates the keyspace and tables used by the collar and server services.
 
@@ -111,7 +111,7 @@ AND read_repair_chance = 0.0
 AND speculative_retry = '99.0PERCENTILE';
 ```
 
-### Sensor
+## Sensor
 
 The sensor service simulates the collar's activity. You can use the following command to run the sensor service:
 
@@ -215,7 +215,7 @@ private void run() {
 }
 ```
 
-### Server
+## Server
 
 The server service is a REST API for tracking the pets’ health state. The service allows you to query the database via HTTP.
 
@@ -262,7 +262,7 @@ int current = now.getHour();
 
 ```
 
-### Resources
+## Resources
 
 * [Scylla Java driver documentation](https://java-driver.docs.scylladb.com/stable/)
 * [ScyllaDB Java driver on Github](https://github.com/scylladb/java-driver/)
