@@ -7,7 +7,7 @@ Here you will find a list of possible drivers to integrate with.
 | PHP Version  | Driver                                                                              |
 |--------------|-------------------------------------------------------------------------------------|
 | PHP 7.1      | [DataStax PHP Driver](https://github.com/datastax/php-driver)                       |
-| PHP 8.2  [x] | [ScyllaDB PHP Driver (community)](https://github.com/qkdreyer/cassandra-php-driver) |
+| PHP 8.2  [x] | [ScyllaDB PHP Driver (community)](https://github.com/he4rt/scylladb-php-driver) |
 
 You will need to build the driver following the instructions of each repository. We strongly recommend that you go for
 PHP 8.x since this project still being maintained and developed by community itself.
