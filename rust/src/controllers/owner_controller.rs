@@ -1,6 +1,5 @@
 use actix_web::{get, HttpResponse, Responder};
 use actix_web::web;
-use anyhow::anyhow;
 use uuid::Uuid;
 
 use crate::AppState;

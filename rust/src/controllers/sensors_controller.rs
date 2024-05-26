@@ -1,11 +1,13 @@
-use actix_web::{get, HttpResponse, Responder, web};
-use uuid::Uuid;
+use std::str::FromStr;
 
-use crate::repositories::sensor_repository::SensorRepository;
+use actix_web::{get, HttpResponse, Responder, web};
+use serde::Deserialize;
+use uuid::Uuid;
 
 use crate::AppState;
 use crate::controllers::SomeError;
 use crate::controllers::SomeError::InternalError;
+use crate::repositories::sensor_repository::SensorRepository;
 
 #[get("/pet/{pet_id}/sensors")]
 pub async fn find_sensors_by_pet_id(
@@ -16,6 +18,35 @@ pub async fn find_sensors_by_pet_id(
     let pet_id = pet_id.unwrap().into_inner();
 
     let sensors = sensor_repository.list_by_pet(pet_id, 10).await;
+
+    match sensors {
+        Ok(sensors) => Ok(HttpResponse::Ok().json(sensors)),
+        Err(e) => Err(InternalError(e))
+    }
+}
+
+
+#[derive(Deserialize, Debug, Clone)]
+struct DateRangeQuery {
+    from: String,
+    to: String
+}
+
+#[get("/sensors/{sensor_id}/values")]
+pub async fn find_sensor_data_by_sensor_id_and_time_range(
+    data: web::Data<AppState>,
+    sensor_id: Option<web::Path<Uuid>>,
+    payload: web::Query<DateRangeQuery>,
+) -> actix_web::Result<impl Responder, SomeError> {
+    let sensor_repository = SensorRepository::new(data.session.clone()).await;
+    let sensor_id = sensor_id.unwrap().into_inner();
+
+
+    let sensors = sensor_repository.list_pet_sensor_data_by_range(
+        sensor_id,
+        payload.from.as_str(),
+        payload.to.as_str(),
+    ).await;
 
     match sensors {
         Ok(sensors) => Ok(HttpResponse::Ok().json(sensors)),
