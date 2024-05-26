@@ -1,8 +1,17 @@
+use std::sync::Arc;
+use actix_web::{web, HttpResponse, HttpServer};
+use actix_web::web::Data;
 use log::*;
-use rocket::routes;
-use structopt::StructOpt;
+use scylla::Session;
 
-use care_pet::{db, handler, result::Result};
+use structopt::StructOpt;
+use care_pet::{AppState, db};
+
+mod model;
+
+mod controllers;
+
+mod repositories;
 
 #[derive(Debug, StructOpt)]
 #[structopt(name = "care-pet")]
@@ -15,8 +24,8 @@ struct App {
     db_config: db::Config,
 }
 
-#[rocket::main]
-async fn main() -> Result<()> {
+#[actix_web::main]
+async fn main() -> std::io::Result<()> {
     care_pet::log::init();
 
     let app = App::from_args();
@@ -24,21 +33,17 @@ async fn main() -> Result<()> {
         info!("Configuration = {:?}", app);
     }
 
-    let sess = db::new_session_with_keyspace(&app.db_config).await?;
+    let sess = Arc::new(db::new_session_with_keyspace(&app.db_config).await.unwrap());
 
-    rocket::build()
-        .mount(
-            "/api",
-            routes![
-                handler::measures::find_sensor_data_by_sensor_id_and_time_range,
-                handler::owner::find_owner_by_id,
-                handler::pets::find_pets_by_owner_id,
-                handler::sensors::find_sensors_by_pet_id,
-                handler::avg::find_sensor_avg_by_sensor_id_and_day
-            ],
-        )
-        .manage(sess)
-        .launch()
+    HttpServer::new(move || {
+        actix_web::App::new()
+            .app_data(Data::new(AppState {
+                session: Arc::clone(&sess),
+            }))
+            .service(controllers::owner_controller::index)
+            .service(controllers::pets_controller::find_pets_by_owner_id)
+    })
+        .bind(("0.0.0.0", 8000))?
+        .run()
         .await
-        .map_err(From::from)
 }
