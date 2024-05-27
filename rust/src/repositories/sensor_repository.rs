@@ -5,6 +5,7 @@ use uuid::Uuid;
 use anyhow::{anyhow, Result};
 use chrono::{DateTime, NaiveDate, NaiveDateTime, NaiveTime, Utc};
 use crate::model::sensors::sensor::Sensor;
+use crate::model::sensors::sensor_average::SensorAvg;
 use crate::model::sensors::sensor_measure::Measure;
 
 pub struct SensorRepository {
@@ -42,7 +43,6 @@ impl SensorRepository {
     }
 
     pub async fn list_pet_sensor_data_by_range(&self, id: Uuid, from: &str, to: &str) -> Result<Vec<Measure>> {
-
         let from_naive = NaiveDate::from_str(from).unwrap();
         let from = DateTime::<Utc>::from_utc(from_naive.and_hms(0, 0, 0), Utc);
 
@@ -71,6 +71,33 @@ impl SensorRepository {
             return Err(anyhow!("Sensor data not found"));
         }
 
+        Ok(values)
+    }
+
+    pub async fn find_sensor_avg_by_sensor_id_and_day(&self, id: Uuid, date: &str) -> Result<Vec<SensorAvg>> {
+        let date = NaiveDate::from_str(date).unwrap();
+
+        let query = "\
+            SELECT \
+                sensor_id,
+                date,
+                hour,
+                value
+             FROM
+                sensor_avg
+             WHERE
+                sensor_id = ? AND
+                date = ?
+        ";
+
+        let prepared = self.session.prepare(query).await?;
+        let result = self.
+            session.execute(&prepared, (id, date)).await?;
+
+        let values = result.rows_typed::<SensorAvg>()?.collect::<Result<Vec<_>, _>>()?;
+        if values.len() == 0 {
+            return Err(anyhow!("Sensor data not found"));
+        }
         Ok(values)
     }
 }
