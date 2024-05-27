@@ -9,6 +9,8 @@ pub mod repositories;
 pub mod cli;
 pub mod http;
 
+pub mod stressers;
+
 pub struct AppState {
     pub session: Arc<Session>,
 }

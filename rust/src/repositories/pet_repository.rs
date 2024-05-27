@@ -15,6 +15,16 @@ impl PetRepository {
         Self { session }
     }
 
+    pub async fn create(&self, pet: Pet) -> Result<()> {
+        let query = "INSERT INTO pets (owner_id,pet_id) VALUES (?, ?)";
+
+        self.session
+            .query(query, (pet.owner_id, pet.pet_id))
+            .await?;
+
+        Ok(())
+    }
+
     pub async fn list_by_owner_id(&self, id: Uuid, per_page: i32) -> Result<Vec<Pet>> {
         let query = "\
         SELECT \

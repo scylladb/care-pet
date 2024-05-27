@@ -17,6 +17,16 @@ pub enum Commands {
         #[arg(short, long, default_value = "false")]
         drop_keyspace: bool,
     },
+    Sensor {
+        #[command(flatten)]
+        config: ServerConfig,
+
+        #[arg(short, long, default_value = "60", value_parser = parse_duration)]
+        measure: Duration,
+
+        #[arg(short, long, default_value = "3600", value_parser = parse_duration)]
+        buffer_interval: Duration,
+    },
     Stress {
         #[command(flatten)]
         config: ServerConfig,

@@ -35,15 +35,15 @@ clap = { version = "4.5.4", features = ["derive"] }
 
 [[bin]]
 name = "sensor"
-path = "src/bin/sensor/main.rs"
+path = "src/stressers/sensor/mod.rs"
 
 [[bin]]
 name = "migrate"
-path = "src/bin/migrate/main.rs"
+path = "src/stressers/migrate/main.rs"
 
 [[bin]]
 name = "loadtest"
-path = "src/bin/loadtest/main.rs"
+path = "src/stressers/loadtest/main.rs"
 
 [[bin]]
 name = "care-pet"
