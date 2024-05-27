@@ -1,14 +1,12 @@
 use rand::Rng;
 use scylla::{FromRow, ValueList};
 use serde::Serialize;
-use struct_field_names::StructFieldNames;
-use struct_field_names_as_array::FieldNamesAsArray;
 use uuid::Uuid;
 
 use crate::model::pet::Pet;
 use crate::model::sensors::sensor_type::SensorType;
 
-#[derive(Clone, ValueList, FromRow, Serialize, StructFieldNames, FieldNamesAsArray)]
+#[derive(Clone, ValueList, FromRow, Serialize)]
 pub struct Sensor {
     pub pet_id: Uuid,
     pub sensor_id: Uuid,

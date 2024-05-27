@@ -9,6 +9,7 @@ pub struct Cli {
 
 #[derive(Subcommand)]
 pub enum Commands {
+    /// Run the Actix Web Server
     Server(ServerConfig),
     Migrate {
         #[command(flatten)]
@@ -17,6 +18,7 @@ pub enum Commands {
         #[arg(short, long, default_value = "false")]
         drop_keyspace: bool,
     },
+    /// Run the sample data generator for sensors
     Sensor {
         #[command(flatten)]
         config: ServerConfig,
@@ -27,6 +29,7 @@ pub enum Commands {
         #[arg(short, long, default_value = "3600", value_parser = parse_duration)]
         buffer_interval: Duration,
     },
+    /// Run the stressing test for the application
     Stress {
         #[command(flatten)]
         config: ServerConfig,

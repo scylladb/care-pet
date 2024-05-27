@@ -4,8 +4,6 @@ use std::time::{Duration, Instant};
 
 use anyhow::Result;
 use log::*;
-use scylla::Session;
-use tokio::task::JoinSet;
 use uuid::Uuid;
 
 use crate::model::sensors::sensor::Sensor;

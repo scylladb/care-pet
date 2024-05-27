@@ -64,10 +64,11 @@ impl SensorRepository {
 
     pub async fn list_pet_sensor_data_by_range(&self, id: Uuid, from: &str, to: &str) -> Result<Vec<Measure>> {
         let from_naive = NaiveDate::from_str(from).unwrap();
-        let from = DateTime::<Utc>::from_utc(from_naive.and_hms(0, 0, 0), Utc);
+        let from =
+            DateTime::<Utc>::from_naive_utc_and_offset(from_naive.and_hms_opt(0, 0, 0).unwrap(), Utc);
 
         let to_naive = NaiveDate::from_str(to).unwrap();
-        let to = DateTime::<Utc>::from_utc(to_naive.and_hms(23, 59, 59), Utc);
+        let to = DateTime::<Utc>::from_naive_utc_and_offset(to_naive.and_hms_opt(23, 59, 59).unwrap(), Utc);
 
         let query = "\
             SELECT \

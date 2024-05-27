@@ -11,7 +11,6 @@ use crate::model::owner::Owner;
 use crate::model::pet::Pet;
 use crate::model::sensors::sensor::Sensor;
 use crate::model::sensors::sensor_measure::Measure;
-use crate::model::sensors::sensor_type::SensorType;
 use crate::repositories::Repositories;
 
 pub async fn sensor_stress(config: &ServerConfig, measure: &Duration, buffer_interval: &Duration) -> Result<()> {
