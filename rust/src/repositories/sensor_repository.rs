@@ -1,9 +1,11 @@
 use std::str::FromStr;
 use std::sync::Arc;
+
+use anyhow::{anyhow, Result};
+use chrono::{DateTime, NaiveDate, Utc};
 use scylla::Session;
 use uuid::Uuid;
-use anyhow::{anyhow, Result};
-use chrono::{DateTime, NaiveDate, NaiveDateTime, NaiveTime, Utc};
+
 use crate::model::sensors::sensor::Sensor;
 use crate::model::sensors::sensor_average::SensorAvg;
 use crate::model::sensors::sensor_measure::Measure;
@@ -55,7 +57,7 @@ impl SensorRepository {
                 ts,
                 value
              FROM
-                measurement
+                measurements
              WHERE
                 sensor_id = ? AND
                 ts >= ? AND
@@ -84,7 +86,7 @@ impl SensorRepository {
                 hour,
                 value
              FROM
-                sensor_avg
+                sensors_avg
              WHERE
                 sensor_id = ? AND
                 date = ?

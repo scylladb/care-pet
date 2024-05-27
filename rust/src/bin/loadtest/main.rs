@@ -9,7 +9,7 @@ use log::*;
 use scylla::Session;
 use structopt::StructOpt;
 
-use care_pet::{db, Result};
+use care_pet::{database, Result};
 
 #[derive(Debug, StructOpt)]
 #[structopt(name = "loadtest")]
@@ -39,7 +39,7 @@ struct App {
     workers: Option<usize>,
 
     #[structopt(flatten)]
-    db_config: db::Config,
+    db_config: database::Config,
 }
 
 #[tokio::main]
@@ -58,7 +58,7 @@ async fn main() -> Result<()> {
     // this is fine since we know that the session will last for the lifetime
     // of the program and that the Session is thread safe
     let sess: &'static Session = Box::leak(Box::new(
-        db::new_session_with_keyspace(&app.db_config).await?,
+        database::new_session_with_keyspace(&app.db_config).await?,
     ));
 
     info!("Creating flock");

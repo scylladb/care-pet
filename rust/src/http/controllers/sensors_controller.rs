@@ -1,12 +1,10 @@
-use std::str::FromStr;
-
 use actix_web::{get, HttpResponse, Responder, web};
 use serde::Deserialize;
 use uuid::Uuid;
 
 use crate::AppState;
-use crate::controllers::SomeError;
-use crate::controllers::SomeError::InternalError;
+use crate::http::controllers::SomeError;
+use crate::http::controllers::SomeError::InternalError;
 use crate::repositories::sensor_repository::SensorRepository;
 
 #[get("/pet/{pet_id}/sensors")]

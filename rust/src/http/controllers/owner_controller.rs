@@ -3,7 +3,7 @@ use actix_web::web;
 use uuid::Uuid;
 
 use crate::AppState;
-use crate::controllers::SomeError;
+use crate::http::controllers::SomeError;
 use crate::repositories::owner_repository::OwnerRepository;
 
 #[get("/owner/{owner_id}")]

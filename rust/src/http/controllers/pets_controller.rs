@@ -1,9 +1,11 @@
 use actix_web::{get, HttpResponse, Responder};
 use actix_web::web;
+use serde_json::Value::String;
 use uuid::Uuid;
 
 use crate::AppState;
-use crate::controllers::SomeError;
+use crate::http::controllers::SomeError;
+use crate::model::pet::Pet;
 use crate::repositories::pet_repository::PetRepository;
 
 #[get("/owner/{owner_id}/pets")]

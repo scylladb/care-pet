@@ -9,7 +9,7 @@ use tokio::time::sleep;
 use care_pet::insert_query;
 use care_pet::model::duration::Duration;
 use care_pet::model::*;
-use care_pet::{db, Result};
+use care_pet::{database, Result};
 
 #[derive(Debug, StructOpt)]
 #[structopt(name = "migrate")]
@@ -23,7 +23,7 @@ struct App {
     measure: humantime::Duration,
 
     #[structopt(flatten)]
-    db_config: db::Config,
+    db_config: database::Config,
 }
 
 #[tokio::main]
@@ -35,7 +35,7 @@ async fn main() -> Result<()> {
 
     info!("Welcome to the Pet collar simulator");
 
-    let sess = db::new_session_with_keyspace(&app.db_config).await?;
+    let sess = database::new_session_with_keyspace(&app.db_config).await?;
 
     let (owner, pet, sensors) = random_data();
     save_data(&sess, &owner, &pet, &sensors).await?;
