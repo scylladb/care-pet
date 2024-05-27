@@ -1,13 +1,15 @@
 use std::collections::HashMap;
 
-use anyhow::anyhow;
+use anyhow::Result;
 use log::*;
 use rand::Rng;
-use scylla::Session;
 use uuid::Uuid;
 
-use care_pet::insert_query;
-use care_pet::{Owner, Pet, Result, Sensor};
+use crate::cli::StressConfig;
+use crate::model::owner::Owner;
+use crate::model::pet::Pet;
+use crate::model::sensors::sensor::Sensor;
+use crate::repositories::Repositories;
 
 pub struct Flock {
     pub owners: Vec<Owner>,
@@ -16,8 +18,8 @@ pub struct Flock {
 }
 
 impl Flock {
-    pub fn new(owners_count: usize, pets_count: usize, sensors_count: usize) -> Flock {
-        let owners = (0..owners_count)
+    pub fn new(stress_config: &StressConfig) -> Flock {
+        let owners = (0..stress_config.owners)
             .map(|_| Owner::random())
             .collect::<Vec<_>>();
 
@@ -25,7 +27,7 @@ impl Flock {
 
         let mut rng = rand::thread_rng();
 
-        let pets = (0..pets_count)
+        let pets = (0..stress_config.pets)
             .map(|_| Pet::random(&owners[rng.gen_range(0..owners.len())]))
             .collect::<Vec<_>>();
 
@@ -34,7 +36,7 @@ impl Flock {
         let sensors = pets
             .iter()
             .map(|pet| {
-                let sensors = (0..rng.gen_range(1..sensors_count))
+                let sensors = (0..rng.gen_range(1..stress_config.sensors))
                     .map(|_| Sensor::random(pet))
                     .collect::<Vec<_>>();
 
@@ -51,27 +53,18 @@ impl Flock {
         }
     }
 
-    pub async fn save(&self, sess: &Session) -> Result<()> {
+    pub async fn save(&self, repositories: &Repositories) -> Result<()> {
         for owner in &self.owners {
-            sess.query(insert_query!(Owner), owner)
-                .await
-                .map(|_| ())
-                .map_err(|err| anyhow!("insert owner {}: {:?}", owner.owner_id, err))?;
+            repositories.owner.create(owner.clone()).await?;
         }
 
         for pet in &self.pets {
-            sess.query(insert_query!(Pet), pet)
-                .await
-                .map(|_| ())
-                .map_err(|err| anyhow!("insert pet {}: {:?}", pet.pet_id, err))?;
+            repositories.pet.create(pet.clone()).await?;
         }
 
         for sensors in self.sensors.values() {
             for sensor in sensors {
-                sess.query(insert_query!(Sensor), sensor)
-                    .await
-                    .map(|_| ())
-                    .map_err(|err| anyhow!("insert sensor {}: {:?}", sensor.sensor_id, err))?;
+                repositories.sensor.create(sensor.clone()).await?;
             }
         }
 

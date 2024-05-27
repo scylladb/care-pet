@@ -29,15 +29,11 @@ impl SensorRepository {
         Ok(())
     }
 
-    pub async fn batch_measures(&self, measures: Vec<Measure>) -> Result<()> {
+    pub async fn create_measure(&self, measure: Measure) -> Result<()> {
         let query = "INSERT INTO measurements (sensor_id, ts, value) VALUES (?, ?, ?)";
         let prepared_query = self.session.prepare(query).await?;
 
-        for measure in measures {
-            println!("sensor_id: {}, ts: {}, value: {}", measure.sensor_id, measure.ts, measure.value);
-            self.session.execute(&prepared_query, (measure.sensor_id, measure.ts, measure.value)).await?;
-        }
-
+        self.session.execute(&prepared_query, (measure.sensor_id, measure.ts, measure.value)).await?;
         Ok(())
     }
 

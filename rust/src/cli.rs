@@ -30,7 +30,31 @@ pub enum Commands {
     Stress {
         #[command(flatten)]
         config: ServerConfig,
+
+        #[command(flatten)]
+        stress: StressConfig,
     }
+}
+
+#[derive(Args)]
+pub struct StressConfig {
+    #[arg(short, long, default_value = "100")]
+    pub owners: usize,
+
+    #[arg(short, long, default_value = "100", short = 'e')]
+    pub pets: usize,
+
+    #[arg(short, long, default_value = "1", value_parser = parse_duration)]
+    pub interval: Duration,
+
+    #[arg(short, long, default_value = "4")]
+    pub sensors: usize,
+
+    #[arg(short, long, default_value = "4")]
+    pub workers: usize,
+
+    #[arg(short, long, default_value = "false")]
+    pub random_data: bool,
 }
 
 #[derive(Args)]

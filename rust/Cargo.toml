@@ -43,7 +43,7 @@ path = "src/stressers/migrate/main.rs"
 
 [[bin]]
 name = "loadtest"
-path = "src/stressers/loadtest/main.rs"
+path = "src/stressers/stress/mod.rs"
 
 [[bin]]
 name = "care-pet"

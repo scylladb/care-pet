@@ -8,6 +8,7 @@ use care_pet::cli::{Cli, Commands};
 use care_pet::database::migrate::migrate;
 use care_pet::http::start_server;
 use care_pet::stressers::sensor::sensor_stress;
+use care_pet::stressers::stress::application_stress;
 
 
 #[actix_web::main]
@@ -21,8 +22,9 @@ async fn main() -> Result<()> {
             => start_server(args).await,
         Commands::Migrate { config, drop_keyspace }
             => migrate(config, drop_keyspace.clone()).await,
-        Commands::Stress { .. } => {Ok(())}
         Commands::Sensor { config, measure, buffer_interval }
             => sensor_stress(config, measure, buffer_interval).await,
+        Commands::Stress { config, stress }
+            => application_stress(config, stress).await,
     }
 }
