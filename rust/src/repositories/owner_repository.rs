@@ -17,9 +17,10 @@ impl OwnerRepository {
 
     pub async fn create(&self, owner: Owner) -> Result<()> {
         let query = "INSERT INTO owners (owner_id, name, address) VALUES (?, ?, ?)";
+        let prepared = self.session.prepare(query).await?;
 
         self.session
-            .query(query, (owner.owner_id, owner.name, owner.address))
+            .execute(&prepared, (owner.owner_id, owner.name, owner.address))
             .await?;
 
         Ok(())
@@ -34,7 +35,8 @@ impl OwnerRepository {
         let result = self.session.execute(&prepared, (id, )).await?
             .rows_typed::<Owner>()?;
 
-        while let Some(owner) = result.into_iter().next().transpose()? {
+
+        if let Some(owner) = result.into_iter().next().transpose()? {
             return Ok(owner);
         }
 

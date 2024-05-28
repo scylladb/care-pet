@@ -7,8 +7,8 @@ use anyhow::Result;
 use care_pet::cli::{Cli, Commands};
 use care_pet::database::migrate::migrate;
 use care_pet::http::start_server;
-use care_pet::stressers::sensor::sensor_stress;
-use care_pet::stressers::stress::application_stress;
+use care_pet::stressors::sensor::sensor_stress;
+use care_pet::stressors::stress::application_stress;
 
 
 #[actix_web::main]

@@ -17,10 +17,9 @@ impl PetRepository {
 
     pub async fn create(&self, pet: Pet) -> Result<()> {
         let query = "INSERT INTO pets (owner_id,pet_id) VALUES (?, ?)";
+        let prepared = self.session.prepare(query).await?;
 
-        self.session
-            .query(query, (pet.owner_id, pet.pet_id))
-            .await?;
+        self.session.execute(&prepared, (pet.owner_id, pet.pet_id)).await?;
 
         Ok(())
     }

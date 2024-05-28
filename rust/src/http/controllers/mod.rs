@@ -2,9 +2,6 @@ use actix_web::{HttpResponse, ResponseError};
 use actix_web::http::StatusCode;
 use serde_json::json;
 use thiserror::Error;
-
-// pub mod avg;
-// pub mod measures;
 pub mod sensors_controller;
 pub mod owner_controller;
 pub mod pets_controller;

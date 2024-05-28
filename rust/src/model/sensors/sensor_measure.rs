@@ -1,11 +1,10 @@
-use charybdis::macros::scylla::FromRow;
+use charybdis::macros::scylla::{FromRow, SerializeRow};
 use chrono::{DateTime, Utc};
-use scylla::ValueList;
 use serde::Serialize;
 use uuid::Uuid;
 use crate::model::sensors::sensor::Sensor;
 
-#[derive(Clone, ValueList, FromRow, Serialize)]
+#[derive(Clone, SerializeRow, FromRow, Serialize)]
 pub struct Measure {
     pub sensor_id: Uuid,
     pub ts: DateTime<Utc>,

@@ -1,6 +1,6 @@
+use anyhow::Result;
 use log::info;
 use scylla::{Session, SessionBuilder};
-use anyhow::Result;
 
 use crate::cli::ServerConfig;
 

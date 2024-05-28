@@ -1,11 +1,10 @@
-use charybdis::macros::scylla::FromRow;
+use charybdis::macros::scylla::{FromRow, SerializeRow};
 use charybdis::types::Uuid;
 use chrono::NaiveDate;
-use scylla::ValueList;
 use serde::Serialize;
 
 
-#[derive(Clone, Debug, Serialize, ValueList, FromRow)]
+#[derive(Clone, Debug, Serialize, SerializeRow, FromRow)]
 pub struct SensorAvg {
     pub sensor_id: Uuid,
     pub date: NaiveDate,

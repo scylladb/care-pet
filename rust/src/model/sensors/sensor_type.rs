@@ -1,12 +1,13 @@
-use scylla::_macro_internal::CqlValue;
+use scylla::_macro_internal::{CellWriter, ColumnType, CqlValue, SerializationError, SerializeCql, WrittenCellProof};
 use scylla::BufMut;
 use scylla::cql_to_rust::{FromCqlVal, FromCqlValError};
 use scylla::frame::value::{Value, ValueTooBig};
 use serde::Serialize;
 
-#[derive(Clone, Serialize)]
+#[derive(Clone, Default, Serialize)]
 pub enum SensorType {
     #[serde(rename = "T")]
+    #[default]
     Temperature,
     #[serde(rename = "P")]
     Pulse,
@@ -25,6 +26,15 @@ impl FromCqlVal<CqlValue> for SensorType {
     }
 }
 
+impl SerializeCql for SensorType {
+    fn serialize<'b>(&self, _: &ColumnType, writer: CellWriter<'b>,
+    ) -> Result<WrittenCellProof<'b>, SerializationError> {
+        let response = writer.set_value(self.as_str().as_bytes()).unwrap();
+
+        Ok(response)
+    }
+}
+
 impl Value for SensorType {
     fn serialize(&self, buf: &mut Vec<u8>) -> Result<(), ValueTooBig> {
         let bytes = self.as_str().as_bytes();
@@ -35,14 +45,7 @@ impl Value for SensorType {
     }
 }
 
-impl Default for SensorType {
-    fn default() -> Self {
-        SensorType::Temperature
-    }
-}
-
 impl SensorType {
-
     pub fn as_str(&self) -> &'static str {
         match self {
             SensorType::Temperature => "T",

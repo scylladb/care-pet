@@ -9,8 +9,8 @@ use uuid::Uuid;
 use crate::model::sensors::sensor::Sensor;
 use crate::model::sensors::sensor_measure::Measure;
 use crate::repositories::Repositories;
-use crate::stressers::stress::flock::Flock;
-use crate::stressers::stress::stats::Stats;
+use crate::stressors::stress::flock::Flock;
+use crate::stressors::stress::stats::Stats;
 
 pub async fn start_pets_worker(
     repositories: Arc<Repositories>,

@@ -44,7 +44,7 @@ async fn run_sensor_data(
                 info!(
                     "sensor # {} type {} new measure {} ts {}",
                     sensor.sensor_id,
-                    sensor.r#type.as_str(),
+                    sensor.sensor_type.as_str(),
                     &measure.value,
                     measure.ts.format("%Y-%m-%d %H:%M:%S").to_string(),
                 );

@@ -10,7 +10,7 @@ pub mod controllers;
 
 pub async fn start_server(args: &ServerConfig) -> Result<()> {
 
-    let session = Arc::new(database::new_session_with_keyspace(&args).await.unwrap());
+    let session = Arc::new(database::new_session_with_keyspace(args).await.unwrap());
 
     let _ = HttpServer::new(move || {
         actix_web::App::new()

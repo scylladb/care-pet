@@ -28,15 +28,15 @@ uuid = {version = "1.8.0", features = ["v4", "serde"]}
 
 [[bin]]
 name = "sensor"
-path = "src/stressers/sensor/mod.rs"
+path = "src/stressors/sensor/mod.rs"
 
 [[bin]]
 name = "migrate"
-path = "src/stressers/migrate/main.rs"
+path = "src/database/migrate/mod.rs"
 
 [[bin]]
 name = "loadtest"
-path = "src/stressers/stress/mod.rs"
+path = "src/stressors/stress/mod.rs"
 
 [[bin]]
 name = "care-pet"

@@ -23,7 +23,7 @@ impl SensorRepository {
         let query = "INSERT INTO sensors (pet_id, sensor_id, type) VALUES (?, ?, ?)";
 
         self.session
-            .query(query, (sensor.pet_id, sensor.sensor_id, sensor.r#type.as_str()))
+            .query(query, (sensor.pet_id, sensor.sensor_id, sensor.sensor_type.as_str()))
             .await?;
 
         Ok(())
@@ -112,11 +112,10 @@ impl SensorRepository {
         ";
 
         let prepared = self.session.prepare(query).await?;
-        let result = self.
-            session.execute(&prepared, (id, date)).await?;
+        let result = self.session.execute(&prepared, (id, date)).await?;
 
         let values = result.rows_typed::<SensorAvg>()?.collect::<Result<Vec<_>, _>>()?;
-        if values.len() == 0 {
+        if values.is_empty() {
             return Err(anyhow!("Sensor data not found"));
         }
         Ok(values)
