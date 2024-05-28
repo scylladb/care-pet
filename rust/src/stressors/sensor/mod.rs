@@ -37,7 +37,7 @@ async fn run_sensor_data(
     loop {
         let mut measures = vec![];
         while last.elapsed() < *buffer_interval {
-            sleep(measure.clone()).await;
+            sleep(*measure).await;
 
             for sensor in &sensors {
                 let measure = Measure::new_from_sensor(sensor);
@@ -88,7 +88,7 @@ async fn save_data(
 fn random_data() -> (Owner, Pet, Vec<Sensor>) {
     let owner = Owner::random();
     let pet = Pet::random(&owner);
-    let sensors = vec![1,2,3,4]
+    let sensors = [1,2,3,4]
         .iter()
         .map(|_| Sensor::random(&pet))
         .collect();

@@ -25,8 +25,8 @@ impl PetRepository {
     }
 
     pub async fn list_by_owner_id(&self, id: Uuid, per_page: i32) -> Result<Vec<Pet>> {
-        let query = "\
-        SELECT \
+        let query = "
+        SELECT
             owner_id,
             pet_id,
             chip_id,

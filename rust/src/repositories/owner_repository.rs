@@ -40,6 +40,6 @@ impl OwnerRepository {
             return Ok(owner);
         }
 
-        return Err(anyhow!("Owner not found"));
+        Err(anyhow!("Owner not found"))
     }
 }

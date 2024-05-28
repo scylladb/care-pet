@@ -21,9 +21,10 @@ impl SensorRepository {
 
     pub async fn create(&self, sensor: Sensor) -> Result<()> {
         let query = "INSERT INTO sensors (pet_id, sensor_id, type) VALUES (?, ?, ?)";
+        let prepared = self.session.prepare(query).await?;
 
         self.session
-            .query(query, (sensor.pet_id, sensor.sensor_id, sensor.sensor_type.as_str()))
+            .execute(&prepared, (sensor.pet_id, sensor.sensor_id, sensor.sensor_type.as_str()))
             .await?;
 
         Ok(())
@@ -38,16 +39,7 @@ impl SensorRepository {
     }
 
     pub async fn list_by_pet(&self, id: Uuid, per_page: i32) -> Result<Vec<Sensor>> {
-        let query = "\
-        SELECT \
-            pet_id,
-            sensor_id,
-            type
-         FROM
-            sensors
-         WHERE
-            pet_id = ?
-        ";
+        let query = "SELECT pet_id, sensor_id, type FROM sensors WHERE pet_id = ?";
 
         let mut prepared = self.session.prepare(query).await?;
         prepared.set_page_size(per_page);
@@ -55,7 +47,7 @@ impl SensorRepository {
         let result = self.session.execute(&prepared, (id, )).await?;
 
         let sensors = result.rows_typed::<Sensor>()?.collect::<Result<Vec<_>, _>>()?;
-        if sensors.len() == 0 {
+        if sensors.is_empty() {
             return Err(anyhow!("Sensors not found"));
         }
 
@@ -70,8 +62,8 @@ impl SensorRepository {
         let to_naive = NaiveDate::from_str(to).unwrap();
         let to = DateTime::<Utc>::from_naive_utc_and_offset(to_naive.and_hms_opt(23, 59, 59).unwrap(), Utc);
 
-        let query = "\
-            SELECT \
+        let query = "
+            SELECT
                 sensor_id,
                 ts,
                 value
@@ -88,7 +80,7 @@ impl SensorRepository {
             session.execute(&prepared, (id, from.to_utc(), to.to_utc(), )).await?;
 
         let values = result.rows_typed::<Measure>()?.collect::<Result<Vec<_>, _>>()?;
-        if values.len() == 0 {
+        if values.is_empty() {
             return Err(anyhow!("Sensor data not found"));
         }
 
@@ -98,8 +90,8 @@ impl SensorRepository {
     pub async fn find_sensor_avg_by_sensor_id_and_day(&self, id: Uuid, date: &str) -> Result<Vec<SensorAvg>> {
         let date = NaiveDate::from_str(date).unwrap();
 
-        let query = "\
-            SELECT \
+        let query = "
+            SELECT
                 sensor_id,
                 date,
                 hour,
