@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS carepet.owner
+CREATE TABLE IF NOT EXISTS carepet.owners
 (
     owner_id UUID,
     address TEXT,
@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS carepet.owner
     PRIMARY KEY (owner_id)
 );
 
-CREATE TABLE IF NOT EXISTS carepet.pet
+CREATE TABLE IF NOT EXISTS carepet.pets
 (
     owner_id UUID,
     pet_id   UUID,
@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS carepet.pet
     PRIMARY KEY (owner_id, pet_id)
 );
 
-CREATE TABLE IF NOT EXISTS carepet.sensor
+CREATE TABLE IF NOT EXISTS carepet.sensors
 (
     pet_id UUID,
     sensor_id UUID,
@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS carepet.sensor
     PRIMARY KEY (pet_id, sensor_id)
 );
 
-CREATE TABLE IF NOT EXISTS carepet.measurement
+CREATE TABLE IF NOT EXISTS carepet.measurements
 (
     sensor_id UUID,
     ts    TIMESTAMP,
@@ -38,7 +38,7 @@ CREATE TABLE IF NOT EXISTS carepet.measurement
     PRIMARY KEY (sensor_id, ts)
 ) WITH compaction = { 'class' : 'TimeWindowCompactionStrategy' };
 
-CREATE TABLE IF NOT EXISTS carepet.sensor_avg
+CREATE TABLE IF NOT EXISTS carepet.sensors_avg
 (
     sensor_id UUID,
     date  DATE,

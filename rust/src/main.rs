@@ -1,44 +1,30 @@
+#![allow(warnings)]
+
+use clap::Parser;
 use log::*;
-use rocket::routes;
-use structopt::StructOpt;
+use anyhow::Result;
 
-use care_pet::{db, handler, result::Result};
+use care_pet::cli::{Cli, Commands};
+use care_pet::database::migrate::migrate;
+use care_pet::http::start_server;
+use care_pet::stressors::sensor::sensor_stress;
+use care_pet::stressors::stress::application_stress;
 
-#[derive(Debug, StructOpt)]
-#[structopt(name = "care-pet")]
-struct App {
-    // Output more info
-    #[structopt(short, long)]
-    verbose: bool,
 
-    #[structopt(flatten)]
-    db_config: db::Config,
-}
-
-#[rocket::main]
+#[actix_web::main]
 async fn main() -> Result<()> {
+    let cli = Cli::parse();
+
     care_pet::log::init();
 
-    let app = App::from_args();
-    if app.verbose {
-        info!("Configuration = {:?}", app);
+    match &cli.command {
+        Commands::Server(args)
+            => start_server(args).await,
+        Commands::Migrate { config, drop_keyspace }
+            => migrate(config, drop_keyspace.clone()).await,
+        Commands::Sensor { config, measure, buffer_interval }
+            => sensor_stress(config, measure, buffer_interval).await,
+        Commands::Stress { config, stress }
+            => application_stress(config, stress).await,
     }
-
-    let sess = db::new_session_with_keyspace(&app.db_config).await?;
-
-    rocket::build()
-        .mount(
-            "/api",
-            routes![
-                handler::measures::find_sensor_data_by_sensor_id_and_time_range,
-                handler::owner::find_owner_by_id,
-                handler::pets::find_pets_by_owner_id,
-                handler::sensors::find_sensors_by_pet_id,
-                handler::avg::find_sensor_avg_by_sensor_id_and_day
-            ],
-        )
-        .manage(sess)
-        .launch()
-        .await
-        .map_err(From::from)
 }

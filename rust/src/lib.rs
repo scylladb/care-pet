@@ -1,8 +1,16 @@
-pub mod db;
-pub mod handler;
+use std::sync::Arc;
+use scylla::Session;
+
+
+pub mod database;
 pub mod log;
 pub mod model;
-pub mod result;
+pub mod repositories;
+pub mod cli;
+pub mod http;
 
-pub use crate::model::*;
-pub use crate::result::Result;
+pub mod stressors;
+
+pub struct AppState {
+    pub session: Arc<Session>,
+}

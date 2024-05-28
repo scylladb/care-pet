@@ -6,9 +6,10 @@ The documentation for this application and guided exercise is [here](../docs).
 
 The application allows tracking of pets health indicators and consist of three parts:
 
-- migrate (`/bin/migrate/main.rs`) - creates the `carepet` keyspace and tables
-- collar (`/bin/sensor/main.rs`) - generates a pet health data and pushes it into the storage
-- web app (`/main.rs`) - REST API service for tracking pets health state
+- migrate (`/database/migrate/mod.rs`) - creates the `carepet` keyspace and tables
+- sensor (`/stressers/sensor/mod.rs`) - generates a pet health data and pushes it into the storage
+- stress (`/stressers/stress/mod.rs`) - generates  a lot of data for the stress testing
+- web app (`/http/mod.rs`) - REST API service for tracking pets health state
 
 ## Quick Start
 
@@ -130,26 +131,25 @@ That means that the collar has been pushed buffered measurements to the app.
 Write down the pet Owner ID (ID is something after the `#` sign without trailing spaces).
 To start REST API service execute the following in the separate terminal:
 
-    $ HOST_IP=$(hostname -I | awk '{print $1}')
-    $ cargo run -- --hosts $HOST_IP
+    $ cargo run server 
 
 Expected output:
 
     2021-12-24T00:32:48Z INFO  care_pet::db] Connecting to 172.nnn.nnn.nnn
     [2021-12-24T00:32:48Z WARN  rocket::config::config] 🔧 Configured for debug.
-    [2021-12-24T00:32:48Z WARN  rocket::config::config] address: 127.0.0.1
+    [2021-12-24T00:32:48Z WARN  rocket::config::config] address: 0.0.0.0
     [2021-12-24T00:32:48Z WARN  rocket::config::config] port: 8000
     [2021-12-24T00:32:48Z WARN  rocket::config::config] workers: 16
     [2021-12-24T00:32:48Z WARN  rocket::config::config] ident: Rocket
     [2021-12-24T00:32:48Z WARN  rocket::config::config] keep-alive: 5s
     ...
 
-Now you can open `http://127.0.0.1:8000/` in the browser or send an HTTP request from the CLI:
+Now you can open `http://0.0.0.0:8000/` in the browser or send an HTTP request from the CLI:
 
-    $ curl -v http://127.0.0.1:8000/
+    $ curl -v http://0.0.0.0:8000/
 
     > GET / HTTP/1.1
-    > Host: 127.0.0.1:8000
+    > Host: 0.0.0.0:8000
     > User-Agent: curl/7.71.1
     > Accept: */*
     >
@@ -176,17 +176,17 @@ Now you can open `http://127.0.0.1:8000/` in the browser or send an HTTP request
             <small>Rocket</small>
         </div>
     </body>
-    * Connection #0 to host 127.0.0.1 left intact
+    * Connection #0 to host 0.0.0.0 left intact
     </html>⏎
 
 This is ok. If you see this page in the end with 404, it means everything works as expected.
 To read an owner data you can use saved `owner_id` as follows:
 
-    $ curl http://127.0.0.1:8000/api/owner/{owner_id}
+    $ curl http://0.0.0.0:8000/api/owner/{owner_id}
 
 For example:
 
-    $ curl http://127.0.0.1:8000/api/owner/a05fd0df-0f97-4eec-a211-cad28a6e5360
+    $ curl http://0.0.0.0:8000/api/owner/a05fd0df-0f97-4eec-a211-cad28a6e5360
 
 Expected result:
 
@@ -194,11 +194,11 @@ Expected result:
 
 To list the owners pets use:
 
-    $ curl http://127.0.0.1:8000/api/owner/{owner_id}/pets
+    $ curl http://0.0.0.0:8000/api/owner/{owner_id}/pets
 
 For example:
 
-    $ curl http://127.0.0.1:8000/api/owner/a05fd0df-0f97-4eec-a211-cad28a6e5360/pets
+    $ curl http://0.0.0.0:8000/api/owner/a05fd0df-0f97-4eec-a211-cad28a6e5360/pets
 
 Expected output:
 
@@ -206,21 +206,21 @@ Expected output:
 
 To list pet's sensors use:
 
-    $ curl http://127.0.0.1:8000/api/pet/{pet_id}/sensors
+    $ curl http://0.0.0.0:8000/api/pet/{pet_id}/sensors
 
 For example:
 
-    $ curl http://127.0.0.1:8000/api/pet/cef72f58-fc78-4cae-92ae-fb3c3eed35c4/sensors
+    $ curl http://0.0.0.0:8000/api/pet/cef72f58-fc78-4cae-92ae-fb3c3eed35c4/sensors
 
     [{"pet_id":"cef72f58-fc78-4cae-92ae-fb3c3eed35c4","sensor_id":"5a9da084-ea49-4ab1-b2f8-d3e3d9715e7d","type":"L"},{"pet_id":"cef72f58-fc78-4cae-92ae-fb3c3eed35c4","sensor_id":"5c70cd8a-d9a6-416f-afd6-c99f90578d99","type":"R"},{"pet_id":"cef72f58-fc78-4cae-92ae-fb3c3eed35c4","sensor_id":"fbefa67a-ceb1-4dcc-bbf1-c90d71176857","type":"L"}]
 
 To review the pet's sensors data use:
 
-    $ curl http://127.0.0.1:8000/api/sensor/{sensor_id}/values?from=2006-01-02T15:04:05Z07:00&to=2006-01-02T15:04:05Z07:00
+    $ curl http://0.0.0.0:8000/api/sensor/{sensor_id}/values?from=2006-01-02T15:04:05Z07:00&to=2006-01-02T15:04:05Z07:00
 
 For example:
 
-    $  curl http://127.0.0.1:8000/api/sensor/5a9da084-ea49-4ab1-b2f8-d3e3d9715e7d/values\?from\="2020-08-06T00:00:00Z"\&to\="2020-08-06T23:59:59Z"
+    $  curl http://0.0.0.0:8000/api/sensor/5a9da084-ea49-4ab1-b2f8-d3e3d9715e7d/values\?from\="2020-08-06T00:00:00Z"\&to\="2020-08-06T23:59:59Z"
 
 Expected output:
 
@@ -228,11 +228,11 @@ Expected output:
 
 To read the pet's daily average per sensor use:
 
-    $ curl http://127.0.0.1:8000/api/sensor/{sensor_id}/values/day/{date}
+    $ curl http://0.0.0.0:8000/api/sensor/{sensor_id}/values/day/{date}
 
 For example:
 
-    $ curl http://127.0.0.1:8000/api/sensor/5a9da084-ea49-4ab1-b2f8-d3e3d9715e7d/values/day/2020-08-06
+    $ curl http://0.0.0.0:8000/api/sensor/5a9da084-ea49-4ab1-b2f8-d3e3d9715e7d/values/day/2020-08-06
 
 Expected output:
 
@@ -242,15 +242,16 @@ Expected output:
 
 Package structure is as follows:
 
-| Name         | Purpose                                             |
-|--------------|-----------------------------------------------------|
-| /bin         | additional binaries                                 |
-| /bin/migrate | install database schema                             |
-| /bin/sensor  | simulate pet collar                                 |
-| /            | web application backend and common application code |
-| /db          | database specific utilities                         |
-| /handler     | web application handlers                            |
-| /model       | application models                                  |
+| Name              | Purpose                                         |
+|-------------------|-------------------------------------------------|
+| /                 | base application and common application code    |
+| /database         | default scylla connection                       |
+| /database/migrate | install database schema                         |
+| /http             | web application, controllers and error handling |
+| /db               | database specific utilities                     |
+| /stressers        | stressing profiles: sensor, loadtest(stress)    |
+| /model            | application models                              |
+| /repositories     | database application layer                      |
 
 ## Implementation
 
@@ -259,7 +260,7 @@ with the help of different sensors. After the data is collected
 it may be delivered to the central database for the analysis and
 health status checking.
 
-Collar code sits in the `/bin/sensor` and uses [Scylla Rust Driver](https://github.com/scylladb/scylla-rust-driver) 
+Collar code sits in the `/stressers/sensor` and uses [Scylla Rust Driver](https://github.com/scylladb/scylla-rust-driver) 
 to connect to the database directly and publish its data.
 Collar gathers sensors measurements, aggregates data in a buffer and
 sends it every hour.
@@ -270,8 +271,8 @@ Overall all applications in this repository use [Scylla Rust Driver](https://git
 - Build Queries
 - Migrate database schemas
 
-The web application REST API server resides in `/main.rs` and uses
-[rocket.rs](https://rocket.rs/). API handlers reside in `/handler`.
+The web application REST API server resides in `/http/mod.rs` and uses
+[rocket.rs](https://rocket.rs/). API handlers reside in `/http/controllers`.
 Most of the queries are reads.
 
 The application is capable of caching sensor measurements data
@@ -279,7 +280,7 @@ on hourly basis. It uses lazy evaluation to manage `sensor_avg`.
 It can be viewed as an application-level lazy-evaluated
 materialized view.
 
-The algorithm is simple and resides in `/handler/avg.rs`:
+The algorithm is simple and resides in `/http/controllers/sensors_controller.rs`:
 
 - read `sensor_avg`
 - if no data, read `measurement` data, aggregate in memory, save
@@ -299,8 +300,8 @@ your repository:
 Now in `project_name/Cargo.toml`, under `dependencies` specify:
 
     [dependencies]
-    scylla = "0.3"
-    tokio = {version = "1.1.0", features = ["full"]}
+    scylla = "0.13"
+    tokio = {version = "1.1", features = ["full"]}
 
 Now you are ready to connect to the database and start working.
 To connect to the database, do the following:
@@ -311,7 +312,7 @@ use std::error::Error;
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn Error>> {
-    let uri = "127.0.0.1:9042";
+    let uri = "0.0.0.0:9042";
 
     let session: Session = SessionBuilder::new().known_node(uri).build().await?;
     // ...
