@@ -53,9 +53,7 @@ To get node IP address run:
 
 To initialize database execute:
 
-    $ go build ./cmd/migrate
-    $ NODE1=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' carepet-scylla1)
-    $ ./migrate --hosts $NODE1
+    $ docker exec -it go-app run ./cmd/migrate
 
 Expected output:
 
@@ -109,9 +107,7 @@ You can check the database structure with:
 
 To start pet collar simulation execute the following in the separate terminal:
 
-    $ go build ./cmd/sensor
-    $ NODE1=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' carepet-scylla1)
-    $ ./sensor --hosts $NODE1 --measure 5s --buffer-interval 1m
+    $ docker exec -it go-app run ./cmd/sensor
 
 Expected output:
 
@@ -129,9 +125,7 @@ That means that the collar has been pushed buffered measurements to the app.
 Write down the pet Owner ID (ID is something after the `#` sign without trailing spaces).
 To start REST API service execute the following in the separate terminal:
 
-    $ go build ./cmd/server
-    $ NODE1=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' carepet-scylla1)
-    $ ./server --port 8000 --hosts $NODE1
+    $ docker exec -it go-app run ./cmd/server --port 8000
 
 Expected output:
 
@@ -222,18 +216,18 @@ Structure
 
 Package structure is as follows:
 
-| Name         | Purpose                                   |
-| ----         | -------                                   |
-| /api         | swagger api spec                          |
-| /cmd         | applications executables                  |
-| /cmd/migrate | install database schema                   |
-| /cmd/sensor  | simulate pet collar                       |
-| /cmd/server  | web application backend                   |
-| /config      | database configuration                    |
-| /db          | database handlers (gocql/x)               |
-| /db/cql      | database schema                           |
-| /handler     | swagger REST API handlers                 |
-| /model       | application models and ORM metadata       |
+| Name         | Purpose                             |
+|--------------|-------------------------------------|
+| /api         | swagger api spec                    |
+| /cmd         | applications executables            |
+| /cmd/migrate | install database schema             |
+| /cmd/sensor  | simulate pet collar                 |
+| /cmd/server  | web application backend             |
+| /config      | database configuration              |
+| /db          | database handlers (gocql/x)         |
+| /db/cql      | database schema                     |
+| /handler     | swagger REST API handlers           |
+| /model       | application models and ORM metadata |
 
 API
 ---

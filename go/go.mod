@@ -12,7 +12,7 @@ require (
 	github.com/go-openapi/swag v0.23.0
 	github.com/go-openapi/validate v0.24.0
 	github.com/gocql/gocql v1.6.0
-	github.com/jessevdk/go-flags v1.4.0
+	github.com/jessevdk/go-flags v1.5.0
 	github.com/scylladb/gocqlx/v2 v2.8.0
 	github.com/spf13/pflag v1.0.5
 	golang.org/x/net v0.25.0

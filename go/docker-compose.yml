@@ -1,24 +1,23 @@
 version: '3'
 
 services:
-#    go-app:
-#        image: golang:1.14
-#        container_name: go-app
-#        depends_on:
-#            - carepet-scylla1
-#        working_dir: /app
-#        command: sh -c "
-#            git clone https://github.com/scylladb/care-pet /care-pet &&
-#            cd /care-pet/go &&
-#            go build ./cmd/migrate &&
-#            go build ./cmd/sensor &&
-#            go build ./cmd/loadtest &&
-#            go build ./cmd/server &&
-#            cp -a . ../../app &&
-#            tail -F anything"
-#
-#        expose:
-#            - '8000'
+    go-app:
+        image: golang:1.22.3-alpine
+        container_name: go-app
+        volumes:
+            - ./:/app
+        depends_on:
+            - carepet-scylla1
+        working_dir: /app
+        command: sh -c "
+            go build ./cmd/migrate &&
+            go build ./cmd/sensor &&
+            go build ./cmd/loadtest &&
+            go build ./cmd/server &&
+            tail -F anything
+            "
+        expose:
+            - '8000'
     carepet-scylla1:
         image: scylladb/scylla
         container_name: carepet-scylla1
