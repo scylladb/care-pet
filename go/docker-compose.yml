@@ -1,28 +1,30 @@
 version: '3'
 
 services:
-    go-app:
-        image: golang:1.14
-        container_name: go-app
-        depends_on:
-            - carepet-scylla1
-        working_dir: /app
-        command: sh -c "
-            git clone https://github.com/scylladb/care-pet /care-pet &&
-            cd /care-pet/go &&
-            go build ./cmd/migrate &&
-            go build ./cmd/sensor &&
-            go build ./cmd/loadtest &&
-            go build ./cmd/server &&
-            cp -a . ../../app &&
-            tail -F anything"
-
-        expose:
-            - '8000'
+#    go-app:
+#        image: golang:1.14
+#        container_name: go-app
+#        depends_on:
+#            - carepet-scylla1
+#        working_dir: /app
+#        command: sh -c "
+#            git clone https://github.com/scylladb/care-pet /care-pet &&
+#            cd /care-pet/go &&
+#            go build ./cmd/migrate &&
+#            go build ./cmd/sensor &&
+#            go build ./cmd/loadtest &&
+#            go build ./cmd/server &&
+#            cp -a . ../../app &&
+#            tail -F anything"
+#
+#        expose:
+#            - '8000'
     carepet-scylla1:
         image: scylladb/scylla
         container_name: carepet-scylla1
-        command: --smp 1
+        command: ['--smp=1', '--memory=1GB', '--overprovisioned=1', '--developer-mode=1']
+        ports:
+            - '9042:9042'
         environment:
             - 'SCYLLA_JMX_ADDR=-ja 0.0.0.0'
             - 'SCYLLA_JMX_REMOTE=-r'
@@ -32,7 +34,9 @@ services:
     carepet-scylla2:
         image: scylladb/scylla
         container_name: carepet-scylla2
-        command: --smp 1 --seeds=carepet-scylla1
+        command: ['--smp=1', '--memory=1GB', '--overprovisioned=1', '--developer-mode=1', "--seeds=carepet-scylla1"]
+        ports:
+            - '9043:9042'
         environment:
             - 'SCYLLA_JMX_ADDR=-ja 0.0.0.0'
             - 'SCYLLA_JMX_REMOTE=-r'
@@ -42,7 +46,9 @@ services:
     carepet-scylla3:
         image: scylladb/scylla
         container_name: carepet-scylla3
-        command: --smp 1 --seeds=carepet-scylla1
+        command: ['--smp=1', '--memory=1GB', '--overprovisioned=1', '--developer-mode=1', "--seeds=carepet-scylla1"]
+        ports:
+            - '9044:9042'
         environment:
             - 'SCYLLA_JMX_ADDR=-ja 0.0.0.0'
             - 'SCYLLA_JMX_REMOTE=-r'
