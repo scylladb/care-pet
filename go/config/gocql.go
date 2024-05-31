@@ -18,10 +18,9 @@ var config = struct {
 func init() {
 	config.DB = *gocql.NewCluster()
 
-	config.DB.Consistency = gocql.LocalOne
-	config.DB.PoolConfig.HostSelectionPolicy = gocql.TokenAwareHostPolicy(gocql.RoundRobinHostPolicy())
+	config.DB.Consistency = gocql.LocalQuorum
 
-	pflag.StringArrayVar(&config.DB.Hosts, "hosts", []string{"127.0.0.1"}, "cluster nodes address list")
+	pflag.StringArrayVar(&config.DB.Hosts, "hosts", []string{"carepet-scylla1", "carepet-scylla2", "carepet-scylla3"}, "cluster nodes address list")
 	pflag.DurationVar(&config.DB.Timeout, "timeout", 60*time.Second, "connection timeout")
 	pflag.DurationVar(&config.DB.ConnectTimeout, "dial-timeout", 5*time.Second, "initial dial timeout")
 
@@ -46,5 +45,6 @@ func Session() (*gocql.Session, error) {
 func Keyspace() (gocqlx.Session, error) {
 	cfg := Config()
 	cfg.Keyspace = db.KeySpace
+	cfg.PoolConfig.HostSelectionPolicy = gocql.TokenAwareHostPolicy(gocql.RoundRobinHostPolicy())
 	return gocqlx.WrapSession(gocql.NewSession(cfg))
 }

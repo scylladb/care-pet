@@ -23,8 +23,11 @@ func main() {
 	}
 
 	createKeyspace()
+	log.Println("Keyspace Created!")
 	migrateKeyspace()
+	log.Println("Migrations settled!")
 	printKeyspaceMetadata()
+	log.Println("Now you're ready to use the application! Make sure to test the whole app: sensor, server and loadtest.")
 }
 
 func createKeyspace() {

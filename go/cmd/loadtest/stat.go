@@ -1,10 +1,9 @@
 package main
 
 import (
+	"github.com/HdrHistogram/hdrhistogram-go"
 	"log"
 	"time"
-
-	"github.com/codahale/hdrhistogram"
 )
 
 type S struct {
