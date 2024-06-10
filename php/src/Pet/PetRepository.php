@@ -13,8 +13,16 @@ final class PetRepository extends AbstractRepository
     public string $primaryKey = 'pet_id';
 
     public array $keys = [
-        'pet_id',
-        'owner_id'
+        'pet_id' ,
+        'owner_id' ,
+        'chip_id' ,
+        'species' ,
+        'breed' ,
+        'color' ,
+        'gender' ,
+        'age' ,
+        'address' ,
+        'name' ,
     ];
 
     public function getByOwnerId(string $ownerId): Rows

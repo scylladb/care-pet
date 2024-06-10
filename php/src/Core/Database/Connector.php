@@ -20,17 +20,33 @@ class Connector
 
     public function __construct(array $config)
     {
-        $this->connectionBuilder = Cassandra::cluster()
-            ->withContactPoints($config['nodes'])
-            ->withDefaultConsistency($config['consistency_level'])
-            ->withPort($config['port']);
+        try {
 
-        if (!empty($config['username'] && !empty($config['password']))) {
-            $this->connectionBuilder = $this->connectionBuilder->withCredentials($config['username'], $config['password']);
+
+            $this->connectionBuilder = Cassandra::cluster()
+                ->withContactPoints($config['nodes'])
+                ->withDefaultConsistency($config['consistency_level'])
+                ->withPort($config['port']);
+
+            if (isset($config['certificate_path'])) {
+                $ssl = Cassandra::ssl()
+                    ->withVerifyFlags(Cassandra::VERIFY_PEER_CERT)
+                    ->withTrustedCerts($config['certificate_path'])
+                    ->build();
+                $this->connectionBuilder = $this->connectionBuilder->withSSL($ssl);
+            }
+
+            if (!empty($config['username'] && !empty($config['password']))) {
+                $this->connectionBuilder = $this->connectionBuilder->withCredentials($config['username'], $config['password']);
+            }
+            $this->cluster = $this->connectionBuilder->build();
+
+            $this->session = $this->cluster->connect($config['keyspace']);
+        } catch (\Exception $exception) {
+            echo $exception->getMessage();
+            die;
         }
-        $this->cluster = $this->connectionBuilder->build();
 
-        $this->session = $this->cluster->connect($config['keyspace']);
     }
 
     public function setKeyspace(string $keyspace = ''): self
