@@ -16,7 +16,7 @@ function dbConfig(name) {
             '-p, --password <password>',
             'Password based authentication password'
         )
-        .option('-d, --datacenter <datacenter>', 'Local data center');
+        .option('-d, --datacenter <datacenter>', 'Local data center', 'datacenter1');
 }
 
 module.exports = dbConfig;
