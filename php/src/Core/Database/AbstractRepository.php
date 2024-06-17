@@ -32,27 +32,27 @@ abstract class AbstractRepository
                 $this->table,
                 implode(', ', $this->keys),
                 implode(', ', array_fill(0, count($this->keys), '?'))
+            )),
+            'getById' => $this->connection->session->prepare(sprintf(
+                "SELECT %s FROM %s WHERE %s = ?",
+                implode(', ', $this->keys),
+                $this->table,
+                $this->primaryKey
             ))
         ];
     }
 
     public function getById(string $id): Rows
     {
-        $query = sprintf("SELECT * FROM %s WHERE %s = ?", $this->table, $this->primaryKey);
-
-        $prepared = $this->connection
-            ->session
-            ->prepare($query);
-
         return $this->connection
             ->session
-            ->execute($prepared, [$id]);
+            ->execute($this->preparedStatements['getById'], [$id]);
     }
 
     public function all(): Rows
     {
         return $this->connection
-            ->prepare(sprintf('SELECT * FROM %s', $this->table))
+            ->prepare(sprintf('SELECT * FROM %s LIMIT 5', $this->table))
             ->execute()
             ->get(Connector::BASE_TIMEOUT);
     }
