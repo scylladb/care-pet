@@ -61,35 +61,7 @@ Scylla high availability in [this lesson](https://university.scylladb.com/course
 
 Using the ScyllaDB Cloud [Terraform provider](https://registry.terraform.io/providers/scylladb/scylladbcloud/latest/docs), you can easily spin up new ScyllaDB Cloud clusters. Complete this tutorial quicker by creating a new `t3.micro` cluster (the smallest instance) in ScyllaDB Cloud. Go to [Deploy in ScyllaDB Cloud with Terraform](/deploy-in-cloud.md) for instructions.
 
-## Deploying the Application Locally
 
-1. Check out the care-pet repository from GitHub and go to the directory of
-   the language you want to use (Go, Java, etc.):
-    
-    ```
-    git clone git@github.com:scylladb/care-pet.git
-    cd care-pet/go
-    ```
-
-1. Create a local ScyllaDB cluster consisting of three nodes:
-
-    ```
-    docker-compose up -d
-    ```
-
-   Docker-compose will spin up a ScyllaDB cluster consisting of three nodes:
-   carepet-scylla1, carepet-scylla2 and carepet-scylla3. The process will
-   take about two minutes.
-
-1. Check the status of the cluster:
-
-    ```
-    docker exec -it carepet-scylla1 nodetool status
-    ```
-
-1. Continue by following the instructions for the programming language you're using. See [Build the Application with Your Programming Language](#build-the-application-with-your-programming-language).
-
-(build-the-application-with-your-programming-language)=
 ## Build the Application with Your Programming Language
 
 - [Build with Go](/build-with-go.md)
@@ -107,11 +79,10 @@ Using the ScyllaDB Cloud [Terraform provider](https://registry.terraform.io/prov
 -   [Scylla Documentation](https://docs.scylladb.com/)
 -   Scylla users [slack channel](http://slack.scylladb.com/)
 
-Future Work
+## Future Work
 
 -   Add Sizing
 -   Add Benchmarking
--   Add Python implementation
 -   In a real-world application, it would be better to aggregate data in an internal buffer and send it once a day to the application gateway in a batch, implying techniques such as delta encoding. It could also aggregate data at a lower resolution and take measurements less frequently. The collar could notify the pet's owner about suspicious health parameters directly or via the application. 
 -   Add location tracking info to send alerts when the pet enters/leaves safe zones using known WiFi networks.
 -   Use the measurements to present to the pet owner health alerts, vital signs, sleeping levels, activity levels, and calories burned.
