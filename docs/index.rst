@@ -10,10 +10,10 @@
 
 .. hero-box::
   :title: Build a low latency IoT project with a Real-Time NoSQL Database
-  :image: /_static/img/mascots/scylla-care-pet-mascot.svg
-  :button_icon: fa fa-github
+  :image: /_static/img/mascots-2/care-pet.svg
+  :button_icon: icon-github
   :button_url: https://github.com/scylladb/care-pet
-  :button_text: Care-Pet Project
+  :button_text: Source code
 
   This tutorial is a step-by-step guide to build an IoT project connected to Scylla Cloud.
   After completing the project, you will be able to create back-end services that share data through a Scylla Cloud cluster.
@@ -32,7 +32,7 @@
 .. topic-box::
   :title: Getting Started with Care-Pet
   :link: getting-started
-  :icon: scylla-icon scylla-icon--getting-started
+  :icon: icon-docs-getting-started
   :class: large-4
   :anchor: Get Started
 
@@ -41,7 +41,7 @@
 .. topic-box::
   :title: Design and Data Model
   :link: design-and-data-model
-  :icon: scylla-icon scylla-icon--overview
+  :icon: icon-docs-alternator
   :class: large-4
   :anchor: Learn more
 
@@ -49,7 +49,7 @@
 
 .. topic-box::
   :title: Care-Pet Blog
-  :icon: scylla-icon scylla-icon--blog
+  :icon: icon-docs-blog
   :link: https://www.scylladb.com/2020/09/09/carepet-an-example-iot-use-case-for-hands-on-app-developers/
   :class: large-4,small-12
   :anchor: Read the article
@@ -58,7 +58,7 @@
 
 .. topic-box::
   :title: Terraform integration
-  :icon: scylla-icon scylla-icon--cloud
+  :icon: icon-docs-cloud
   :link: deploy-in-cloud
   :class: large-12
   :anchor: Deploy in the cloud
@@ -103,11 +103,11 @@
 
 .. raw:: html
   
-  <div class="cell topic-box large-12" style="justify-content: center; flex-direction: column; align-items: center">
-    <h1 style="font-familiy: 'Roboto'; font-weight: 500; text-align:center"> Try the Care-Pet IoT with Rust </h1>
+  <div class="cell topic-box large-12" style="justify-content: center; flex-direction: column; align-items: center; margin: 20px 0;">
+    <h2 style="font-familiy: 'Roboto';font-size:32px; font-weight: 500; text-align:center"> Try the Care-Pet IoT with Rust </h2>
     <p>Learn more about IoT and the Rust Driver by solving two query challenges and running the application.</p>
   </div>
-  <div class="cell topic-box large-12">
+  <div class="cell topic-box large-12" style="margin: 20px 0;">
     <iframe style="width: 100%;" height="800" sandbox="allow-forms allow-modals allow-popups allow-same-origin allow-scripts" src="https://play.instruqt.com/embed/scylladb/tracks/carepet-rust?token=em_Z_xvk5h6RxovmnDS&show_challenges=true" style="border: 0;" allowfullscreen></iframe>
   </div>  
   </div></div></div>

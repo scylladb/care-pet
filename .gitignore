@@ -1,4 +1,3 @@
 docs/_build
-docs/poetry.lock
 source/.doctrees
 .idea
