@@ -21,12 +21,8 @@
 .. raw:: html
 
   <div class="landing__content landing__content">
-
-.. raw:: html
-
-  <div class="topics-grid grid-container full">
-
-  <div class="grid-x grid-margin-x">
+    <div class="topics-grid grid-container full">
+      <div class="grid-x grid-margin-x">
 
 
 .. topic-box::
@@ -102,16 +98,22 @@
   :class: large-4
 
 .. raw:: html
-  
-  <div class="cell topic-box large-12" style="justify-content: center; flex-direction: column; align-items: center; margin: 20px 0;">
-    <h2 style="font-familiy: 'Roboto';font-size:32px; font-weight: 500; text-align:center"> Try the Care-Pet IoT with Rust </h2>
-    <p>Learn more about IoT and the Rust Driver by solving two query challenges and running the application.</p>
-  </div>
-  <div class="cell topic-box large-12" style="margin: 20px 0;">
-    <iframe style="width: 100%;" height="800" sandbox="allow-forms allow-modals allow-popups allow-same-origin allow-scripts" src="https://play.instruqt.com/embed/scylladb/tracks/carepet-rust?token=em_Z_xvk5h6RxovmnDS&show_challenges=true" style="border: 0;" allowfullscreen></iframe>
-  </div>  
-  </div></div></div>
 
+  </div></div>
+  
+  <div class="topics-grid">
+
+    <h2 class="topics-grid__title" style="text-align: center;">Try the Care-Pet IoT with Rust</h2>
+    <p class="topics-grid__text" style="text-align: center;">Learn more about IoT and the Rust Driver by solving two query challenges and running the application.</p>
+    <div class="grid-container full">
+        <div class="grid-x grid-margin-x">
+          <div class="cell topic-box large-12">
+            <iframe style="width: 100%;" height="800" sandbox="allow-forms allow-modals allow-popups allow-same-origin allow-scripts" src="https://play.instruqt.com/embed/scylladb/tracks/carepet-rust?token=em_Z_xvk5h6RxovmnDS&show_challenges=true" style="border: 0;" allowfullscreen></iframe>
+          </div>  
+        </div>
+      </div>
+  </div>
+  </div>
 
 .. toctree::
    :maxdepth: 3
