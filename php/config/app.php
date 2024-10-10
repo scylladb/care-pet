@@ -8,6 +8,7 @@ return [
         'username' => env('DB_USERNAME'),
         'password' => env('DB_PASSWORD'),
         'consistency_level' => Cassandra::CONSISTENCY_QUORUM,
+        'certificate_path' => env('DB_CERT'),
         'port' => (int) env('DB_PORT', 9042)
     ]
 ];
