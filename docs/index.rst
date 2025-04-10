@@ -10,10 +10,11 @@
 
 .. hero-box::
   :title: Build a low latency IoT project with a Real-Time NoSQL Database
-  :image: /_static/img/mascots-2/care-pet.svg
+  :image: /_static/img/mascots/care-pet-2.svg
   :button_icon: icon-github
   :button_url: https://github.com/scylladb/care-pet
   :button_text: Source code
+  :button_style: bold
 
   This tutorial is a step-by-step guide to build an IoT project connected to Scylla Cloud.
   After completing the project, you will be able to create back-end services that share data through a Scylla Cloud cluster.
@@ -28,7 +29,7 @@
 .. topic-box::
   :title: Getting Started with Care-Pet
   :link: getting-started
-  :icon: icon-docs-getting-started
+  :icon: icon-play-circle
   :class: large-4
   :anchor: Get Started
 
@@ -37,7 +38,7 @@
 .. topic-box::
   :title: Design and Data Model
   :link: design-and-data-model
-  :icon: icon-docs-alternator
+  :icon: icon-database
   :class: large-4
   :anchor: Learn more
 
@@ -45,7 +46,7 @@
 
 .. topic-box::
   :title: Care-Pet Blog
-  :icon: icon-docs-blog
+  :icon: icon-edit
   :link: https://www.scylladb.com/2020/09/09/carepet-an-example-iot-use-case-for-hands-on-app-developers/
   :class: large-4,small-12
   :anchor: Read the article
@@ -54,7 +55,7 @@
 
 .. topic-box::
   :title: Terraform integration
-  :icon: icon-docs-cloud
+  :icon: icon-cloud
   :link: deploy-in-cloud
   :class: large-12
   :anchor: Deploy in the cloud
