@@ -3,7 +3,9 @@
 namespace App\Core\Database;
 
 use App\Core\Entities\AbstractDTO;
+use Cassandra\PreparedStatement;
 use Cassandra\Rows;
+use Cassandra\SimpleStatement;
 
 abstract class AbstractRepository
 {
@@ -13,53 +15,54 @@ abstract class AbstractRepository
 
     public Connector $connection;
 
+    /**
+     * @var array<string, PreparedStatement>
+     */
+    protected array $preparedStatements = [];
+
     public array $keys = [];
 
     public function __construct(Connector $connector)
     {
         $this->connection = $connector;
+
+        $this->preparedStatements = [
+            'create' => $this->connection->session->prepare(sprintf(
+                "INSERT INTO %s (%s) VALUES (%s)",
+                $this->table,
+                implode(', ', $this->keys),
+                implode(', ', array_fill(0, count($this->keys), '?'))
+            )),
+            'getById' => $this->connection->session->prepare(sprintf(
+                "SELECT %s FROM %s WHERE %s = ?",
+                implode(', ', $this->keys),
+                $this->table,
+                $this->primaryKey
+            ))
+        ];
     }
 
     public function getById(string $id): Rows
     {
-        $query = sprintf("SELECT * FROM %s WHERE %s = %s", $this->table, $this->primaryKey, $id);
-
         return $this->connection
-            ->prepare($query)
-            ->execute()
-            ->get(Connector::BASE_TIMEOUT);
+            ->session
+            ->execute($this->preparedStatements['getById'], [$id]);
     }
 
     public function all(): Rows
     {
         return $this->connection
-            ->prepare(sprintf('SELECT * FROM %s', $this->table))
+            ->prepare(sprintf('SELECT * FROM %s LIMIT 5', $this->table))
             ->execute()
             ->get(Connector::BASE_TIMEOUT);
     }
 
     public function create(AbstractDTO $dto): void
     {
-        $keys = array_keys($dto->toDatabase());
-        $dataValues = array_values($dto->toDatabase());
-
-        foreach ($dataValues as $key => $value) {
-            if (is_string($value) && !in_array($keys[$key], $this->keys)) {
-                $value = addslashes($value);
-                $dataValues[$key] = "'$value'";
-            }
-        }
-
-        $query = sprintf(
-            "INSERT INTO %s (%s) VALUES (%s)",
-            $this->table,
-            implode(', ', $keys),
-            implode(', ', $dataValues)
-        );
-
 
         $this->connection
-            ->prepare($query)
-            ->execute();
+            ->session
+            ->executeAsync($this->preparedStatements['create'], ['arguments' => $dto->toDatabase()]);
+
     }
 }
