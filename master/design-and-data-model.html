@@ -1,0 +1,714 @@
+
+
+<!DOCTYPE html>
+<html class="no-js" lang="en" style="visibility: hidden;">
+    
+    
+
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width initial-scale=1" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <title>
+             Design and Data Model | ScyllaDB Docs 
+        </title>
+        <meta name="description" content="ScyllaDB IoT Example Documentation" />
+        <link rel="icon" href="_static/img/favicon.ico" type="image/x-icon" />
+        <link rel="icon" href="_static/img/favicon-32x32.png" sizes="32x32" />
+        <link rel="icon" href="_static/img/favicon-228x228.png" sizes="192x192" />
+        <link rel="apple-touch-icon" href="_static/img/favicon-228x228.png" />
+        <meta name="msapplication-TileImage" href="_static/img/favicon-228x228.png" />
+
+        
+            
+            
+        
+
+        
+            
+            <link rel="canonical" href="https://iot.scylladb.com/stable/design-and-data-model.html"/>
+        
+
+        <link rel="author" href="mailto:info@scylladb.com" />
+
+        
+            
+        <!-- increase expertrec loading priority-->
+        <link rel="dns-prefetch" href="https://cse.expertrec.com">
+
+        <!-- increase font loading priority -->
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link rel="preload" as="style"
+              href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;1,400&display=swap" />
+
+        <!-- async CSS -->
+        <link rel="stylesheet" media="print" onload="this.onload=null;this.removeAttribute('media');"
+              href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;1,400&display=swap" />
+
+        <!-- no-JS fallback -->
+        <noscript>
+            <link rel="stylesheet"
+                  href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;1,400&display=swap" />
+        </noscript>
+
+        
+        
+        
+            
+                <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+            
+        
+            
+                <link rel="stylesheet" type="text/css" href="_static/css/main.css?v=924e5a68" />
+            
+        
+            
+                <link rel="stylesheet" type="text/css" href="_static/sphinx_collapse.css?v=226d88b4" />
+            
+        
+            
+                <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+            
+        
+    
+        
+        
+            
+        <script type="text/javascript" src="_static/js/runtime.bundle.js"></script>
+        <script type="text/javascript" src="_static/js/main.bundle.js"></script>
+        
+            
+                <script src="_static/documentation_options.js?v=5929fcd5"></script>
+            
+        
+            
+                <script src="_static/doctools.js?v=9a2dae69"></script>
+            
+        
+            
+                <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+            
+        
+            
+                <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+            
+        
+            
+                <script src="_static/copybutton.js?v=f281be69"></script>
+            
+        
+    
+            
+                <!-- Local meta tags -->
+            
+            
+                <!-- Google Tag Manager docs -->
+<script>
+    (function (w, d, s, l, i) {
+        w[l] = w[l] || [];
+        w[l].push({
+            "gtm.start": new Date().getTime(),
+            event: "gtm.js"
+        });
+        var f = d.getElementsByTagName(s)[0],
+            j = d.createElement(s),
+            dl = l != "dataLayer" ? "&l=" + l : "";
+        j.async = true;
+        j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
+        f.parentNode.insertBefore(j, f);
+    })(window, document, "script", "dataLayer", "GTM-54NWVS4");
+</script>
+<!-- End Google Tag Manager -->
+
+<!-- Google Tag Manager global -->
+<script>
+    (function (w, d, s, l, i) {
+        w[l] = w[l] || [];
+        w[l].push({
+            "gtm.start": new Date().getTime(),
+            event: "gtm.js"
+        });
+        var f = d.getElementsByTagName(s)[0],
+            j = d.createElement(s),
+            dl = l != "dataLayer" ? "&l=" + l : "";
+        j.async = true;
+        j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
+        f.parentNode.insertBefore(j, f);
+    })(window, document, "script", "dataLayer", "GTM-T8P2JP");
+</script>
+<!-- End Google Tag Manager -->
+
+<!-- Expertrec -->
+<script>
+    var id = "e2077224-9ccf-11e9-a0c9-0242ac130002";
+    var ci_search = document.createElement("script");
+    ci_search.type = "text/javascript";
+    ci_search.async = true;
+    ci_search.src = "https://cse.expertrec.com/api/js/ci_common.js?id=" + id;
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(ci_search, s);
+</script>
+<!-- End Expertrec -->
+            
+        
+    </head>
+
+    <body class="brand-product">
+        <section class="promo-banner  promo-banner--hide" style="display: none;">
+    <div class="promo-banner-wrapper">
+        
+        <div class="promo-banner__title">ScyllaDB University Live | Free Virtual Training Event</div>
+        <a class="promo-banner__button button button--reverse" href="#"
+           target="_blank" rel="noopener noreferrer">Learn more</a>
+        <button class="promo-banner__close">
+            <i class="icon-cancel"></i>
+        </button>
+    </div>
+</section>
+        <header class="header">
+    <div class="header-logo">
+        <a class="header-logo__img" href="https://scylladb.com/">
+            <img src="_static/img/scylladb-logo-horizontal.svg" alt="ScyllaDB Documentation Logo" />
+        </a>
+        <span class="header-logo__bar"></span>
+        <a class="header-logo__text" href="https://docs.scylladb.com/">
+            Documentation
+        </a>
+    </div>
+    <div class="header-navigation">
+        <ul class="dropdown menu scylla-dropdown scylla-dropdown--header" data-dropdown-menu>
+            <li class="scylla-dropdown__item">
+                <a href="https://docs.scylladb.com/manual/" class="scylla-dropdown__title">Server</a>
+            </li>
+            <li class="scylla-dropdown__item">
+                <a href="https://docs.scylladb.com/scylla-cloud/" class="scylla-dropdown__title">Cloud</a>
+            </li>
+            <li class="scylla-dropdown__item">
+                <a href="#" class="scylla-dropdown__title">Tools <i class="chevron icon-arrow-dropdown"></i></a>
+                <ul class="menu scylla-dropdown__content">
+                    <li>
+                        <a href="https://manager.docs.scylladb.com/">
+                            <i class="icon-docs-manager"></i>ScyllaDB Manager</a>
+                    </li>
+                    <li>
+                        <a href="https://monitoring.docs.scylladb.com/">
+                            <i class="icon-docs-monitoring"></i>ScyllaDB
+                            Monitoring Stack</a>
+                    </li>
+                    <li>
+                        <a href="https://operator.docs.scylladb.com/">
+                            <i class="icon-docs-operator"></i>ScyllaDB Operator
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li class="scylla-dropdown__item">
+                <a href="#" class="scylla-dropdown__title">Drivers <i class="chevron icon-arrow-dropdown"></i></a>
+                <ul class="menu scylla-dropdown__content">
+                    <li>
+                        <a href="https://docs.scylladb.com/using-scylla/drivers/cql-drivers/">
+                            <i class="icon-docs-nsql-guides"></i>CQL Drivers
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://docs.scylladb.com/using-scylla/drivers/dynamo-drivers/">
+                            <i class="icon-docs-alternator"></i>DynamoDB Drivers
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li class="scylla-dropdown__item">
+                <a href="#" class="scylla-dropdown__title">Resources
+                    <i class="chevron icon-arrow-dropdown"></i></a>
+                <ul class="menu scylla-dropdown__content">
+                    <li>
+                        <a href="https://university.scylladb.com">
+                            <i class="icon-university"></i>
+                            ScyllaDB University
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://forum.scylladb.com">
+                            <i class="icon-docs-community"></i>
+                            Community Forum
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://docs.scylladb.com/stable/get-started/develop-with-scylladb/tutorials-example-projects.html">
+                            <i class="icon-docs-training"></i>
+                            Tutorials
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+        <div class="header-button">
+            <a href="https://www.scylladb.com/download/" class="button"><i class="icon-download me-2"></i> Download</a>
+        </div>
+    </div>
+    <div class="header-search-box">
+        <i class="dark-theme-toggler icon-theme"></i>
+        <div class="search-box">
+            <ci-search></ci-search>
+        </div>
+    </div>
+    <div class="side-nav-toggle">
+    <i class="dark-theme-toggler icon-theme"></i>
+    <div class="side-nav-toggle__button" data-toggle="side-nav">
+        <i class="icon-menu"></i>
+    </div>
+</div>
+</header>
+        <div class="title"></div>
+        <section
+            class="layout  layout--sidebar layout--has-secondary-sidebar ">
+            <div class="content large-order-2">
+                
+                    <div class="pre-content">
+                        <div class="breadcrumbs">
+    <span class="bread__item">
+        <a href="https://docs.scylladb.com"
+           class="bread__highlight">
+            <i class="icon-home"></i> ScyllaDB Docs
+        </a>
+    </span>
+    <span class="bread__item">
+        <a href="index.html"
+           class="bread__highlight">
+            ScyllaDB IoT Example Documentation
+        </a>
+    </span>
+    
+    <span class="bread__item bread__item--last">Design and Data Model</span>
+</div>
+                    </div>
+                
+                
+                <div class="sidebar-right-layout">
+                    <div class="body-container">
+                
+
+                    <div class="content-body">
+                        
+                            
+                        
+                        
+                        <section id="design-and-data-model">
+<h1>Design and Data Model<a class="headerlink" href="#design-and-data-model" title="Link to this heading">¶</a></h1>
+<p>You can learn more about Data Modeling in Scylla (and NoSQL) by taking
+<a class="reference external" href="https://university.scylladb.com/courses/data-modeling/">this course</a> on Scylla
+University. The main goal of data modeling in Scylla is to perform queries fast,
+even if we sometimes have to duplicate data.</p>
+<p>Let’s build our schema around the queries we are going to run against our domain
+entities. When creating the data model, you need to consider both the conceptual
+data model and the application workflow: which queries will be performed by
+which users and how often.</p>
+<p>To achieve that, we want:</p>
+<ul class="simple">
+<li><p>Even data distribution</p></li>
+<li><p>To minimize the number of partitions accessed in a read query.</p></li>
+</ul>
+<p>On the other hand, our focus won’t be on avoiding data duplication or minimizing
+the number of writes. You’re probably familiar with the steps defined here:</p>
+<p><img alt="" src="https://lh5.googleusercontent.com/5JqE89v8KJbSuVsnGswHn83sJOV-tjpeH6r1fqdNl6S77ncqAYb3kIZPSgNI8bqN_43OyZNbHQVpXdqMBFrRmsEvG3JORR302EhMnIb9qa6nuNL7cP2JJDZ4Uon_Pp-QmSCoEQ" /></p>
+<section id="conceptual-data-model">
+<h2>Conceptual Data Model<a class="headerlink" href="#conceptual-data-model" title="Link to this heading">¶</a></h2>
+<p>Starting with the conceptual data model, we need to identify the key entities
+and the relationships between them. Our application has pets. Each dog can be
+tracked by many followers (typically the owners). A follower can also track more
+than one dog. Each dog can have a few sensors. Each sensor takes measurements:</p>
+<p><img alt="" src="https://lh3.googleusercontent.com/GrFS0HY7XgABabCEp5Fbc0dULsujHkvSykFMiMZRI5TjJTYrzckVCJ29L4BgnEqc8dB7t1_VzsRsJCJjwiNI8xHdQ0tGh9qZptZfRsq7gDXHVogwfJG8Y_DIEJrgLX40zjvV5w" /></p>
+</section>
+<section id="application-workflow">
+<h2>Application Workflow<a class="headerlink" href="#application-workflow" title="Link to this heading">¶</a></h2>
+<p>Next, we move on to the Application Workflow. In this part, we identify the main
+queries or what questions we will ask the database. This part is important in
+Scylla, and other NoSQL databases and, as opposed to relational databases is
+performed early on in the data modeling process. Remember that our data modeling
+is built around the queries.</p>
+<p><img alt="" src="https://lh5.googleusercontent.com/bHN-aBIt-cJ-77s5AWn6Dt0djC-gLQRSArF6b56s3mxpzx-0oG3TgXYOJzTOwrhUUdT0WcEZPTTTdk8B4aY2fbGMgs044DKxwPMC1ATrphI4GBRS8rcVboWpjlg5cO4JRcTZxQ" /></p>
+</section>
+<section id="queries">
+<h2>Queries<a class="headerlink" href="#queries" title="Link to this heading">¶</a></h2>
+<p>Now we can detail the above queries in
+<a class="reference external" href="https://university.scylladb.com/courses/data-modeling/lessons/basic-data-modeling-2/topic/cql-cqlsh-and-basic-cql-syntax/">CQL</a>:</p>
+<p>Q1: Find a Follower with a specific ID</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>SELECT * FROM owner WHERE owner_id = ?
+</pre></div>
+</div>
+<p>Q2: Find the pets that the follower tracks</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>SELECT * FROM pet WHERE owner_id = ?
+</pre></div>
+</div>
+<p>Q3: Find the sensors of a pet</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>SELECT * FROM sensor WHERE pet_id = ?
+</pre></div>
+</div>
+<p>Q4: Find the measurements for a sensor in a date range</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>SELECT * FROM measurements WHERE sensor_id = ? AND ts &lt;= ? and ts &gt;= ?;
+</pre></div>
+</div>
+<p>Q5: Find a daily summary of hour based aggregates</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>SELECT * FROM sensor_avg WHERE sensor_id = ? AND date = ? ORDER BY date ASC, hour ASC;
+</pre></div>
+</div>
+</section>
+<section id="logical-data-model">
+<h2>Logical Data Model<a class="headerlink" href="#logical-data-model" title="Link to this heading">¶</a></h2>
+<p>Using the outcomes of the application workflow and the conceptual data model, we
+can now create the logical data model. At this stage, we determine how our
+tables will look and which fields will be used as primary and clustering keys.
+Selecting a primary key and clustering key is highly important, you can learn
+more about it in
+<a class="reference external" href="https://university.scylladb.com/courses/data-modeling/lessons/basic-data-modeling-2/">this lesson</a>.
+Remember that in Scylla, it’s better to duplicate data than to join, see more
+about denormalization in
+<a class="reference external" href="https://university.scylladb.com/courses/data-modeling/lessons/advanced-data-modeling/topic/denormalization/">this lesson</a>.</p>
+<p><img alt="" src="https://lh4.googleusercontent.com/zF8v3divX_VsG5z7pOmGOtdLj7_7AVrembG6ep630WsVqJXKMthEoMyPAkfaJsU7a-np9fO84lmfbcHkPv-dX-_45Aczafnm4V7OroHgt0Kd6Ao7vLF6eK_m-d6X5TJcnylpow" /></p>
+</section>
+<section id="physical-data-model">
+<h2>Physical Data Model<a class="headerlink" href="#physical-data-model" title="Link to this heading">¶</a></h2>
+<p>In this part, we take the Logical Data Model above and add CQL data types. Make
+sure you’re familiar with the ScyllaDB (and Cassandra for that matter)
+<a class="reference external" href="https://university.scylladb.com/courses/data-modeling/lessons/advanced-data-modeling/topic/common-data-types-and-collections/">data types</a>
+before proceeding.</p>
+<p>Based on the high availability requirements, we will use a
+<a class="reference external" href="https://university.scylladb.com/courses/scylla-essentials-overview/lessons/high-availability/topic/fault-tolerance-replication-factor/">replication factor</a>
+(RF) of three. The RF is defined when we create the
+<a class="reference external" href="https://university.scylladb.com/courses/data-modeling/lessons/basic-data-modeling-2/topic/keyspace/">Keyspace</a>,
+as we will see later on. Choosing the compaction strategy is explained
+<a class="reference external" href="https://docs.scylladb.com/architecture/compaction/compaction-strategies/">here</a>
+and in <a class="reference external" href="https://university.scylladb.com/courses/scylla-operations/lessons/compaction-strategies/">this</a>
+University Lesson. For the tables sensor_avg and measurement, we will use the
+<a class="reference external" href="https://docs.scylladb.com/getting-started/compaction/#time-window-compactionstrategy-twcs">Time Window Compaction Strategy (TWCS)</a>.</p>
+<p>The reason is those tables contain time-series data. The “measurement” table
+stores sensor measurements, and the “sensor_avg” stores aggregated hourly
+averages. For such data, there is an optimized compaction strategy TWCS based on
+the Size Tiered Compaction Strategy with the fair assumption that the data at
+different time slots will never overlap. That isolates buckets compaction
+in-between the time windows into independent units reducing overall compaction
+write amplification. For the other tables, we will use the default
+<a class="reference external" href="https://university.scylladb.com/courses/scylla-operations/lessons/compaction-strategies/">compaction strategy</a>,
+<a class="reference external" href="https://university.scylladb.com/courses/scylla-operations/lessons/compaction-strategies/topic/size-tiered-and-leveled-compaction-strategies-stcs-lcs/">Size Tiered Compaction Strategy (STCS)</a>.
+Remember that if you are using <a class="reference external" href="https://www.scylladb.com/product/scylla-enterprise/">Scylla Enterprise</a>, you should
+probably be using <a class="reference external" href="https://university.scylladb.com/courses/scylla-operations/lessons/compaction-strategies/topic/incremental-compaction-strategy-ics/">Incremental Compaction Strategy (ICS)</a>
+as it offers better performance. We can now define the tables below, according
+to the physical data model.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>CREATE TABLE IF NOT EXISTS owner (
+    owner_id UUID,
+    address TEXT,
+    name    TEXT,
+    PRIMARY KEY (owner_id)
+);
+
+CREATE TABLE IF NOT EXISTS pet (
+    owner_id UUID,
+    pet_id   UUID,
+    chip_id  TEXT,
+    species  TEXT,
+    breed    TEXT,
+    color    TEXT,
+    gender   TEXT,
+    age     INT,
+    weight  FLOAT,
+    address TEXT,
+    name    TEXT,
+    PRIMARY KEY (owner_id, pet_id)
+);
+
+CREATE TABLE IF NOT EXISTS sensor (
+    pet_id UUID,
+    sensor_id UUID,
+    type TEXT,
+    PRIMARY KEY (pet_id, sensor_id)
+);
+
+CREATE TABLE IF NOT EXISTS measurement (
+    sensor_id UUID,
+    ts       TIMESTAMP,
+    value    FLOAT,
+    PRIMARY KEY (sensor_id, ts)
+) WITH compaction = { &#39;class&#39; : &#39;TimeWindowCompactionStrategy&#39; };
+
+CREATE TABLE IF NOT EXISTS sensor_avg (
+    sensor_id UUID,
+    date    DATE,
+    hour    INT,
+    value   FLOAT,
+    PRIMARY KEY (sensor_id, date, hour)
+) WITH compaction = { &#39;class&#39; : &#39;TimeWindowCompactionStrategy&#39; };
+</pre></div>
+</div>
+<p>Some more advanced topics not covered in this guide are
+<a class="reference external" href="https://university.scylladb.com/courses/data-modeling/lessons/advanced-data-modeling/topic/common-data-types-and-collections/">Collections</a>,
+User-Defined<a class="reference external" href="https://university.scylladb.com/courses/data-modeling/lessons/advanced-data-modeling/topic/user-defined-types-udt/">Types</a>
+(UDT), expiring data with <a class="reference external" href="https://university.scylladb.com/courses/data-modeling/lessons/advanced-data-modeling/topic/expiring-data-with-ttl-time-to-live/">time to live (TTL)</a>,
+and <a class="reference external" href="https://university.scylladb.com/courses/data-modeling/lessons/advanced-data-modeling/topic/counters/">Counters</a>.</p>
+<p>To summarize, when data modeling with Scylla, we have to know our data, think
+about our queries, pay attention to the primary key and clustering key
+selection, and not be afraid to duplicate data.</p>
+</section>
+</section>
+
+                    </div>
+                    
+                        <div class="post-content">
+                            
+    <div class="feedback-container">
+        <p class="feedback-container__title">Was this page helpful?</p>
+        <span data-tooltip tabindex="1" title="Yes" data-position="top">
+            <button class="feedback-container__button" id="feedback-positive">
+                <i class="feedback-container__icon icon-docs-thumbs-up"></i>
+            </button>
+        </span>
+        <span data-tooltip tabindex="1" title="No" data-position="top">
+            <button class="feedback-container__button" id="feedback-negative">
+                <i class="feedback-container__icon icon-docs-thumbs-down"></i>
+            </button>
+        </span>
+        <div class="feedback-container__message" id="feedback-message"></div>
+    </div>
+
+    <script>
+        function resetFeedbackButtonActive() {
+            const feedbackButtons = document.getElementsByClassName('feedback-container__button');
+            for (let i = 0; i < feedbackButtons.length; i++) {
+                feedbackButtons[i].classList.remove('active');
+            }
+        }
+
+        function showMessage(liked) {
+            const feedbackMessage = document.getElementById('feedback-message');
+            const themeGithubRepository = true;
+            let message = 'Great! Thanks for your feedback.';
+            if (themeGithubRepository && !liked) {
+                message = "Thanks for your feedback! Please don't hesitate to <a href='https://github.com/scylladb/care-pet/issues/new?title=docs:%20Issue on page Design and Data Model&&body=I%20would%20like%20to%20report%20an%20issue%20on%20page%20https://iot.scylladb.com/master/design-and-data-model%0A%0A%23%23%23%20Problem%0A%0A%23%23%23%20%20Suggest%20a%20fix&labels=documentation'>create an issue</a> if you have any suggestions on how we can improve.";
+            }
+            feedbackMessage.innerHTML = message;
+        }
+
+        function sendGaEvent(liked) {
+            const event_label = liked ? "positive" : "negative";
+            const event = "feedback_" + event_label;
+            window.dataLayer = window.dataLayer || [];
+            window.dataLayer.push({
+                'event': event,
+            });
+        }
+
+        const positiveFeebackButton = document.getElementById('feedback-positive');
+        const negativeFeedbackButton = document.getElementById('feedback-negative');
+
+        positiveFeebackButton.addEventListener('click', function() {
+            resetFeedbackButtonActive();
+            sendGaEvent(true);
+            showMessage(true);
+            positiveFeebackButton.classList.add('active');
+        });
+
+        negativeFeedbackButton.addEventListener('click', function() {
+            resetFeedbackButtonActive();
+            sendGaEvent(false);
+            showMessage(false);
+            negativeFeedbackButton.classList.add('active');
+        });
+    </script>
+
+                            <div class="content-navigation">
+    <div class="navigation navigation--prev">
+        
+            <a class="navigation__link" href="deploy-in-cloud.html">
+                <button class="navigation__button">
+                    <i class="icon-chevron-left"></i>
+                </button>
+                <div class="navigation__title">
+                    <span class="colored">PREVIOUS</span> <br />Deploy in ScyllaDB Cloud with Terraform
+                </div>
+            </a>
+        
+    </div>
+    <div class="navigation navigation--next">
+        
+            <a class="navigation__link" href="build-with-go.html">
+                <div class="navigation__title">
+                    <span class="colored">NEXT</span> <br />Build an IoT App with Go
+                </div>
+                <button class="navigation__button">
+                    <i class="icon-chevron-right"></i>
+                </button>
+            </a>
+        
+    </div>
+</div>
+                            <!-- Post content text -->
+                        </div>
+                    
+                
+                
+                    </div>
+                        <div class="sidebar-right large-order-3">
+                            <div class="secondary-side-nav custom-scroll-bar">
+    
+    <ul class="contribute">
+        <li class="contribute__item">
+            <a class="button button-sm" href="https://github.com/scylladb/care-pet/issues/new?title=docs:%20Issue on page Design and Data Model&&body=I%20would%20like%20to%20report%20an%20issue%20on%20page%20https://iot.scylladb.com/master/design-and-data-model%0A%0A%23%23%23%20Problem%0A%0A%23%23%23%20%20Suggest%20a%20fix&labels=documentation"
+               target="_blank">
+                <i class="icon-github" aria-hidden="true"></i>Create an issue
+            </a>
+        </li>
+        
+            <li class="contribute__item">
+                <a class="button button-sm" href="https://github.com/scylladb/care-pet/edit/master/docs/design-and-data-model.md"
+                   target="_blank">
+                    <i class="icon-edit" aria-hidden="true"></i>Edit this page
+                </a>
+            </li>
+        
+    </ul>
+
+    
+        <div class="secondary-side-nav__content">
+            <p class="topic-title">On this page</p>
+            <ul>
+<li><a class="reference internal" href="#">Design and Data Model</a><ul>
+<li><a class="reference internal" href="#conceptual-data-model">Conceptual Data Model</a></li>
+<li><a class="reference internal" href="#application-workflow">Application Workflow</a></li>
+<li><a class="reference internal" href="#queries">Queries</a></li>
+<li><a class="reference internal" href="#logical-data-model">Logical Data Model</a></li>
+<li><a class="reference internal" href="#physical-data-model">Physical Data Model</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+    
+</div>
+                        </div>
+                    </div>
+                
+            </div>
+            <div class="sidebar-left  large-order-1">
+                
+                    
+                        <div id="side-nav" class="side-nav custom-scroll-bar" data-closable data-toggler=".show">
+    <button class="collapsible-button">
+        <i class="icon-docs-menu-collapse"></i>
+    </button>
+    <div class="side-nav-content custom-scroll-bar">
+        <div class="side-nav__title">
+            <a href="index.html">ScyllaDB IoT Example Documentation</a>
+        </div>
+        <div class="side-nav__search">
+            <div class="search-box">
+                <ci-search></ci-search>
+            </div>
+        </div>
+        <div class="side-nav__versions"><ul class="dropdown menu scylla-dropdown scylla-dropdown--versions" data-dropdown-menu>
+    <li class="scylla-dropdown__item">
+        <a class="scylla-dropdown__title" href="#">
+            
+                master
+            
+            <i class="chevron icon-docs-chevron-right"></i>
+        </a>
+        <ul class="menu scylla-dropdown__content">
+            
+                
+                    <li>
+                        <a href="design-and-data-model.html">master</a>
+                    </li>
+                
+            
+            
+        </ul>
+    </li>
+</ul></div>
+        <div class="side-nav__content">
+            <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="getting-started.html">Getting Started with CarePet: A sample IoT App</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deploy-in-cloud.html">Deploy in cloud</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Design and Data Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="build-with-go.html">Build with Go</a></li>
+<li class="toctree-l1"><a class="reference internal" href="build-with-javascript.html">Build with JavaScript</a></li>
+<li class="toctree-l1"><a class="reference internal" href="build-with-java.html">Build with Java</a></li>
+<li class="toctree-l1"><a class="reference internal" href="build-with-python.html">Build with Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="build-with-php.html">Build with PHP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="build-with-rust.html">Build with Rust</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/scylladb/care-pet">Care-Pet GitHub Repository</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://www.scylladb.com/2020/09/09/carepet-an-example-iot-use-case-for-hands-on-app-developers/">Care-Pet Blog</a></li>
+</ul>
+
+        </div>
+    </div>
+</div>
+                    
+                
+            </div>
+            
+        </section>
+
+        <footer class="footer">
+    <div class="footer-group">
+        <div class="footer-top">
+            <a class="footer-logo" href="https://www.scylladb.com"></a>
+            <div class="footer-links">
+                <a class="footer-links__link" href="https://docs.scylladb.com/" target="_blank">Docs</a>
+                <a class="footer-links__link" href="https://docs.scylladb.com/stable/get-started/develop-with-scylladb/tutorials-example-projects.html" target="_blank">Tutorials</a>
+                <a class="footer-links__link" href="https://university.scylladb.com/" target="_blank">University</a>
+                <a class="footer-links__link" href="https://www.scylladb.com/company/contact-us/"
+                    target="_blank">Contact Us</a>
+                <a class="footer-links__link" href="https://www.scylladb.com/company/" target="_blank">About Us</a>
+            </div>
+            <div class="footer-actions">
+                <a class="footer-actions__link" href="http://slack.scylladb.com/" target="_blank">
+                    <span data-tooltip tabindex="1" title="User Slack channel" data-position="bottom">
+                        <i class="icon-slack"></i>
+                    </span>
+                </a>
+                <a class="footer-actions__link" href="https://forum.scylladb.com/" target="_blank">
+                    <span data-tooltip tabindex="1" title="Community forum" data-position="bottom">
+                        <i class="icon-docs-community"></i>
+                    </span>
+                </a>
+            </div>
+        </div>
+
+        
+        <div class="footer-copyright">
+            
+                
+                    &#169; 2025, ScyllaDB. All rights reserved.
+                
+                | <a class="footer-copyright__link" href="https://www.scylladb.com/tos/" target="_blank">Terms of Service</a>
+                | <a class="footer-copyright__link" href="https://www.scylladb.com/privacy/" target="_blank">Privacy Policy</a>
+                | ScyllaDB, and ScyllaDB Cloud, are registered trademarks of ScyllaDB, Inc.
+            
+        </div>
+    
+
+
+        <div class="footer-bottom">
+            
+                <div class="footer-bottom__last-updated">
+                    
+                        Last updated on 05 May 2025.
+                    
+                </div>
+            
+            <div class="footer-bottom__version">
+                Powered by
+                <a class="footer-bottom__link" href="http://sphinx-doc.org/">Sphinx 7.4.7</a> &amp;
+                <a class="footer-bottom__link" href="https://sphinx-theme.scylladb.com/">ScyllaDB Theme 1.8.6</a>
+            </div>
+        </div>
+    </div>
+    
+</footer>
+
+        <noscript>
+            <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-T8P2JP" height="0" width="0"
+                    style="display: none; visibility: hidden"></iframe>
+        </noscript>
+    </body>
+
+</html>

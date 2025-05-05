@@ -1,0 +1,806 @@
+
+
+<!DOCTYPE html>
+<html class="no-js" lang="en" style="visibility: hidden;">
+    
+    
+
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width initial-scale=1" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <title>
+             Build an IoT App with Python | ScyllaDB Docs 
+        </title>
+        <meta name="description" content="ScyllaDB IoT Example Documentation" />
+        <link rel="icon" href="_static/img/favicon.ico" type="image/x-icon" />
+        <link rel="icon" href="_static/img/favicon-32x32.png" sizes="32x32" />
+        <link rel="icon" href="_static/img/favicon-228x228.png" sizes="192x192" />
+        <link rel="apple-touch-icon" href="_static/img/favicon-228x228.png" />
+        <meta name="msapplication-TileImage" href="_static/img/favicon-228x228.png" />
+
+        
+            
+            
+        
+
+        
+            
+            <link rel="canonical" href="https://iot.scylladb.com/stable/build-with-python.html"/>
+        
+
+        <link rel="author" href="mailto:info@scylladb.com" />
+
+        
+            
+        <!-- increase expertrec loading priority-->
+        <link rel="dns-prefetch" href="https://cse.expertrec.com">
+
+        <!-- increase font loading priority -->
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link rel="preload" as="style"
+              href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;1,400&display=swap" />
+
+        <!-- async CSS -->
+        <link rel="stylesheet" media="print" onload="this.onload=null;this.removeAttribute('media');"
+              href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;1,400&display=swap" />
+
+        <!-- no-JS fallback -->
+        <noscript>
+            <link rel="stylesheet"
+                  href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;1,400&display=swap" />
+        </noscript>
+
+        
+        
+        
+            
+                <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+            
+        
+            
+                <link rel="stylesheet" type="text/css" href="_static/css/main.css?v=924e5a68" />
+            
+        
+            
+                <link rel="stylesheet" type="text/css" href="_static/sphinx_collapse.css?v=226d88b4" />
+            
+        
+            
+                <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+            
+        
+    
+        
+        
+            
+        <script type="text/javascript" src="_static/js/runtime.bundle.js"></script>
+        <script type="text/javascript" src="_static/js/main.bundle.js"></script>
+        
+            
+                <script src="_static/documentation_options.js?v=5929fcd5"></script>
+            
+        
+            
+                <script src="_static/doctools.js?v=9a2dae69"></script>
+            
+        
+            
+                <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+            
+        
+            
+                <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+            
+        
+            
+                <script src="_static/copybutton.js?v=f281be69"></script>
+            
+        
+    
+            
+                <!-- Local meta tags -->
+            
+            
+                <!-- Google Tag Manager docs -->
+<script>
+    (function (w, d, s, l, i) {
+        w[l] = w[l] || [];
+        w[l].push({
+            "gtm.start": new Date().getTime(),
+            event: "gtm.js"
+        });
+        var f = d.getElementsByTagName(s)[0],
+            j = d.createElement(s),
+            dl = l != "dataLayer" ? "&l=" + l : "";
+        j.async = true;
+        j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
+        f.parentNode.insertBefore(j, f);
+    })(window, document, "script", "dataLayer", "GTM-54NWVS4");
+</script>
+<!-- End Google Tag Manager -->
+
+<!-- Google Tag Manager global -->
+<script>
+    (function (w, d, s, l, i) {
+        w[l] = w[l] || [];
+        w[l].push({
+            "gtm.start": new Date().getTime(),
+            event: "gtm.js"
+        });
+        var f = d.getElementsByTagName(s)[0],
+            j = d.createElement(s),
+            dl = l != "dataLayer" ? "&l=" + l : "";
+        j.async = true;
+        j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
+        f.parentNode.insertBefore(j, f);
+    })(window, document, "script", "dataLayer", "GTM-T8P2JP");
+</script>
+<!-- End Google Tag Manager -->
+
+<!-- Expertrec -->
+<script>
+    var id = "e2077224-9ccf-11e9-a0c9-0242ac130002";
+    var ci_search = document.createElement("script");
+    ci_search.type = "text/javascript";
+    ci_search.async = true;
+    ci_search.src = "https://cse.expertrec.com/api/js/ci_common.js?id=" + id;
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(ci_search, s);
+</script>
+<!-- End Expertrec -->
+            
+        
+    </head>
+
+    <body class="brand-product">
+        <section class="promo-banner  promo-banner--hide" style="display: none;">
+    <div class="promo-banner-wrapper">
+        
+        <div class="promo-banner__title">ScyllaDB University Live | Free Virtual Training Event</div>
+        <a class="promo-banner__button button button--reverse" href="#"
+           target="_blank" rel="noopener noreferrer">Learn more</a>
+        <button class="promo-banner__close">
+            <i class="icon-cancel"></i>
+        </button>
+    </div>
+</section>
+        <header class="header">
+    <div class="header-logo">
+        <a class="header-logo__img" href="https://scylladb.com/">
+            <img src="_static/img/scylladb-logo-horizontal.svg" alt="ScyllaDB Documentation Logo" />
+        </a>
+        <span class="header-logo__bar"></span>
+        <a class="header-logo__text" href="https://docs.scylladb.com/">
+            Documentation
+        </a>
+    </div>
+    <div class="header-navigation">
+        <ul class="dropdown menu scylla-dropdown scylla-dropdown--header" data-dropdown-menu>
+            <li class="scylla-dropdown__item">
+                <a href="https://docs.scylladb.com/manual/" class="scylla-dropdown__title">Server</a>
+            </li>
+            <li class="scylla-dropdown__item">
+                <a href="https://docs.scylladb.com/scylla-cloud/" class="scylla-dropdown__title">Cloud</a>
+            </li>
+            <li class="scylla-dropdown__item">
+                <a href="#" class="scylla-dropdown__title">Tools <i class="chevron icon-arrow-dropdown"></i></a>
+                <ul class="menu scylla-dropdown__content">
+                    <li>
+                        <a href="https://manager.docs.scylladb.com/">
+                            <i class="icon-docs-manager"></i>ScyllaDB Manager</a>
+                    </li>
+                    <li>
+                        <a href="https://monitoring.docs.scylladb.com/">
+                            <i class="icon-docs-monitoring"></i>ScyllaDB
+                            Monitoring Stack</a>
+                    </li>
+                    <li>
+                        <a href="https://operator.docs.scylladb.com/">
+                            <i class="icon-docs-operator"></i>ScyllaDB Operator
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li class="scylla-dropdown__item">
+                <a href="#" class="scylla-dropdown__title">Drivers <i class="chevron icon-arrow-dropdown"></i></a>
+                <ul class="menu scylla-dropdown__content">
+                    <li>
+                        <a href="https://docs.scylladb.com/using-scylla/drivers/cql-drivers/">
+                            <i class="icon-docs-nsql-guides"></i>CQL Drivers
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://docs.scylladb.com/using-scylla/drivers/dynamo-drivers/">
+                            <i class="icon-docs-alternator"></i>DynamoDB Drivers
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li class="scylla-dropdown__item">
+                <a href="#" class="scylla-dropdown__title">Resources
+                    <i class="chevron icon-arrow-dropdown"></i></a>
+                <ul class="menu scylla-dropdown__content">
+                    <li>
+                        <a href="https://university.scylladb.com">
+                            <i class="icon-university"></i>
+                            ScyllaDB University
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://forum.scylladb.com">
+                            <i class="icon-docs-community"></i>
+                            Community Forum
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://docs.scylladb.com/stable/get-started/develop-with-scylladb/tutorials-example-projects.html">
+                            <i class="icon-docs-training"></i>
+                            Tutorials
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+        <div class="header-button">
+            <a href="https://www.scylladb.com/download/" class="button"><i class="icon-download me-2"></i> Download</a>
+        </div>
+    </div>
+    <div class="header-search-box">
+        <i class="dark-theme-toggler icon-theme"></i>
+        <div class="search-box">
+            <ci-search></ci-search>
+        </div>
+    </div>
+    <div class="side-nav-toggle">
+    <i class="dark-theme-toggler icon-theme"></i>
+    <div class="side-nav-toggle__button" data-toggle="side-nav">
+        <i class="icon-menu"></i>
+    </div>
+</div>
+</header>
+        <div class="title"></div>
+        <section
+            class="layout  layout--sidebar layout--has-secondary-sidebar ">
+            <div class="content large-order-2">
+                
+                    <div class="pre-content">
+                        <div class="breadcrumbs">
+    <span class="bread__item">
+        <a href="https://docs.scylladb.com"
+           class="bread__highlight">
+            <i class="icon-home"></i> ScyllaDB Docs
+        </a>
+    </span>
+    <span class="bread__item">
+        <a href="index.html"
+           class="bread__highlight">
+            ScyllaDB IoT Example Documentation
+        </a>
+    </span>
+    
+    <span class="bread__item bread__item--last">Build an IoT App with Python</span>
+</div>
+                    </div>
+                
+                
+                <div class="sidebar-right-layout">
+                    <div class="body-container">
+                
+
+                    <div class="content-body">
+                        
+                            
+                        
+                        
+                        <section id="build-an-iot-app-with-python">
+<h1>Build an IoT App with Python<a class="headerlink" href="#build-an-iot-app-with-python" title="Link to this heading">¶</a></h1>
+<section id="architecture">
+<h2>Architecture<a class="headerlink" href="#architecture" title="Link to this heading">¶</a></h2>
+<p>This section will walk through and explain the code for the different commands.
+As explained in the Getting Started page, the project is structured as follow:</p>
+<ul class="simple">
+<li><p>Migrate (<code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">src/migrate.py</span></code>) - creates keyspace and tables in ScyllaDB</p></li>
+<li><p>Sensor (<code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">src/sensor.py</span></code>) - generates random IoT data and inserts it into ScyllaDB</p></li>
+<li><p>API (<code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">src/api.py</span></code>) - REST API service to fetch data from ScyllaDB</p></li>
+</ul>
+</section>
+<section id="clone-repository-and-install-dependencies">
+<h2>Clone repository and install dependencies<a class="headerlink" href="#clone-repository-and-install-dependencies" title="Link to this heading">¶</a></h2>
+<p>Clone the repository and open the root directory of the project:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/scylladb/care-pet
+<span class="nb">cd</span><span class="w"> </span>care-pet/python
+</pre></div>
+</div>
+<p>Create a new virtual environment and activate it:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>virtualenv<span class="w"> </span>env
+<span class="nb">source</span><span class="w"> </span>env/bin/activate
+</pre></div>
+</div>
+<p>Install all Python dependencies:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.txt
+</pre></div>
+</div>
+</section>
+<section id="start-docker-containers-skip-this-if-you-use-scylla-cloud">
+<h2>Start Docker containers (skip this if you use Scylla Cloud)<a class="headerlink" href="#start-docker-containers-skip-this-if-you-use-scylla-cloud" title="Link to this heading">¶</a></h2>
+<p>Spin up a local ScyllaDB cluster with three nodes using <code class="docutils literal notranslate"><span class="pre">docker</span></code> and <code class="docutils literal notranslate"><span class="pre">docker-compose</span></code>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker-compose<span class="w"> </span>up<span class="w"> </span>-d
+
+Creating<span class="w"> </span>carepet-scylla3<span class="w"> </span>...<span class="w"> </span><span class="k">done</span>
+Creating<span class="w"> </span>carepet-scylla2<span class="w"> </span>...<span class="w"> </span><span class="k">done</span>
+Creating<span class="w"> </span>carepet-scylla1<span class="w"> </span>...<span class="w"> </span><span class="k">done</span>
+</pre></div>
+</div>
+<p>This command starts three ScyllaDB nodes in containers:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">carepet-scylla1</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">carepet-scylla2</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">carepet-scylla3</span></code></p></li>
+</ul>
+<p>You can inspect any of these nodes by using the <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">inspect</span></code> command,
+for example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>inspect<span class="w"> </span>carepet-scylla1
+
+<span class="o">[</span>
+<span class="w">    </span><span class="o">{</span>
+<span class="w">        </span><span class="s2">&quot;Id&quot;</span>:<span class="w"> </span><span class="s2">&quot;c87128b7d0ca4a31a84da78875c8b4181283c34783b6b0a78bffbacbbe45fcc2&quot;</span>,
+<span class="w">        </span><span class="s2">&quot;Created&quot;</span>:<span class="w"> </span><span class="s2">&quot;2023-01-08T21:17:13.212585687Z&quot;</span>,
+<span class="w">        </span><span class="s2">&quot;Path&quot;</span>:<span class="w"> </span><span class="s2">&quot;/docker-entrypoint.py&quot;</span>,
+<span class="w">        </span><span class="s2">&quot;Args&quot;</span>:<span class="w"> </span><span class="o">[</span>
+<span class="w">            </span><span class="s2">&quot;--smp&quot;</span>,
+<span class="w">            </span><span class="s2">&quot;1&quot;</span>
+<span class="w">        </span><span class="o">]</span>,
+<span class="w">        </span><span class="s2">&quot;State&quot;</span>:<span class="w"> </span><span class="o">{</span>
+<span class="w">            </span><span class="s2">&quot;Status&quot;</span>:<span class="w"> </span><span class="s2">&quot;running&quot;</span>,
+<span class="w">            </span><span class="s2">&quot;Running&quot;</span>:<span class="w"> </span>true,
+...
+</pre></div>
+</div>
+</section>
+<section id="connect-to-scylladb-and-create-the-database-schema">
+<h2>Connect to ScyllaDB and create the database schema<a class="headerlink" href="#connect-to-scylladb-and-create-the-database-schema" title="Link to this heading">¶</a></h2>
+<p>To connect to your ScyllaDB storage within the container, you need to know the
+IP address of one of the running nodes.
+This is how you can get the IP address of the first node running in the container:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>inspect<span class="w"> </span>-f<span class="w"> </span><span class="s1">&#39;{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}&#39;</span><span class="w"> </span>carepet-scylla1
+</pre></div>
+</div>
+<p>You will need to reference this value multiple times later so if it’s easier
+for you can save it as a variable <code class="docutils literal notranslate"><span class="pre">NODE1</span></code>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">NODE1</span><span class="o">=</span><span class="k">$(</span>docker<span class="w"> </span>inspect<span class="w"> </span>-f<span class="w"> </span><span class="s1">&#39;{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}&#39;</span><span class="w"> </span>carepet-scylla1<span class="k">)</span>
+</pre></div>
+</div>
+<p>Now you can run the migration script that creates the required keyspace and tables:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>src/migrate.py<span class="w"> </span>-h<span class="w"> </span><span class="nv">$NODE1</span>
+
+Creating<span class="w"> </span>keyspace...
+Done.
+Migrating<span class="w"> </span>database...
+Done.
+</pre></div>
+</div>
+<p>See the database schema using <a class="reference external" href="https://cassandra.apache.org/doc/latest/cassandra/tools/cqlsh.html">cqlsh</a> in the container:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>carepet-scylla1<span class="w"> </span>cqlsh
+cqlsh&gt;<span class="w"> </span>DESCRIBE<span class="w"> </span>KEYSPACES<span class="p">;</span>
+
+carepet<span class="w">        </span>system_auth<span class="w">  </span>system_distributed_everywhere<span class="w">  </span>system_traces
+system_schema<span class="w">  </span>system<span class="w">       </span>system_distributed<span class="w"> </span>
+
+cqlsh&gt;<span class="w"> </span>USE<span class="w"> </span>carepet<span class="p">;</span>
+cqlsh:carepet&gt;<span class="w"> </span>DESCRIBE<span class="w"> </span>TABLES<span class="p">;</span>
+
+owner<span class="w">  </span>pet<span class="w">  </span>sensor<span class="w">  </span>sensor_avg<span class="w">  </span>measurement
+
+cqlsh:carepet&gt;<span class="w"> </span>DESCRIBE<span class="w"> </span>TABLE<span class="w"> </span>pet<span class="p">;</span>
+
+CREATE<span class="w"> </span>TABLE<span class="w"> </span>carepet.pet<span class="w"> </span><span class="o">(</span>
+<span class="w">    </span>owner_id<span class="w"> </span>uuid,
+<span class="w">    </span>pet_id<span class="w"> </span>uuid,
+<span class="w">    </span>address<span class="w"> </span>text,
+<span class="w">    </span>age<span class="w"> </span>int,
+<span class="w">    </span>name<span class="w"> </span>text,
+<span class="w">    </span>weight<span class="w"> </span>float,
+<span class="w">    </span>PRIMARY<span class="w"> </span>KEY<span class="w"> </span><span class="o">(</span>owner_id,<span class="w"> </span>pet_id<span class="o">)</span>
+<span class="o">)</span><span class="w"> </span>WITH<span class="w"> </span>CLUSTERING<span class="w"> </span>ORDER<span class="w"> </span>BY<span class="w"> </span><span class="o">(</span>pet_id<span class="w"> </span>ASC<span class="o">)</span>
+<span class="w">    </span>AND<span class="w"> </span><span class="nv">bloom_filter_fp_chance</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>.01
+<span class="w">    </span>AND<span class="w"> </span><span class="nv">caching</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">{</span><span class="s1">&#39;keys&#39;</span>:<span class="w"> </span><span class="s1">&#39;ALL&#39;</span>,<span class="w"> </span><span class="s1">&#39;rows_per_partition&#39;</span>:<span class="w"> </span><span class="s1">&#39;ALL&#39;</span><span class="o">}</span>
+<span class="w">    </span>AND<span class="w"> </span><span class="nv">comment</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;&#39;</span>
+<span class="w">    </span>AND<span class="w"> </span><span class="nv">compaction</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">{</span><span class="s1">&#39;class&#39;</span>:<span class="w"> </span><span class="s1">&#39;SizeTieredCompactionStrategy&#39;</span><span class="o">}</span>
+<span class="w">    </span>AND<span class="w"> </span><span class="nv">compression</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">{</span><span class="s1">&#39;sstable_compression&#39;</span>:<span class="w"> </span><span class="s1">&#39;org.apache.cassandra.io.compress.LZ4Compressor&#39;</span><span class="o">}</span>
+<span class="w">    </span>AND<span class="w"> </span><span class="nv">crc_check_chance</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span>.0
+<span class="w">    </span>AND<span class="w"> </span><span class="nv">dclocal_read_repair_chance</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>.0
+<span class="w">    </span>AND<span class="w"> </span><span class="nv">default_time_to_live</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>
+<span class="w">    </span>AND<span class="w"> </span><span class="nv">gc_grace_seconds</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">864000</span>
+<span class="w">    </span>AND<span class="w"> </span><span class="nv">max_index_interval</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2048</span>
+<span class="w">    </span>AND<span class="w"> </span><span class="nv">memtable_flush_period_in_ms</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>
+<span class="w">    </span>AND<span class="w"> </span><span class="nv">min_index_interval</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">128</span>
+<span class="w">    </span>AND<span class="w"> </span><span class="nv">read_repair_chance</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>.0
+<span class="w">    </span>AND<span class="w"> </span><span class="nv">speculative_retry</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;99.0PERCENTILE&#39;</span><span class="p">;</span>
+
+cqlsh:carepet&gt;<span class="w"> </span>exit<span class="p">;</span>
+</pre></div>
+</div>
+<p>At this point you have ScyllaDB running with the correct keyspace and tables.</p>
+</section>
+<section id="generate-and-ingest-iot-data">
+<h2>Generate and ingest IoT data<a class="headerlink" href="#generate-and-ingest-iot-data" title="Link to this heading">¶</a></h2>
+<p>Start ingesting IoT data (it’s suggested to do this in a new separate terminal
+because this process runs indefinitely). Make sure you’re still in the virtual
+environment:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">source</span><span class="w"> </span>env/bin/activate
+<span class="nv">NODE1</span><span class="o">=</span><span class="k">$(</span>docker<span class="w"> </span>inspect<span class="w"> </span>-f<span class="w"> </span><span class="s1">&#39;{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}&#39;</span><span class="w"> </span>carepet-scylla1<span class="k">)</span>
+python<span class="w"> </span>src/sensor.py<span class="w"> </span>-h<span class="w"> </span><span class="nv">$NODE1</span><span class="w"> </span>--measure<span class="w"> </span><span class="m">2</span><span class="w"> </span>--buffer-interval<span class="w"> </span><span class="m">10</span>
+
+Welcome<span class="w"> </span>to<span class="w"> </span>the<span class="w"> </span>Pet<span class="w"> </span>collar<span class="w"> </span>simulator
+New<span class="w"> </span>owner<span class="w"> </span><span class="c1"># 1cfbc0e5-6b05-476d-b170-2660cf40c02a</span>
+New<span class="w"> </span>pet<span class="w"> </span><span class="c1"># 1a0800ee-7643-4794-af7b-2ecaaf7078fc</span>
+New<span class="w"> </span>sensor<span class="o">(</span><span class="m">0</span><span class="o">)</span><span class="w"> </span><span class="c1"># b6155934-bd4e-47de-8649-1fad447aa036</span>
+New<span class="w"> </span>sensor<span class="o">(</span><span class="m">1</span><span class="o">)</span><span class="w"> </span><span class="c1"># d2c62c4d-9621-469d-b62c-41ef2271fca7</span>
+sensor<span class="w"> </span><span class="c1"># b6155934-bd4e-47de-8649-1fad447aa036 type T, new measure: 100.55118431400851, ts: 2023-01-08 17:36:17.126374</span>
+sensor<span class="w"> </span><span class="c1"># d2c62c4d-9621-469d-b62c-41ef2271fca7 type L, new measure: 37.486651732296835, ts: 2023-01-08 17:36:17.126516</span>
+</pre></div>
+</div>
+<p>This command starts a script that generates and ingests random IoT data coming
+from two sensors every other second and inserts the data in batches
+every ten seconds. Whenever you see <code class="docutils literal notranslate"><span class="pre">Pushing</span> <span class="pre">data</span></code> in the command line that is
+when data actually gets insterted into ScyllaDB.</p>
+<p>Optional: You can modify the frequency of the generated data by changing the
+<code class="docutils literal notranslate"><span class="pre">--measure</span></code> and <code class="docutils literal notranslate"><span class="pre">--buffer-interval</span></code> arguments. For example,
+you can generate new data points every three seconds and insert the batches
+every 30 seconds:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">source</span><span class="w"> </span>env/bin/activate
+<span class="nv">NODE1</span><span class="o">=</span><span class="k">$(</span>docker<span class="w"> </span>inspect<span class="w"> </span>-f<span class="w"> </span><span class="s1">&#39;{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}&#39;</span><span class="w"> </span>carepet-scylla1<span class="k">)</span>
+python<span class="w"> </span>src/sensor.py<span class="w"> </span>-h<span class="w"> </span><span class="nv">$NODE1</span><span class="w"> </span>--measure<span class="w"> </span><span class="m">3</span><span class="w"> </span>--buffer-interval<span class="w"> </span><span class="m">30</span>
+</pre></div>
+</div>
+<p>You can run multiple ingestion processes in parallel if you wish.</p>
+</section>
+<section id="set-up-and-test-rest-api">
+<h2>Set up and test REST API<a class="headerlink" href="#set-up-and-test-rest-api" title="Link to this heading">¶</a></h2>
+<p>In a new terminal, start running the API server (make sure that <code class="docutils literal notranslate"><span class="pre">port</span> <span class="pre">8000</span></code> is free):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">source</span><span class="w"> </span>env/bin/activate
+<span class="nv">NODE1</span><span class="o">=</span><span class="k">$(</span>docker<span class="w"> </span>inspect<span class="w"> </span>-f<span class="w"> </span><span class="s1">&#39;{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}&#39;</span><span class="w"> </span>carepet-scylla1<span class="k">)</span>
+python<span class="w"> </span>src/api.py<span class="w"> </span>-h<span class="w"> </span><span class="nv">$NODE1</span>
+
+INFO:<span class="w">     </span>Started<span class="w"> </span>server<span class="w"> </span>process<span class="w"> </span><span class="o">[</span><span class="m">696274</span><span class="o">]</span>
+INFO:<span class="w">     </span>Waiting<span class="w"> </span><span class="k">for</span><span class="w"> </span>application<span class="w"> </span>startup.
+INFO:<span class="w">     </span>Application<span class="w"> </span>startup<span class="w"> </span>complete.
+INFO:<span class="w">     </span>Uvicorn<span class="w"> </span>running<span class="w"> </span>on<span class="w"> </span>http://127.0.0.1:8000<span class="w"> </span><span class="o">(</span>Press<span class="w"> </span>CTRL+C<span class="w"> </span>to<span class="w"> </span>quit<span class="o">)</span>
+</pre></div>
+</div>
+<p>The API server is running on <code class="docutils literal notranslate"><span class="pre">http://127.0.0.1:8000</span></code>. Test with your
+browser, or curl, if it works properly:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl<span class="w"> </span>http://127.0.0.1:8000
+
+<span class="o">{</span><span class="s2">&quot;message&quot;</span>:<span class="s2">&quot;Pet collar simulator API&quot;</span><span class="o">}</span>
+</pre></div>
+</div>
+<p>Next, you will test the following API endpoints:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">/api/owner/{owner_id}</span></code></p>
+<p>Returns all available data fields about the owner.</p>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">/api/owner/{owner_id}/pets</span></code></p>
+<p>Returns the owner’s pets.</p>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">/api/pet/{pet_id}/sensors</span></code></p>
+<p>Returns all the sensors of a pet.</p>
+</li>
+</ul>
+<p>To test these endpoints, you need to provide either an <code class="docutils literal notranslate"><span class="pre">owner_id</span></code> or a <code class="docutils literal notranslate"><span class="pre">pet_id</span></code>
+as URL path parameter. You can get these values by copying them from the
+beginning of output of the ingestion script:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">source</span><span class="w"> </span>env/bin/activate
+<span class="nv">NODE1</span><span class="o">=</span><span class="k">$(</span>docker<span class="w"> </span>inspect<span class="w"> </span>-f<span class="w"> </span><span class="s1">&#39;{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}&#39;</span><span class="w"> </span>carepet-scylla1<span class="k">)</span>
+python<span class="w"> </span>src/sensor.py<span class="w"> </span>-h<span class="w"> </span><span class="nv">$NODE1</span><span class="w"> </span>--measure<span class="w"> </span><span class="m">1</span><span class="w"> </span>--buffer-interval<span class="w"> </span><span class="m">6</span>
+
+Welcome<span class="w"> </span>to<span class="w"> </span>the<span class="w"> </span>Pet<span class="w"> </span>collar<span class="w"> </span>simulator
+New<span class="w"> </span>owner<span class="w"> </span><span class="c1"># 1cfbc0e5-6b05-476d-b170-2660cf40c02a &lt;-- This is what you need!</span>
+New<span class="w"> </span>pet<span class="w"> </span><span class="c1"># 1a0800ee-7643-4794-af7b-2ecaaf7078fc &lt;-- This is what you need!</span>
+New<span class="w"> </span>sensor<span class="o">(</span><span class="m">0</span><span class="o">)</span><span class="w"> </span><span class="c1"># b6155934-bd4e-47de-8649-1fad447aa036</span>
+New<span class="w"> </span>sensor<span class="o">(</span><span class="m">1</span><span class="o">)</span><span class="w"> </span><span class="c1"># d2c62c4d-9621-469d-b62c-41ef2271fca7</span>
+</pre></div>
+</div>
+<p>Copy the UUID values right after “New owner #” and “New pet #”. A UUID value
+looks like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">1</span><span class="n">cfbc0e5</span><span class="o">-</span><span class="mi">6</span><span class="n">b05</span><span class="o">-</span><span class="mi">476</span><span class="n">d</span><span class="o">-</span><span class="n">b170</span><span class="o">-</span><span class="mi">2660</span><span class="n">cf40c02a</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">/api/owner/{owner_id}</span></code></p>
+<p>Paste the owner id from the terminal into the endpoint URL and open it with
+your browser or use <code class="docutils literal notranslate"><span class="pre">curl</span></code>, for example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl<span class="w"> </span>http://127.0.0.1:8000/api/owner/4f42fb80-c209-4d19-8c43-daf554f1be23
+
+<span class="o">{</span><span class="s2">&quot;owner_id&quot;</span>:<span class="s2">&quot;4f42fb80-c209-4d19-8c43-daf554f1be23&quot;</span>,<span class="s2">&quot;address&quot;</span>:<span class="s2">&quot;home&quot;</span>,<span class="s2">&quot;name&quot;</span>:<span class="s2">&quot;Vito Russell&quot;</span><span class="o">}</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">/api/owner/{owner_id}/pets</span></code></p>
+<p>Use the same owner id value to test this endpoint, for example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl<span class="w"> </span>http://127.0.0.1:8000/api/owner/4f42fb80-c209-4d19-8c43-daf554f1be23/pets
+
+<span class="o">[{</span><span class="s2">&quot;owner_id&quot;</span>:<span class="s2">&quot;4f42fb80-c209-4d19-8c43-daf554f1be23&quot;</span>,<span class="s2">&quot;pet_id&quot;</span>:<span class="s2">&quot;44f1624e-07c2-4971-85a5-85b9ad1ff142&quot;</span>,<span class="s2">&quot;address&quot;</span>:<span class="s2">&quot;home&quot;</span>,<span class="s2">&quot;age&quot;</span>:20,<span class="s2">&quot;name&quot;</span>:<span class="s2">&quot;Duke&quot;</span>,<span class="s2">&quot;weight&quot;</span>:14.41481876373291<span class="o">}]</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">/api/pet/{pet_id}/sensors</span></code></p>
+<p>Finally, use a pet id to test this endpoint, for example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl<span class="w"> </span>http://127.0.0.1:8000/api/pet/44f1624e-07c2-4971-85a5-85b9ad1ff142/sensors
+
+<span class="o">[{</span><span class="s2">&quot;pet_id&quot;</span>:<span class="s2">&quot;44f1624e-07c2-4971-85a5-85b9ad1ff142&quot;</span>,<span class="s2">&quot;sensor_id&quot;</span>:<span class="s2">&quot;4bb1d214-712b-453b-b53a-ac5d4df4a1f8&quot;</span>,<span class="s2">&quot;type&quot;</span>:<span class="s2">&quot;T&quot;</span><span class="o">}</span>,<span class="o">{</span><span class="s2">&quot;pet_id&quot;</span>:<span class="s2">&quot;44f1624e-07c2-4971-85a5-85b9ad1ff142&quot;</span>,<span class="s2">&quot;sensor_id&quot;</span>:<span class="s2">&quot;e81915d6-1155-45e4-9174-c58e4cb8cecf&quot;</span>,<span class="s2">&quot;type&quot;</span>:<span class="s2">&quot;L&quot;</span><span class="o">}]</span>
+</pre></div>
+</div>
+</section>
+<section id="resources">
+<h2>Resources<a class="headerlink" href="#resources" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://python-driver.docs.scylladb.com/stable/">ScyllaDB Python driver documentation</a></p></li>
+<li><p><a class="reference external" href="https://github.com/scylladb/python-driver/">ScyllaDB Python driver on Github</a></p></li>
+<li><p><a class="reference external" href="https://university.scylladb.com/courses/the-mutant-monitoring-system-training-course/lessons/coding-with-python/">ScyllaDB University: Coding with Python</a></p></li>
+</ul>
+</section>
+</section>
+
+                    </div>
+                    
+                        <div class="post-content">
+                            
+    <div class="feedback-container">
+        <p class="feedback-container__title">Was this page helpful?</p>
+        <span data-tooltip tabindex="1" title="Yes" data-position="top">
+            <button class="feedback-container__button" id="feedback-positive">
+                <i class="feedback-container__icon icon-docs-thumbs-up"></i>
+            </button>
+        </span>
+        <span data-tooltip tabindex="1" title="No" data-position="top">
+            <button class="feedback-container__button" id="feedback-negative">
+                <i class="feedback-container__icon icon-docs-thumbs-down"></i>
+            </button>
+        </span>
+        <div class="feedback-container__message" id="feedback-message"></div>
+    </div>
+
+    <script>
+        function resetFeedbackButtonActive() {
+            const feedbackButtons = document.getElementsByClassName('feedback-container__button');
+            for (let i = 0; i < feedbackButtons.length; i++) {
+                feedbackButtons[i].classList.remove('active');
+            }
+        }
+
+        function showMessage(liked) {
+            const feedbackMessage = document.getElementById('feedback-message');
+            const themeGithubRepository = true;
+            let message = 'Great! Thanks for your feedback.';
+            if (themeGithubRepository && !liked) {
+                message = "Thanks for your feedback! Please don't hesitate to <a href='https://github.com/scylladb/care-pet/issues/new?title=docs:%20Issue on page Build an IoT App with Python&&body=I%20would%20like%20to%20report%20an%20issue%20on%20page%20https://iot.scylladb.com/master/build-with-python%0A%0A%23%23%23%20Problem%0A%0A%23%23%23%20%20Suggest%20a%20fix&labels=documentation'>create an issue</a> if you have any suggestions on how we can improve.";
+            }
+            feedbackMessage.innerHTML = message;
+        }
+
+        function sendGaEvent(liked) {
+            const event_label = liked ? "positive" : "negative";
+            const event = "feedback_" + event_label;
+            window.dataLayer = window.dataLayer || [];
+            window.dataLayer.push({
+                'event': event,
+            });
+        }
+
+        const positiveFeebackButton = document.getElementById('feedback-positive');
+        const negativeFeedbackButton = document.getElementById('feedback-negative');
+
+        positiveFeebackButton.addEventListener('click', function() {
+            resetFeedbackButtonActive();
+            sendGaEvent(true);
+            showMessage(true);
+            positiveFeebackButton.classList.add('active');
+        });
+
+        negativeFeedbackButton.addEventListener('click', function() {
+            resetFeedbackButtonActive();
+            sendGaEvent(false);
+            showMessage(false);
+            negativeFeedbackButton.classList.add('active');
+        });
+    </script>
+
+                            <div class="content-navigation">
+    <div class="navigation navigation--prev">
+        
+            <a class="navigation__link" href="build-with-java.html">
+                <button class="navigation__button">
+                    <i class="icon-chevron-left"></i>
+                </button>
+                <div class="navigation__title">
+                    <span class="colored">PREVIOUS</span> <br />Build an IoT App with Java
+                </div>
+            </a>
+        
+    </div>
+    <div class="navigation navigation--next">
+        
+            <a class="navigation__link" href="build-with-php.html">
+                <div class="navigation__title">
+                    <span class="colored">NEXT</span> <br />Care Pet ScyllaDB PHP IoT example
+                </div>
+                <button class="navigation__button">
+                    <i class="icon-chevron-right"></i>
+                </button>
+            </a>
+        
+    </div>
+</div>
+                            <!-- Post content text -->
+                        </div>
+                    
+                
+                
+                    </div>
+                        <div class="sidebar-right large-order-3">
+                            <div class="secondary-side-nav custom-scroll-bar">
+    
+    <ul class="contribute">
+        <li class="contribute__item">
+            <a class="button button-sm" href="https://github.com/scylladb/care-pet/issues/new?title=docs:%20Issue on page Build an IoT App with Python&&body=I%20would%20like%20to%20report%20an%20issue%20on%20page%20https://iot.scylladb.com/master/build-with-python%0A%0A%23%23%23%20Problem%0A%0A%23%23%23%20%20Suggest%20a%20fix&labels=documentation"
+               target="_blank">
+                <i class="icon-github" aria-hidden="true"></i>Create an issue
+            </a>
+        </li>
+        
+            <li class="contribute__item">
+                <a class="button button-sm" href="https://github.com/scylladb/care-pet/edit/master/docs/build-with-python.md"
+                   target="_blank">
+                    <i class="icon-edit" aria-hidden="true"></i>Edit this page
+                </a>
+            </li>
+        
+    </ul>
+
+    
+        <div class="secondary-side-nav__content">
+            <p class="topic-title">On this page</p>
+            <ul>
+<li><a class="reference internal" href="#">Build an IoT App with Python</a><ul>
+<li><a class="reference internal" href="#architecture">Architecture</a></li>
+<li><a class="reference internal" href="#clone-repository-and-install-dependencies">Clone repository and install dependencies</a></li>
+<li><a class="reference internal" href="#start-docker-containers-skip-this-if-you-use-scylla-cloud">Start Docker containers (skip this if you use Scylla Cloud)</a></li>
+<li><a class="reference internal" href="#connect-to-scylladb-and-create-the-database-schema">Connect to ScyllaDB and create the database schema</a></li>
+<li><a class="reference internal" href="#generate-and-ingest-iot-data">Generate and ingest IoT data</a></li>
+<li><a class="reference internal" href="#set-up-and-test-rest-api">Set up and test REST API</a></li>
+<li><a class="reference internal" href="#resources">Resources</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+    
+</div>
+                        </div>
+                    </div>
+                
+            </div>
+            <div class="sidebar-left  large-order-1">
+                
+                    
+                        <div id="side-nav" class="side-nav custom-scroll-bar" data-closable data-toggler=".show">
+    <button class="collapsible-button">
+        <i class="icon-docs-menu-collapse"></i>
+    </button>
+    <div class="side-nav-content custom-scroll-bar">
+        <div class="side-nav__title">
+            <a href="index.html">ScyllaDB IoT Example Documentation</a>
+        </div>
+        <div class="side-nav__search">
+            <div class="search-box">
+                <ci-search></ci-search>
+            </div>
+        </div>
+        <div class="side-nav__versions"><ul class="dropdown menu scylla-dropdown scylla-dropdown--versions" data-dropdown-menu>
+    <li class="scylla-dropdown__item">
+        <a class="scylla-dropdown__title" href="#">
+            
+                master
+            
+            <i class="chevron icon-docs-chevron-right"></i>
+        </a>
+        <ul class="menu scylla-dropdown__content">
+            
+                
+                    <li>
+                        <a href="build-with-python.html">master</a>
+                    </li>
+                
+            
+            
+        </ul>
+    </li>
+</ul></div>
+        <div class="side-nav__content">
+            <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="getting-started.html">Getting Started with CarePet: A sample IoT App</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deploy-in-cloud.html">Deploy in cloud</a></li>
+<li class="toctree-l1"><a class="reference internal" href="design-and-data-model.html">Design and Data Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="build-with-go.html">Build with Go</a></li>
+<li class="toctree-l1"><a class="reference internal" href="build-with-javascript.html">Build with JavaScript</a></li>
+<li class="toctree-l1"><a class="reference internal" href="build-with-java.html">Build with Java</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Build with Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="build-with-php.html">Build with PHP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="build-with-rust.html">Build with Rust</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/scylladb/care-pet">Care-Pet GitHub Repository</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://www.scylladb.com/2020/09/09/carepet-an-example-iot-use-case-for-hands-on-app-developers/">Care-Pet Blog</a></li>
+</ul>
+
+        </div>
+    </div>
+</div>
+                    
+                
+            </div>
+            
+        </section>
+
+        <footer class="footer">
+    <div class="footer-group">
+        <div class="footer-top">
+            <a class="footer-logo" href="https://www.scylladb.com"></a>
+            <div class="footer-links">
+                <a class="footer-links__link" href="https://docs.scylladb.com/" target="_blank">Docs</a>
+                <a class="footer-links__link" href="https://docs.scylladb.com/stable/get-started/develop-with-scylladb/tutorials-example-projects.html" target="_blank">Tutorials</a>
+                <a class="footer-links__link" href="https://university.scylladb.com/" target="_blank">University</a>
+                <a class="footer-links__link" href="https://www.scylladb.com/company/contact-us/"
+                    target="_blank">Contact Us</a>
+                <a class="footer-links__link" href="https://www.scylladb.com/company/" target="_blank">About Us</a>
+            </div>
+            <div class="footer-actions">
+                <a class="footer-actions__link" href="http://slack.scylladb.com/" target="_blank">
+                    <span data-tooltip tabindex="1" title="User Slack channel" data-position="bottom">
+                        <i class="icon-slack"></i>
+                    </span>
+                </a>
+                <a class="footer-actions__link" href="https://forum.scylladb.com/" target="_blank">
+                    <span data-tooltip tabindex="1" title="Community forum" data-position="bottom">
+                        <i class="icon-docs-community"></i>
+                    </span>
+                </a>
+            </div>
+        </div>
+
+        
+        <div class="footer-copyright">
+            
+                
+                    &#169; 2025, ScyllaDB. All rights reserved.
+                
+                | <a class="footer-copyright__link" href="https://www.scylladb.com/tos/" target="_blank">Terms of Service</a>
+                | <a class="footer-copyright__link" href="https://www.scylladb.com/privacy/" target="_blank">Privacy Policy</a>
+                | ScyllaDB, and ScyllaDB Cloud, are registered trademarks of ScyllaDB, Inc.
+            
+        </div>
+    
+
+
+        <div class="footer-bottom">
+            
+                <div class="footer-bottom__last-updated">
+                    
+                        Last updated on 05 May 2025.
+                    
+                </div>
+            
+            <div class="footer-bottom__version">
+                Powered by
+                <a class="footer-bottom__link" href="http://sphinx-doc.org/">Sphinx 7.4.7</a> &amp;
+                <a class="footer-bottom__link" href="https://sphinx-theme.scylladb.com/">ScyllaDB Theme 1.8.6</a>
+            </div>
+        </div>
+    </div>
+    
+</footer>
+
+        <noscript>
+            <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-T8P2JP" height="0" width="0"
+                    style="display: none; visibility: hidden"></iframe>
+        </noscript>
+    </body>
+
+</html>

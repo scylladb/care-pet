@@ -1,0 +1,631 @@
+
+
+<!DOCTYPE html>
+<html class="no-js" lang="en" style="visibility: hidden;">
+    
+    
+
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width initial-scale=1" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <title>
+             Deploy in ScyllaDB Cloud with Terraform | ScyllaDB Docs 
+        </title>
+        <meta name="description" content="ScyllaDB IoT Example Documentation" />
+        <link rel="icon" href="_static/img/favicon.ico" type="image/x-icon" />
+        <link rel="icon" href="_static/img/favicon-32x32.png" sizes="32x32" />
+        <link rel="icon" href="_static/img/favicon-228x228.png" sizes="192x192" />
+        <link rel="apple-touch-icon" href="_static/img/favicon-228x228.png" />
+        <meta name="msapplication-TileImage" href="_static/img/favicon-228x228.png" />
+
+        
+            
+            
+        
+
+        
+            
+            <link rel="canonical" href="https://iot.scylladb.com/stable/deploy-in-cloud.html"/>
+        
+
+        <link rel="author" href="mailto:info@scylladb.com" />
+
+        
+            
+        <!-- increase expertrec loading priority-->
+        <link rel="dns-prefetch" href="https://cse.expertrec.com">
+
+        <!-- increase font loading priority -->
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link rel="preload" as="style"
+              href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;1,400&display=swap" />
+
+        <!-- async CSS -->
+        <link rel="stylesheet" media="print" onload="this.onload=null;this.removeAttribute('media');"
+              href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;1,400&display=swap" />
+
+        <!-- no-JS fallback -->
+        <noscript>
+            <link rel="stylesheet"
+                  href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;1,400&display=swap" />
+        </noscript>
+
+        
+        
+        
+            
+                <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+            
+        
+            
+                <link rel="stylesheet" type="text/css" href="_static/css/main.css?v=924e5a68" />
+            
+        
+            
+                <link rel="stylesheet" type="text/css" href="_static/sphinx_collapse.css?v=226d88b4" />
+            
+        
+            
+                <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+            
+        
+    
+        
+        
+            
+        <script type="text/javascript" src="_static/js/runtime.bundle.js"></script>
+        <script type="text/javascript" src="_static/js/main.bundle.js"></script>
+        
+            
+                <script src="_static/documentation_options.js?v=5929fcd5"></script>
+            
+        
+            
+                <script src="_static/doctools.js?v=9a2dae69"></script>
+            
+        
+            
+                <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+            
+        
+            
+                <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+            
+        
+            
+                <script src="_static/copybutton.js?v=f281be69"></script>
+            
+        
+    
+            
+                <!-- Local meta tags -->
+            
+            
+                <!-- Google Tag Manager docs -->
+<script>
+    (function (w, d, s, l, i) {
+        w[l] = w[l] || [];
+        w[l].push({
+            "gtm.start": new Date().getTime(),
+            event: "gtm.js"
+        });
+        var f = d.getElementsByTagName(s)[0],
+            j = d.createElement(s),
+            dl = l != "dataLayer" ? "&l=" + l : "";
+        j.async = true;
+        j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
+        f.parentNode.insertBefore(j, f);
+    })(window, document, "script", "dataLayer", "GTM-54NWVS4");
+</script>
+<!-- End Google Tag Manager -->
+
+<!-- Google Tag Manager global -->
+<script>
+    (function (w, d, s, l, i) {
+        w[l] = w[l] || [];
+        w[l].push({
+            "gtm.start": new Date().getTime(),
+            event: "gtm.js"
+        });
+        var f = d.getElementsByTagName(s)[0],
+            j = d.createElement(s),
+            dl = l != "dataLayer" ? "&l=" + l : "";
+        j.async = true;
+        j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
+        f.parentNode.insertBefore(j, f);
+    })(window, document, "script", "dataLayer", "GTM-T8P2JP");
+</script>
+<!-- End Google Tag Manager -->
+
+<!-- Expertrec -->
+<script>
+    var id = "e2077224-9ccf-11e9-a0c9-0242ac130002";
+    var ci_search = document.createElement("script");
+    ci_search.type = "text/javascript";
+    ci_search.async = true;
+    ci_search.src = "https://cse.expertrec.com/api/js/ci_common.js?id=" + id;
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(ci_search, s);
+</script>
+<!-- End Expertrec -->
+            
+        
+    </head>
+
+    <body class="brand-product">
+        <section class="promo-banner  promo-banner--hide" style="display: none;">
+    <div class="promo-banner-wrapper">
+        
+        <div class="promo-banner__title">ScyllaDB University Live | Free Virtual Training Event</div>
+        <a class="promo-banner__button button button--reverse" href="#"
+           target="_blank" rel="noopener noreferrer">Learn more</a>
+        <button class="promo-banner__close">
+            <i class="icon-cancel"></i>
+        </button>
+    </div>
+</section>
+        <header class="header">
+    <div class="header-logo">
+        <a class="header-logo__img" href="https://scylladb.com/">
+            <img src="_static/img/scylladb-logo-horizontal.svg" alt="ScyllaDB Documentation Logo" />
+        </a>
+        <span class="header-logo__bar"></span>
+        <a class="header-logo__text" href="https://docs.scylladb.com/">
+            Documentation
+        </a>
+    </div>
+    <div class="header-navigation">
+        <ul class="dropdown menu scylla-dropdown scylla-dropdown--header" data-dropdown-menu>
+            <li class="scylla-dropdown__item">
+                <a href="https://docs.scylladb.com/manual/" class="scylla-dropdown__title">Server</a>
+            </li>
+            <li class="scylla-dropdown__item">
+                <a href="https://docs.scylladb.com/scylla-cloud/" class="scylla-dropdown__title">Cloud</a>
+            </li>
+            <li class="scylla-dropdown__item">
+                <a href="#" class="scylla-dropdown__title">Tools <i class="chevron icon-arrow-dropdown"></i></a>
+                <ul class="menu scylla-dropdown__content">
+                    <li>
+                        <a href="https://manager.docs.scylladb.com/">
+                            <i class="icon-docs-manager"></i>ScyllaDB Manager</a>
+                    </li>
+                    <li>
+                        <a href="https://monitoring.docs.scylladb.com/">
+                            <i class="icon-docs-monitoring"></i>ScyllaDB
+                            Monitoring Stack</a>
+                    </li>
+                    <li>
+                        <a href="https://operator.docs.scylladb.com/">
+                            <i class="icon-docs-operator"></i>ScyllaDB Operator
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li class="scylla-dropdown__item">
+                <a href="#" class="scylla-dropdown__title">Drivers <i class="chevron icon-arrow-dropdown"></i></a>
+                <ul class="menu scylla-dropdown__content">
+                    <li>
+                        <a href="https://docs.scylladb.com/using-scylla/drivers/cql-drivers/">
+                            <i class="icon-docs-nsql-guides"></i>CQL Drivers
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://docs.scylladb.com/using-scylla/drivers/dynamo-drivers/">
+                            <i class="icon-docs-alternator"></i>DynamoDB Drivers
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li class="scylla-dropdown__item">
+                <a href="#" class="scylla-dropdown__title">Resources
+                    <i class="chevron icon-arrow-dropdown"></i></a>
+                <ul class="menu scylla-dropdown__content">
+                    <li>
+                        <a href="https://university.scylladb.com">
+                            <i class="icon-university"></i>
+                            ScyllaDB University
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://forum.scylladb.com">
+                            <i class="icon-docs-community"></i>
+                            Community Forum
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://docs.scylladb.com/stable/get-started/develop-with-scylladb/tutorials-example-projects.html">
+                            <i class="icon-docs-training"></i>
+                            Tutorials
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+        <div class="header-button">
+            <a href="https://www.scylladb.com/download/" class="button"><i class="icon-download me-2"></i> Download</a>
+        </div>
+    </div>
+    <div class="header-search-box">
+        <i class="dark-theme-toggler icon-theme"></i>
+        <div class="search-box">
+            <ci-search></ci-search>
+        </div>
+    </div>
+    <div class="side-nav-toggle">
+    <i class="dark-theme-toggler icon-theme"></i>
+    <div class="side-nav-toggle__button" data-toggle="side-nav">
+        <i class="icon-menu"></i>
+    </div>
+</div>
+</header>
+        <div class="title"></div>
+        <section
+            class="layout  layout--sidebar layout--has-secondary-sidebar ">
+            <div class="content large-order-2">
+                
+                    <div class="pre-content">
+                        <div class="breadcrumbs">
+    <span class="bread__item">
+        <a href="https://docs.scylladb.com"
+           class="bread__highlight">
+            <i class="icon-home"></i> ScyllaDB Docs
+        </a>
+    </span>
+    <span class="bread__item">
+        <a href="index.html"
+           class="bread__highlight">
+            ScyllaDB IoT Example Documentation
+        </a>
+    </span>
+    
+    <span class="bread__item bread__item--last">Deploy in ScyllaDB Cloud with Terraform</span>
+</div>
+                    </div>
+                
+                
+                <div class="sidebar-right-layout">
+                    <div class="body-container">
+                
+
+                    <div class="content-body">
+                        
+                            
+                        
+                        
+                        <section id="deploy-in-scylladb-cloud-with-terraform">
+<h1>Deploy in ScyllaDB Cloud with Terraform<a class="headerlink" href="#deploy-in-scylladb-cloud-with-terraform" title="Link to this heading">¶</a></h1>
+<p>ScyllaDB Cloud has a <a class="reference external" href="https://github.com/scylladb/terraform-provider-scylladbcloud">Terraform provider</a> which means that you can spin up new
+ScyllaDB Cloud clusters easily using Terraform. Follow the instructions below to
+set up the care-pet sample application in a ScyllaDB Cloud environment using Terraform.</p>
+<p>You’ll set up Terraform to:</p>
+<ol class="arabic simple">
+<li><p>Create a new ScyllaDB Cloud cluster (you need a <a class="reference external" href="https://cloud.scylladb.com/account/sign-up">ScyllaDB Cloud account</a>)</p></li>
+<li><p>Execute a CQL file that creates a new keyspace and tables for the care-pet project</p></li>
+</ol>
+<section id="prerequisites">
+<h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli">Terraform</a></p></li>
+<li><p><a class="reference external" href="https://www.python.org/downloads/">Python</a></p></li>
+<li><p><a class="reference external" href="https://cloud.docs.scylladb.com/stable/api-docs/api-get-started.html">ScyllaDB Cloud API token</a></p></li>
+</ul>
+</section>
+<section id="get-started">
+<h2>Get started<a class="headerlink" href="#get-started" title="Link to this heading">¶</a></h2>
+<section id="clone-the-repository">
+<h3>Clone the repository<a class="headerlink" href="#clone-the-repository" title="Link to this heading">¶</a></h3>
+<p>Clone the repository if you haven’t already:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/scylladb/care-pet.git
+</pre></div>
+</div>
+</section>
+<section id="install-cqlsh">
+<h3>Install CQLSH<a class="headerlink" href="#install-cqlsh" title="Link to this heading">¶</a></h3>
+<p>Install the standalone CQLSH Python package:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>cqlsh
+</pre></div>
+</div>
+<p>This package will be used to connect to ScyllaDB and create the initial schema.</p>
+</section>
+<section id="spin-up-a-new-scylladb-cloud-cluster">
+<h3>Spin up a new ScyllaDB Cloud cluster<a class="headerlink" href="#spin-up-a-new-scylladb-cloud-cluster" title="Link to this heading">¶</a></h3>
+<p>Go to the <code class="docutils literal notranslate"><span class="pre">terraform</span></code> directory and run <code class="docutils literal notranslate"><span class="pre">terraform</span> <span class="pre">init</span></code></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>terraform/
+terraform<span class="w"> </span>init
+</pre></div>
+</div>
+<p>Apply the changes that are configured in the <code class="docutils literal notranslate"><span class="pre">main.tf</span></code> file:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>terraform<span class="w"> </span>apply
+</pre></div>
+</div>
+<p>You’ll be asked to provide your ScyllaDB Cloud API token (more info <a class="reference external" href="https://cloud.docs.scylladb.com/stable/api-docs/api-get-started.html">in docs</a>):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>var.scylla_api_token
+<span class="w">  </span>Your<span class="w"> </span>own<span class="w"> </span>ScyllaDB<span class="w"> </span>Cloud<span class="w"> </span>API<span class="w"> </span>token
+
+<span class="w">  </span>Enter<span class="w"> </span>a<span class="w"> </span>value:
+</pre></div>
+</div>
+<p>You’ll also be asked if you want to perform the actions configured in Terraform, just type <code class="docutils literal notranslate"><span class="pre">yes</span></code>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>Do<span class="w"> </span>you<span class="w"> </span>want<span class="w"> </span>to<span class="w"> </span>perform<span class="w"> </span>these<span class="w"> </span>actions?
+<span class="w">  </span>Terraform<span class="w"> </span>will<span class="w"> </span>perform<span class="w"> </span>the<span class="w"> </span>actions<span class="w"> </span>described<span class="w"> </span>above.
+<span class="w">  </span>Only<span class="w"> </span><span class="s1">&#39;yes&#39;</span><span class="w"> </span>will<span class="w"> </span>be<span class="w"> </span>accepted<span class="w"> </span>to<span class="w"> </span>approve.
+
+<span class="w">  </span>Enter<span class="w"> </span>a<span class="w"> </span>value:<span class="w"> </span>yes
+
+<span class="w">  </span>scylladbcloud_cluster.care_pet:<span class="w"> </span>Creating...
+</pre></div>
+</div>
+<p>Spinning up the cluster takes about ~10 minutes. While the process is underway, you can go to your
+ScyllaDB <a class="reference external" href="https://cloud.scylladb.com/clusters/list">Cloud dashboard</a> and verify that the cluster is getting set up:</p>
+<p><img alt="cluster setting up" src="_images/cloud_screen.png" /></p>
+<p>After the process is completed, go to the “Connect” tab in in the cloud console
+and connect to your newly created cluster with your favourite tool.</p>
+</section>
+</section>
+</section>
+
+                    </div>
+                    
+                        <div class="post-content">
+                            
+    <div class="feedback-container">
+        <p class="feedback-container__title">Was this page helpful?</p>
+        <span data-tooltip tabindex="1" title="Yes" data-position="top">
+            <button class="feedback-container__button" id="feedback-positive">
+                <i class="feedback-container__icon icon-docs-thumbs-up"></i>
+            </button>
+        </span>
+        <span data-tooltip tabindex="1" title="No" data-position="top">
+            <button class="feedback-container__button" id="feedback-negative">
+                <i class="feedback-container__icon icon-docs-thumbs-down"></i>
+            </button>
+        </span>
+        <div class="feedback-container__message" id="feedback-message"></div>
+    </div>
+
+    <script>
+        function resetFeedbackButtonActive() {
+            const feedbackButtons = document.getElementsByClassName('feedback-container__button');
+            for (let i = 0; i < feedbackButtons.length; i++) {
+                feedbackButtons[i].classList.remove('active');
+            }
+        }
+
+        function showMessage(liked) {
+            const feedbackMessage = document.getElementById('feedback-message');
+            const themeGithubRepository = true;
+            let message = 'Great! Thanks for your feedback.';
+            if (themeGithubRepository && !liked) {
+                message = "Thanks for your feedback! Please don't hesitate to <a href='https://github.com/scylladb/care-pet/issues/new?title=docs:%20Issue on page Deploy in ScyllaDB Cloud with Terraform&&body=I%20would%20like%20to%20report%20an%20issue%20on%20page%20https://iot.scylladb.com/master/deploy-in-cloud%0A%0A%23%23%23%20Problem%0A%0A%23%23%23%20%20Suggest%20a%20fix&labels=documentation'>create an issue</a> if you have any suggestions on how we can improve.";
+            }
+            feedbackMessage.innerHTML = message;
+        }
+
+        function sendGaEvent(liked) {
+            const event_label = liked ? "positive" : "negative";
+            const event = "feedback_" + event_label;
+            window.dataLayer = window.dataLayer || [];
+            window.dataLayer.push({
+                'event': event,
+            });
+        }
+
+        const positiveFeebackButton = document.getElementById('feedback-positive');
+        const negativeFeedbackButton = document.getElementById('feedback-negative');
+
+        positiveFeebackButton.addEventListener('click', function() {
+            resetFeedbackButtonActive();
+            sendGaEvent(true);
+            showMessage(true);
+            positiveFeebackButton.classList.add('active');
+        });
+
+        negativeFeedbackButton.addEventListener('click', function() {
+            resetFeedbackButtonActive();
+            sendGaEvent(false);
+            showMessage(false);
+            negativeFeedbackButton.classList.add('active');
+        });
+    </script>
+
+                            <div class="content-navigation">
+    <div class="navigation navigation--prev">
+        
+            <a class="navigation__link" href="getting-started.html">
+                <button class="navigation__button">
+                    <i class="icon-chevron-left"></i>
+                </button>
+                <div class="navigation__title">
+                    <span class="colored">PREVIOUS</span> <br />Getting Started with CarePet: A sample IoT App
+                </div>
+            </a>
+        
+    </div>
+    <div class="navigation navigation--next">
+        
+            <a class="navigation__link" href="design-and-data-model.html">
+                <div class="navigation__title">
+                    <span class="colored">NEXT</span> <br />Design and Data Model
+                </div>
+                <button class="navigation__button">
+                    <i class="icon-chevron-right"></i>
+                </button>
+            </a>
+        
+    </div>
+</div>
+                            <!-- Post content text -->
+                        </div>
+                    
+                
+                
+                    </div>
+                        <div class="sidebar-right large-order-3">
+                            <div class="secondary-side-nav custom-scroll-bar">
+    
+    <ul class="contribute">
+        <li class="contribute__item">
+            <a class="button button-sm" href="https://github.com/scylladb/care-pet/issues/new?title=docs:%20Issue on page Deploy in ScyllaDB Cloud with Terraform&&body=I%20would%20like%20to%20report%20an%20issue%20on%20page%20https://iot.scylladb.com/master/deploy-in-cloud%0A%0A%23%23%23%20Problem%0A%0A%23%23%23%20%20Suggest%20a%20fix&labels=documentation"
+               target="_blank">
+                <i class="icon-github" aria-hidden="true"></i>Create an issue
+            </a>
+        </li>
+        
+            <li class="contribute__item">
+                <a class="button button-sm" href="https://github.com/scylladb/care-pet/edit/master/docs/deploy-in-cloud.md"
+                   target="_blank">
+                    <i class="icon-edit" aria-hidden="true"></i>Edit this page
+                </a>
+            </li>
+        
+    </ul>
+
+    
+        <div class="secondary-side-nav__content">
+            <p class="topic-title">On this page</p>
+            <ul>
+<li><a class="reference internal" href="#">Deploy in ScyllaDB Cloud with Terraform</a><ul>
+<li><a class="reference internal" href="#prerequisites">Prerequisites</a></li>
+<li><a class="reference internal" href="#get-started">Get started</a><ul>
+<li><a class="reference internal" href="#clone-the-repository">Clone the repository</a></li>
+<li><a class="reference internal" href="#install-cqlsh">Install CQLSH</a></li>
+<li><a class="reference internal" href="#spin-up-a-new-scylladb-cloud-cluster">Spin up a new ScyllaDB Cloud cluster</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+    
+</div>
+                        </div>
+                    </div>
+                
+            </div>
+            <div class="sidebar-left  large-order-1">
+                
+                    
+                        <div id="side-nav" class="side-nav custom-scroll-bar" data-closable data-toggler=".show">
+    <button class="collapsible-button">
+        <i class="icon-docs-menu-collapse"></i>
+    </button>
+    <div class="side-nav-content custom-scroll-bar">
+        <div class="side-nav__title">
+            <a href="index.html">ScyllaDB IoT Example Documentation</a>
+        </div>
+        <div class="side-nav__search">
+            <div class="search-box">
+                <ci-search></ci-search>
+            </div>
+        </div>
+        <div class="side-nav__versions"><ul class="dropdown menu scylla-dropdown scylla-dropdown--versions" data-dropdown-menu>
+    <li class="scylla-dropdown__item">
+        <a class="scylla-dropdown__title" href="#">
+            
+                master
+            
+            <i class="chevron icon-docs-chevron-right"></i>
+        </a>
+        <ul class="menu scylla-dropdown__content">
+            
+                
+                    <li>
+                        <a href="deploy-in-cloud.html">master</a>
+                    </li>
+                
+            
+            
+        </ul>
+    </li>
+</ul></div>
+        <div class="side-nav__content">
+            <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="getting-started.html">Getting Started with CarePet: A sample IoT App</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Deploy in cloud</a></li>
+<li class="toctree-l1"><a class="reference internal" href="design-and-data-model.html">Design and Data Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="build-with-go.html">Build with Go</a></li>
+<li class="toctree-l1"><a class="reference internal" href="build-with-javascript.html">Build with JavaScript</a></li>
+<li class="toctree-l1"><a class="reference internal" href="build-with-java.html">Build with Java</a></li>
+<li class="toctree-l1"><a class="reference internal" href="build-with-python.html">Build with Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="build-with-php.html">Build with PHP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="build-with-rust.html">Build with Rust</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/scylladb/care-pet">Care-Pet GitHub Repository</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://www.scylladb.com/2020/09/09/carepet-an-example-iot-use-case-for-hands-on-app-developers/">Care-Pet Blog</a></li>
+</ul>
+
+        </div>
+    </div>
+</div>
+                    
+                
+            </div>
+            
+        </section>
+
+        <footer class="footer">
+    <div class="footer-group">
+        <div class="footer-top">
+            <a class="footer-logo" href="https://www.scylladb.com"></a>
+            <div class="footer-links">
+                <a class="footer-links__link" href="https://docs.scylladb.com/" target="_blank">Docs</a>
+                <a class="footer-links__link" href="https://docs.scylladb.com/stable/get-started/develop-with-scylladb/tutorials-example-projects.html" target="_blank">Tutorials</a>
+                <a class="footer-links__link" href="https://university.scylladb.com/" target="_blank">University</a>
+                <a class="footer-links__link" href="https://www.scylladb.com/company/contact-us/"
+                    target="_blank">Contact Us</a>
+                <a class="footer-links__link" href="https://www.scylladb.com/company/" target="_blank">About Us</a>
+            </div>
+            <div class="footer-actions">
+                <a class="footer-actions__link" href="http://slack.scylladb.com/" target="_blank">
+                    <span data-tooltip tabindex="1" title="User Slack channel" data-position="bottom">
+                        <i class="icon-slack"></i>
+                    </span>
+                </a>
+                <a class="footer-actions__link" href="https://forum.scylladb.com/" target="_blank">
+                    <span data-tooltip tabindex="1" title="Community forum" data-position="bottom">
+                        <i class="icon-docs-community"></i>
+                    </span>
+                </a>
+            </div>
+        </div>
+
+        
+        <div class="footer-copyright">
+            
+                
+                    &#169; 2025, ScyllaDB. All rights reserved.
+                
+                | <a class="footer-copyright__link" href="https://www.scylladb.com/tos/" target="_blank">Terms of Service</a>
+                | <a class="footer-copyright__link" href="https://www.scylladb.com/privacy/" target="_blank">Privacy Policy</a>
+                | ScyllaDB, and ScyllaDB Cloud, are registered trademarks of ScyllaDB, Inc.
+            
+        </div>
+    
+
+
+        <div class="footer-bottom">
+            
+                <div class="footer-bottom__last-updated">
+                    
+                        Last updated on 05 May 2025.
+                    
+                </div>
+            
+            <div class="footer-bottom__version">
+                Powered by
+                <a class="footer-bottom__link" href="http://sphinx-doc.org/">Sphinx 7.4.7</a> &amp;
+                <a class="footer-bottom__link" href="https://sphinx-theme.scylladb.com/">ScyllaDB Theme 1.8.6</a>
+            </div>
+        </div>
+    </div>
+    
+</footer>
+
+        <noscript>
+            <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-T8P2JP" height="0" width="0"
+                    style="display: none; visibility: hidden"></iframe>
+        </noscript>
+    </body>
+
+</html>

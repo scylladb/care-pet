@@ -1,0 +1,942 @@
+
+
+<!DOCTYPE html>
+<html class="no-js" lang="en" style="visibility: hidden;">
+    
+    
+
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width initial-scale=1" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <title>
+             Build an IoT App with Rust | ScyllaDB Docs 
+        </title>
+        <meta name="description" content="ScyllaDB IoT Example Documentation" />
+        <link rel="icon" href="_static/img/favicon.ico" type="image/x-icon" />
+        <link rel="icon" href="_static/img/favicon-32x32.png" sizes="32x32" />
+        <link rel="icon" href="_static/img/favicon-228x228.png" sizes="192x192" />
+        <link rel="apple-touch-icon" href="_static/img/favicon-228x228.png" />
+        <meta name="msapplication-TileImage" href="_static/img/favicon-228x228.png" />
+
+        
+            
+            
+        
+
+        
+            
+            <link rel="canonical" href="https://iot.scylladb.com/stable/build-with-rust.html"/>
+        
+
+        <link rel="author" href="mailto:info@scylladb.com" />
+
+        
+            
+        <!-- increase expertrec loading priority-->
+        <link rel="dns-prefetch" href="https://cse.expertrec.com">
+
+        <!-- increase font loading priority -->
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link rel="preload" as="style"
+              href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;1,400&display=swap" />
+
+        <!-- async CSS -->
+        <link rel="stylesheet" media="print" onload="this.onload=null;this.removeAttribute('media');"
+              href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;1,400&display=swap" />
+
+        <!-- no-JS fallback -->
+        <noscript>
+            <link rel="stylesheet"
+                  href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;1,400&display=swap" />
+        </noscript>
+
+        
+        
+        
+            
+                <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+            
+        
+            
+                <link rel="stylesheet" type="text/css" href="_static/css/main.css?v=924e5a68" />
+            
+        
+            
+                <link rel="stylesheet" type="text/css" href="_static/sphinx_collapse.css?v=226d88b4" />
+            
+        
+            
+                <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+            
+        
+    
+        
+        
+            
+        <script type="text/javascript" src="_static/js/runtime.bundle.js"></script>
+        <script type="text/javascript" src="_static/js/main.bundle.js"></script>
+        
+            
+                <script src="_static/documentation_options.js?v=5929fcd5"></script>
+            
+        
+            
+                <script src="_static/doctools.js?v=9a2dae69"></script>
+            
+        
+            
+                <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+            
+        
+            
+                <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+            
+        
+            
+                <script src="_static/copybutton.js?v=f281be69"></script>
+            
+        
+    
+            
+                <!-- Local meta tags -->
+            
+            
+                <!-- Google Tag Manager docs -->
+<script>
+    (function (w, d, s, l, i) {
+        w[l] = w[l] || [];
+        w[l].push({
+            "gtm.start": new Date().getTime(),
+            event: "gtm.js"
+        });
+        var f = d.getElementsByTagName(s)[0],
+            j = d.createElement(s),
+            dl = l != "dataLayer" ? "&l=" + l : "";
+        j.async = true;
+        j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
+        f.parentNode.insertBefore(j, f);
+    })(window, document, "script", "dataLayer", "GTM-54NWVS4");
+</script>
+<!-- End Google Tag Manager -->
+
+<!-- Google Tag Manager global -->
+<script>
+    (function (w, d, s, l, i) {
+        w[l] = w[l] || [];
+        w[l].push({
+            "gtm.start": new Date().getTime(),
+            event: "gtm.js"
+        });
+        var f = d.getElementsByTagName(s)[0],
+            j = d.createElement(s),
+            dl = l != "dataLayer" ? "&l=" + l : "";
+        j.async = true;
+        j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
+        f.parentNode.insertBefore(j, f);
+    })(window, document, "script", "dataLayer", "GTM-T8P2JP");
+</script>
+<!-- End Google Tag Manager -->
+
+<!-- Expertrec -->
+<script>
+    var id = "e2077224-9ccf-11e9-a0c9-0242ac130002";
+    var ci_search = document.createElement("script");
+    ci_search.type = "text/javascript";
+    ci_search.async = true;
+    ci_search.src = "https://cse.expertrec.com/api/js/ci_common.js?id=" + id;
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(ci_search, s);
+</script>
+<!-- End Expertrec -->
+            
+        
+    </head>
+
+    <body class="brand-product">
+        <section class="promo-banner  promo-banner--hide" style="display: none;">
+    <div class="promo-banner-wrapper">
+        
+        <div class="promo-banner__title">ScyllaDB University Live | Free Virtual Training Event</div>
+        <a class="promo-banner__button button button--reverse" href="#"
+           target="_blank" rel="noopener noreferrer">Learn more</a>
+        <button class="promo-banner__close">
+            <i class="icon-cancel"></i>
+        </button>
+    </div>
+</section>
+        <header class="header">
+    <div class="header-logo">
+        <a class="header-logo__img" href="https://scylladb.com/">
+            <img src="_static/img/scylladb-logo-horizontal.svg" alt="ScyllaDB Documentation Logo" />
+        </a>
+        <span class="header-logo__bar"></span>
+        <a class="header-logo__text" href="https://docs.scylladb.com/">
+            Documentation
+        </a>
+    </div>
+    <div class="header-navigation">
+        <ul class="dropdown menu scylla-dropdown scylla-dropdown--header" data-dropdown-menu>
+            <li class="scylla-dropdown__item">
+                <a href="https://docs.scylladb.com/manual/" class="scylla-dropdown__title">Server</a>
+            </li>
+            <li class="scylla-dropdown__item">
+                <a href="https://docs.scylladb.com/scylla-cloud/" class="scylla-dropdown__title">Cloud</a>
+            </li>
+            <li class="scylla-dropdown__item">
+                <a href="#" class="scylla-dropdown__title">Tools <i class="chevron icon-arrow-dropdown"></i></a>
+                <ul class="menu scylla-dropdown__content">
+                    <li>
+                        <a href="https://manager.docs.scylladb.com/">
+                            <i class="icon-docs-manager"></i>ScyllaDB Manager</a>
+                    </li>
+                    <li>
+                        <a href="https://monitoring.docs.scylladb.com/">
+                            <i class="icon-docs-monitoring"></i>ScyllaDB
+                            Monitoring Stack</a>
+                    </li>
+                    <li>
+                        <a href="https://operator.docs.scylladb.com/">
+                            <i class="icon-docs-operator"></i>ScyllaDB Operator
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li class="scylla-dropdown__item">
+                <a href="#" class="scylla-dropdown__title">Drivers <i class="chevron icon-arrow-dropdown"></i></a>
+                <ul class="menu scylla-dropdown__content">
+                    <li>
+                        <a href="https://docs.scylladb.com/using-scylla/drivers/cql-drivers/">
+                            <i class="icon-docs-nsql-guides"></i>CQL Drivers
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://docs.scylladb.com/using-scylla/drivers/dynamo-drivers/">
+                            <i class="icon-docs-alternator"></i>DynamoDB Drivers
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li class="scylla-dropdown__item">
+                <a href="#" class="scylla-dropdown__title">Resources
+                    <i class="chevron icon-arrow-dropdown"></i></a>
+                <ul class="menu scylla-dropdown__content">
+                    <li>
+                        <a href="https://university.scylladb.com">
+                            <i class="icon-university"></i>
+                            ScyllaDB University
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://forum.scylladb.com">
+                            <i class="icon-docs-community"></i>
+                            Community Forum
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://docs.scylladb.com/stable/get-started/develop-with-scylladb/tutorials-example-projects.html">
+                            <i class="icon-docs-training"></i>
+                            Tutorials
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+        <div class="header-button">
+            <a href="https://www.scylladb.com/download/" class="button"><i class="icon-download me-2"></i> Download</a>
+        </div>
+    </div>
+    <div class="header-search-box">
+        <i class="dark-theme-toggler icon-theme"></i>
+        <div class="search-box">
+            <ci-search></ci-search>
+        </div>
+    </div>
+    <div class="side-nav-toggle">
+    <i class="dark-theme-toggler icon-theme"></i>
+    <div class="side-nav-toggle__button" data-toggle="side-nav">
+        <i class="icon-menu"></i>
+    </div>
+</div>
+</header>
+        <div class="title"></div>
+        <section
+            class="layout  layout--sidebar layout--has-secondary-sidebar ">
+            <div class="content large-order-2">
+                
+                    <div class="pre-content">
+                        <div class="breadcrumbs">
+    <span class="bread__item">
+        <a href="https://docs.scylladb.com"
+           class="bread__highlight">
+            <i class="icon-home"></i> ScyllaDB Docs
+        </a>
+    </span>
+    <span class="bread__item">
+        <a href="index.html"
+           class="bread__highlight">
+            ScyllaDB IoT Example Documentation
+        </a>
+    </span>
+    
+    <span class="bread__item bread__item--last">Build an IoT App with Rust</span>
+</div>
+                    </div>
+                
+                
+                <div class="sidebar-right-layout">
+                    <div class="body-container">
+                
+
+                    <div class="content-body">
+                        
+                            
+                        
+                        
+                        <section id="build-an-iot-app-with-rust">
+<h1>Build an IoT App with Rust<a class="headerlink" href="#build-an-iot-app-with-rust" title="Link to this heading">¶</a></h1>
+<section id="architecture">
+<h2>Architecture<a class="headerlink" href="#architecture" title="Link to this heading">¶</a></h2>
+<p>This section will walk through and explain the code for the different commands.
+As explained in the Getting Started page, the project is structured as follow:</p>
+<ul class="simple">
+<li><p>migrate (<code class="docutils literal notranslate"><span class="pre">/bin/migrate/main.rs</span></code>) - creates the <code class="docutils literal notranslate"><span class="pre">carepet</span></code> keyspace and tables</p></li>
+<li><p>collar (<code class="docutils literal notranslate"><span class="pre">/bin/sensor/main.rs</span></code>) - generates a pet health data and pushes it into the storage</p></li>
+<li><p>web app (<code class="docutils literal notranslate"><span class="pre">/main.rs</span></code>) - REST API service for tracking pets health state</p></li>
+</ul>
+</section>
+<section id="migrate">
+<h2>Migrate<a class="headerlink" href="#migrate" title="Link to this heading">¶</a></h2>
+<p>Start by creating a local ScyllaDB cluster consisting of 3 nodes:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker-compose<span class="w"> </span>up<span class="w"> </span>-d
+</pre></div>
+</div>
+<p>Docker-compose will spin up a ScyllaDB cluster consisting of 3 nodes (carepet-scylla1, carepet-scylla2 and carepet-scylla3) along with the app (for example go-app) container.  Wait for about two minutes and check the status of the cluster: To check the status of the cluster:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>carepet-scylla1<span class="w"> </span>nodetool<span class="w"> </span>status
+</pre></div>
+</div>
+<p>Once all the nodes are in UN - Up Normal status, run the below commands:</p>
+<p>The below command allows you to get node IP address:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>inspect<span class="w"> </span>-f<span class="w"> </span><span class="s1">&#39;{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}&#39;</span><span class="w"> </span>carepet-scylla1
+</pre></div>
+</div>
+<p>The run the following commands to execute the migrate main function.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">NODE1</span><span class="o">=</span><span class="k">$(</span>docker<span class="w"> </span>inspect<span class="w"> </span>-f<span class="w"> </span><span class="s1">&#39;{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}&#39;</span><span class="w"> </span>carepet-scylla1<span class="k">)</span>
+cargo<span class="w"> </span>run<span class="w"> </span>--bin<span class="w"> </span>migrate<span class="w"> </span>--<span class="w"> </span>--hosts<span class="w"> </span><span class="nv">$NODE1</span>
+</pre></div>
+</div>
+<p>The command executes the main function in the <code class="docutils literal notranslate"><span class="pre">bin/migrate/main.rs</span></code>. The function creates the keyspace and tables that you need to run the collar and server services.</p>
+<p>The below code in the <code class="docutils literal notranslate"><span class="pre">bin/migrate/main.rs</span></code> creates a new session then calls the <code class="docutils literal notranslate"><span class="pre">create_keyspace</span></code> , <code class="docutils literal notranslate"><span class="pre">migrate</span></code> functions.</p>
+<div class="highlight-rs notranslate"><div class="highlight"><pre><span></span><span class="c1">// migrate/main.rs</span>
+
+<span class="k">async</span><span class="w"> </span><span class="k">fn</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="nb">Result</span><span class="o">&lt;</span><span class="p">()</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">care_pet</span><span class="p">::</span><span class="n">log</span><span class="p">::</span><span class="n">init</span><span class="p">();</span>
+
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">app</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">App</span><span class="p">::</span><span class="n">from_args</span><span class="p">();</span>
+<span class="w">    </span><span class="n">debug</span><span class="o">!</span><span class="p">(</span><span class="s">&quot;Configuration = {:?}&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">app</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">info</span><span class="o">!</span><span class="p">(</span><span class="s">&quot;Bootstrapping database...&quot;</span><span class="p">);</span>
+
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">sess</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">db</span><span class="p">::</span><span class="n">new_session</span><span class="p">(</span><span class="o">&amp;</span><span class="n">app</span><span class="p">.</span><span class="n">db_config</span><span class="p">).</span><span class="k">await</span><span class="o">?</span><span class="p">;</span>
+
+<span class="w">    </span><span class="n">db</span><span class="p">::</span><span class="n">create_keyspace</span><span class="p">(</span><span class="o">&amp;</span><span class="n">sess</span><span class="p">).</span><span class="k">await</span><span class="o">?</span><span class="p">;</span>
+<span class="w">    </span><span class="n">db</span><span class="p">::</span><span class="n">migrate</span><span class="p">(</span><span class="o">&amp;</span><span class="n">sess</span><span class="p">).</span><span class="k">await</span><span class="o">?</span><span class="p">;</span>
+
+<span class="w">    </span><span class="nb">Ok</span><span class="p">(())</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">new_session</span></code> function takes the config as a parameter and uses <code class="docutils literal notranslate"><span class="pre">SessionBuilder</span></code> class to crete a new session.</p>
+<div class="highlight-rs notranslate"><div class="highlight"><pre><span></span><span class="c1">// db/mod.rs</span>
+
+<span class="k">pub</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="k">fn</span><span class="w"> </span><span class="nf">new_session</span><span class="p">(</span><span class="n">config</span><span class="p">:</span><span class="w"> </span><span class="kp">&amp;</span><span class="nc">Config</span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="nb">Result</span><span class="o">&lt;</span><span class="n">Session</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">info</span><span class="o">!</span><span class="p">(</span><span class="s">&quot;Connecting to {}&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">config</span><span class="p">.</span><span class="n">hosts</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="s">&quot;, &quot;</span><span class="p">));</span>
+
+<span class="w">    </span><span class="n">SessionBuilder</span><span class="p">::</span><span class="n">new</span><span class="p">()</span>
+<span class="w">        </span><span class="p">.</span><span class="n">known_nodes</span><span class="p">(</span><span class="o">&amp;</span><span class="n">config</span><span class="p">.</span><span class="n">hosts</span><span class="p">)</span>
+<span class="w">        </span><span class="p">.</span><span class="n">connection_timeout</span><span class="p">(</span><span class="n">config</span><span class="p">.</span><span class="n">timeout</span><span class="p">.</span><span class="n">into</span><span class="p">())</span>
+<span class="w">        </span><span class="p">.</span><span class="n">user</span><span class="p">(</span>
+<span class="w">            </span><span class="n">config</span><span class="p">.</span><span class="n">username</span><span class="p">.</span><span class="n">clone</span><span class="p">().</span><span class="n">unwrap_or_default</span><span class="p">(),</span>
+<span class="w">            </span><span class="n">config</span><span class="p">.</span><span class="n">password</span><span class="p">.</span><span class="n">clone</span><span class="p">().</span><span class="n">unwrap_or_default</span><span class="p">(),</span>
+<span class="w">        </span><span class="p">)</span>
+<span class="w">        </span><span class="p">.</span><span class="n">build</span><span class="p">()</span>
+<span class="w">        </span><span class="p">.</span><span class="k">await</span>
+<span class="w">        </span><span class="p">.</span><span class="n">map_err</span><span class="p">(</span><span class="nb">From</span><span class="p">::</span><span class="n">from</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>For more information about creating a new session with the Rust Driver, please have a look at the <a class="reference external" href="https://rust-driver.docs.scylladb.com/stable/quickstart/example.html">docs</a>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">create_keyspace</span></code> function takes a session as an argument and creates a keyspace as defined in <code class="docutils literal notranslate"><span class="pre">db/keyspace.cql</span></code>:</p>
+<div class="highlight-cql notranslate"><div class="highlight"><pre><span></span><span class="k">CREATE</span> <span class="k">KEYSPACE</span> <span class="k">IF</span> <span class="k">NOT</span> <span class="k">EXISTS</span> <span class="n">carepet</span> <span class="k">WITH</span> <span class="n">replication</span> <span class="o">=</span> <span class="p">{</span> <span class="s1">&#39;class&#39;</span><span class="p">:</span> <span class="s1">&#39;NetworkTopologyStrategy&#39;</span><span class="p">,</span> <span class="s1">&#39;replication_factor&#39;</span><span class="p">:</span> <span class="s1">&#39;3&#39;</span> <span class="p">};</span>
+</pre></div>
+</div>
+<p>The CQL query above creates a new keyspace named carepet, with <code class="docutils literal notranslate"><span class="pre">NetworkTopologyStrategy</span></code> as replication strategy and a replication factor of 3.
+More information about keyspace and replication on <a class="reference external" href="https://university.scylladb.com/courses/data-modeling/lessons/basic-data-modeling-2/topic/keyspace/">Scylla University</a>.</p>
+<p>Finally, <code class="docutils literal notranslate"><span class="pre">migrate</span></code> will execute the queries listed in <code class="docutils literal notranslate"><span class="pre">db/migrate.cql</span></code> to create the tables you need for the project.</p>
+<div class="highlight-cql notranslate"><div class="highlight"><pre><span></span><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="k">IF</span> <span class="k">NOT</span> <span class="k">EXISTS</span> <span class="n">carepet</span><span class="mf">.</span><span class="n">owner</span>
+<span class="p">(</span>
+    <span class="n">owner_id</span> <span class="nb">UUID</span><span class="p">,</span>
+    <span class="n">address</span> <span class="nb">TEXT</span><span class="p">,</span>
+    <span class="n">name</span>    <span class="nb">TEXT</span><span class="p">,</span>
+    <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="p">(</span><span class="n">owner_id</span><span class="p">)</span>
+<span class="p">);</span>
+
+<span class="mf">...</span>
+</pre></div>
+</div>
+<p>You can check the database structure with:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>carepet-scylla1<span class="w"> </span>cqlsh
+cqlsh&gt;<span class="w"> </span>USE<span class="w"> </span>carepet<span class="p">;</span>
+cqlsh:carepet&gt;<span class="w"> </span>DESCRIBE<span class="w"> </span>TABLES
+cqlsh:carepet&gt;<span class="w"> </span>DESCRIBE<span class="w"> </span>TABLE<span class="w"> </span>pet
+</pre></div>
+</div>
+<p>You should expect the following result:</p>
+<div class="highlight-cql notranslate"><div class="highlight"><pre><span></span><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">carepet</span><span class="mf">.</span><span class="n">pet</span> <span class="p">(</span>
+    <span class="n">owner_id</span> <span class="nb">uuid</span><span class="p">,</span>
+    <span class="n">pet_id</span> <span class="nb">uuid</span><span class="p">,</span>
+    <span class="n">chip_id</span> <span class="nb">text</span><span class="p">,</span>
+    <span class="n">species</span> <span class="nb">text</span><span class="p">,</span>
+    <span class="n">breed</span>   <span class="nb">text</span><span class="p">,</span>
+    <span class="n">color</span>   <span class="nb">text</span><span class="p">,</span>
+    <span class="n">gender</span>  <span class="nb">text</span><span class="p">,</span>
+    <span class="n">address</span> <span class="nb">text</span><span class="p">,</span>
+    <span class="n">age</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">name</span> <span class="nb">text</span><span class="p">,</span>
+    <span class="n">weight</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="p">(</span><span class="n">owner_id</span><span class="p">,</span> <span class="n">pet_id</span><span class="p">)</span>
+<span class="p">)</span> <span class="k">WITH</span> <span class="k">CLUSTERING</span> <span class="k">ORDER</span> <span class="k">BY</span> <span class="p">(</span><span class="n">pet_id</span> <span class="k">ASC</span><span class="p">)</span>
+    <span class="k">AND</span> <span class="n">bloom_filter_fp_chance</span> <span class="o">=</span> <span class="mf">0.01</span>
+    <span class="k">AND</span> <span class="n">caching</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;keys&#39;</span><span class="p">:</span> <span class="s1">&#39;ALL&#39;</span><span class="p">,</span> <span class="s1">&#39;rows_per_partition&#39;</span><span class="p">:</span> <span class="s1">&#39;ALL&#39;</span><span class="p">}</span>
+    <span class="k">AND</span> <span class="n">comment</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+    <span class="k">AND</span> <span class="n">compaction</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;class&#39;</span><span class="p">:</span> <span class="s1">&#39;SizeTieredCompactionStrategy&#39;</span><span class="p">}</span>
+    <span class="k">AND</span> <span class="n">compression</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;sstable_compression&#39;</span><span class="p">:</span> <span class="s1">&#39;org.apache.cassandra.io.compress.LZ4Compressor&#39;</span><span class="p">}</span>
+    <span class="k">AND</span> <span class="n">crc_check_chance</span> <span class="o">=</span> <span class="mf">1.0</span>
+    <span class="k">AND</span> <span class="n">dclocal_read_repair_chance</span> <span class="o">=</span> <span class="mf">0.1</span>
+    <span class="k">AND</span> <span class="n">default_time_to_live</span> <span class="o">=</span> <span class="mf">0</span>
+    <span class="k">AND</span> <span class="n">gc_grace_seconds</span> <span class="o">=</span> <span class="mf">864000</span>
+    <span class="k">AND</span> <span class="n">max_index_interval</span> <span class="o">=</span> <span class="mf">2048</span>
+    <span class="k">AND</span> <span class="n">memtable_flush_period_in_ms</span> <span class="o">=</span> <span class="mf">0</span>
+    <span class="k">AND</span> <span class="n">min_index_interval</span> <span class="o">=</span> <span class="mf">128</span>
+    <span class="k">AND</span> <span class="n">read_repair_chance</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="k">AND</span> <span class="n">speculative_retry</span> <span class="o">=</span> <span class="s1">&#39;99.0PERCENTILE&#39;</span><span class="p">;</span>
+</pre></div>
+</div>
+</section>
+<section id="sensor">
+<h2>Sensor<a class="headerlink" href="#sensor" title="Link to this heading">¶</a></h2>
+<p>The sensor service simulates the collar’s activity and periodically saves data to the database. Use the below commands to run the sensor service:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">NODE1</span><span class="o">=</span><span class="k">$(</span>docker<span class="w"> </span>inspect<span class="w"> </span>-f<span class="w"> </span><span class="s1">&#39;{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}&#39;</span><span class="w"> </span>carepet-scylla1<span class="k">)</span>
+cargo<span class="w"> </span>run<span class="w"> </span>--bin<span class="w"> </span>sensor<span class="w"> </span>--<span class="w"> </span>--hosts<span class="w"> </span><span class="nv">$NODE1</span><span class="w"> </span>--measure<span class="w"> </span>5s<span class="w"> </span>--buffer-interval<span class="w"> </span>1m
+</pre></div>
+</div>
+<p>The above command executes <code class="docutils literal notranslate"><span class="pre">bin/sensor/main.rs</span></code> and and takes the following as arguments.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">hosts</span></code> : the IP address of the ScyllaDB node.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">measure</span></code>: the interval between to sensor measures.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">buffer-interval</span></code>: the interval between two database queries.</p></li>
+</ul>
+<div class="highlight-rs notranslate"><div class="highlight"><pre><span></span><span class="c1">// sensor/main.rs</span>
+
+<span class="cp">#[tokio::main]</span>
+<span class="k">async</span><span class="w"> </span><span class="k">fn</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="nb">Result</span><span class="o">&lt;</span><span class="p">()</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">care_pet</span><span class="p">::</span><span class="n">log</span><span class="p">::</span><span class="n">init</span><span class="p">();</span>
+
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">app</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">App</span><span class="p">::</span><span class="n">from_args</span><span class="p">();</span>
+<span class="w">    </span><span class="n">debug</span><span class="o">!</span><span class="p">(</span><span class="s">&quot;Configuration = {:?}&quot;</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">app</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">info</span><span class="o">!</span><span class="p">(</span><span class="s">&quot;Welcome to the Pet collar simulator&quot;</span><span class="p">);</span>
+
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">sess</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">db</span><span class="p">::</span><span class="n">new_session_with_keyspace</span><span class="p">(</span><span class="o">&amp;</span><span class="n">app</span><span class="p">.</span><span class="n">db_config</span><span class="p">).</span><span class="k">await</span><span class="o">?</span><span class="p">;</span>
+
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="p">(</span><span class="n">owner</span><span class="p">,</span><span class="w"> </span><span class="n">pet</span><span class="p">,</span><span class="w"> </span><span class="n">sensors</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">random_data</span><span class="p">();</span>
+<span class="w">    </span><span class="n">save_data</span><span class="p">(</span><span class="o">&amp;</span><span class="n">sess</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">owner</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">pet</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">sensors</span><span class="p">).</span><span class="k">await</span><span class="o">?</span><span class="p">;</span>
+<span class="w">    </span><span class="n">run_sensor_data</span><span class="p">(</span><span class="o">&amp;</span><span class="n">app</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">sess</span><span class="p">,</span><span class="w"> </span><span class="n">sensors</span><span class="p">).</span><span class="k">await</span><span class="o">?</span><span class="p">;</span>
+
+<span class="w">    </span><span class="nb">Ok</span><span class="p">(())</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">app</span></code> object contains the command’s arguments listed above.
+We then create a new session <code class="docutils literal notranslate"><span class="pre">sess</span></code> using <code class="docutils literal notranslate"><span class="pre">new_session_with_keyspace</span></code> function defined in <code class="docutils literal notranslate"><span class="pre">db/mod.rs</span></code>:</p>
+<div class="highlight-rs notranslate"><div class="highlight"><pre><span></span><span class="c1">// db/mod.rs</span>
+
+<span class="k">pub</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="k">fn</span><span class="w"> </span><span class="nf">new_session_with_keyspace</span><span class="p">(</span><span class="n">config</span><span class="p">:</span><span class="w"> </span><span class="kp">&amp;</span><span class="nc">Config</span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="nb">Result</span><span class="o">&lt;</span><span class="n">Session</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">session</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">new_session</span><span class="p">(</span><span class="n">config</span><span class="p">).</span><span class="k">await</span><span class="o">?</span><span class="p">;</span>
+<span class="w">    </span><span class="n">session</span><span class="p">.</span><span class="n">use_keyspace</span><span class="p">(</span><span class="n">KEYSPACE</span><span class="p">,</span><span class="w"> </span><span class="kc">true</span><span class="p">).</span><span class="k">await</span><span class="o">?</span><span class="p">;</span>
+<span class="w">    </span><span class="nb">Ok</span><span class="p">(</span><span class="n">session</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">save_data</span></code> method connects to the datbase and saves random <code class="docutils literal notranslate"><span class="pre">owner</span></code>, <code class="docutils literal notranslate"><span class="pre">pet</span></code> and the <code class="docutils literal notranslate"><span class="pre">sensors</span></code> to the database using <code class="docutils literal notranslate"><span class="pre">insert_query</span></code> macro defined in <code class="docutils literal notranslate"><span class="pre">src/mod.rs</span></code>.</p>
+<div class="highlight-rs notranslate"><div class="highlight"><pre><span></span><span class="c1">// sensor/main.rs</span>
+
+<span class="k">async</span><span class="w"> </span><span class="k">fn</span><span class="w"> </span><span class="nf">save_data</span><span class="p">(</span><span class="n">sess</span><span class="p">:</span><span class="w"> </span><span class="kp">&amp;</span><span class="nc">Session</span><span class="p">,</span><span class="w"> </span><span class="n">owner</span><span class="p">:</span><span class="w"> </span><span class="kp">&amp;</span><span class="nc">Owner</span><span class="p">,</span><span class="w"> </span><span class="n">pet</span><span class="p">:</span><span class="w"> </span><span class="kp">&amp;</span><span class="nc">Pet</span><span class="p">,</span><span class="w"> </span><span class="n">sensors</span><span class="p">:</span><span class="w"> </span><span class="kp">&amp;</span><span class="p">[</span><span class="n">Sensor</span><span class="p">])</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="nb">Result</span><span class="o">&lt;</span><span class="p">()</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">sess</span><span class="p">.</span><span class="n">query</span><span class="p">(</span><span class="n">insert_query</span><span class="o">!</span><span class="p">(</span><span class="n">Owner</span><span class="p">),</span><span class="w"> </span><span class="n">owner</span><span class="p">).</span><span class="k">await</span><span class="o">?</span><span class="p">;</span>
+<span class="w">    </span><span class="n">info</span><span class="o">!</span><span class="p">(</span><span class="s">&quot;New owner # {}&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">owner</span><span class="p">.</span><span class="n">owner_id</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">sess</span><span class="p">.</span><span class="n">query</span><span class="p">(</span><span class="n">insert_query</span><span class="o">!</span><span class="p">(</span><span class="n">Pet</span><span class="p">),</span><span class="w"> </span><span class="n">pet</span><span class="p">).</span><span class="k">await</span><span class="o">?</span><span class="p">;</span>
+<span class="w">    </span><span class="n">info</span><span class="o">!</span><span class="p">(</span><span class="s">&quot;New pet # {}&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">pet</span><span class="p">.</span><span class="n">pet_id</span><span class="p">);</span>
+
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">sensor</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">sensors</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">sess</span><span class="p">.</span><span class="n">query</span><span class="p">(</span><span class="n">insert_query</span><span class="o">!</span><span class="p">(</span><span class="n">Sensor</span><span class="p">),</span><span class="w"> </span><span class="n">sensor</span><span class="p">).</span><span class="k">await</span><span class="o">?</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nb">Ok</span><span class="p">(())</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">run_sensor_data</span></code> generates random data and inserts it to the database every <code class="docutils literal notranslate"><span class="pre">buffer_interval</span></code>.</p>
+<div class="highlight-rs notranslate"><div class="highlight"><pre><span></span><span class="k">async</span><span class="w"> </span><span class="k">fn</span><span class="w"> </span><span class="nf">run_sensor_data</span><span class="p">(</span><span class="n">cfg</span><span class="p">:</span><span class="w"> </span><span class="kp">&amp;</span><span class="nc">App</span><span class="p">,</span><span class="w"> </span><span class="n">sess</span><span class="p">:</span><span class="w"> </span><span class="kp">&amp;</span><span class="nc">Session</span><span class="p">,</span><span class="w"> </span><span class="n">sensors</span><span class="p">:</span><span class="w"> </span><span class="nb">Vec</span><span class="o">&lt;</span><span class="n">Sensor</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="nb">Result</span><span class="o">&lt;</span><span class="p">()</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">measure</span><span class="p">:</span><span class="w"> </span><span class="nc">time</span><span class="p">::</span><span class="n">Duration</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cfg</span><span class="p">.</span><span class="n">measure</span><span class="p">.</span><span class="n">into</span><span class="p">();</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">buffer_interval</span><span class="p">:</span><span class="w"> </span><span class="nc">time</span><span class="p">::</span><span class="n">Duration</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cfg</span><span class="p">.</span><span class="n">buffer_interval</span><span class="p">.</span><span class="n">into</span><span class="p">();</span>
+
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">last</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Instant</span><span class="p">::</span><span class="n">now</span><span class="p">();</span>
+<span class="w">    </span><span class="k">loop</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">measures</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="fm">vec!</span><span class="p">[];</span>
+<span class="w">        </span><span class="k">while</span><span class="w"> </span><span class="n">last</span><span class="p">.</span><span class="n">elapsed</span><span class="p">()</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">buffer_interval</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">sleep</span><span class="p">(</span><span class="n">measure</span><span class="p">).</span><span class="k">await</span><span class="p">;</span>
+
+<span class="w">            </span><span class="k">for</span><span class="w"> </span><span class="n">sensor</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="o">&amp;</span><span class="n">sensors</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="kd">let</span><span class="w"> </span><span class="n">measure</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">read_sensor_data</span><span class="p">(</span><span class="n">sensor</span><span class="p">);</span>
+<span class="w">                </span><span class="n">info</span><span class="o">!</span><span class="p">(</span>
+<span class="w">                    </span><span class="s">&quot;sensor # {} type {} new measure {} ts {}&quot;</span><span class="p">,</span>
+<span class="w">                    </span><span class="n">sensor</span><span class="p">.</span><span class="n">sensor_id</span><span class="p">,</span>
+<span class="w">                    </span><span class="n">sensor</span><span class="p">.</span><span class="n">r</span><span class="p">#</span><span class="k">type</span><span class="p">.</span><span class="n">as_str</span><span class="p">(),</span>
+<span class="w">                    </span><span class="o">&amp;</span><span class="n">measure</span><span class="p">.</span><span class="n">value</span><span class="p">,</span>
+<span class="w">                    </span><span class="n">measure</span><span class="p">.</span><span class="n">ts</span><span class="p">.</span><span class="n">format_rfc3339</span><span class="p">(),</span>
+<span class="w">                </span><span class="p">);</span>
+
+<span class="w">                </span><span class="n">measures</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">measure</span><span class="p">);</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+
+<span class="w">        </span><span class="n">last</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">last</span>
+<span class="w">            </span><span class="o">+</span><span class="w"> </span><span class="n">time</span><span class="p">::</span><span class="n">Duration</span><span class="p">::</span><span class="n">from_nanos</span><span class="p">(</span>
+<span class="w">                </span><span class="p">(</span><span class="n">measure</span><span class="p">.</span><span class="n">as_nanos</span><span class="p">()</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">last</span><span class="p">.</span><span class="n">elapsed</span><span class="p">().</span><span class="n">as_nanos</span><span class="p">()</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">measure</span><span class="p">.</span><span class="n">as_nanos</span><span class="p">()))</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="kt">u64</span><span class="p">,</span>
+<span class="w">            </span><span class="p">);</span>
+
+<span class="w">        </span><span class="n">info</span><span class="o">!</span><span class="p">(</span><span class="s">&quot;Pushing data&quot;</span><span class="p">);</span>
+
+<span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="n">batch</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">measures</span><span class="p">.</span><span class="n">iter</span><span class="p">().</span><span class="n">fold</span><span class="p">(</span><span class="n">Batch</span><span class="p">::</span><span class="n">default</span><span class="p">(),</span><span class="w"> </span><span class="o">|</span><span class="k">mut</span><span class="w"> </span><span class="n">batch</span><span class="p">,</span><span class="w"> </span><span class="n">_</span><span class="o">|</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">batch</span><span class="p">.</span><span class="n">append_statement</span><span class="p">(</span><span class="n">insert_query</span><span class="o">!</span><span class="p">(</span><span class="n">Measure</span><span class="p">));</span>
+<span class="w">            </span><span class="n">batch</span>
+<span class="w">        </span><span class="p">});</span>
+
+<span class="w">        </span><span class="n">sess</span><span class="p">.</span><span class="n">batch</span><span class="p">(</span><span class="o">&amp;</span><span class="n">batch</span><span class="p">,</span><span class="w"> </span><span class="n">measures</span><span class="p">)</span>
+<span class="w">            </span><span class="p">.</span><span class="k">await</span>
+<span class="w">            </span><span class="p">.</span><span class="n">map_err</span><span class="p">(</span><span class="o">|</span><span class="n">err</span><span class="o">|</span><span class="w"> </span><span class="n">error</span><span class="o">!</span><span class="p">(</span><span class="s">&quot;execute batch query {:?}&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">err</span><span class="p">))</span>
+<span class="w">            </span><span class="p">.</span><span class="n">ok</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="server">
+<h2>Server<a class="headerlink" href="#server" title="Link to this heading">¶</a></h2>
+<p>The server service is a REST API for tracking the pets’ health state. The service was built using <a class="reference external" href="https://rocket.rs">Rocket</a> and allows users to query the database via HTTP.</p>
+<p>Run the following commands to start the server:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">NODE1</span><span class="o">=</span><span class="k">$(</span>docker<span class="w"> </span>inspect<span class="w"> </span>-f<span class="w"> </span><span class="s1">&#39;{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}&#39;</span><span class="w"> </span>carepet-scylla1<span class="k">)</span>
+cargo<span class="w"> </span>run<span class="w"> </span>--<span class="w"> </span>--hosts<span class="w"> </span><span class="nv">$NODE1</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">src/main.rs</span></code> main function mounts the api on <code class="docutils literal notranslate"><span class="pre">/api</span></code> and defines the routes.</p>
+<div class="highlight-rs notranslate"><div class="highlight"><pre><span></span><span class="c1">// src/main.rs</span>
+
+<span class="cp">#[rocket::main]</span>
+<span class="k">async</span><span class="w"> </span><span class="k">fn</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="nb">Result</span><span class="o">&lt;</span><span class="p">()</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">care_pet</span><span class="p">::</span><span class="n">log</span><span class="p">::</span><span class="n">init</span><span class="p">();</span>
+
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">app</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">App</span><span class="p">::</span><span class="n">from_args</span><span class="p">();</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">app</span><span class="p">.</span><span class="n">verbose</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">info</span><span class="o">!</span><span class="p">(</span><span class="s">&quot;Configuration = {:?}&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">app</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">sess</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">db</span><span class="p">::</span><span class="n">new_session_with_keyspace</span><span class="p">(</span><span class="o">&amp;</span><span class="n">app</span><span class="p">.</span><span class="n">db_config</span><span class="p">).</span><span class="k">await</span><span class="o">?</span><span class="p">;</span>
+
+<span class="w">    </span><span class="n">rocket</span><span class="p">::</span><span class="n">build</span><span class="p">()</span>
+<span class="w">        </span><span class="p">.</span><span class="n">mount</span><span class="p">(</span>
+<span class="w">            </span><span class="s">&quot;/api&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="n">routes</span><span class="o">!</span><span class="p">[</span>
+<span class="w">                </span><span class="n">handler</span><span class="p">::</span><span class="n">measures</span><span class="p">::</span><span class="n">find_sensor_data_by_sensor_id_and_time_range</span><span class="p">,</span>
+<span class="w">                </span><span class="n">handler</span><span class="p">::</span><span class="n">owner</span><span class="p">::</span><span class="n">find_owner_by_id</span><span class="p">,</span>
+<span class="w">                </span><span class="n">handler</span><span class="p">::</span><span class="n">pets</span><span class="p">::</span><span class="n">find_pets_by_owner_id</span><span class="p">,</span>
+<span class="w">                </span><span class="n">handler</span><span class="p">::</span><span class="n">sensors</span><span class="p">::</span><span class="n">find_sensors_by_pet_id</span><span class="p">,</span>
+<span class="w">                </span><span class="n">handler</span><span class="p">::</span><span class="n">avg</span><span class="p">::</span><span class="n">find_sensor_avg_by_sensor_id_and_day</span>
+<span class="w">            </span><span class="p">],</span>
+<span class="w">        </span><span class="p">)</span>
+<span class="w">        </span><span class="p">.</span><span class="n">manage</span><span class="p">(</span><span class="n">sess</span><span class="p">)</span>
+<span class="w">        </span><span class="p">.</span><span class="n">launch</span><span class="p">()</span>
+<span class="w">        </span><span class="p">.</span><span class="k">await</span>
+<span class="w">        </span><span class="p">.</span><span class="n">map_err</span><span class="p">(</span><span class="nb">From</span><span class="p">::</span><span class="n">from</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>The handlers can be found in the <code class="docutils literal notranslate"><span class="pre">src/handler</span></code> folder for each route.</p>
+<p>Let’s have a look at <code class="docutils literal notranslate"><span class="pre">handler/mesure.rs</span></code> file:</p>
+<div class="highlight-rs notranslate"><div class="highlight"><pre><span></span><span class="cp">#[get(</span><span class="s">&quot;/sensor/&lt;id&gt;/values?&lt;from&gt;&amp;&lt;to&gt;&quot;</span><span class="cp">)]</span>
+<span class="k">pub</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="k">fn</span><span class="w"> </span><span class="nf">find_sensor_data_by_sensor_id_and_time_range</span><span class="p">(</span>
+<span class="w">    </span><span class="n">session</span><span class="p">:</span><span class="w"> </span><span class="kp">&amp;</span><span class="nc">State</span><span class="o">&lt;</span><span class="n">Session</span><span class="o">&gt;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">id</span><span class="p">:</span><span class="w"> </span><span class="nc">UuidParam</span><span class="p">,</span>
+<span class="w">    </span><span class="n">from</span><span class="p">:</span><span class="w"> </span><span class="nc">DateTimeParam</span><span class="p">,</span>
+<span class="w">    </span><span class="n">to</span><span class="p">:</span><span class="w"> </span><span class="nc">DateTimeParam</span><span class="p">,</span>
+<span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="nb">Result</span><span class="o">&lt;</span><span class="n">Json</span><span class="o">&lt;</span><span class="nb">Vec</span><span class="o">&lt;</span><span class="kt">f32</span><span class="o">&gt;&gt;</span><span class="p">,</span><span class="w"> </span><span class="n">JsonError</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">rows</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">session</span>
+<span class="w">        </span><span class="p">.</span><span class="n">query</span><span class="p">(</span>
+<span class="w">            </span><span class="fm">format!</span><span class="p">(</span>
+<span class="w">                </span><span class="s">&quot;SELECT {} FROM {} WHERE {} = ? and {} &gt;= ? and {} &lt;= ?&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="n">Measure</span><span class="p">::</span><span class="n">FIELD_NAMES</span><span class="p">.</span><span class="n">value</span><span class="p">,</span>
+<span class="w">                </span><span class="n">Measure</span><span class="p">::</span><span class="n">table</span><span class="p">(),</span>
+<span class="w">                </span><span class="n">Measure</span><span class="p">::</span><span class="n">FIELD_NAMES</span><span class="p">.</span><span class="n">sensor_id</span><span class="p">,</span>
+<span class="w">                </span><span class="n">Measure</span><span class="p">::</span><span class="n">FIELD_NAMES</span><span class="p">.</span><span class="n">ts</span><span class="p">,</span>
+<span class="w">                </span><span class="n">Measure</span><span class="p">::</span><span class="n">FIELD_NAMES</span><span class="p">.</span><span class="n">ts</span><span class="p">,</span>
+<span class="w">            </span><span class="p">),</span>
+<span class="w">            </span><span class="p">(</span><span class="n">id</span><span class="p">.</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">from</span><span class="p">.</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">to</span><span class="p">.</span><span class="mi">0</span><span class="p">),</span>
+<span class="w">        </span><span class="p">)</span>
+<span class="w">        </span><span class="p">.</span><span class="k">await</span>
+<span class="w">        </span><span class="p">.</span><span class="n">map_err</span><span class="p">(</span><span class="o">|</span><span class="n">err</span><span class="o">|</span><span class="w"> </span><span class="n">json_err</span><span class="p">(</span><span class="n">Status</span><span class="p">::</span><span class="n">InternalServerError</span><span class="p">,</span><span class="w"> </span><span class="n">err</span><span class="p">))</span><span class="o">?</span>
+<span class="w">        </span><span class="p">.</span><span class="n">rows</span>
+<span class="w">        </span><span class="p">.</span><span class="n">unwrap_or_default</span><span class="p">()</span>
+<span class="w">        </span><span class="p">.</span><span class="n">into_typed</span><span class="p">::</span><span class="o">&lt;</span><span class="p">(</span><span class="kt">f32</span><span class="p">,)</span><span class="o">&gt;</span><span class="p">();</span>
+
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">values</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rows</span>
+<span class="w">        </span><span class="p">.</span><span class="n">map</span><span class="p">(</span><span class="o">|</span><span class="n">v</span><span class="o">|</span><span class="w"> </span><span class="n">v</span><span class="p">.</span><span class="n">map</span><span class="p">(</span><span class="o">|</span><span class="n">v</span><span class="o">|</span><span class="w"> </span><span class="n">v</span><span class="p">.</span><span class="mi">0</span><span class="p">))</span>
+<span class="w">        </span><span class="p">.</span><span class="n">collect</span><span class="p">::</span><span class="o">&lt;</span><span class="nb">Result</span><span class="o">&lt;</span><span class="nb">Vec</span><span class="o">&lt;</span><span class="n">_</span><span class="o">&gt;</span><span class="p">,</span><span class="w"> </span><span class="n">_</span><span class="o">&gt;&gt;</span><span class="p">()</span>
+<span class="w">        </span><span class="p">.</span><span class="n">map_err</span><span class="p">(</span><span class="o">|</span><span class="n">err</span><span class="o">|</span><span class="w"> </span><span class="n">json_err</span><span class="p">(</span><span class="n">Status</span><span class="p">::</span><span class="n">InternalServerError</span><span class="p">,</span><span class="w"> </span><span class="n">err</span><span class="p">))</span><span class="o">?</span><span class="p">;</span>
+
+<span class="w">    </span><span class="nb">Ok</span><span class="p">(</span><span class="n">Json</span><span class="p">(</span><span class="n">values</span><span class="p">))</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>The GET request on URL <code class="docutils literal notranslate"><span class="pre">/sensor/&lt;id&gt;/values?&lt;from&gt;&amp;&lt;to&gt;</span></code> triggers <code class="docutils literal notranslate"><span class="pre">find_sensor_data_by_sensor_id_and_time_range</span></code> function.</p>
+<p><code class="docutils literal notranslate"><span class="pre">find_sensor_data_by_sensor_id_and_time_range</span></code> takes <code class="docutils literal notranslate"><span class="pre">session</span></code>, <code class="docutils literal notranslate"><span class="pre">id</span></code>, <code class="docutils literal notranslate"><span class="pre">from</span></code> and <code class="docutils literal notranslate"><span class="pre">to</span></code> as params. The function runs a <code class="docutils literal notranslate"><span class="pre">SELECT</span></code> query then returns <code class="docutils literal notranslate"><span class="pre">rows</span></code>.</p>
+</section>
+<section id="retrieving-informations-from-api">
+<h2>Retrieving informations from API<a class="headerlink" href="#retrieving-informations-from-api" title="Link to this heading">¶</a></h2>
+<p>To test out the API in your terminal, use the following command to retrieve informations of a specific pet owner:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl<span class="w"> </span>http://127.0.0.1:8000/owner/<span class="o">{</span>id<span class="o">}</span>
+</pre></div>
+</div>
+<blockquote>
+<div><p>If you don’t have an owner_id, run the <code class="docutils literal notranslate"><span class="pre">sensor</span></code> command and it will generate users and pets on your terminal.</p>
+</div></blockquote>
+<p>and you should receive a response similar to this:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;owner_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;5b5a7b4d-a2c0-48b0-91e1-de6a5b37c923&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;address&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;home&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;sedtdkaa&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>If you want to list owner’s pets you can use the following command:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>curl<span class="w"> </span>http://127.0.0.1:8000/owner/<span class="o">{</span>id<span class="o">}</span>/pets
+</pre></div>
+</div>
+<p>and you should receive a response similar to this:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">[</span>
+<span class="w">  </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;owner_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;5b5a7b4d-a2c0-48b0-91e1-de6a5b37c923&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;pet_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;9e9facb9-3bd8-4451-b179-8c951cdf0999&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;chip_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;species&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;dog&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;breed&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;golden-retriever&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;color&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;black&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;gender&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;M&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;age&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;weight&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">9.523097</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;address&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;awesome-address&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;doggo&quot;</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+<p>If you want to list the active pet sensors you can use the following command:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>curl<span class="w"> </span>http://127.0.0.1:8000/pet/<span class="o">{</span>pet_id<span class="o">}</span>/sensors
+</pre></div>
+</div>
+<p>and you should receive a response similar to this:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">[</span>
+<span class="w">  </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;pet_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;9e9facb9-3bd8-4451-b179-8c951cdf0999&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;sensor_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;7a8b3831-0512-4501-90f2-700c7133aeed&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;T&quot;</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;pet_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;9e9facb9-3bd8-4451-b179-8c951cdf0999&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;sensor_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;81250bab-cf1c-4c7a-84f1-b291a0f325ef&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;P&quot;</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;pet_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;9e9facb9-3bd8-4451-b179-8c951cdf0999&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;sensor_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;a22a2fdb-4aad-4abe-b0d9-381aa07a26af&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;L&quot;</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+</section>
+<section id="resources">
+<h2>Resources<a class="headerlink" href="#resources" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://rust-driver.docs.scylladb.com/stable/">ScyllaDB Rust driver documentation</a></p></li>
+<li><p><a class="reference external" href="https://github.com/scylladb/scylla-rust-driver/tree/main/examples">ScyllaDB Rust code examples</a></p></li>
+<li><p><a class="reference external" href="https://github.com/scylladb/scylla-rust-driver">ScyllaDB Rust driver on Github</a></p></li>
+<li><p><a class="reference external" href="https://university.scylladb.com/courses/using-scylla-drivers/lessons/rust-and-scylla-2/">ScyllaDB University: Getting Started with Rust</a></p></li>
+</ul>
+</section>
+</section>
+
+                    </div>
+                    
+                        <div class="post-content">
+                            
+    <div class="feedback-container">
+        <p class="feedback-container__title">Was this page helpful?</p>
+        <span data-tooltip tabindex="1" title="Yes" data-position="top">
+            <button class="feedback-container__button" id="feedback-positive">
+                <i class="feedback-container__icon icon-docs-thumbs-up"></i>
+            </button>
+        </span>
+        <span data-tooltip tabindex="1" title="No" data-position="top">
+            <button class="feedback-container__button" id="feedback-negative">
+                <i class="feedback-container__icon icon-docs-thumbs-down"></i>
+            </button>
+        </span>
+        <div class="feedback-container__message" id="feedback-message"></div>
+    </div>
+
+    <script>
+        function resetFeedbackButtonActive() {
+            const feedbackButtons = document.getElementsByClassName('feedback-container__button');
+            for (let i = 0; i < feedbackButtons.length; i++) {
+                feedbackButtons[i].classList.remove('active');
+            }
+        }
+
+        function showMessage(liked) {
+            const feedbackMessage = document.getElementById('feedback-message');
+            const themeGithubRepository = true;
+            let message = 'Great! Thanks for your feedback.';
+            if (themeGithubRepository && !liked) {
+                message = "Thanks for your feedback! Please don't hesitate to <a href='https://github.com/scylladb/care-pet/issues/new?title=docs:%20Issue on page Build an IoT App with Rust&&body=I%20would%20like%20to%20report%20an%20issue%20on%20page%20https://iot.scylladb.com/master/build-with-rust%0A%0A%23%23%23%20Problem%0A%0A%23%23%23%20%20Suggest%20a%20fix&labels=documentation'>create an issue</a> if you have any suggestions on how we can improve.";
+            }
+            feedbackMessage.innerHTML = message;
+        }
+
+        function sendGaEvent(liked) {
+            const event_label = liked ? "positive" : "negative";
+            const event = "feedback_" + event_label;
+            window.dataLayer = window.dataLayer || [];
+            window.dataLayer.push({
+                'event': event,
+            });
+        }
+
+        const positiveFeebackButton = document.getElementById('feedback-positive');
+        const negativeFeedbackButton = document.getElementById('feedback-negative');
+
+        positiveFeebackButton.addEventListener('click', function() {
+            resetFeedbackButtonActive();
+            sendGaEvent(true);
+            showMessage(true);
+            positiveFeebackButton.classList.add('active');
+        });
+
+        negativeFeedbackButton.addEventListener('click', function() {
+            resetFeedbackButtonActive();
+            sendGaEvent(false);
+            showMessage(false);
+            negativeFeedbackButton.classList.add('active');
+        });
+    </script>
+
+                            <div class="content-navigation">
+    <div class="navigation navigation--prev">
+        
+            <a class="navigation__link" href="build-with-php.html">
+                <button class="navigation__button">
+                    <i class="icon-chevron-left"></i>
+                </button>
+                <div class="navigation__title">
+                    <span class="colored">PREVIOUS</span> <br />Care Pet ScyllaDB PHP IoT example
+                </div>
+            </a>
+        
+    </div>
+    <div class="navigation navigation--next">
+        
+    </div>
+</div>
+                            <!-- Post content text -->
+                        </div>
+                    
+                
+                
+                    </div>
+                        <div class="sidebar-right large-order-3">
+                            <div class="secondary-side-nav custom-scroll-bar">
+    
+    <ul class="contribute">
+        <li class="contribute__item">
+            <a class="button button-sm" href="https://github.com/scylladb/care-pet/issues/new?title=docs:%20Issue on page Build an IoT App with Rust&&body=I%20would%20like%20to%20report%20an%20issue%20on%20page%20https://iot.scylladb.com/master/build-with-rust%0A%0A%23%23%23%20Problem%0A%0A%23%23%23%20%20Suggest%20a%20fix&labels=documentation"
+               target="_blank">
+                <i class="icon-github" aria-hidden="true"></i>Create an issue
+            </a>
+        </li>
+        
+            <li class="contribute__item">
+                <a class="button button-sm" href="https://github.com/scylladb/care-pet/edit/master/docs/build-with-rust.md"
+                   target="_blank">
+                    <i class="icon-edit" aria-hidden="true"></i>Edit this page
+                </a>
+            </li>
+        
+    </ul>
+
+    
+        <div class="secondary-side-nav__content">
+            <p class="topic-title">On this page</p>
+            <ul>
+<li><a class="reference internal" href="#">Build an IoT App with Rust</a><ul>
+<li><a class="reference internal" href="#architecture">Architecture</a></li>
+<li><a class="reference internal" href="#migrate">Migrate</a></li>
+<li><a class="reference internal" href="#sensor">Sensor</a></li>
+<li><a class="reference internal" href="#server">Server</a></li>
+<li><a class="reference internal" href="#retrieving-informations-from-api">Retrieving informations from API</a></li>
+<li><a class="reference internal" href="#resources">Resources</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+    
+</div>
+                        </div>
+                    </div>
+                
+            </div>
+            <div class="sidebar-left  large-order-1">
+                
+                    
+                        <div id="side-nav" class="side-nav custom-scroll-bar" data-closable data-toggler=".show">
+    <button class="collapsible-button">
+        <i class="icon-docs-menu-collapse"></i>
+    </button>
+    <div class="side-nav-content custom-scroll-bar">
+        <div class="side-nav__title">
+            <a href="index.html">ScyllaDB IoT Example Documentation</a>
+        </div>
+        <div class="side-nav__search">
+            <div class="search-box">
+                <ci-search></ci-search>
+            </div>
+        </div>
+        <div class="side-nav__versions"><ul class="dropdown menu scylla-dropdown scylla-dropdown--versions" data-dropdown-menu>
+    <li class="scylla-dropdown__item">
+        <a class="scylla-dropdown__title" href="#">
+            
+                master
+            
+            <i class="chevron icon-docs-chevron-right"></i>
+        </a>
+        <ul class="menu scylla-dropdown__content">
+            
+                
+                    <li>
+                        <a href="build-with-rust.html">master</a>
+                    </li>
+                
+            
+            
+        </ul>
+    </li>
+</ul></div>
+        <div class="side-nav__content">
+            <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="getting-started.html">Getting Started with CarePet: A sample IoT App</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deploy-in-cloud.html">Deploy in cloud</a></li>
+<li class="toctree-l1"><a class="reference internal" href="design-and-data-model.html">Design and Data Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="build-with-go.html">Build with Go</a></li>
+<li class="toctree-l1"><a class="reference internal" href="build-with-javascript.html">Build with JavaScript</a></li>
+<li class="toctree-l1"><a class="reference internal" href="build-with-java.html">Build with Java</a></li>
+<li class="toctree-l1"><a class="reference internal" href="build-with-python.html">Build with Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="build-with-php.html">Build with PHP</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Build with Rust</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/scylladb/care-pet">Care-Pet GitHub Repository</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://www.scylladb.com/2020/09/09/carepet-an-example-iot-use-case-for-hands-on-app-developers/">Care-Pet Blog</a></li>
+</ul>
+
+        </div>
+    </div>
+</div>
+                    
+                
+            </div>
+            
+        </section>
+
+        <footer class="footer">
+    <div class="footer-group">
+        <div class="footer-top">
+            <a class="footer-logo" href="https://www.scylladb.com"></a>
+            <div class="footer-links">
+                <a class="footer-links__link" href="https://docs.scylladb.com/" target="_blank">Docs</a>
+                <a class="footer-links__link" href="https://docs.scylladb.com/stable/get-started/develop-with-scylladb/tutorials-example-projects.html" target="_blank">Tutorials</a>
+                <a class="footer-links__link" href="https://university.scylladb.com/" target="_blank">University</a>
+                <a class="footer-links__link" href="https://www.scylladb.com/company/contact-us/"
+                    target="_blank">Contact Us</a>
+                <a class="footer-links__link" href="https://www.scylladb.com/company/" target="_blank">About Us</a>
+            </div>
+            <div class="footer-actions">
+                <a class="footer-actions__link" href="http://slack.scylladb.com/" target="_blank">
+                    <span data-tooltip tabindex="1" title="User Slack channel" data-position="bottom">
+                        <i class="icon-slack"></i>
+                    </span>
+                </a>
+                <a class="footer-actions__link" href="https://forum.scylladb.com/" target="_blank">
+                    <span data-tooltip tabindex="1" title="Community forum" data-position="bottom">
+                        <i class="icon-docs-community"></i>
+                    </span>
+                </a>
+            </div>
+        </div>
+
+        
+        <div class="footer-copyright">
+            
+                
+                    &#169; 2025, ScyllaDB. All rights reserved.
+                
+                | <a class="footer-copyright__link" href="https://www.scylladb.com/tos/" target="_blank">Terms of Service</a>
+                | <a class="footer-copyright__link" href="https://www.scylladb.com/privacy/" target="_blank">Privacy Policy</a>
+                | ScyllaDB, and ScyllaDB Cloud, are registered trademarks of ScyllaDB, Inc.
+            
+        </div>
+    
+
+
+        <div class="footer-bottom">
+            
+                <div class="footer-bottom__last-updated">
+                    
+                        Last updated on 05 May 2025.
+                    
+                </div>
+            
+            <div class="footer-bottom__version">
+                Powered by
+                <a class="footer-bottom__link" href="http://sphinx-doc.org/">Sphinx 7.4.7</a> &amp;
+                <a class="footer-bottom__link" href="https://sphinx-theme.scylladb.com/">ScyllaDB Theme 1.8.6</a>
+            </div>
+        </div>
+    </div>
+    
+</footer>
+
+        <noscript>
+            <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-T8P2JP" height="0" width="0"
+                    style="display: none; visibility: hidden"></iframe>
+        </noscript>
+    </body>
+
+</html>

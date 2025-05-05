@@ -1,0 +1,998 @@
+
+
+<!DOCTYPE html>
+<html class="no-js" lang="en" style="visibility: hidden;">
+    
+    
+
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width initial-scale=1" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <title>
+             Care Pet ScyllaDB PHP IoT example | ScyllaDB Docs 
+        </title>
+        <meta name="description" content="ScyllaDB IoT Example Documentation" />
+        <link rel="icon" href="_static/img/favicon.ico" type="image/x-icon" />
+        <link rel="icon" href="_static/img/favicon-32x32.png" sizes="32x32" />
+        <link rel="icon" href="_static/img/favicon-228x228.png" sizes="192x192" />
+        <link rel="apple-touch-icon" href="_static/img/favicon-228x228.png" />
+        <meta name="msapplication-TileImage" href="_static/img/favicon-228x228.png" />
+
+        
+            
+            
+        
+
+        
+            
+            <link rel="canonical" href="https://iot.scylladb.com/stable/build-with-php.html"/>
+        
+
+        <link rel="author" href="mailto:info@scylladb.com" />
+
+        
+            
+        <!-- increase expertrec loading priority-->
+        <link rel="dns-prefetch" href="https://cse.expertrec.com">
+
+        <!-- increase font loading priority -->
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link rel="preload" as="style"
+              href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;1,400&display=swap" />
+
+        <!-- async CSS -->
+        <link rel="stylesheet" media="print" onload="this.onload=null;this.removeAttribute('media');"
+              href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;1,400&display=swap" />
+
+        <!-- no-JS fallback -->
+        <noscript>
+            <link rel="stylesheet"
+                  href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;1,400&display=swap" />
+        </noscript>
+
+        
+        
+        
+            
+                <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+            
+        
+            
+                <link rel="stylesheet" type="text/css" href="_static/css/main.css?v=924e5a68" />
+            
+        
+            
+                <link rel="stylesheet" type="text/css" href="_static/sphinx_collapse.css?v=226d88b4" />
+            
+        
+            
+                <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+            
+        
+    
+        
+        
+            
+        <script type="text/javascript" src="_static/js/runtime.bundle.js"></script>
+        <script type="text/javascript" src="_static/js/main.bundle.js"></script>
+        
+            
+                <script src="_static/documentation_options.js?v=5929fcd5"></script>
+            
+        
+            
+                <script src="_static/doctools.js?v=9a2dae69"></script>
+            
+        
+            
+                <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+            
+        
+            
+                <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+            
+        
+            
+                <script src="_static/copybutton.js?v=f281be69"></script>
+            
+        
+    
+            
+                <!-- Local meta tags -->
+            
+            
+                <!-- Google Tag Manager docs -->
+<script>
+    (function (w, d, s, l, i) {
+        w[l] = w[l] || [];
+        w[l].push({
+            "gtm.start": new Date().getTime(),
+            event: "gtm.js"
+        });
+        var f = d.getElementsByTagName(s)[0],
+            j = d.createElement(s),
+            dl = l != "dataLayer" ? "&l=" + l : "";
+        j.async = true;
+        j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
+        f.parentNode.insertBefore(j, f);
+    })(window, document, "script", "dataLayer", "GTM-54NWVS4");
+</script>
+<!-- End Google Tag Manager -->
+
+<!-- Google Tag Manager global -->
+<script>
+    (function (w, d, s, l, i) {
+        w[l] = w[l] || [];
+        w[l].push({
+            "gtm.start": new Date().getTime(),
+            event: "gtm.js"
+        });
+        var f = d.getElementsByTagName(s)[0],
+            j = d.createElement(s),
+            dl = l != "dataLayer" ? "&l=" + l : "";
+        j.async = true;
+        j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
+        f.parentNode.insertBefore(j, f);
+    })(window, document, "script", "dataLayer", "GTM-T8P2JP");
+</script>
+<!-- End Google Tag Manager -->
+
+<!-- Expertrec -->
+<script>
+    var id = "e2077224-9ccf-11e9-a0c9-0242ac130002";
+    var ci_search = document.createElement("script");
+    ci_search.type = "text/javascript";
+    ci_search.async = true;
+    ci_search.src = "https://cse.expertrec.com/api/js/ci_common.js?id=" + id;
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(ci_search, s);
+</script>
+<!-- End Expertrec -->
+            
+        
+    </head>
+
+    <body class="brand-product">
+        <section class="promo-banner  promo-banner--hide" style="display: none;">
+    <div class="promo-banner-wrapper">
+        
+        <div class="promo-banner__title">ScyllaDB University Live | Free Virtual Training Event</div>
+        <a class="promo-banner__button button button--reverse" href="#"
+           target="_blank" rel="noopener noreferrer">Learn more</a>
+        <button class="promo-banner__close">
+            <i class="icon-cancel"></i>
+        </button>
+    </div>
+</section>
+        <header class="header">
+    <div class="header-logo">
+        <a class="header-logo__img" href="https://scylladb.com/">
+            <img src="_static/img/scylladb-logo-horizontal.svg" alt="ScyllaDB Documentation Logo" />
+        </a>
+        <span class="header-logo__bar"></span>
+        <a class="header-logo__text" href="https://docs.scylladb.com/">
+            Documentation
+        </a>
+    </div>
+    <div class="header-navigation">
+        <ul class="dropdown menu scylla-dropdown scylla-dropdown--header" data-dropdown-menu>
+            <li class="scylla-dropdown__item">
+                <a href="https://docs.scylladb.com/manual/" class="scylla-dropdown__title">Server</a>
+            </li>
+            <li class="scylla-dropdown__item">
+                <a href="https://docs.scylladb.com/scylla-cloud/" class="scylla-dropdown__title">Cloud</a>
+            </li>
+            <li class="scylla-dropdown__item">
+                <a href="#" class="scylla-dropdown__title">Tools <i class="chevron icon-arrow-dropdown"></i></a>
+                <ul class="menu scylla-dropdown__content">
+                    <li>
+                        <a href="https://manager.docs.scylladb.com/">
+                            <i class="icon-docs-manager"></i>ScyllaDB Manager</a>
+                    </li>
+                    <li>
+                        <a href="https://monitoring.docs.scylladb.com/">
+                            <i class="icon-docs-monitoring"></i>ScyllaDB
+                            Monitoring Stack</a>
+                    </li>
+                    <li>
+                        <a href="https://operator.docs.scylladb.com/">
+                            <i class="icon-docs-operator"></i>ScyllaDB Operator
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li class="scylla-dropdown__item">
+                <a href="#" class="scylla-dropdown__title">Drivers <i class="chevron icon-arrow-dropdown"></i></a>
+                <ul class="menu scylla-dropdown__content">
+                    <li>
+                        <a href="https://docs.scylladb.com/using-scylla/drivers/cql-drivers/">
+                            <i class="icon-docs-nsql-guides"></i>CQL Drivers
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://docs.scylladb.com/using-scylla/drivers/dynamo-drivers/">
+                            <i class="icon-docs-alternator"></i>DynamoDB Drivers
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li class="scylla-dropdown__item">
+                <a href="#" class="scylla-dropdown__title">Resources
+                    <i class="chevron icon-arrow-dropdown"></i></a>
+                <ul class="menu scylla-dropdown__content">
+                    <li>
+                        <a href="https://university.scylladb.com">
+                            <i class="icon-university"></i>
+                            ScyllaDB University
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://forum.scylladb.com">
+                            <i class="icon-docs-community"></i>
+                            Community Forum
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://docs.scylladb.com/stable/get-started/develop-with-scylladb/tutorials-example-projects.html">
+                            <i class="icon-docs-training"></i>
+                            Tutorials
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+        <div class="header-button">
+            <a href="https://www.scylladb.com/download/" class="button"><i class="icon-download me-2"></i> Download</a>
+        </div>
+    </div>
+    <div class="header-search-box">
+        <i class="dark-theme-toggler icon-theme"></i>
+        <div class="search-box">
+            <ci-search></ci-search>
+        </div>
+    </div>
+    <div class="side-nav-toggle">
+    <i class="dark-theme-toggler icon-theme"></i>
+    <div class="side-nav-toggle__button" data-toggle="side-nav">
+        <i class="icon-menu"></i>
+    </div>
+</div>
+</header>
+        <div class="title"></div>
+        <section
+            class="layout  layout--sidebar layout--has-secondary-sidebar ">
+            <div class="content large-order-2">
+                
+                    <div class="pre-content">
+                        <div class="breadcrumbs">
+    <span class="bread__item">
+        <a href="https://docs.scylladb.com"
+           class="bread__highlight">
+            <i class="icon-home"></i> ScyllaDB Docs
+        </a>
+    </span>
+    <span class="bread__item">
+        <a href="index.html"
+           class="bread__highlight">
+            ScyllaDB IoT Example Documentation
+        </a>
+    </span>
+    
+    <span class="bread__item bread__item--last">Care Pet ScyllaDB PHP IoT example</span>
+</div>
+                    </div>
+                
+                
+                <div class="sidebar-right-layout">
+                    <div class="body-container">
+                
+
+                    <div class="content-body">
+                        
+                            
+                        
+                        
+                        <section id="care-pet-scylladb-php-iot-example">
+<h1>Care Pet ScyllaDB PHP IoT example<a class="headerlink" href="#care-pet-scylladb-php-iot-example" title="Link to this heading">¶</a></h1>
+<p>This example project demonstrates a generic IoT use case for ScyllaDB in PHP.</p>
+<p>Here you will find a list of possible drivers to integrate with.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>PHP Version</p></th>
+<th class="head"><p>Driver</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>PHP 7.1</p></td>
+<td><p><a class="reference external" href="https://github.com/datastax/php-driver">DataStax PHP Driver</a></p></td>
+</tr>
+<tr class="row-odd"><td><p>PHP 8.2  [x]</p></td>
+<td><p><a class="reference external" href="https://github.com/he4rt/scylladb-php-driver">ScyllaDB PHP Driver (community)</a></p></td>
+</tr>
+</tbody>
+</table>
+<p>You will need to build the driver following the instructions of each repository. We strongly recommend that you go for
+PHP 8.x since this project still being maintained and developed by community itself.</p>
+<p>The documentation for this application and the guided exercise is <a class="reference internal" href="getting-started.html"><span class="std std-doc">here</span></a>.</p>
+<section id="quick-start">
+<h2>Quick Start<a class="headerlink" href="#quick-start" title="Link to this heading">¶</a></h2>
+<p>The application allows the tracking of the pets health indicators and it consist in a CLI of three parts:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Command</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>php scylla migrate</p></td>
+<td><p>creates the <code class="docutils literal notranslate"><span class="pre">carepet</span></code> keyspace and tables</p></td>
+</tr>
+<tr class="row-odd"><td><p>php scylla simulate</p></td>
+<td><p>generates a pet health data and pushes it into the storage</p></td>
+</tr>
+<tr class="row-even"><td><p>php scylla serve</p></td>
+<td><p>REST API service for tracking pets health state</p></td>
+</tr>
+</tbody>
+</table>
+<p>Prerequisites:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.docker.com/">docker</a></p></li>
+<li><p><a class="reference external" href="https://docs.docker.com/compose/">docker-compose</a></p></li>
+</ul>
+</section>
+<section id="setup">
+<h2>Setup<a class="headerlink" href="#setup" title="Link to this heading">¶</a></h2>
+<p>To run a local <strong>ScyllaDB cluster</strong> consisting of three nodes and the <strong>PHP Environment</strong> with
+the help of <code class="docutils literal notranslate"><span class="pre">docker</span></code> and <code class="docutils literal notranslate"><span class="pre">docker-compose</span></code> execute:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>docker-compose<span class="w"> </span>up<span class="w"> </span>-d
+</pre></div>
+</div>
+<p>Docker-compose will spin up three nodes which are:</p>
+<ul class="simple">
+<li><p>carepet-scylla1</p></li>
+<li><p>carepet-scylla2</p></li>
+<li><p>carepet-scylla3</p></li>
+</ul>
+<p>If you want to see your containers running, run the <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">ps</span></code> command, and you should see something like this:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>docker<span class="w"> </span>ps
+CONTAINER<span class="w"> </span>ID<span class="w">   </span>IMAGE<span class="w">                    </span>COMMAND<span class="w">                  </span>CREATED<span class="w">       </span>STATUS<span class="w">       </span>PORTS<span class="w">                                                                      </span>NAMES
+4e351dfe3987<span class="w">   </span>scylladb/scylla<span class="w">          </span><span class="s2">&quot;/docker-entrypoint.…&quot;</span><span class="w">   </span><span class="m">1</span><span class="w"> </span>minute<span class="w"> </span>ago<span class="w">   </span>Up<span class="w"> </span><span class="m">1</span><span class="w"> </span>minute<span class="w">   </span><span class="m">22</span>/tcp,<span class="w"> </span><span class="m">7000</span>-7001/tcp,<span class="w"> </span><span class="m">7199</span>/tcp,<span class="w"> </span><span class="m">9042</span>/tcp,<span class="w"> </span><span class="m">9160</span>/tcp,<span class="w"> </span><span class="m">9180</span>/tcp,<span class="w"> </span><span class="m">10000</span>/tcp<span class="w">   </span>carepet-scylla2
+9e7e4d3992df<span class="w">   </span>scylladb/scylla<span class="w">          </span><span class="s2">&quot;/docker-entrypoint.…&quot;</span><span class="w">   </span><span class="m">1</span><span class="w"> </span>minute<span class="w"> </span>ago<span class="w">   </span>Up<span class="w"> </span><span class="m">1</span><span class="w"> </span>minute<span class="w">   </span><span class="m">22</span>/tcp,<span class="w"> </span><span class="m">7000</span>-7001/tcp,<span class="w"> </span><span class="m">7199</span>/tcp,<span class="w"> </span><span class="m">9042</span>/tcp,<span class="w"> </span><span class="m">9160</span>/tcp,<span class="w"> </span><span class="m">9180</span>/tcp,<span class="w"> </span><span class="m">10000</span>/tcp<span class="w">   </span>carepet-scylla3
+7e2b1b94389b<span class="w">   </span>scylladb/scylla<span class="w">          </span><span class="s2">&quot;/docker-entrypoint.…&quot;</span><span class="w">   </span><span class="m">1</span><span class="w"> </span>minute<span class="w"> </span>ago<span class="w">   </span>Up<span class="w"> </span><span class="m">1</span><span class="w"> </span>minute<span class="w">   </span><span class="m">22</span>/tcp,<span class="w"> </span><span class="m">7000</span>-7001/tcp,<span class="w"> </span><span class="m">7199</span>/tcp,<span class="w"> </span><span class="m">9042</span>/tcp,<span class="w"> </span><span class="m">9160</span>/tcp,<span class="w"> </span><span class="m">9180</span>/tcp,<span class="w"> </span><span class="m">10000</span>/tcp<span class="w">   </span>carepet-scylla1
+</pre></div>
+</div>
+<blockquote>
+<div><p>If you have any error regarding “premature connection”, restart your docker instance and wait a minute until
+your ScyllaDB connection be established.</p>
+</div></blockquote>
+<section id="useful-commands">
+<h3>Useful Commands<a class="headerlink" href="#useful-commands" title="Link to this heading">¶</a></h3>
+<p>Here’s a list of everything that you can execute and make your own research through the application.</p>
+<section id="php-application-commands">
+<h4>PHP Application Commands<a class="headerlink" href="#php-application-commands" title="Link to this heading">¶</a></h4>
+<p>These commands you can execute by <code class="docutils literal notranslate"><span class="pre">entering</span> <span class="pre">the</span> <span class="pre">container</span></code> or through <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">exec</span></code> remotely:</p>
+<section id="configuring-the-environment">
+<h5>Configuring the Environment<a class="headerlink" href="#configuring-the-environment" title="Link to this heading">¶</a></h5>
+<p>Make a copy of <code class="docutils literal notranslate"><span class="pre">.env.example</span></code> and name it <code class="docutils literal notranslate"><span class="pre">.env</span></code>. This file will store your application secrets.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>cp<span class="w"> </span>.env.example<span class="w"> </span>.env
+</pre></div>
+</div>
+<p>By default, the config to connect on your local ScyllaDB instances will be ready to use.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Development</span>
+<span class="n">DB_KEYSPACE</span><span class="o">=</span><span class="s2">&quot;carepet&quot;</span>
+<span class="n">DB_NODES</span><span class="o">=</span><span class="s2">&quot;localhost&quot;</span>
+<span class="n">DB_USERNAME</span><span class="o">=</span><span class="s2">&quot;&quot;</span>
+<span class="n">DB_PASSWORD</span><span class="o">=</span><span class="s2">&quot;&quot;</span>
+<span class="n">DB_PORT</span><span class="o">=</span><span class="mi">9042</span>
+
+<span class="c1"># Production (Cloud)</span>
+<span class="c1">#DB_KEYSPACE=&quot;carepet&quot;</span>
+<span class="c1">#DB_NODES=&quot;node-0.aws_sa_east_1.c106d1ac5f3117a20bf0.clusters.scylla.cloud&quot;</span>
+<span class="c1">#DB_USERNAME=&quot;scylla&quot;</span>
+<span class="c1">#DB_PASSWORD=&quot;p50bonFq8cuxwXS&quot;</span>
+<span class="c1">#DB_PORT=9042</span>
+</pre></div>
+</div>
+<blockquote>
+<div><p>If you want to use ScyllaDB Cloud, remember to change at your keyspace the <strong>Replication Factor</strong> related to
+for each environment.</p>
+</div></blockquote>
+</section>
+<section id="initializing-keyspace">
+<h5>Initializing Keyspace:<a class="headerlink" href="#initializing-keyspace" title="Link to this heading">¶</a></h5>
+<p>First, let’s create our keyspace using CQLSH.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>carepet-scylla1<span class="w"> </span>cqlsh
+Connected<span class="w"> </span>to<span class="w">  </span>at<span class="w"> </span><span class="m">10</span>.10.5.2:9042.
+<span class="o">[</span>cqlsh<span class="w"> </span><span class="m">5</span>.0.1<span class="w"> </span><span class="p">|</span><span class="w"> </span>Cassandra<span class="w"> </span><span class="m">3</span>.0.8<span class="w"> </span><span class="p">|</span><span class="w"> </span>CQL<span class="w"> </span>spec<span class="w"> </span><span class="m">3</span>.3.1<span class="w"> </span><span class="p">|</span><span class="w"> </span>Native<span class="w"> </span>protocol<span class="w"> </span>v4<span class="o">]</span>
+Use<span class="w"> </span>HELP<span class="w"> </span><span class="k">for</span><span class="w"> </span>help.
+cqlsh&gt;<span class="w"> </span>CREATE<span class="w"> </span>KEYSPACE<span class="w"> </span>IF<span class="w"> </span>NOT<span class="w"> </span>EXISTS<span class="w"> </span>carepet<span class="w"> </span>WITH<span class="w"> </span><span class="nv">replication</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">{</span><span class="w"> </span><span class="s1">&#39;class&#39;</span>:<span class="w"> </span><span class="s1">&#39;NetworkTopologyStrategy&#39;</span>,<span class="w"> </span><span class="s1">&#39;replication_factor&#39;</span>:<span class="w"> </span><span class="s1">&#39;2&#39;</span><span class="w"> </span><span class="o">}</span><span class="p">;</span>
+cqlsh&gt;
+</pre></div>
+</div>
+<p>Then you can run the CLI command to migrate all your tables inside the keyspace.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>php<span class="w"> </span>scylla<span class="w"> </span>migrate
+<span class="o">[</span>INFO<span class="o">]</span><span class="w"> </span>Fetching<span class="w"> </span>Migrations...<span class="w"> </span>
+<span class="o">[</span>INFO<span class="o">]</span><span class="w"> </span>Migrated:<span class="w"> </span>/var/www/migrations/1-create_keyspace.cql<span class="w"> </span>
+<span class="o">[</span>INFO<span class="o">]</span><span class="w"> </span>Migrated:<span class="w"> </span>/var/www/migrations/2-create_owner_table.cql<span class="w"> </span>
+<span class="o">[</span>INFO<span class="o">]</span><span class="w"> </span>Migrated:<span class="w"> </span>/var/www/migrations/3-create_pets_table.cql<span class="w"> </span>
+<span class="o">[</span>INFO<span class="o">]</span><span class="w"> </span>Migrated:<span class="w"> </span>/var/www/migrations/4-create_sensors_table.cql<span class="w"> </span>
+<span class="o">[</span>INFO<span class="o">]</span><span class="w"> </span>Migrated:<span class="w"> </span>/var/www/migrations/5-create_measurements_table.cql<span class="w"> </span>
+<span class="o">[</span>INFO<span class="o">]</span><span class="w"> </span>Migrated:<span class="w"> </span>/var/www/migrations/6-create_sensor_avg_table.cql<span class="w"> </span>
+<span class="o">[</span>INFO<span class="o">]</span><span class="w"> </span>Done<span class="w"> </span>:D<span class="w"> </span>
+</pre></div>
+</div>
+</section>
+<section id="starting-web-server">
+<h5>Starting Web Server:<a class="headerlink" href="#starting-web-server" title="Link to this heading">¶</a></h5>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>php<span class="w"> </span>scylla<span class="w"> </span>serve
+<span class="o">[</span>INFO<span class="o">]</span><span class="w"> </span>CarePet<span class="w"> </span>Web<span class="w"> </span>started!
+<span class="o">[</span>INFO<span class="o">]</span><span class="w"> </span>Development<span class="w"> </span>Server:<span class="w"> </span>http://0.0.0.0:8000
+<span class="o">[</span>Thu<span class="w"> </span>Jan<span class="w">  </span><span class="m">5</span><span class="w"> </span><span class="m">17</span>:32:01<span class="w"> </span><span class="m">2023</span><span class="o">]</span><span class="w"> </span>PHP<span class="w"> </span><span class="m">7</span>.4.33<span class="w"> </span>Development<span class="w"> </span>Server<span class="w"> </span><span class="o">(</span>http://0.0.0.0:8000<span class="o">)</span><span class="w"> </span>started
+</pre></div>
+</div>
+</section>
+<section id="simulate-environment-sensors">
+<h5>Simulate Environment Sensors:<a class="headerlink" href="#simulate-environment-sensors" title="Link to this heading">¶</a></h5>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>php<span class="w"> </span>scylla<span class="w"> </span>simulate
+<span class="o">[</span>INFO<span class="o">]</span><span class="w"> </span>Starting<span class="w"> </span>Sensor<span class="w"> </span>simulator...<span class="w"> </span>
+<span class="o">[</span>INFO<span class="o">]</span><span class="w"> </span>Batch:<span class="w"> </span><span class="m">0</span>
+<span class="o">[</span>INFO<span class="o">]</span><span class="w"> </span>Owner<span class="w"> </span>593dec12-6bea-3c93-8f49-26d8b6d589b1<span class="w"> </span>
+<span class="o">[</span>INFO<span class="o">]</span><span class="w"> </span>Pet:<span class="w"> </span>14d9f304-5600-34af-8622-3d4505d617d7<span class="w"> </span><span class="p">|</span><span class="w"> </span>Owner<span class="w"> </span>593dec12-6bea-3c93-8f49-26d8b6d589b1
+<span class="o">[</span>INFO<span class="o">]</span><span class="w"> </span>Sensor:<span class="w"> </span>869bd01e-e0ba-364f-bbfb-8c7c496a3318<span class="w"> </span><span class="o">(</span>R<span class="o">)</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>Pet<span class="w"> </span>14d9f304-5600-34af-8622-3d4505d617d7<span class="w"> </span>
+<span class="o">[</span>INFO<span class="o">]</span><span class="w"> </span>Sensor:<span class="w"> </span>c86f63b0-1439-3404-8750-b71b90a685cb<span class="w"> </span><span class="o">(</span>L<span class="o">)</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>Pet<span class="w"> </span>14d9f304-5600-34af-8622-3d4505d617d7<span class="w"> </span>
+<span class="o">[</span>INFO<span class="o">]</span><span class="w"> </span>Sensor:<span class="w"> </span>e0550426-8832-3d17-9025-77726b3009c5<span class="w"> </span><span class="o">(</span>P<span class="o">)</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>Pet<span class="w"> </span>14d9f304-5600-34af-8622-3d4505d617d7<span class="w"> </span>
+<span class="o">[</span>INFO<span class="o">]</span><span class="w"> </span>Sensor:<span class="w"> </span>bf960c81-8e0f-3012-b50d-18596b50db18<span class="w"> </span><span class="o">(</span>P<span class="o">)</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>Pet<span class="w"> </span>14d9f304-5600-34af-8622-3d4505d617d7<span class="w"> </span>
+<span class="o">[</span>INFO<span class="o">]</span><span class="w"> </span>Sensor:<span class="w"> </span>933245de-812e-34e4-8d50-2ab072726217<span class="w"> </span><span class="o">(</span>T<span class="o">)</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>Pet<span class="w"> </span>14d9f304-5600-34af-8622-3d4505d617d7<span class="w"> </span>
+<span class="o">[</span>INFO<span class="o">]</span><span class="w"> </span>Pet:<span class="w"> </span>319ec566-d6b0-3868-ac5e-76253ee7c236<span class="w"> </span><span class="p">|</span><span class="w"> </span>Owner<span class="w"> </span>593dec12-6bea-3c93-8f49-26d8b6d589b1
+<span class="o">[</span>INFO<span class="o">]</span><span class="w"> </span>...
+</pre></div>
+</div>
+<div class="highlight-php notranslate"><div class="highlight"><pre><span></span><span class="x">final class SimulateCommand extends AbstractCommand</span>
+<span class="x">{</span>
+
+<span class="x">    public function __construct(</span>
+<span class="x">        private readonly OwnerRepository $ownerRepository,</span>
+<span class="x">        private readonly PetRepository    $petRepository,</span>
+<span class="x">        private readonly SensorRepository $sensorRepository</span>
+<span class="x">    )</span>
+<span class="x">    {</span>
+<span class="x">    }</span>
+
+<span class="x">    const AMOUNT_BASE = 50000;</span>
+
+<span class="x">    public function __invoke(array $args = []): int</span>
+<span class="x">    {</span>
+<span class="x">        $this-&gt;info(&#39;Starting Sensor simulator...&#39;);</span>
+<span class="x">        foreach (range(0, self::AMOUNT_BASE) as $i) {</span>
+<span class="x">            $this-&gt;info(&quot;Batch: &quot; . $i);</span>
+<span class="x">            [$ownerDTO, $petsDTO] = $this-&gt;generateFakeData();</span>
+
+<span class="x">            $this-&gt;ownerRepository-&gt;create($ownerDTO);</span>
+<span class="x">            $this-&gt;info(sprintf(&#39;Owner %s&#39;, $ownerDTO-&gt;id));</span>
+
+<span class="x">            $petsDTO-&gt;each(function ($petDTO) {</span>
+<span class="x">                $this-&gt;info(sprintf(&#39;Pet: %s | Owner %s&#39;, $petDTO-&gt;id-&gt;uuid(), $petDTO-&gt;ownerId));</span>
+<span class="x">                $this-&gt;petRepository-&gt;create($petDTO);</span>
+
+<span class="x">                SensorFactory::makeMany(5, [&#39;pet_id&#39; =&gt; $petDTO-&gt;id])</span>
+<span class="x">                    -&gt;each($this-&gt;handleSensors());</span>
+<span class="x">            });</span>
+<span class="x">        }</span>
+<span class="x">        $this-&gt;info(&#39;Done :D&#39;);</span>
+
+<span class="x">        return self::SUCCESS;</span>
+<span class="x">    }</span>
+
+<span class="x">    private function generateFakeData(): array</span>
+<span class="x">    {</span>
+<span class="x">        $ownerDTO = OwnerFactory::make();</span>
+<span class="x">        $petsDTO = PetFactory::makeMany(5, [&#39;owner_id&#39; =&gt; $ownerDTO-&gt;id]);</span>
+
+<span class="x">        return [$ownerDTO, $petsDTO];</span>
+<span class="x">    }</span>
+
+<span class="x">    private function handleSensors(): Closure</span>
+<span class="x">    {</span>
+<span class="x">        return function (SensorDTO $sensorDTO) {</span>
+<span class="x">            $this-&gt;sensorRepository-&gt;create($sensorDTO);</span>
+<span class="x">            $this-&gt;info(sprintf(</span>
+<span class="x">                &#39;Sensor: %s (%s) | Pet %s&#39;,</span>
+<span class="x">                $sensorDTO-&gt;id,</span>
+<span class="x">                $sensorDTO-&gt;type-&gt;name,</span>
+<span class="x">                $sensorDTO-&gt;petId</span>
+<span class="x">            ));</span>
+<span class="x">        };</span>
+<span class="x">    }</span>
+<span class="x">}</span>
+</pre></div>
+</div>
+</section>
+<section id="inserting-data">
+<h5>Inserting Data<a class="headerlink" href="#inserting-data" title="Link to this heading">¶</a></h5>
+<p>You can use <code class="docutils literal notranslate"><span class="pre">Cassandra::cluster()</span></code> and setup your cluster.</p>
+<div class="highlight-php notranslate"><div class="highlight"><pre><span></span><span class="x">use Cassandra;</span>
+<span class="x">use Cassandra\Cluster;</span>
+<span class="x">use Cassandra\Cluster\Builder;</span>
+<span class="x">use Cassandra\FutureRows;</span>
+<span class="x">use Cassandra\Session;</span>
+<span class="x">use Cassandra\SimpleStatement;</span>
+
+<span class="x">class Connector</span>
+<span class="x">{</span>
+<span class="x">    public Builder $connectionBuilder;</span>
+<span class="x">    public Cluster $cluster;</span>
+<span class="x">    public Session $session;</span>
+<span class="x">    public SimpleStatement $query;</span>
+
+<span class="x">    const BASE_TIMEOUT = 10;</span>
+
+<span class="x">    public function __construct(array $config)</span>
+<span class="x">    {</span>
+<span class="x">        $this-&gt;connectionBuilder = Cassandra::cluster()</span>
+<span class="x">            -&gt;withContactPoints($config[&#39;nodes&#39;])</span>
+<span class="x">            -&gt;withDefaultConsistency($config[&#39;consistency_level&#39;])</span>
+<span class="x">            -&gt;withPort($config[&#39;port&#39;]);</span>
+
+<span class="x">        if (!empty($config[&#39;username&#39;] &amp;&amp; !empty($config[&#39;password&#39;]))) {</span>
+<span class="x">            $this-&gt;connectionBuilder = $this-&gt;connectionBuilder-&gt;withCredentials($config[&#39;username&#39;], $config[&#39;password&#39;]);</span>
+<span class="x">        }</span>
+<span class="x">        $this-&gt;cluster = $this-&gt;connectionBuilder-&gt;build();</span>
+
+<span class="x">        $this-&gt;session = $this-&gt;cluster-&gt;connect($config[&#39;keyspace&#39;]);</span>
+<span class="x">    }</span>
+
+<span class="x">    public function setKeyspace(string $keyspace = &#39;&#39;): self</span>
+<span class="x">    {</span>
+<span class="x">        $this-&gt;session-&gt;close(self::BASE_TIMEOUT);</span>
+<span class="x">        $this-&gt;session = $this-&gt;cluster-&gt;connect($keyspace);</span>
+
+<span class="x">        return $this;</span>
+<span class="x">    }</span>
+
+<span class="x">    public function prepare(string $query): self</span>
+<span class="x">    {</span>
+<span class="x">        $this-&gt;query = new SimpleStatement($query);</span>
+
+<span class="x">        return $this;</span>
+<span class="x">    }</span>
+
+<span class="x">    public function execute(): FutureRows</span>
+<span class="x">    {</span>
+<span class="x">        return $this-&gt;session-&gt;executeAsync($this-&gt;query, []);</span>
+<span class="x">    }</span>
+<span class="x">}</span>
+</pre></div>
+</div>
+<div class="highlight-php notranslate"><div class="highlight"><pre><span></span><span class="x">use App\Core\Entities\AbstractDTO;</span>
+<span class="x">use Cassandra\Rows;</span>
+
+<span class="x">abstract class AbstractRepository</span>
+<span class="x">{</span>
+<span class="x">    public string $table = &#39;&#39;;</span>
+
+<span class="x">    public string $primaryKey = &#39;&#39;;</span>
+
+<span class="x">    public Connector $connection;</span>
+
+<span class="x">    public array $keys = [];</span>
+
+<span class="x">    public function __construct(Connector $connector)</span>
+<span class="x">    {</span>
+<span class="x">        $this-&gt;connection = $connector;</span>
+<span class="x">    }</span>
+
+<span class="x">    public function getById(string $id): Rows</span>
+<span class="x">    {</span>
+<span class="x">        $query = sprintf(&quot;SELECT * FROM %s WHERE %s = %s&quot;, $this-&gt;table, $this-&gt;primaryKey, $id);</span>
+
+<span class="x">        return $this-&gt;connection</span>
+<span class="x">            -&gt;prepare($query)</span>
+<span class="x">            -&gt;execute()</span>
+<span class="x">            -&gt;get(Connector::BASE_TIMEOUT);</span>
+<span class="x">    }</span>
+
+<span class="x">    public function all(): Rows</span>
+<span class="x">    {</span>
+<span class="x">        return $this-&gt;connection</span>
+<span class="x">            -&gt;prepare(sprintf(&#39;SELECT * FROM %s&#39;, $this-&gt;table))</span>
+<span class="x">            -&gt;execute()</span>
+<span class="x">            -&gt;get(Connector::BASE_TIMEOUT);</span>
+<span class="x">    }</span>
+
+<span class="x">    public function create(AbstractDTO $dto): void</span>
+<span class="x">    {</span>
+<span class="x">        $keys = array_keys($dto-&gt;toDatabase());</span>
+<span class="x">        $dataValues = array_values($dto-&gt;toDatabase());</span>
+
+<span class="x">        foreach ($dataValues as $key =&gt; $value) {</span>
+<span class="x">            if (is_string($value) &amp;&amp; !in_array($keys[$key], $this-&gt;keys)) {</span>
+<span class="x">                $value = addslashes($value);</span>
+<span class="x">                $dataValues[$key] = &quot;&#39;$value&#39;&quot;;</span>
+<span class="x">            }</span>
+<span class="x">        }</span>
+
+<span class="x">        $query = sprintf(</span>
+<span class="x">            &quot;INSERT INTO %s (%s) VALUES (%s)&quot;,</span>
+<span class="x">            $this-&gt;table,</span>
+<span class="x">            implode(&#39;, &#39;, $keys),</span>
+<span class="x">            implode(&#39;, &#39;, $dataValues)</span>
+<span class="x">        );</span>
+
+
+<span class="x">        $this-&gt;connection</span>
+<span class="x">            -&gt;prepare($query)</span>
+<span class="x">            -&gt;execute();</span>
+<span class="x">    }</span>
+<span class="x">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="scylladb-commands">
+<h4>ScyllaDB Commands<a class="headerlink" href="#scylladb-commands" title="Link to this heading">¶</a></h4>
+<section id="running-nodetool">
+<h5>Running Nodetool:<a class="headerlink" href="#running-nodetool" title="Link to this heading">¶</a></h5>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>carepet-scylla1<span class="w"> </span>nodetool<span class="w"> </span><span class="nv">status</span>
+<span class="o">=======================</span>
+Datacenter:<span class="w"> </span><span class="nv">datacenter1</span>
+<span class="o">=======================</span>
+<span class="nv">Status</span><span class="o">=</span>Up/Down
+<span class="p">|</span>/<span class="w"> </span><span class="nv">State</span><span class="o">=</span>Normal/Leaving/Joining/Moving
+--<span class="w">  </span>Address<span class="w">    </span>Load<span class="w">       </span>Tokens<span class="w">       </span>Owns<span class="w">    </span>Host<span class="w"> </span>ID<span class="w">                               </span>Rack
+UN<span class="w">  </span><span class="m">10</span>.10.5.2<span class="w">  </span><span class="m">212</span><span class="w"> </span>KB<span class="w">     </span><span class="m">256</span><span class="w">          </span>?<span class="w">       </span>f6121e15-48df-4b31-b725-3ad2795b8b94<span class="w">  </span>rack1
+UN<span class="w">  </span><span class="m">10</span>.10.5.3<span class="w">  </span><span class="m">1</span>.06<span class="w"> </span>MB<span class="w">    </span><span class="m">256</span><span class="w">          </span>?<span class="w">       </span>871795f3-67d2-47ba-83ef-15714b89c02a<span class="w">  </span>rack1
+UN<span class="w">  </span><span class="m">10</span>.10.5.4<span class="w">  </span><span class="m">1</span>.06<span class="w"> </span>MB<span class="w">    </span><span class="m">256</span><span class="w">          </span>?<span class="w">       </span>cbe74a63-2cf4-41c2-bf7f-c831c0d2689f<span class="w">  </span>rack1
+</pre></div>
+</div>
+</section>
+<section id="running-container-shell">
+<h5>Running Container Shell:<a class="headerlink" href="#running-container-shell" title="Link to this heading">¶</a></h5>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>carepet-scylla1<span class="w"> </span>bash
+
+<span class="w">   </span>_____<span class="w">            </span>_<span class="w"> </span>_<span class="w">       </span>_____<span class="w">  </span>____
+<span class="w">  </span>/<span class="w"> </span>____<span class="p">|</span><span class="w">          </span><span class="p">|</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="p">|</span><span class="w">     </span><span class="p">|</span><span class="w">  </span>__<span class="w"> </span><span class="se">\|</span><span class="w">  </span>_<span class="w"> </span><span class="se">\</span>
+<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="o">(</span>___<span class="w">   </span>___<span class="w"> </span>_<span class="w">   </span>_<span class="p">|</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>__<span class="w"> </span>_<span class="p">|</span><span class="w"> </span><span class="p">|</span><span class="w">  </span><span class="p">|</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="p">|</span>_<span class="o">)</span><span class="w"> </span><span class="p">|</span>
+<span class="w">  </span><span class="se">\_</span>__<span class="w"> </span><span class="se">\ </span>/<span class="w"> </span>__<span class="p">|</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="p">|</span>/<span class="w"> </span>_<span class="sb">`</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="p">|</span><span class="w">  </span><span class="p">|</span><span class="w"> </span><span class="p">|</span><span class="w">  </span>_<span class="w"> </span>&lt;
+<span class="w">  </span>____<span class="o">)</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="o">(</span>__<span class="p">|</span><span class="w"> </span><span class="p">|</span>_<span class="p">|</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="o">(</span>_<span class="p">|</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="p">|</span>__<span class="p">|</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="p">|</span>_<span class="o">)</span><span class="w"> </span><span class="p">|</span>
+<span class="w"> </span><span class="p">|</span>_____/<span class="w"> </span><span class="se">\_</span>__<span class="p">|</span><span class="se">\_</span>_,<span class="w"> </span><span class="p">|</span>_<span class="p">|</span>_<span class="p">|</span><span class="se">\_</span>_,_<span class="p">|</span>_____/<span class="p">|</span>____/
+<span class="w">               </span>__/<span class="w"> </span><span class="p">|</span>
+<span class="w">              </span><span class="p">|</span>___/
+Nodetool:
+<span class="w">        </span>nodetool<span class="w"> </span><span class="nb">help</span>
+CQL<span class="w"> </span>Shell:
+<span class="w">        </span>cqlsh
+More<span class="w"> </span>documentation<span class="w"> </span>available<span class="w"> </span>at:
+<span class="w">        </span>http://www.scylladb.com/doc/
+
+root@7e2b1b94389b:/#
+</pre></div>
+</div>
+</section>
+<section id="inspecting-a-container">
+<h5>Inspecting a Container<a class="headerlink" href="#inspecting-a-container" title="Link to this heading">¶</a></h5>
+<p><em>You can inspect any node by means of the <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">inspect</span></code> command as follows. For example:</em></p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>docker<span class="w"> </span>inspect<span class="w"> </span>carepet-scylla1
+<span class="o">[</span>
+<span class="w">    </span><span class="o">{</span>
+<span class="w">        </span><span class="s2">&quot;Id&quot;</span>:<span class="w"> </span><span class="s2">&quot;7e2b1b94389b36c494093db8e119c2b8c5167339f20e03d9bfa070e8e46f8430&quot;</span>,
+<span class="w">        </span><span class="s2">&quot;Created&quot;</span>:<span class="w"> </span><span class="s2">&quot;2023-01-05T17:36:59.038609825Z&quot;</span>,
+<span class="w">        </span><span class="s2">&quot;Path&quot;</span>:<span class="w"> </span><span class="s2">&quot;/docker-entrypoint.py&quot;</span>,
+<span class="w">        </span><span class="s2">&quot;Args&quot;</span>:<span class="w"> </span><span class="o">[</span>
+<span class="w">            </span><span class="s2">&quot;--smp&quot;</span>,
+<span class="w">            </span><span class="s2">&quot;1&quot;</span>
+<span class="w">        </span><span class="o">]</span>,
+<span class="w">        </span><span class="s2">&quot;State&quot;</span>:<span class="w"> </span><span class="o">{</span>
+<span class="w">            </span><span class="s2">&quot;Status&quot;</span>:<span class="w"> </span><span class="s2">&quot;running&quot;</span>,
+<span class="w">            </span><span class="s2">&quot;Running&quot;</span>:<span class="w"> </span>true,
+<span class="w">            </span><span class="s2">&quot;Paused&quot;</span>:<span class="w"> </span>false,
+<span class="w">            </span><span class="s2">&quot;Restarting&quot;</span>:<span class="w"> </span><span class="nb">false</span>
+<span class="w">            </span>...
+<span class="w">        </span><span class="o">}</span>
+<span class="w">    </span><span class="o">}</span>
+<span class="o">]</span>
+</pre></div>
+</div>
+<section id="get-node-ip-address">
+<h6>Get Node IP Address:<a class="headerlink" href="#get-node-ip-address" title="Link to this heading">¶</a></h6>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>docker<span class="w"> </span>inspect<span class="w"> </span>-f<span class="w"> </span><span class="s1">&#39;{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}&#39;</span><span class="w"> </span>carepet-scylla1
+<span class="m">10</span>.10.5.2
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+</section>
+<section id="resources">
+<h3>Resources<a class="headerlink" href="#resources" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/he4rt/scylladb-php-driver">ScyllaDB PHP driver for PHP 8.2.x  on Github (maintained by community)</a></p></li>
+<li><p><a class="reference external" href="https://github.com/datastax/php-driver">Driver for PHP 7.1 (third-party, not actively maintained</a></p></li>
+</ul>
+</section>
+</section>
+</section>
+
+                    </div>
+                    
+                        <div class="post-content">
+                            
+    <div class="feedback-container">
+        <p class="feedback-container__title">Was this page helpful?</p>
+        <span data-tooltip tabindex="1" title="Yes" data-position="top">
+            <button class="feedback-container__button" id="feedback-positive">
+                <i class="feedback-container__icon icon-docs-thumbs-up"></i>
+            </button>
+        </span>
+        <span data-tooltip tabindex="1" title="No" data-position="top">
+            <button class="feedback-container__button" id="feedback-negative">
+                <i class="feedback-container__icon icon-docs-thumbs-down"></i>
+            </button>
+        </span>
+        <div class="feedback-container__message" id="feedback-message"></div>
+    </div>
+
+    <script>
+        function resetFeedbackButtonActive() {
+            const feedbackButtons = document.getElementsByClassName('feedback-container__button');
+            for (let i = 0; i < feedbackButtons.length; i++) {
+                feedbackButtons[i].classList.remove('active');
+            }
+        }
+
+        function showMessage(liked) {
+            const feedbackMessage = document.getElementById('feedback-message');
+            const themeGithubRepository = true;
+            let message = 'Great! Thanks for your feedback.';
+            if (themeGithubRepository && !liked) {
+                message = "Thanks for your feedback! Please don't hesitate to <a href='https://github.com/scylladb/care-pet/issues/new?title=docs:%20Issue on page Care Pet ScyllaDB PHP IoT example&&body=I%20would%20like%20to%20report%20an%20issue%20on%20page%20https://iot.scylladb.com/master/build-with-php%0A%0A%23%23%23%20Problem%0A%0A%23%23%23%20%20Suggest%20a%20fix&labels=documentation'>create an issue</a> if you have any suggestions on how we can improve.";
+            }
+            feedbackMessage.innerHTML = message;
+        }
+
+        function sendGaEvent(liked) {
+            const event_label = liked ? "positive" : "negative";
+            const event = "feedback_" + event_label;
+            window.dataLayer = window.dataLayer || [];
+            window.dataLayer.push({
+                'event': event,
+            });
+        }
+
+        const positiveFeebackButton = document.getElementById('feedback-positive');
+        const negativeFeedbackButton = document.getElementById('feedback-negative');
+
+        positiveFeebackButton.addEventListener('click', function() {
+            resetFeedbackButtonActive();
+            sendGaEvent(true);
+            showMessage(true);
+            positiveFeebackButton.classList.add('active');
+        });
+
+        negativeFeedbackButton.addEventListener('click', function() {
+            resetFeedbackButtonActive();
+            sendGaEvent(false);
+            showMessage(false);
+            negativeFeedbackButton.classList.add('active');
+        });
+    </script>
+
+                            <div class="content-navigation">
+    <div class="navigation navigation--prev">
+        
+            <a class="navigation__link" href="build-with-python.html">
+                <button class="navigation__button">
+                    <i class="icon-chevron-left"></i>
+                </button>
+                <div class="navigation__title">
+                    <span class="colored">PREVIOUS</span> <br />Build an IoT App with Python
+                </div>
+            </a>
+        
+    </div>
+    <div class="navigation navigation--next">
+        
+            <a class="navigation__link" href="build-with-rust.html">
+                <div class="navigation__title">
+                    <span class="colored">NEXT</span> <br />Build an IoT App with Rust
+                </div>
+                <button class="navigation__button">
+                    <i class="icon-chevron-right"></i>
+                </button>
+            </a>
+        
+    </div>
+</div>
+                            <!-- Post content text -->
+                        </div>
+                    
+                
+                
+                    </div>
+                        <div class="sidebar-right large-order-3">
+                            <div class="secondary-side-nav custom-scroll-bar">
+    
+    <ul class="contribute">
+        <li class="contribute__item">
+            <a class="button button-sm" href="https://github.com/scylladb/care-pet/issues/new?title=docs:%20Issue on page Care Pet ScyllaDB PHP IoT example&&body=I%20would%20like%20to%20report%20an%20issue%20on%20page%20https://iot.scylladb.com/master/build-with-php%0A%0A%23%23%23%20Problem%0A%0A%23%23%23%20%20Suggest%20a%20fix&labels=documentation"
+               target="_blank">
+                <i class="icon-github" aria-hidden="true"></i>Create an issue
+            </a>
+        </li>
+        
+            <li class="contribute__item">
+                <a class="button button-sm" href="https://github.com/scylladb/care-pet/edit/master/docs/build-with-php.md"
+                   target="_blank">
+                    <i class="icon-edit" aria-hidden="true"></i>Edit this page
+                </a>
+            </li>
+        
+    </ul>
+
+    
+        <div class="secondary-side-nav__content">
+            <p class="topic-title">On this page</p>
+            <ul>
+<li><a class="reference internal" href="#">Care Pet ScyllaDB PHP IoT example</a><ul>
+<li><a class="reference internal" href="#quick-start">Quick Start</a></li>
+<li><a class="reference internal" href="#setup">Setup</a><ul>
+<li><a class="reference internal" href="#useful-commands">Useful Commands</a><ul>
+<li><a class="reference internal" href="#php-application-commands">PHP Application Commands</a><ul>
+<li><a class="reference internal" href="#configuring-the-environment">Configuring the Environment</a></li>
+<li><a class="reference internal" href="#initializing-keyspace">Initializing Keyspace:</a></li>
+<li><a class="reference internal" href="#starting-web-server">Starting Web Server:</a></li>
+<li><a class="reference internal" href="#simulate-environment-sensors">Simulate Environment Sensors:</a></li>
+<li><a class="reference internal" href="#inserting-data">Inserting Data</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#scylladb-commands">ScyllaDB Commands</a><ul>
+<li><a class="reference internal" href="#running-nodetool">Running Nodetool:</a></li>
+<li><a class="reference internal" href="#running-container-shell">Running Container Shell:</a></li>
+<li><a class="reference internal" href="#inspecting-a-container">Inspecting a Container</a><ul>
+<li><a class="reference internal" href="#get-node-ip-address">Get Node IP Address:</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#resources">Resources</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+    
+</div>
+                        </div>
+                    </div>
+                
+            </div>
+            <div class="sidebar-left  large-order-1">
+                
+                    
+                        <div id="side-nav" class="side-nav custom-scroll-bar" data-closable data-toggler=".show">
+    <button class="collapsible-button">
+        <i class="icon-docs-menu-collapse"></i>
+    </button>
+    <div class="side-nav-content custom-scroll-bar">
+        <div class="side-nav__title">
+            <a href="index.html">ScyllaDB IoT Example Documentation</a>
+        </div>
+        <div class="side-nav__search">
+            <div class="search-box">
+                <ci-search></ci-search>
+            </div>
+        </div>
+        <div class="side-nav__versions"><ul class="dropdown menu scylla-dropdown scylla-dropdown--versions" data-dropdown-menu>
+    <li class="scylla-dropdown__item">
+        <a class="scylla-dropdown__title" href="#">
+            
+                master
+            
+            <i class="chevron icon-docs-chevron-right"></i>
+        </a>
+        <ul class="menu scylla-dropdown__content">
+            
+                
+                    <li>
+                        <a href="build-with-php.html">master</a>
+                    </li>
+                
+            
+            
+        </ul>
+    </li>
+</ul></div>
+        <div class="side-nav__content">
+            <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="getting-started.html">Getting Started with CarePet: A sample IoT App</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deploy-in-cloud.html">Deploy in cloud</a></li>
+<li class="toctree-l1"><a class="reference internal" href="design-and-data-model.html">Design and Data Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="build-with-go.html">Build with Go</a></li>
+<li class="toctree-l1"><a class="reference internal" href="build-with-javascript.html">Build with JavaScript</a></li>
+<li class="toctree-l1"><a class="reference internal" href="build-with-java.html">Build with Java</a></li>
+<li class="toctree-l1"><a class="reference internal" href="build-with-python.html">Build with Python</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Build with PHP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="build-with-rust.html">Build with Rust</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/scylladb/care-pet">Care-Pet GitHub Repository</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://www.scylladb.com/2020/09/09/carepet-an-example-iot-use-case-for-hands-on-app-developers/">Care-Pet Blog</a></li>
+</ul>
+
+        </div>
+    </div>
+</div>
+                    
+                
+            </div>
+            
+        </section>
+
+        <footer class="footer">
+    <div class="footer-group">
+        <div class="footer-top">
+            <a class="footer-logo" href="https://www.scylladb.com"></a>
+            <div class="footer-links">
+                <a class="footer-links__link" href="https://docs.scylladb.com/" target="_blank">Docs</a>
+                <a class="footer-links__link" href="https://docs.scylladb.com/stable/get-started/develop-with-scylladb/tutorials-example-projects.html" target="_blank">Tutorials</a>
+                <a class="footer-links__link" href="https://university.scylladb.com/" target="_blank">University</a>
+                <a class="footer-links__link" href="https://www.scylladb.com/company/contact-us/"
+                    target="_blank">Contact Us</a>
+                <a class="footer-links__link" href="https://www.scylladb.com/company/" target="_blank">About Us</a>
+            </div>
+            <div class="footer-actions">
+                <a class="footer-actions__link" href="http://slack.scylladb.com/" target="_blank">
+                    <span data-tooltip tabindex="1" title="User Slack channel" data-position="bottom">
+                        <i class="icon-slack"></i>
+                    </span>
+                </a>
+                <a class="footer-actions__link" href="https://forum.scylladb.com/" target="_blank">
+                    <span data-tooltip tabindex="1" title="Community forum" data-position="bottom">
+                        <i class="icon-docs-community"></i>
+                    </span>
+                </a>
+            </div>
+        </div>
+
+        
+        <div class="footer-copyright">
+            
+                
+                    &#169; 2025, ScyllaDB. All rights reserved.
+                
+                | <a class="footer-copyright__link" href="https://www.scylladb.com/tos/" target="_blank">Terms of Service</a>
+                | <a class="footer-copyright__link" href="https://www.scylladb.com/privacy/" target="_blank">Privacy Policy</a>
+                | ScyllaDB, and ScyllaDB Cloud, are registered trademarks of ScyllaDB, Inc.
+            
+        </div>
+    
+
+
+        <div class="footer-bottom">
+            
+                <div class="footer-bottom__last-updated">
+                    
+                        Last updated on 05 May 2025.
+                    
+                </div>
+            
+            <div class="footer-bottom__version">
+                Powered by
+                <a class="footer-bottom__link" href="http://sphinx-doc.org/">Sphinx 7.4.7</a> &amp;
+                <a class="footer-bottom__link" href="https://sphinx-theme.scylladb.com/">ScyllaDB Theme 1.8.6</a>
+            </div>
+        </div>
+    </div>
+    
+</footer>
+
+        <noscript>
+            <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-T8P2JP" height="0" width="0"
+                    style="display: none; visibility: hidden"></iframe>
+        </noscript>
+    </body>
+
+</html>
