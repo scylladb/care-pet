@@ -4,6 +4,7 @@ namespace App\Sensors\Sensor;
 
 use App\Core\Database\AbstractRepository;
 use App\Core\Database\Connector;
+use App\Core\Entities\AbstractDTO;
 use Cassandra\Rows;
 
 final class SensorRepository extends AbstractRepository
@@ -14,8 +15,16 @@ final class SensorRepository extends AbstractRepository
 
     public array $keys = [
         'sensor_id',
-        'pet_id'
+        'pet_id',
+        'type'
     ];
+
+
+    public function __construct(Connector $connector)
+    {
+        parent::__construct($connector);
+
+    }
 
     public function getSensorsByPetId(string $petId): Rows
     {
@@ -26,6 +35,7 @@ final class SensorRepository extends AbstractRepository
             ->execute()
             ->get(Connector::BASE_TIMEOUT);
     }
+
 
     public function getSensorsValuesByDateRange(string $sensorId, string $startAt, string $endAt): Rows
     {

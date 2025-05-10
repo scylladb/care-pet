@@ -4,6 +4,7 @@ namespace App\Pet;
 
 use App\Core\Entities\AbstractDTO;
 use Cassandra\Uuid;
+use Cassandra\Varint;
 
 final class PetDTO extends AbstractDTO
 {
@@ -44,15 +45,15 @@ final class PetDTO extends AbstractDTO
     public function toDatabase(): array
     {
         return [
-            'pet_id' => $this->id->uuid(),
-            'owner_id' => $this->ownerId->uuid(),
-            'chip_id' => $this->chipId,
+            'pet_id' => $this->id,
+            'owner_id' => $this->ownerId,
+            'chip_id' => "nah",
             'species' => $this->species,
             'breed' => $this->breed,
             'color' => $this->color,
             'gender' => $this->gender,
             'age' => $this->age,
-            'weight' => $this->weight,
+            //'weight' => new \Cassandra\Decimal($this->weight),
             'address' => $this->address,
             'name' => $this->name,
         ];
