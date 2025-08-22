@@ -98,6 +98,12 @@
   :link: build-with-php
   :class: large-4
 
+.. topic-box::
+  :title: Build with CSharp
+  :image: /_static/img/programming_languages/csharp.png
+  :link: build-with-csharp
+  :class: large-4
+
 .. raw:: html
 
   </div></div>
@@ -129,6 +135,7 @@
    Build with Python <build-with-python>
    Build with PHP <build-with-php>
    Build with Rust <build-with-rust>
+   Build with CSharp <build-with-csharp>
    Care-Pet GitHub Repository <https://github.com/scylladb/care-pet>
    Care-Pet Blog <https://www.scylladb.com/2020/09/09/carepet-an-example-iot-use-case-for-hands-on-app-developers/>
 

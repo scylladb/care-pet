@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  carepet-scylla1:
+    image: scylladb/scylla:5.2
+    restart: always
+    command: --seeds=carepet-scylla1,carepet-scylla2 --smp 1 --memory 750M --overprovisioned 1 --api-address 0.0.0.0
+    ports:
+      - "9042:9042"
+    volumes:
+      - carepet-scylla1-data:/var/lib/scylla
+    networks:
+      - carepet-network
+
+  carepet-scylla2:
+    image: scylladb/scylla:5.2
+    restart: always
+    command: --seeds=carepet-scylla1,carepet-scylla2 --smp 1 --memory 750M --overprovisioned 1 --api-address 0.0.0.0
+    volumes:
+      - carepet-scylla2-data:/var/lib/scylla
+    networks:
+      - carepet-network
+
+  carepet-scylla3:
+    image: scylladb/scylla:5.2
+    restart: always
+    command: --seeds=carepet-scylla1,carepet-scylla2 --smp 1 --memory 750M --overprovisioned 1 --api-address 0.0.0.0
+    volumes:
+      - carepet-scylla3-data:/var/lib/scylla
+    networks:
+      - carepet-network
+
+volumes:
+  carepet-scylla1-data:
+  carepet-scylla2-data:
+  carepet-scylla3-data:
+
+networks:
+  carepet-network:
+    driver: bridge

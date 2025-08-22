@@ -1,3 +1,5 @@
 docs/_build
 source/.doctrees
 .idea
+csharp/obj/*
+csharp/bin/*

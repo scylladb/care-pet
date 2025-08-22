@@ -70,6 +70,7 @@ Using the ScyllaDB Cloud [Terraform provider](https://registry.terraform.io/prov
 - [Build with PHP](/build-with-php.md)
 - [Build with Rust](/build-with-rust.md)
 - [Build with Python](/build-with-python.md)
+- [Build with CSharp](/build-with-csharp.md)
 
 
 ## Additional Resources

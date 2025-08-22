@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <OutputType>Exe</OutputType>
+    <AssemblyName>CarePet.Migrate</AssemblyName>
+    <StartupObject>CarePet.Migrate</StartupObject>
+  </PropertyGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\care-pet-keyspace.cql" />
+    <EmbeddedResource Include="Resources\care-pet-ddl.cql" />
+    <PackageReference Include="ScyllaDBCSharpDriver" Version="3.22.0.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="9.0.3" />
+    <PackageReference Include="System.CommandLine" Version="2.0.0-beta4.22272.1" />
+  </ItemGroup>
+</Project>

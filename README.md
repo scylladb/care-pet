@@ -25,6 +25,7 @@ Language-specific implementation resides in the corresponding folder:
 - [Rust](rust)
 - CPP
 - Python
+- [CSharp](csharp)
 
 
 The project uses `docker-compose` to provide the simplest local
