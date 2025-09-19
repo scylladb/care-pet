@@ -3,3 +3,5 @@ source/.doctrees
 .idea
 csharp/obj/*
 csharp/bin/*
+.vscode/
+build/

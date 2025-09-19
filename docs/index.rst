@@ -51,7 +51,7 @@
   :class: large-4,small-12
   :anchor: Read the article
 
-  The Care-Pet Example blog walks you through the example and adds additional information. 
+  The Care-Pet Example blog walks you through the example and adds additional information.
 
 .. topic-box::
   :title: Terraform integration
@@ -79,7 +79,7 @@
   :image: /_static/img/programming_languages/rust.png
   :link: build-with-rust
   :class: large-4
-  
+
 .. topic-box::
   :title: Build with JavaScript
   :image: /_static/img/programming_languages/javascript.png
@@ -104,10 +104,16 @@
   :link: build-with-csharp
   :class: large-4
 
+.. topic-box::
+  :title: Build with C++
+  :image: /_static/img/programming_languages/cpp.png
+  :link: build-with-cpp
+  :class: large-4
+
 .. raw:: html
 
   </div></div>
-  
+
   <div class="topics-grid">
 
     <h2 class="topics-grid__title" style="text-align: center;">Try the Care-Pet IoT with Rust</h2>
@@ -116,7 +122,7 @@
         <div class="grid-x grid-margin-x">
           <div class="cell topic-box large-12">
             <iframe style="width: 100%;" height="800" sandbox="allow-forms allow-modals allow-popups allow-same-origin allow-scripts" src="https://play.instruqt.com/embed/scylladb/tracks/carepet-rust?token=em_Z_xvk5h6RxovmnDS&show_challenges=true" style="border: 0;" allowfullscreen></iframe>
-          </div>  
+          </div>
         </div>
       </div>
   </div>
@@ -136,7 +142,6 @@
    Build with PHP <build-with-php>
    Build with Rust <build-with-rust>
    Build with CSharp <build-with-csharp>
+   Build with C++ <build-with-cpp>
    Care-Pet GitHub Repository <https://github.com/scylladb/care-pet>
    Care-Pet Blog <https://www.scylladb.com/2020/09/09/carepet-an-example-iot-use-case-for-hands-on-app-developers/>
-
-
