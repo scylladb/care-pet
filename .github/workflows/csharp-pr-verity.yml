@@ -1,0 +1,34 @@
+name: C# - Linting and Unit Tests
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - .github/workflows/csharp-pr-verity.yml
+      - csharp/**
+  pull_request:
+    paths:
+      - .github/workflows/csharp-pr-verity.yml
+      - csharp/**
+
+jobs:
+  linting-and-unit-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Setup .NET
+        id: setup-dotnet
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: '9.0.x'
+
+      - name: Run dotnet format (checks formatting)
+        working-directory: csharp
+        run: make check
+
+      - name: Run unit tests
+        working-directory: csharp
+        run: make test-unit
