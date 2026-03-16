@@ -27,23 +27,25 @@ final class SimulateCommand extends AbstractCommand
 
     public function __invoke(array $args = []): int
     {
+        $baseMemory = memory_get_usage();
         $this->info('Starting Sensor simulator...');
         foreach (range(0, self::AMOUNT_BASE) as $i) {
-            $this->info("Batch: " . $i);
+            #$this->info("Batch: " . $i);
             [$ownerDTO, $petsDTO] = $this->generateFakeData();
 
             $this->ownerRepository->create($ownerDTO);
-            $this->info(sprintf('Owner %s', $ownerDTO->id));
+            #$this->info(sprintf('Owner %s', $ownerDTO->id));
 
             $petsDTO->each(function ($petDTO) {
-                $this->info(sprintf('Pet: %s | Owner %s', $petDTO->id->uuid(), $petDTO->ownerId));
+                #$this->info(sprintf('Pet: %s | Owner %s', $petDTO->id->uuid(), $petDTO->ownerId));
                 $this->petRepository->create($petDTO);
 
                 SensorFactory::makeMany(5, ['pet_id' => $petDTO->id])
                     ->each($this->handleSensors());
             });
+            #$this->info("Memory usage:" . memory_get_usage() - $baseMemory);
         }
-        $this->info('Done :D');
+        #$this->info('Done :D');
 
         return self::SUCCESS;
     }
@@ -60,12 +62,12 @@ final class SimulateCommand extends AbstractCommand
     {
         return function (SensorDTO $sensorDTO) {
             $this->sensorRepository->create($sensorDTO);
-            $this->info(sprintf(
-                'Sensor: %s (%s) | Pet %s',
-                $sensorDTO->id,
-                $sensorDTO->type->name,
-                $sensorDTO->petId
-            ));
+//            $this->info(sprintf(
+//                'Sensor: %s (%s) | Pet %s',
+//                $sensorDTO->id,
+//                $sensorDTO->type->name,
+//                $sensorDTO->petId
+//            ));
         };
     }
 }

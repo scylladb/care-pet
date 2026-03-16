@@ -27,7 +27,7 @@ final class OwnerDTO extends AbstractDTO
     public function toDatabase(): array
     {
         return [
-            'owner_id' => $this->id->uuid(),
+            'owner_id' => $this->id,
             'name' => $this->name,
             'address' => $this->address
         ];
