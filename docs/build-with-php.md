@@ -91,19 +91,16 @@ DB_PORT=9042
 #DB_PORT=9042
 ```
 
-> If you want to use ScyllaDB Cloud, remember to change at your keyspace the **Replication Factor** related to 
-> for each environment.
-
 ##### Initializing Keyspace:
 
-First, let's create our keyspace using CQLSH.
+First, let's create our keyspace using CQLSH. This syntax requires ScyllaDB 2026.1 or later.
 
 ```shell
 $ docker exec -it carepet-scylla1 cqlsh
 Connected to  at 10.10.5.2:9042.
 [cqlsh 5.0.1 | Cassandra 3.0.8 | CQL spec 3.3.1 | Native protocol v4]
 Use HELP for help.
-cqlsh> CREATE KEYSPACE IF NOT EXISTS carepet WITH replication = { 'class': 'NetworkTopologyStrategy', 'replication_factor': '2' };
+cqlsh> CREATE KEYSPACE IF NOT EXISTS carepet;
 cqlsh>
 ```
 

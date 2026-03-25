@@ -1,4 +1,4 @@
-CREATE KEYSPACE IF NOT EXISTS carepet WITH replication = { 'class': 'NetworkTopologyStrategy', 'replication_factor': '3' };
+CREATE KEYSPACE IF NOT EXISTS carepet;
 
 CREATE TABLE IF NOT EXISTS carepet.owner
 (
