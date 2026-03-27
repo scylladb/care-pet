@@ -267,3 +267,7 @@ int current = now.getHour();
 * [Scylla Java driver documentation](https://java-driver.docs.scylladb.com/stable/)
 * [ScyllaDB Java driver on Github](https://github.com/scylladb/java-driver/)
 * [ScyllaDB University: Coding with Java](https://university.scylladb.com/courses/the-mutant-monitoring-system-training-course/lessons/coding-with-java-part-1/)
+
+## Quick Start
+
+For setup instructions including prerequisites and docker-compose, see the [Java Quick Start](java-readme.md) page.

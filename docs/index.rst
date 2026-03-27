@@ -136,12 +136,19 @@
    Deploy in cloud <deploy-in-cloud>
    Design and Data Model <design-and-data-model>
    Build with Go <build-with-go>
+   Go Quick Start <go-readme>
    Build with JavaScript <build-with-javascript>
+   JavaScript Quick Start <javascript-readme>
    Build with Java <build-with-java>
+   Java Quick Start <java-readme>
    Build with Python <build-with-python>
+   Python Quick Start <python-readme>
    Build with PHP <build-with-php>
    Build with Rust <build-with-rust>
+   Rust Quick Start <rust-readme>
    Build with CSharp <build-with-csharp>
+   CSharp Quick Start <csharp-readme>
    Build with C++ <build-with-cpp>
+   C++ Quick Start <cpp-readme>
    Care-Pet GitHub Repository <https://github.com/scylladb/care-pet>
    Care-Pet Blog <https://www.scylladb.com/2020/09/09/carepet-an-example-iot-use-case-for-hands-on-app-developers/>

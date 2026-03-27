@@ -312,3 +312,7 @@ private void SaveAggregate(Guid sensorId, List<float> data, int prevSize, DateTi
 
 * [Scylla CSharp driver documentation](https://csharp-driver.docs.scylladb.com/stable/index.html)
 * [ScyllaDB CSharp driver on Github](https://github.com/scylladb/csharp-driver/)
+
+## Quick Start
+
+For setup instructions including prerequisites and docker-compose, see the [CSharp Quick Start](csharp-readme.md) page.

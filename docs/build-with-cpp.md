@@ -123,3 +123,7 @@ The server also aggregates the data and saves it to the database in the `sensor_
 ## Resources
 
 * [ScyllaDB C++ Driver on Github](https://github.com/scylladb/scylla-cpp-driver)
+
+## Quick Start
+
+For setup instructions including prerequisites and docker-compose, see the [C++ Quick Start](cpp-readme.md) page.

@@ -254,3 +254,7 @@ curl http://127.0.0.1:8000/api/pet/44f1624e-07c2-4971-85a5-85b9ad1ff142/sensors
 * [ScyllaDB Python driver documentation](https://python-driver.docs.scylladb.com/stable/)
 * [ScyllaDB Python driver on Github](https://github.com/scylladb/python-driver/)
 * [ScyllaDB University: Coding with Python](https://university.scylladb.com/courses/the-mutant-monitoring-system-training-course/lessons/coding-with-python/)
+
+## Quick Start
+
+For setup instructions including prerequisites and docker-compose, see the [Python Quick Start](python-readme.md) page.

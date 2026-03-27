@@ -436,3 +436,7 @@ and you should receive a response similar to this:
 * [ScyllaDB Rust driver on Github](https://github.com/scylladb/scylla-rust-driver)
 * [ScyllaDB University: Getting Started with Rust](https://university.scylladb.com/courses/using-scylla-drivers/lessons/rust-and-scylla-2/)
 
+## Quick Start
+
+For setup instructions including prerequisites and docker-compose, see the [Rust Quick Start](rust-readme.md) page.
+

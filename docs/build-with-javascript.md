@@ -565,3 +565,7 @@ Expected output:
 * [Getting Started with ScyllaDB Cloud Using Node.js](https://www.scylladb.com/2022/03/14/getting-started-with-scylladb-cloud-using-node-js-part-1/)
 * [ScyllaDB University: Coding with Node.js](https://university.scylladb.com/courses/using-scylla-drivers/lessons/scylla-and-node-js/)
 * [NodeJS driver on Github (third-party)](https://github.com/datastax/nodejs-driver/)
+
+## Quick Start
+
+For setup instructions including prerequisites and docker-compose, see the [JavaScript Quick Start](javascript-readme.md) page.
