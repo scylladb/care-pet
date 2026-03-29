@@ -1,4 +1,4 @@
-# Care Pet ScyllaDB IoT example
+# Run IoT with PHP
 
 This example project demonstrates a generic IoT use case for ScyllaDB in PHP.
 

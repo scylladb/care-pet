@@ -1,4 +1,4 @@
-# Care Pet ScyllaDB IoT example
+# Run IoT with Python
 
 This is an example project that demonstrates a generic IoT use case with
 ScyllaDB in Python.

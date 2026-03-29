@@ -63,51 +63,51 @@
   Spin up a new ScyllaDB Cloud cluster with Terraform and get started with this example in a cloud environment.
 
 .. topic-box::
-  :title: Build with Go
+  :title: Run with Go
   :image: /_static/img/programming_languages/go-lang.png
-  :link: build-with-go
+  :link: go/run-with-go
   :class: large-4
 
 .. topic-box::
-  :title: Build with Java
+  :title: Run with Java
   :image: /_static/img/programming_languages/java.png
-  :link: build-with-java
+  :link: java/run-with-java
   :class: large-4
 
 .. topic-box::
-  :title: Build with Rust
+  :title: Run with Rust
   :image: /_static/img/programming_languages/rust.png
-  :link: build-with-rust
+  :link: rust/run-with-rust
   :class: large-4
 
 .. topic-box::
-  :title: Build with JavaScript
+  :title: Run with JavaScript
   :image: /_static/img/programming_languages/javascript.png
-  :link: build-with-javascript
+  :link: javascript/run-with-javascript
   :class: large-4
 
 .. topic-box::
-  :title: Build with Python
+  :title: Run with Python
   :image: /_static/img/programming_languages/python.png
-  :link: build-with-python
+  :link: python/run-with-python
   :class: large-4
 
 .. topic-box::
-  :title: Build with PHP
+  :title: Run with PHP
   :image: /_static/img/programming_languages/php.png
-  :link: build-with-php
+  :link: php/run-with-php
   :class: large-4
 
 .. topic-box::
-  :title: Build with CSharp
+  :title: Run with CSharp
   :image: /_static/img/programming_languages/csharp.png
-  :link: build-with-csharp
+  :link: csharp/run-with-csharp
   :class: large-4
 
 .. topic-box::
-  :title: Build with C++
+  :title: Run with C++
   :image: /_static/img/programming_languages/cpp.png
-  :link: build-with-cpp
+  :link: cpp/run-with-cpp
   :class: large-4
 
 .. raw:: html
@@ -129,19 +129,19 @@
   </div>
 
 .. toctree::
-   :maxdepth: 3
+   :maxdepth: 2
    :hidden:
 
-   Getting Started with CarePet: A sample IoT App <getting-started>
+   Getting Started  <getting-started>
    Deploy in cloud <deploy-in-cloud>
    Design and Data Model <design-and-data-model>
-   Build with Go <build-with-go>
-   Build with JavaScript <build-with-javascript>
-   Build with Java <build-with-java>
-   Build with Python <build-with-python>
-   Build with PHP <build-with-php>
-   Build with Rust <build-with-rust>
-   Build with CSharp <build-with-csharp>
-   Build with C++ <build-with-cpp>
+   cpp/index
+   csharp/index
+   rust/index
+   php/index
+   python/index
+   java/index
+   javascript/index
+   go/index
    Care-Pet GitHub Repository <https://github.com/scylladb/care-pet>
    Care-Pet Blog <https://www.scylladb.com/2020/09/09/carepet-an-example-iot-use-case-for-hands-on-app-developers/>

@@ -45,6 +45,9 @@ author = u'Scylla Project Contributors'
 # directories to ignore when looking for source files.
 exclude_patterns = ["_build", "Thumbs.db", ".DS_Store", "sizing.md", ".venv"]
 
+# Follow symlinks so that run-with-*.md symlinks pointing to lang READMEs are included.
+follow_links = True
+
 # The name of the Pygments (syntax highlighting) style to use.
 pygments_style = 'sphinx'
 
