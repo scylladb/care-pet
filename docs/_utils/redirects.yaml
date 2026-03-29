@@ -1,0 +1,8 @@
+/build-with-go.html: /go/build-with-go.html
+/build-with-javascript.html: /javascript/build-with-javascript.html
+/build-with-java.html: /java/build-with-java.html
+/build-with-python.html: /python/build-with-python.html
+/build-with-php.html: /php/build-with-php.html
+/build-with-rust.html: /rust/build-with-rust.html
+/build-with-csharp.html: /csharp/build-with-csharp.html
+/build-with-cpp.html: /cpp/build-with-cpp.html
