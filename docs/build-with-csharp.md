@@ -73,14 +73,10 @@ public void CreateKeyspace()
 ```
 
 ```
-CREATE KEYSPACE IF NOT EXISTS carepet
-WITH replication = {
-    'class': 'NetworkTopologyStrategy',
-    'datacenter1': 3
-} AND durable_writes = true;
+CREATE KEYSPACE IF NOT EXISTS carepet;
 ```
 
-The CQL query above creates a new keyspace named carepet, with `NetworkTopologyStrategy` as replication strategy and a replication factor of 3.
+The CQL query above creates a new keyspace named carepet using the default replication strategy. This syntax requires ScyllaDB 2026.1 or later.
 See [Scylla University](https://university.scylladb.com/courses/data-modeling/lessons/basic-data-modeling-2/topic/keyspace/) for more information about keyspaces and replication.
 
 The `CreateSchema` function opens a new session with the `carepet` keyspace and creates the following tables in the carepet keyspace using the CQL file located in `Resources/care-pet-ddl.cql`:

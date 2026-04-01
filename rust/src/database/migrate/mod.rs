@@ -61,10 +61,8 @@ pub async fn read_file(file: PathBuf) -> Result<String> {
 
 pub async fn create_keyspace(session: &Session, keyspace: &str) -> Result<()> {
     let keyspace_query = format!(
-        "{} {} {}",
-        "CREATE KEYSPACE IF NOT EXISTS",
-        keyspace,
-        "WITH replication = { 'class': 'NetworkTopologyStrategy', 'replication_factor': '3' }"
+        "CREATE KEYSPACE IF NOT EXISTS {}",
+        keyspace
     );
 
     session.query(keyspace_query, []).await?;

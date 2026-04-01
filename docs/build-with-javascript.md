@@ -218,10 +218,10 @@ async function getClient(config, keyspace) {
 `await client.execute(cql.KEYSPACE);` creates a keyspace as defined in `cql/keyspace.cql`:
 
 ```
-CREATE KEYSPACE IF NOT EXISTS carepet WITH replication = { 'class': 'NetworkTopologyStrategy', 'replication_factor': '3' };
+CREATE KEYSPACE IF NOT EXISTS carepet;
 ```
 
-The CQL query above creates a new keyspace named carepet, with `NetworkTopologyStrategy` as replication strategy and a replication factor of 3.
+The CQL query above creates a new keyspace named carepet using the default replication strategy. This syntax requires ScyllaDB 2026.1 or later.
 See [Scylla University](https://university.scylladb.com/courses/data-modeling/lessons/basic-data-modeling-2/topic/keyspace/) for more information about keyspaces and replication.
 
 Finally, the code loops through all the queries listed in `cql/migrate.cql` to create the tables you need for the project.

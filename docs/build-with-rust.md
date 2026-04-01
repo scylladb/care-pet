@@ -86,10 +86,10 @@ For more information about creating a new session with the Rust Driver, please h
 `create_keyspace` function takes a session as an argument and creates a keyspace as defined in `db/keyspace.cql`:
 
 ```cql
-CREATE KEYSPACE IF NOT EXISTS carepet WITH replication = { 'class': 'NetworkTopologyStrategy', 'replication_factor': '3' };
+CREATE KEYSPACE IF NOT EXISTS carepet;
 ```
 
-The CQL query above creates a new keyspace named carepet, with `NetworkTopologyStrategy` as replication strategy and a replication factor of 3.
+The CQL query above creates a new keyspace named carepet using the default replication strategy. This syntax requires ScyllaDB 2026.1 or later.
 More information about keyspace and replication on [Scylla University](https://university.scylladb.com/courses/data-modeling/lessons/basic-data-modeling-2/topic/keyspace/).
 
 Finally, `migrate` will execute the queries listed in `db/migrate.cql` to create the tables you need for the project.

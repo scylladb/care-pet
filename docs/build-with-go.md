@@ -30,8 +30,10 @@ func main() {
 The `createKeyspace` function creates a new session then executes the following CQL query stored in the  `db.go` file:
 
 ```
-CREATE KEYSPACE IF NOT EXISTS carepet WITH replication = { 'class': 'NetworkTopologyStrategy', 'replication_factor': '3' } AND durable_writes = TRUE;
+CREATE KEYSPACE IF NOT EXISTS carepet;
 ```
+
+The CQL query above creates a new keyspace named carepet using the default replication strategy. This syntax requires ScyllaDB 2026.1 or later.
 
 ```
 func createKeyspace() {
