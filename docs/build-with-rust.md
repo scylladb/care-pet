@@ -16,7 +16,7 @@ Start by creating a local ScyllaDB cluster consisting of 3 nodes:
 ```
 $ docker-compose up -d
 ```
-Docker-compose will spin up a ScyllaDB cluster consisting of 3 nodes (carepet-scylla1, carepet-scylla2 and carepet-scylla3) along with the app (for example go-app) container.  Wait for about two minutes and check the status of the cluster: To check the status of the cluster:
+Docker-compose will spin up a ScyllaDB cluster consisting of 3 nodes (carepet-scylla1, carepet-scylla2 and carepet-scylla3) along with the app container.  Wait for about two minutes and check the status of the cluster: To check the status of the cluster:
 ```
 $ docker exec -it carepet-scylla1 nodetool status
 ```
@@ -304,6 +304,7 @@ async fn main() -> Result<()> {
         .manage(sess)
         .launch()
         .await
+        .map(|_| ())
         .map_err(From::from)
 }
 ```
@@ -355,10 +356,6 @@ The GET request on URL `/sensor/<id>/values?<from>&<to>` triggers `find_sensor_d
 
 To test out the API in your terminal, use the following command: `$ curl http://127.0.0.1:8000/api/owner/{id}` and expect the following response:
 
-````
-
-[{"address":"home","age":57,"name":"tlmodylu","owner_id":"a05fd0df-0f97-4eec-a211-cad28a6e5360","pet_id":"a52adc4e-7cf4-47ca-b561-3ceec9382917","weight":5}]
-
 ```
-
+[{"address":"home","age":57,"name":"tlmodylu","owner_id":"a05fd0df-0f97-4eec-a211-cad28a6e5360","pet_id":"a52adc4e-7cf4-47ca-b561-3ceec9382917","weight":5}]
 ```
