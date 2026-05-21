@@ -15,10 +15,11 @@ The application has three modules:
 ## Get started
 
 ### Prerequisites:
-* [Python 3.7+](https://www.python.org/downloads/)
+* [Python 3.8+](https://www.python.org/downloads/)
+* [pip](https://pip.pypa.io/en/stable/installation/)
 * [Virtualenv](https://virtualenv.pypa.io/en/latest/installation.html)
 * [docker](https://www.docker.com/)
-* [docker-compose](https://docs.docker.com/compose/)
+* [docker compose](https://docs.docker.com/compose/)
 
 ### Clone repository and install dependencies
 Clone the repository and open the root directory of the project:
@@ -39,9 +40,9 @@ pip install -r requirements.txt
 ```
 
 ### Start Docker containers (skip this if you use Scylla Cloud)
-Spin up a local ScyllaDB cluster with three nodes using `docker` and `docker-compose`:
+Spin up a local ScyllaDB cluster with three nodes using `docker` and `docker compose`:
 ```bash
-docker-compose up -d
+docker compose up -d
 
 Creating carepet-scylla3 ... done
 Creating carepet-scylla2 ... done
@@ -74,6 +75,9 @@ docker inspect carepet-scylla1
 ```
 
 ### Connect to ScyllaDB and create the database schema
+
+#### Local Docker cluster
+
 To connect to your ScyllaDB storage within the container, you need to know the
 IP address of one of the running nodes.
 This is how you can get the IP address of the first node running in the container:
@@ -90,6 +94,19 @@ NODE1=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{en
 Now you can run the migration script that creates the required keyspace and tables:
 ```bash
 python src/migrate.py -h $NODE1
+
+Creating keyspace...
+Done.
+Migrating database...
+Done.
+```
+
+#### ScyllaDB Cloud
+
+When using ScyllaDB Cloud, pass your cluster's contact point, username, password,
+and data center name:
+```bash
+python src/migrate.py -h <node-address> -u <username> -p <password> -d <datacenter>
 
 Creating keyspace...
 Done.
@@ -148,6 +165,8 @@ At this point you have ScyllaDB running with the correct keyspace and tables.
 Start ingesting IoT data (it's suggested to do this in a new separate terminal
 because this process runs indefinitely). Make sure you're still in the virtual
 environment:
+
+**Local Docker cluster:**
 ```bash
 source env/bin/activate
 NODE1=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' carepet-scylla1)
@@ -162,18 +181,22 @@ sensor # b6155934-bd4e-47de-8649-1fad447aa036 type T, new measure: 100.551184314
 sensor # d2c62c4d-9621-469d-b62c-41ef2271fca7 type L, new measure: 37.486651732296835, ts: 2023-01-08 17:36:17.126516
 ```
 
+**ScyllaDB Cloud:**
+```bash
+source env/bin/activate
+python src/sensor.py -h <node-address> -u <username> -p <password> -d <datacenter> --measure 2 --buffer-interval 10
+```
+
 This command starts a script that generates and ingests random IoT data coming
 from two sensors every other second and inserts the data in batches
 every ten seconds. Whenever you see `Pushing data` in the command line that is
-when data actually gets insterted into ScyllaDB.
+when data actually gets inserted into ScyllaDB.
 
 Optional: You can modify the frequency of the generated data by changing the
 `--measure` and `--buffer-interval` arguments. For example,
 you can generate new data points every three seconds and insert the batches
 every 30 seconds:
 ```bash
-source env/bin/activate
-NODE1=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' carepet-scylla1)
 python src/sensor.py -h $NODE1 --measure 3 --buffer-interval 30
 ```
 
@@ -181,6 +204,8 @@ You can run multiple ingestion processes in parallel if you wish.
 
 ### Set up and test REST API
 In a new terminal, start running the API server (make sure that `port 8000` is free):
+
+**Local Docker cluster:**
 ```bash
 source env/bin/activate
 NODE1=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' carepet-scylla1)
@@ -189,7 +214,13 @@ python src/api.py -h $NODE1
 INFO:     Started server process [696274]
 INFO:     Waiting for application startup.
 INFO:     Application startup complete.
-INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+```
+
+**ScyllaDB Cloud:**
+```bash
+source env/bin/activate
+python src/api.py -h <node-address> -u <username> -p <password> -d <datacenter>
 ```
 
 The API server is running on `http://127.0.0.1:8000`. Test with your
@@ -215,8 +246,6 @@ To test these endpoints, you need to provide either an `owner_id` or a `pet_id`
 as URL path parameter. You can get these values by copying them from the
 beginning of output of the ingestion script:
 ```bash
-source env/bin/activate
-NODE1=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' carepet-scylla1)
 python src/sensor.py -h $NODE1 --measure 1 --buffer-interval 6
 
 Welcome to the Pet collar simulator
@@ -273,3 +302,4 @@ Package structure:
 | [/src/api.py](/src/api.py )             | Script to start the API server       |
 | [/src/migrate.py](/src/migrate.py)      | Schema creation                      |
 | [/src/sensor.py](/src/sensor.py)        | IoT data ingestion                   |
+| [/src/dognames.py](/src/dognames.py)    | Dog name generator utility           |

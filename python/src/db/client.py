@@ -29,15 +29,18 @@ class ScyllaClient():
     def _get_cluster(self, config):
         profile = ExecutionProfile(
             load_balancing_policy=TokenAwarePolicy(
-                    DCAwareRoundRobinPolicy(local_dc=config["datacenter"])
+                    DCAwareRoundRobinPolicy(local_dc=config.get("datacenter"))
                 ),
                 row_factory=dict_factory
             )
+        auth_provider = None
+        if config.get("username") and config.get("password"):
+            auth_provider = PlainTextAuthProvider(username=config["username"],
+                                                  password=config["password"])
         return Cluster(
             execution_profiles={EXEC_PROFILE_DEFAULT: profile},
             contact_points=[config["hosts"]],
-            auth_provider = PlainTextAuthProvider(username=config["username"],
-                                                  password=config["password"]))
+            auth_provider=auth_provider)
     
     def print_metadata(self):
         for host in self.cluster.metadata.all_hosts():
