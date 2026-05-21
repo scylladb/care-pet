@@ -1,7 +1,6 @@
 package com.carepet;
 
 import com.datastax.oss.driver.api.core.CqlSession;
-import com.datastax.oss.driver.api.core.metadata.schema.KeyspaceMetadata;
 import com.datastax.oss.driver.api.core.metadata.schema.TableMetadata;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,7 +53,9 @@ public class Migrate {
         LOG.info("creating table...");
         try (CqlSession session = keyspace()) {
             for (String cql : Config.getResource("care-pet-ddl.cql").split(";")) {
-                session.execute(cql);
+                if (!cql.isBlank()) {
+                    session.execute(cql);
+                }
             }
         }
     }
@@ -64,10 +65,11 @@ public class Migrate {
      */
     public void printMetadata() {
         try (CqlSession session = keyspace()) {
-            KeyspaceMetadata keyspace = session.getMetadata().getKeyspace(Config.keyspace).get();
-            for (TableMetadata table : keyspace.getTables().values()) {
-                System.out.printf("Keyspace: %s; Table: %s%n", keyspace.getName(), table.getName());
-            }
+            session.getMetadata().getKeyspace(Config.keyspace).ifPresent(keyspace -> {
+                for (TableMetadata table : keyspace.getTables().values()) {
+                    System.out.printf("Keyspace: %s; Table: %s%n", keyspace.getName(), table.getName());
+                }
+            });
         }
     }
 }

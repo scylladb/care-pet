@@ -5,10 +5,10 @@ import com.datastax.oss.driver.api.mapper.annotations.CqlName;
 import com.datastax.oss.driver.api.mapper.annotations.Entity;
 import com.datastax.oss.driver.api.mapper.annotations.PartitionKey;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.apache.commons.lang.RandomStringUtils;
-import org.apache.commons.lang.math.RandomUtils;
+import org.apache.commons.lang3.RandomStringUtils;
 
 import java.util.UUID;
+import java.util.concurrent.ThreadLocalRandom;
 
 @Entity
 @CqlName("pet")
@@ -62,8 +62,8 @@ public class Pet {
                 ownerId,
                 UUID.randomUUID(),
                 "", "", "", "", "",
-                1 + RandomUtils.nextInt(100),
-                5.0f + 10.0f * RandomUtils.nextFloat(),
+                1 + ThreadLocalRandom.current().nextInt(100),
+                5.0f + 10.0f * ThreadLocalRandom.current().nextFloat(),
                 "home",
                 RandomStringUtils.randomAlphanumeric(8));
     }
