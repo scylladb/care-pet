@@ -130,4 +130,5 @@ def main():
             print("Pushing data")
             client.insert_batch_data("carepet.measurement", measurements_data)
         
-main()
+if __name__ == "__main__":
+    main()
