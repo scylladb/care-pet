@@ -63,10 +63,10 @@ func migrateKeyspace() {
 	ses, err := config.Keyspace()
 	if err != nil {
 		log.Fatalln("session: ", err)
-	}T
+	}
 	defer ses.Close()
 
-        // Execute the queries in the migration file om db/cql
+        // Execute the queries in the migration file in db/cql
 	if err := migrate.Migrate(context.Background(), ses, "db/cql"); err != nil {
 		log.Fatalln("migrate: ", err)
 	}
