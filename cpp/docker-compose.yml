@@ -1,0 +1,32 @@
+version: '3'
+
+services:
+  cpp-app:
+    build: .
+    container_name: carepet-cpp
+    depends_on:
+      - carepet-scylla1
+    environment:
+      - SCYLLADB_HOSTS=carepet-scylla1
+    command: tail -F /dev/null
+
+  carepet-scylla1:
+    image: scylladb/scylla
+    container_name: carepet-scylla1
+    command: --smp 1
+    expose:
+      - '9042'
+
+  carepet-scylla2:
+    image: scylladb/scylla
+    container_name: carepet-scylla2
+    command: --smp 1 --seeds=carepet-scylla1
+    expose:
+      - '9042'
+
+  carepet-scylla3:
+    image: scylladb/scylla
+    container_name: carepet-scylla3
+    command: --smp 1 --seeds=carepet-scylla1
+    expose:
+      - '9042'
