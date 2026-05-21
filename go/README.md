@@ -18,7 +18,7 @@ Quick Start
 
 Prerequisites:
 
-- [go](https://golang.org/dl/) at least 1.14
+- [go](https://golang.org/dl/) at least 1.21
 - [docker](https://www.docker.com/)
 - [docker-compose](https://docs.docker.com/compose/)
 
@@ -40,7 +40,7 @@ To execute nodetool:
 
 Shell:
 
-    $ docker exec -it carepet-scylla1 shell
+    $ docker exec -it carepet-scylla1 bash
 
 You can inspect any node by means of the `docker inspect` command
 as follows. for example:
@@ -296,29 +296,29 @@ Now your `go.mod` will be looking something like this:
 
     module github.com/blah/blah
 
-    go 1.14
+    go 1.21
 
     require (
-        github.com/gocql/gocql v0.0.0-20200624222514-34081eda590e // indirect
-        github.com/scylladb/gocqlx/v2 v2.1.0 // indirect
+        github.com/gocql/gocql v0.0.0-20211015133455-b225f9b53fa1 // indirect
+        github.com/scylladb/gocqlx/v2 v2.8.0 // indirect
     )
 
 Add a `gocql` driver replacement with our version with:
 
-    replace github.com/gocql/gocql => github.com/scylladb/gocql v1.4.0
+    replace github.com/gocql/gocql => github.com/scylladb/gocql v1.18.0
 
 Now `go.mod` must look like:
 
     module github.com/blah/blah
 
-    go 1.14
+    go 1.21
 
     require (
-        github.com/gocql/gocql v0.0.0-20200624222514-34081eda590e // indirect
-        github.com/scylladb/gocqlx/v2 v2.1.0 // indirect
+        github.com/gocql/gocql v0.0.0-20211015133455-b225f9b53fa1 // indirect
+        github.com/scylladb/gocqlx/v2 v2.8.0 // indirect
     )
 
-    replace github.com/gocql/gocql => github.com/scylladb/gocql v1.4.0
+    replace github.com/gocql/gocql => github.com/scylladb/gocql v1.18.0
 
 Now you are ready to connect to the database and start working.
 To connect to the database, do the following:

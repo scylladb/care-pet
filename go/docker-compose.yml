@@ -2,7 +2,7 @@ version: '3'
 
 services:
     go-app:
-        image: golang:1.14
+        image: golang:1.21
         container_name: go-app
         depends_on:
             - carepet-scylla1
