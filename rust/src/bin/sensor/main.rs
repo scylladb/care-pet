@@ -12,7 +12,7 @@ use care_pet::model::*;
 use care_pet::{db, Result};
 
 #[derive(Debug, StructOpt)]
-#[structopt(name = "migrate")]
+#[structopt(name = "sensor")]
 struct App {
     // Sensors measurement interval
     #[structopt(short, long, default_value = "1h")]

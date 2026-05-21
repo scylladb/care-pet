@@ -40,5 +40,6 @@ async fn main() -> Result<()> {
         .manage(sess)
         .launch()
         .await
+        .map(|_| ())
         .map_err(From::from)
 }

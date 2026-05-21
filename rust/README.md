@@ -14,7 +14,7 @@ The application allows tracking of pets health indicators and consist of three p
 
 Prerequisites:
 
-- [Rust](https://rustup.rs/) at least 1.57
+- [Rust](https://rustup.rs/) at least 1.75
 - [docker](https://www.docker.com/)
 - [docker-compose](https://docs.docker.com/compose/)
 
@@ -76,7 +76,7 @@ You can check the database structure with:
     cqlsh> USE carepet;
     cqlsh:carepet> DESCRIBE TABLES
 
-    pet  sensor_avg  gocqlx_migrate  measurement  owner  sensor
+    pet  sensor_avg  measurement  owner  sensor
 
     cqlsh:carepet> DESCRIBE TABLE pet
 
@@ -294,7 +294,7 @@ The algorithm is simple and resides in `/handler/avg.rs`:
 
 ## How to start a new project with Rust
 
-Install Go. Create a repository. Clone it. Execute inside of
+Install Rust. Create a repository. Clone it. Execute inside of
 your repository:
 
     $ cargo new project_name
@@ -302,7 +302,7 @@ your repository:
 Now in `project_name/Cargo.toml`, under `dependencies` specify:
 
     [dependencies]
-    scylla = "0.3"
+    scylla = "1.0"
 
 Now you are ready to connect to the database and start working.
 To connect to the database, do the following:

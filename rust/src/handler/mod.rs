@@ -48,7 +48,7 @@ impl<'a> FromParam<'a> for UuidParam {
 pub struct DateTimeParam(pub Duration);
 
 impl<'a> FromFormField<'a> for DateTimeParam {
-    fn from_value(field: ValueField<'a>) -> rocket::form::Result<Self> {
+    fn from_value(field: ValueField<'a>) -> rocket::form::Result<'a, Self> {
         chrono::DateTime::parse_from_rfc3339(field.value)
             .map(|dt| Self(Duration::from_millis(dt.timestamp_millis())))
             .map_err(|_| field.unexpected().into())
@@ -75,7 +75,7 @@ impl<'a> FromParam<'a> for DateParam {
         chrono::NaiveDate::parse_from_str(param, "%Y-%m-%d")
             .map(|d| {
                 Self(Duration::from_millis(
-                    NaiveDateTime::new(d, NaiveTime::from_hms(0, 0, 0)).timestamp_millis(),
+                    NaiveDateTime::new(d, NaiveTime::from_hms_opt(0, 0, 0).unwrap()).and_utc().timestamp_millis(),
                 ))
             })
             .map_err(From::from)

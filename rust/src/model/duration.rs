@@ -30,10 +30,7 @@ impl Duration {
     }
 
     pub fn to_date(&self) -> chrono::DateTime<Utc> {
-        chrono::DateTime::from_utc(
-            chrono::NaiveDateTime::from_timestamp(self.0.num_seconds(), 0),
-            Utc,
-        )
+        chrono::DateTime::from_timestamp(self.0.num_seconds(), 0).unwrap_or_default()
     }
 
     pub fn format_rfc3339(&self) -> String {
@@ -60,7 +57,7 @@ impl FromCqlVal<CqlValue> for Duration {
     fn from_cql(cql_val: CqlValue) -> Result<Self, FromCqlValError> {
         if let Some(d) = cql_val.as_date() {
             Ok(Self::from_millis(
-                NaiveDateTime::new(d, NaiveTime::from_hms(0, 0, 0)).timestamp_millis(),
+                NaiveDateTime::new(d, NaiveTime::from_hms_opt(0, 0, 0).unwrap()).and_utc().timestamp_millis(),
             ))
         } else {
             chrono::Duration::from_cql(cql_val).map(Self)

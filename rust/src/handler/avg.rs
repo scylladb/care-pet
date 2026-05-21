@@ -38,7 +38,7 @@ pub async fn find_sensor_avg_by_sensor_id_and_day(
                 SensorAvg::FIELD_NAMES.sensor_id,
                 SensorAvg::FIELD_NAMES.date,
             ),
-            (id.0, date.date().naive_utc()),
+            (id.0, date.date_naive()),
         )
         .await
         .map_err(|err| json_err(Status::InternalServerError, err))?
@@ -66,17 +66,17 @@ async fn aggregate(
     let now = Utc::now();
 
     let start_hour = avg.len();
-    let start_date: DateTime<Utc> = DateTime::from_utc(
+    let start_date: DateTime<Utc> = DateTime::from_naive_utc_and_offset(
         NaiveDateTime::new(
             date.naive_utc().date(),
-            NaiveTime::from_hms(start_hour as u32, 0, 0),
+            NaiveTime::from_hms_opt(start_hour as u32, 0, 0).expect("valid time"),
         ),
         Utc,
     );
-    let end_date: DateTime<Utc> = DateTime::from_utc(
+    let end_date: DateTime<Utc> = DateTime::from_naive_utc_and_offset(
         NaiveDateTime::new(
             date.naive_utc().date(),
-            NaiveTime::from_hms_milli(23, 59, 59, 0),
+            NaiveTime::from_hms_milli_opt(23, 59, 59, 0).expect("valid time"),
         ),
         Utc,
     );
@@ -187,7 +187,7 @@ async fn save_aggregate(
         .skip(prev_avg_size)
         .filter(|avg| !same_date || avg.hour < current as i32);
 
-    for mut avg in to_insert {
+    for avg in to_insert {
         avg.sensor_id = id;
         avg.date = Date(Duration::from_millis(start_date.timestamp_millis()));
         info!("inserting sensor aggregate {:?}", &avg);
