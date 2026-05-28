@@ -93,12 +93,6 @@
   :class: large-4
 
 .. topic-box::
-  :title: Build with PHP
-  :image: /_static/img/programming_languages/php.png
-  :link: build-with-php
-  :class: large-4
-
-.. topic-box::
   :title: Build with CSharp
   :image: /_static/img/programming_languages/csharp.png
   :link: build-with-csharp
@@ -139,7 +133,6 @@
    Build with JavaScript <build-with-javascript>
    Build with Java <build-with-java>
    Build with Python <build-with-python>
-   Build with PHP <build-with-php>
    Build with Rust <build-with-rust>
    Build with CSharp <build-with-csharp>
    Build with C++ <build-with-cpp>
