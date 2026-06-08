@@ -122,4 +122,4 @@ The server also aggregates the data and saves it to the database in the `sensor_
 
 ## Resources
 
-* [ScyllaDB C++ Driver on Github](https://github.com/scylladb/scylla-cpp-driver)
+* [ScyllaDB C++ Driver](https://cpp-rs-driver.docs.scylladb.com/stable/)

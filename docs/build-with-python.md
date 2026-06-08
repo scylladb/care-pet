@@ -86,7 +86,7 @@ Migrating database...
 Done.
 ```
 
-See the database schema using [cqlsh](https://cassandra.apache.org/doc/latest/cassandra/tools/cqlsh.html) in the container:
+See the database schema using [cqlsh](https://docs.scylladb.com/manual/stable/cql/cqlsh.html) in the container:
 
 ```bash
 docker exec -it carepet-scylla1 cqlsh
