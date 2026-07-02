@@ -50,7 +50,7 @@ the database (latency sensitive).
 * SLA:
   - Writes: throughput of 100K operations per second.
   - Reads: latency of up to 10 milliseconds for the
-    [99th percentile](https://engineering.linkedin.com/performance/who-moved-my-99th-percentile-latency).
+    [99th percentile](https://www.scylladb.com/glossary/low-latency-database/).
 * The application requires high availability and fault tolerance. Even if a
 ScyllaDB node goes down or becomes unavailable, the cluster is expected to
 remain available and continue to provide service. You can learn more about
