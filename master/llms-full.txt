@@ -1,0 +1,2843 @@
+# index.md
+
+<div class="hero ">
+                <div class="hero-wrapper">
+                    <div class="hero_\_img">
+                    
+                <img src="/_static/img/mascots/care-pet-2.svg" />
+                
+                    </div>
+                    <div class="hero-header">
+                        <h1 class="hero_\_title">Build a low latency IoT project with a Real-Time NoSQL Database</h1>
+                        <div class="hero_\_text">
+            
+This tutorial is a step-by-step guide to build an IoT project connected to Scylla Cloud.
+After completing the project, you will be able to create back-end services that share data through a Scylla Cloud cluster.
+
+</div>
+                <a href="https://github.com/scylladb/care-pet">
+                <button class="hero_\_button button hero_\_button--bold">
+                <i class='icon icon--left  icon-github' aria-hidden='true'></i>Source code
+                </button>
+                </a>
+                </div></div></div><div class="landing_\_content landing_\_content">
+  <div class="topics-grid grid-container full">
+    <div class="grid-x grid-margin-x">
+            
+                <div class="cell topic-box large-4">
+                    <a class="card" href="getting-started.md" >
+                
+                <div class="topic-box_\_head">
+                
+            <div class="topic-box_\_icon">
+                <i class="icon-play-circle"></i>
+            </div>
+            
+                <h3 class="topic-box_\_title">Getting Started with Care-Pet</h3>
+                </div>
+                <div class="topic-box_\_body">
+            
+Create an IoT app from scratch and configure it to use ScyllaDB as the backend datastore.
+
+
+            
+                <div class="topic-box_\_anchor">Get Started</div>
+                
+            </div>
+            </a></div>
+            
+            
+                <div class="cell topic-box large-4">
+                    <a class="card" href="design-and-data-model.md" >
+                
+                <div class="topic-box_\_head">
+                
+            <div class="topic-box_\_icon">
+                <i class="icon-database"></i>
+            </div>
+            
+                <h3 class="topic-box_\_title">Design and Data Model</h3>
+                </div>
+                <div class="topic-box_\_body">
+            
+Learn more about the queries used in the example, make the primary key and clustering key selection, and create the database schema.
+
+
+            
+                <div class="topic-box_\_anchor">Learn more</div>
+                
+            </div>
+            </a></div>
+            
+            
+                <div class="cell topic-box large-4 small-12">
+                    <a class="card" href="https://www.scylladb.com/2020/09/09/carepet-an-example-iot-use-case-for-hands-on-app-developers/" target="_blank">
+                
+                <div class="topic-box_\_head">
+                
+            <div class="topic-box_\_icon">
+                <i class="icon-edit"></i>
+            </div>
+            
+                <h3 class="topic-box_\_title">Care-Pet Blog</h3>
+                </div>
+                <div class="topic-box_\_body">
+            
+The Care-Pet Example blog walks you through the example and adds additional information.
+
+
+            
+                <div class="topic-box_\_anchor">Read the article
+                 <i class="icon-newtab" aria-hidden="true"></i>
+                </div>
+                
+            </div>
+            </a></div>
+            
+            
+                <div class="cell topic-box large-12">
+                    <a class="card" href="deploy-in-cloud.md" >
+                
+                <div class="topic-box_\_head">
+                
+            <div class="topic-box_\_icon">
+                <i class="icon-cloud"></i>
+            </div>
+            
+                <h3 class="topic-box_\_title">Terraform integration</h3>
+                </div>
+                <div class="topic-box_\_body">
+            
+Spin up a new ScyllaDB Cloud cluster with Terraform and get started with this example in a cloud environment.
+
+
+            
+                <div class="topic-box_\_anchor">Deploy in the cloud</div>
+                
+            </div>
+            </a></div>
+            
+            
+                <div class="cell topic-box large-4">
+                    <a class="card" href="build-with-go.md" >
+                
+                <div class="topic-box_\_head">
+                
+            <div class="topic-box_\_icon"">
+                <img src="/_static/img/programming_languages/go-lang.png"/>
+            </div>
+            
+                <h3 class="topic-box_\_title">Build with Go</h3>
+                </div>
+                <div class="topic-box_\_body">
+            
+            
+            </div>
+            </a></div>
+            
+            
+                <div class="cell topic-box large-4">
+                    <a class="card" href="build-with-java.md" >
+                
+                <div class="topic-box_\_head">
+                
+            <div class="topic-box_\_icon"">
+                <img src="/_static/img/programming_languages/java.png"/>
+            </div>
+            
+                <h3 class="topic-box_\_title">Build with Java</h3>
+                </div>
+                <div class="topic-box_\_body">
+            
+            
+            </div>
+            </a></div>
+            
+            
+                <div class="cell topic-box large-4">
+                    <a class="card" href="build-with-rust.md" >
+                
+                <div class="topic-box_\_head">
+                
+            <div class="topic-box_\_icon"">
+                <img src="/_static/img/programming_languages/rust.png"/>
+            </div>
+            
+                <h3 class="topic-box_\_title">Build with Rust</h3>
+                </div>
+                <div class="topic-box_\_body">
+            
+            
+            </div>
+            </a></div>
+            
+            
+                <div class="cell topic-box large-4">
+                    <a class="card" href="build-with-javascript.md" >
+                
+                <div class="topic-box_\_head">
+                
+            <div class="topic-box_\_icon"">
+                <img src="/_static/img/programming_languages/javascript.png"/>
+            </div>
+            
+                <h3 class="topic-box_\_title">Build with JavaScript</h3>
+                </div>
+                <div class="topic-box_\_body">
+            
+            
+            </div>
+            </a></div>
+            
+            
+                <div class="cell topic-box large-4">
+                    <a class="card" href="build-with-python.md" >
+                
+                <div class="topic-box_\_head">
+                
+            <div class="topic-box_\_icon"">
+                <img src="/_static/img/programming_languages/python.png"/>
+            </div>
+            
+                <h3 class="topic-box_\_title">Build with Python</h3>
+                </div>
+                <div class="topic-box_\_body">
+            
+            
+            </div>
+            </a></div>
+            
+            
+                <div class="cell topic-box large-4">
+                    <a class="card" href="build-with-csharp.md" >
+                
+                <div class="topic-box_\_head">
+                
+            <div class="topic-box_\_icon"">
+                <img src="/_static/img/programming_languages/csharp.png"/>
+            </div>
+            
+                <h3 class="topic-box_\_title">Build with CSharp</h3>
+                </div>
+                <div class="topic-box_\_body">
+            
+            
+            </div>
+            </a></div>
+            
+            
+                <div class="cell topic-box large-4">
+                    <a class="card" href="build-with-cpp.md" >
+                
+                <div class="topic-box_\_head">
+                
+            <div class="topic-box_\_icon"">
+                <img src="/_static/img/programming_languages/cpp.png"/>
+            </div>
+            
+                <h3 class="topic-box_\_title">Build with C++</h3>
+                </div>
+                <div class="topic-box_\_body">
+            
+            
+            </div>
+            </a></div>
+            </div></div>
+
+<div class="topics-grid">
+
+  <h2 class="topics-grid_\_title" style="text-align: center;">Try the Care-Pet IoT with Rust</h2>
+  <p class="topics-grid_\_text" style="text-align: center;">Learn more about IoT and the Rust Driver by solving two query challenges and running the application.</p>
+  <div class="grid-container full">
+      <div class="grid-x grid-margin-x">
+        <div class="cell topic-box large-12">
+          <iframe style="width: 100%;" height="800" sandbox="allow-forms allow-modals allow-popups allow-same-origin allow-scripts" src="https://play.instruqt.com/embed/scylladb/tracks/carepet-rust?token=em_Z_xvk5h6RxovmnDS&show_challenges=true" style="border: 0;" allowfullscreen></iframe>
+        </div>
+      </div>
+    </div>
+</div>
+</div>
+
+
+# build-with-cpp.md
+
+# Build an IoT App with C++
+
+## Architecture
+
+In this section, we will walk you through the CarePet commands and explain the code behind them.
+The project is a single executable `care-pet` that can be run in three different modes:
+
+- `migrate` - Creates the `carepet` keyspace and tables.
+- `sensor` - Generates pet health data and pushes it into the storage.
+- `server` - REST API service for tracking pets’ health state.
+
+The application logic is split into corresponding components: `migrate`, `sensor`, and `server`. There is also a `common` component that contains shared code, such as database connection logic and data models.
+
+## Building the project
+
+The project uses CMake for building. To build the project, you need to have a C++ compiler (like GCC or Clang), CMake, and the Boost library installed.
+
+From the `cpp` directory, run the following commands:
+
+```bash
+mkdir -p build
+cd build
+cmake ..
+make
+```
+
+This will create the `care-pet` executable in the `cpp/build` directory.
+
+## Migrate
+
+The `./build/care-pet migrate --scylla-host $NODE1` command executes the migration logic. The main function in `src/main.cpp` parses the command-line arguments and, for the `migrate` mode, calls the `run_migrate` function from `src/migrate/migrate.cpp`.
+
+The `run_migrate` function connects to the ScyllaDB cluster and executes the CQL commands from the `data/care-pet-ddl.cql` file to create the necessary keyspace and tables.
+
+```cpp
+// In src/migrate/migrate.cpp
+void run_migrate(const po::variables_map& vm) {
+    std::cout << "Running in migrate mode\n";
+    Database db(vm["scylla-host"].as<std::string>());
+    db.connect();
+
+    auto ddl_files = vm["ddl-file"].as<std::vector<std::string>>();
+    for (const auto& file_path : ddl_files) {
+        std::ifstream file(file_path);
+        if (!file.is_open()) {
+            std::cerr << "Error: Could not open DDL file '" << file_path << "'\n";
+            continue;
+        }
+        std::string ddl_query((std::istreambuf_iterator<char>(file)),
+                              std::istreambuf_iterator<char>());
+        db.execute_query(ddl_query);
+        std::cout << "Executed DDL from " << file_path << "\n";
+    }
+}
+```
+
+The `care-pet-ddl.cql` file contains `CREATE KEYSPACE` and `CREATE TABLE` statements for `owner`, `pet`, `sensor`, `measurement`, and `sensor_avg` tables, similar to the Java example.
+
+You can check the database structure with:
+
+```bash
+$ docker exec -it carepet-scylla1 cqlsh
+cqlsh> USE carepet;
+cqlsh:carepet> DESCRIBE TABLES
+cqlsh:carepet> DESCRIBE TABLE pet
+```
+
+## Sensor
+
+The sensor service simulates the collar’s activity. You can use the following command to run the sensor service:
+
+```bash
+$ NODE1=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' care-pet-scylla1)
+$ ./build/care-pet sensor --scylla-host $NODE1 --seconds 60
+```
+
+This command executes the `run_sensor` function from `src/sensor/sensor.cpp`. This function simulates a pet collar, generating random data for an owner, a pet, and its sensors. It then periodically sends measurement data to the database.
+
+```cpp
+// In src/sensor/sensor.cpp
+void run_sensor(const po::variables_map& vm) {
+    std::cout << "Running in sensor mode\n";
+    Database db(vm["scylla-host"].as<std::string>());
+    db.connect("carepet");
+
+    // ... create random owner, pet, and sensors ...
+    // ... save them to the database ...
+
+    int seconds = vm["seconds"].as<int>();
+    auto start_time = std::chrono::steady_clock::now();
+
+    while (std::chrono::steady_clock::now() - start_time < std::chrono::seconds(seconds)) {
+        for (const auto& s : sensors) {
+            Measurement m = read_sensor_data(s);
+            // ... insert measurement into the database ...
+        }
+        std::this_thread::sleep_for(std::chrono::seconds(1));
+    }
+}
+```
+
+The code uses prepared statements to insert data into the `measurement` table efficiently.
+
+## Server
+
+The server service is a REST API for tracking the pets’ health state. The service allows you to query the database via HTTP.
+
+Run the following commands to start the server:
+
+```bash
+$ NODE1=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' care-pet-scylla1)
+$ ./build/care-pet server --scylla-host $NODE1 --host 0.0.0.0 --port 8080
+```
+
+This starts an HTTP server using Boost.Beast. The server exposes several endpoints to retrieve data from the database. The handlers for these endpoints are defined in `src/server/handlers.cpp`.
+
+For example, to get an owner’s data, you can use:
+
+`$ curl http://127.0.0.1:8080/api/owner/{id}`
+
+The server also aggregates the data and saves it to the database in the `sensor_avg` table, similar to the Java implementation.
+
+## Resources
+
+* [ScyllaDB C++ Driver](https://cpp-rs-driver.docs.scylladb.com/stable/)
+
+
+# build-with-csharp.md
+
+# Build an IoT App with CSharp
+
+## Introduction
+
+In this section, we will walk you through the CarePet commands and explain the code behind them.
+
+As explained in [Getting Started with CarePet](https://iot.scylladb.com/stable/getting-started.md), the project is structured as follows:
+
+- Migrate (CarePet.Migrate) - Creates the CarePet keyspace and tables.
+- Collar (CarePet.Sensor) - Simulates a pet’s collar by generating the pet’s health data and pushing the data into the storage.
+- Server (CarePet.Server.App) - REST API service for tracking the pets’ health state.
+
+## Prerequisites:
+
+- [.NET 8.0 SDK](https://dotnet.microsoft.com/download/dotnet/8.0)
+- [docker](https://www.docker.com/)
+- [docker-compose](https://docs.docker.com/compose/)
+
+## Setup
+
+Clone the repository and change to the csharp directory:
+
+```default
+git clone git@github.com:scylladb/care-pet.git
+cd csharp
+```
+
+To run a local ScyllaDB cluster consisting of three nodes with
+the help of `docker` and `docker-compose` execute:
+
+```none
+$ docker-compose up -d
+```
+
+Docker-compose will spin up three nodes: `csharp-carepet-scylla1-1`, `csharp-carepet-scylla2-1`
+and `csharp-carepet-scylla3-1`. You can access them with the `docker` command.
+
+## Migrate
+
+The `dotnet run --project CarePet.Migrate.csproj --hosts $NODE1 --datacenter datacenter1` command executes the main function in the `Migrate` class located in `Migrate.cs`. The function creates the keyspace and tables used by the collar and server services.
+
+The following code in the `Migrate.cs` file calls the `createKeyspace` , `createSchema` , and `printMetadata` functions.
+
+```default
+public static void Main(string[] args)
+{
+    var config = Config.Parse(new Config(), args);
+
+    var client = new Migrate(config);
+    client.CreateKeyspace();
+    client.CreateSchema();
+    client.PrintMetadata();
+}
+```
+
+Let’s break down the code line by line.
+
+The `config` object parses the arguments passed in the migrate command. In our case it’s `hosts` and `datacenter`. The `hosts` argument expects the IP address of one of the nodes. The `datacenter` argument is `datacenter1` by default but could be different if you use Scylla Cloud. The command also accepts `username` and `password` arguments if required.
+
+The `CreateKeyspace` function creates a new `ISession`, then executes the following CQL query stored in the `Resources/care-pet-keyspace.cql` file:
+
+```default
+public void CreateKeyspace()
+{
+    LOG.LogInformation("Creating keyspace carepet...");
+    using (var session = Connect())
+    {
+        var cql = Config.GetResource("care-pet-keyspace.cql");
+        if (!string.IsNullOrWhiteSpace(cql))
+        {
+            session.Execute(cql);
+        }
+    }
+    LOG.LogInformation("Keyspace carepet created successfully");
+}
+```
+
+```default
+CREATE KEYSPACE IF NOT EXISTS carepet;
+```
+
+The CQL query above creates a new keyspace named carepet using the default replication strategy. This syntax requires ScyllaDB 2026.1 or later.
+See [Scylla University](https://university.scylladb.com/courses/data-modeling/lessons/basic-data-modeling-2/topic/keyspace/) for more information about keyspaces and replication.
+
+The `CreateSchema` function opens a new session with the `carepet` keyspace and creates the following tables in the carepet keyspace using the CQL file located in `Resources/care-pet-ddl.cql`:
+
+- `owner`
+- `pet`
+- `sensor`
+- `measurement`
+- `sensor_avg`
+
+```default
+public void CreateSchema()
+{
+    LOG.LogInformation("Creating tables...");
+    using (var session = Keyspace())
+    {
+        var ddl = Config.GetResource("care-pet-ddl.cql");
+        if (!string.IsNullOrWhiteSpace(ddl))
+        {
+            var statements = ddl.Split(';')
+                                .Select(s => s.Trim())
+                                .Where(s => !string.IsNullOrEmpty(s));
+            foreach (var cql in statements)
+            {
+                session.Execute(cql);
+            }
+        }
+    }
+}
+```
+
+The `PrintMetadata` function will print the metadata related to the `carepet` keyspace and confirm that the tables are properly created.
+
+You can check the database structure with:
+
+```default
+$ docker exec -it csharp-carepet-scylla1-1 cqlsh
+cqlsh> USE carepet;
+cqlsh:carepet> DESCRIBE TABLES
+cqlsh:carepet> DESCRIBE TABLE pet
+```
+
+You should expect the following result:
+
+```default
+CREATE TABLE carepet.pet (
+owner_id uuid,
+pet_id uuid,
+chip_id text,
+species text,
+breed   text,
+color   text,
+gender  text,
+address text,
+age int,
+name text,
+weight float,
+PRIMARY KEY (owner_id, pet_id)
+) WITH CLUSTERING ORDER BY (pet_id ASC)
+AND bloom_filter_fp_chance = 0.01
+AND caching = {'keys': 'ALL', 'rows_per_partition': 'ALL'}
+AND comment = ''
+AND compaction = {'class': 'SizeTieredCompactionStrategy'}
+AND compression = {'sstable_compression': 'org.apache.cassandra.io.compress.LZ4Compressor'}
+AND crc_check_chance = 1.0
+AND dclocal_read_repair_chance = 0.1
+AND default_time_to_live = 0
+AND gc_grace_seconds = 864000
+AND max_index_interval = 2048
+AND memtable_flush_period_in_ms = 0
+AND min_index_interval = 128
+AND read_repair_chance = 0.0
+AND speculative_retry = '99.0PERCENTILE';
+```
+
+## Sensor
+
+The sensor service simulates the collar’s activity. You can use the following command to run the sensor service:
+
+```default
+$ dotnet build CarePet.Sensor.csproj
+$ dotnet run --project CarePet.Sensor.csproj --hosts $NODE1 --datacenter datacenter1 --measure 00:01:00 --buffer-interval 00:01:00
+```
+
+The above command executes `Sensor.cs` and the following `Main` function:
+
+```default
+public static void Main(string[] args)
+{
+    var config = SensorConfig.Parse(args);
+    var client = new Sensor(config);
+    client.Save();
+    client.Run();
+}
+```
+
+First, we create a client object, an instance of the Sensor class. Like in the `Migrate` class, we parse args using the `SensorConfig.Parse()` method to connect to the database.
+
+In the `Sensor` constructor, a random ID is attributed to the `owner`, `pet`, and `sensors`.
+
+```default
+public Sensor(SensorConfig config)
+{
+    _config = config;
+    _owner = Owner.Random();
+    _pet = Pet.Random(_owner.OwnerId);
+    _sensors = new CarePet.Model.Sensor[Enum.GetValues(typeof(SensorType)).Length];
+
+    var sensorTypes = Enum.GetValues(typeof(SensorType)).Cast<SensorType>().ToArray();
+    for (int i = 0; i < _sensors.Length; i++)
+    {
+        _sensors[i] = new CarePet.Model.Sensor(_pet.PetId, Guid.NewGuid(), SensorTypeExtensions.GetTypeCode(sensorTypes[i]));
+    }
+}
+```
+
+The `client.Save()` method connects to the datbase and saves the generated `owner`, `pet`, and the `sensors`.
+
+```default
+private void Save()
+{
+    using (var session = Keyspace())
+    {
+        var mapper = new Mapper(session);
+        LOG.LogInformation($"owner = {_owner}");
+        LOG.LogInformation($"pet = {_pet}");
+
+        mapper.Owner().Create(_owner);
+        mapper.Pet().Create(_pet);
+
+        foreach (var s in _sensors)
+        {
+            LOG.LogInformation($"sensor = {s}");
+            mapper.Sensor().Create(s);
+        }
+    }
+}
+```
+
+The `client.Run()` generates random data and pushes it to the database. In this code, we are using `PreparedStatement` to define the query and `BatchStatement` to run multiple queries at the same time. See the [ScyllaDB CSharp Driver documentation](https://csharp-driver.docs.scylladb.com/stable/features/components/core/statements/prepared/index.html) for details on `PreparedStatement`.
+
+```default
+private void Run()
+{
+    using (var session = Keyspace())
+    {
+        var prepared = session.Prepare("INSERT INTO measurement (sensor_id, ts, value) VALUES (?, ?, ?)");
+        var ms = new List<Measure>();
+        var prev = DateTimeOffset.UtcNow;
+
+        while (true)
+        {
+            while ((DateTimeOffset.UtcNow - prev) < _config.BufferInterval)
+            {
+                if (!Sleep(_config.Measurement))
+                    return;
+
+                foreach (var s in _sensors)
+                {
+                    var m = ReadSensorData(s);
+                    ms.Add(m);
+                    LOG.LogInformation(m.ToString());
+                }
+            }
+
+            var elapsed = DateTimeOffset.UtcNow - prev;
+            var intervals = elapsed.Ticks / _config.BufferInterval.Ticks;
+            prev = prev.AddTicks(intervals * _config.BufferInterval.Ticks);
+
+            LOG.LogInformation("pushing data");
+
+            var batch = new BatchStatement();
+            foreach (var m in ms)
+            {
+                batch.Add(prepared.Bind(m.SensorId, m.Ts.UtcDateTime, m.Value));
+            }
+
+            session.Execute(batch);
+            ms.Clear();
+        }
+    }
+}
+```
+
+## Server
+
+The server service is a REST API for tracking the pets’ health state. The service allows you to query the database via HTTP.
+
+Run the following commands to start the server:
+
+```default
+$ NODE1=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' csharp-carepet-scylla1-1)
+$ dotnet run --project CarePet.csproj --hosts $NODE1 --datacenter datacenter1
+```
+
+In the care-pet example, run:
+
+`$ curl http://127.0.0.1:8000/api/owner/{id}`.
+
+You can expect the following response:
+
+```default
+
+[{"address":"home","age":57,"name":"tlmodylu","owner_id":"a05fd0df-0f97-4eec-a211-cad28a6e5360","pet_id":"a52adc4e-7cf4-47ca-b561-3ceec9382917","weight":5}]
+
+```
+
+The controller is defined in `ModelController.cs`, and implements the GET methods to access owners, pets and sensors data.
+
+The server also aggregates the data and saves it to the database in the sensor_avg table:
+
+```default
+private void SaveAggregate(Guid sensorId, List<float> data, int prevSize, DateTime day, DateTime nowUtc)
+{
+    bool sameDate = nowUtc.Date == day.Date;
+    int currentHour = nowUtc.Hour;
+
+    for (int hour = prevSize; hour < data.Count; hour++)
+    {
+        if (sameDate && hour >= currentHour)
+            break;
+
+        _mapper.SensorAvg().CreateAsync(new SensorAvg(sensorId, day, hour, data[hour]));
+    }
+}
+```
+
+## Resources
+
+* [Scylla CSharp driver documentation](https://csharp-driver.docs.scylladb.com/stable/index.html)
+* [ScyllaDB CSharp driver on Github](https://github.com/scylladb/csharp-driver/)
+
+
+# build-with-go.md
+
+# Build an IoT App with Go
+
+## Introduction
+
+In this section, we will walk you through the CarePet commands and explain the code behind them.
+
+As explained in [Getting Started with CarePet](https://iot.scylladb.com/stable/getting-started.md), the project is structured as follows:
+
+- Migrate (/cmd/migrate) - Creates the CarePet keyspace and tables.
+- Collar (/cmd/sensor) - Simulates a pet’s collar by generating the pet’s health data and pushing the data into the storage.
+- Server (/cmd/server) - REST API service for tracking the pets’ health state.
+
+## Migrate
+
+The `/migrate` command creates the keyspace and tables that will be used by the collar and server services.
+
+Line 25 to 27 in the `/cmd/migrate/migrate.go` file call the `createKeyspace` , `migrateKeyspace` then the `printKeyspaceMetadata` functions.
+
+```default
+func main() {
+	
+	/// ...
+
+	createKeyspace()
+	migrateKeyspace()
+	printKeyspaceMetadata()
+}
+```
+
+The `createKeyspace` function creates a new session then executes the following CQL query stored in the  `db.go` file:
+
+```default
+CREATE KEYSPACE IF NOT EXISTS carepet;
+```
+
+The CQL query above creates a new keyspace named carepet using the default replication strategy. This syntax requires ScyllaDB 2026.1 or later.
+
+```default
+func createKeyspace() {
+        // Creates a new session
+	ses, err := config.Session()
+	if err != nil {
+		log.Fatalln("session: ", err)
+	}
+	defer ses.Close()
+
+        // Executes the CREATE KEYSPACE query and checks for errors
+	if err := ses.Query(db.KeySpaceCQL).Exec(); err != nil {
+		log.Fatalln("ensure keyspace exists: ", err)
+	}
+}
+```
+
+The `migrateKeyspace` function opens a new session with the `carepet` keyspace and creates the following tables in the carepet keyspace using the CQL file located in `/db/cql/care-pet-ddl.cql`:
+
+- `owner`
+- `pet`
+- `sensor`
+- `measurement`
+- `sensor_avg`
+
+```default
+func migrateKeyspace() {
+        // Create a new session with the carepet keyspace 
+	ses, err := config.Keyspace()
+	if err != nil {
+		log.Fatalln("session: ", err)
+	}
+	defer ses.Close()
+
+        // Execute the queries in the migration file om db/cql
+	if err := migrate.Migrate(context.Background(), ses, "db/cql"); err != nil {
+		log.Fatalln("migrate: ", err)
+	}
+}
+```
+
+As the name suggests, the `printKeyspaceMetadata` function will then print the metadata related to the `carepet` keyspace and confirm that the tables were properly created.
+
+## Sensor
+
+The sensor service simulates the collar’s activity. The service uses the `pet struct` and its functions defined in `sensor/pet.go` to create a new `pet` along with an `owner` and `sensorType` then saves it to the database.
+
+```default
+func main() {
+
+	/// ...
+
+	// Create a new session with carepet keyspace
+	ses, err := config.Keyspace()
+	if err != nil {
+		log.Fatalln("session: ", err)
+	}
+	defer ses.Close()
+
+	// Generate new pet
+	pet := NewPet()
+
+	// Save new pet to the database
+	if err := pet.save(context.Background(), ses); err != nil {
+		log.Fatalln("pet save: ", err)
+	}
+
+	log.Println("New owner #", pet.p.OwnerID)
+	log.Println("New pet #", pet.p.PetID)
+
+	pet.run(context.Background(), ses)
+}
+```
+
+## Server
+
+The server service is a REST API for tracking the pets’ health state. The service allows users to query the database via http.
+
+In the care-pet example, you will use `$ curl http://127.0.0.1:8000/api/owner/{id}` and expect the following response:
+
+```default
+[{"address":"home","age":57,"name":"tlmodylu","owner_id":"a05fd0df-0f97-4eec-a211-cad28a6e5360","pet_id":"a52adc4e-7cf4-47ca-b561-3ceec9382917","weight":5}]
+```
+
+Let’s first discuss the code from line 23 to 28 in `server/main.go`.
+
+```default
+func main() {
+
+	// ...
+	
+	api := operations.NewCarePetAPI(spec())
+	server := restapi.NewServer(api)
+	defer server.Shutdown()
+
+	configure(server)
+	server.ConfigureAPI()
+
+	// ...
+
+}
+```
+
+The `api` object represent a list of functions and codes generated by the swagger tool. Those operations are then passed to the NewServer method to configure the API and handler methods:
+
+```default
+// ConfigureAPI configures the API and handlers.
+func (s *Server) ConfigureAPI() {
+	if s.api != nil {
+		s.handler = configureAPI(s.api)
+	}
+}
+```
+
+One example of a  handler method is the `FindOwnerByID` in `handler/owner.go`.
+
+```default
+func FindOwnerByID(ses gocqlx.Session) operations.FindOwnerByIDHandlerFunc {
+	return func(params operations.FindOwnerByIDParams) middleware.Responder {
+		var owner model.Owner
+
+		if err := db.TableOwner.GetQuery(ses).Bind(params.ID.String()).GetRelease(&owner); err == gocql.ErrNotFound {
+			// Returns FindOwnerByIDDefault with with status code 404
+			return operations.NewFindOwnerByIDDefault(http.StatusNotFound)
+		} else if err != nil {
+			log.Println("find owner by id query: ", err)
+			// Returns FindOwnerByIDDefault with with status code 500
+			return operations.NewFindOwnerByIDDefault(http.StatusInternalServerError)
+		}
+
+		// Return status 200 and owner information
+		return &operations.FindOwnerByIDOK{Payload: &models.Owner{
+			Address: owner.Address,
+			Name:    owner.Name,
+			OwnerID: conv.UUID(strfmt.UUID(owner.OwnerID.String())),
+		}}
+	}
+}
+```
+
+Line 25 queries the `owner` table then saves the result in the owner object or throws a not found 404 status error.
+
+Line 32 returns a FindOwnerByIDOK object with code status 200 and the owner’s information.
+
+## Resources
+
+* [ScyllaDB Go driver on Github](https://github.com/scylladb/gocql)
+* [Go and ScyllaDB on ScyllaDB University](https://university.scylladb.com/courses/the-mutant-monitoring-system-training-course/lessons/golang-and-scylla-part-1/)
+* [Scylla Go driver documentation page](https://docs.scylladb.com/stable/using-scylla/drivers/cql-drivers/scylla-go-driver.html)
+
+
+# build-with-java.md
+
+# Build an IoT App with Java
+
+## Architecture
+
+In this section, we will walk you through the CarePet commands and explain the code behind them.
+The project is structured as follows:
+
+- Migrate (`com.carepet.Migrate`) - Creates the `carepet` keyspace and tables.
+- Collar (`com.carepet.Sensor`) - Generates pet health data and pushes it into the storage.
+- Web app (`com.carepet.server.App`) - REST API service for tracking pets’ health state.
+
+## Migrate
+
+The `./bin/migrate.sh --hosts $NODE1 --datacenter datacenter1` command executes the main function in the `Migrate` class located `Migrate.java`. The function creates the keyspace and tables used by the collar and server services.
+
+The following code in the `Migrate.java` file calls the `createKeyspace` , `createSchema` , and `printMetadata` functions.
+
+```default
+public static void main(String[] args) {
+	final Config config = Config.parse(new Config(), args);
+
+	final Migrate client = new Migrate(config);
+	client.createKeyspace();
+	client.createSchema();
+	client.printMetadata();
+}
+```
+
+Let’s break down the code line by line.
+
+The `config` object parses the arguments passed in the migrate command. In our case it’s `hosts` and `datacenter`. The `hosts` argument expects the IP address of one of the nodes. The `datacenter` argument is `datacenter1` by default but could be different if you use Scylla Cloud. The command also accepts `username` and `password` arguments if required.
+
+The `createKeyspace` function creates a new `CqlSession`, then executes the following CQL query stored in the `resources/care-pet-keyspace.cql` file:
+
+```default
+public void createKeyspace() {
+	LOG.info("creating keyspace...");
+	try (CqlSession session = connect()) {
+			session.execute(Config.getResource("care-pet-keyspace.cql"));
+	}
+}
+```
+
+```default
+CREATE KEYSPACE IF NOT EXISTS carepet;
+```
+
+The CQL query above creates a new keyspace named carepet using the default replication strategy. This syntax requires ScyllaDB 2026.1 or later.
+See [Scylla University](https://university.scylladb.com/courses/data-modeling/lessons/basic-data-modeling-2/topic/keyspace/) for more information about keyspaces and replication.
+
+The `createSchema` function opens a new session with the `carepet` keyspace and creates the following tables in the carepet keyspace using the CQL file located in `resources/care-pet-ddl.cql`:
+
+- `owner`
+- `pet`
+- `sensor`
+- `measurement`
+- `sensor_avg`
+
+```default
+public void createSchema() {
+	LOG.info("creating table...");
+	try (CqlSession session = keyspace()) {
+	    for (String cql : Config.getResource("care-pet-ddl.cql").split(";")) {
+		session.execute(cql);
+	    }
+	}
+}
+```
+
+The `printMetadata` function will print the metadata related to the `carepet` keyspace and confirm that the tables are properly created.
+
+You can check the database structure with:
+
+```default
+$ docker exec -it carepet-scylla1 cqlsh
+cqlsh> USE carepet;
+cqlsh:carepet> DESCRIBE TABLES
+cqlsh:carepet> DESCRIBE TABLE pet
+```
+
+You should expect the following result:
+
+```default
+CREATE TABLE carepet.pet (
+owner_id uuid,
+pet_id uuid,
+chip_id text,
+species text,
+breed   text,
+color   text,
+gender  text,
+address text,
+age int,
+name text,
+weight float,
+PRIMARY KEY (owner_id, pet_id)
+) WITH CLUSTERING ORDER BY (pet_id ASC)
+AND bloom_filter_fp_chance = 0.01
+AND caching = {'keys': 'ALL', 'rows_per_partition': 'ALL'}
+AND comment = ''
+AND compaction = {'class': 'SizeTieredCompactionStrategy'}
+AND compression = {'sstable_compression': 'org.apache.cassandra.io.compress.LZ4Compressor'}
+AND crc_check_chance = 1.0
+AND dclocal_read_repair_chance = 0.1
+AND default_time_to_live = 0
+AND gc_grace_seconds = 864000
+AND max_index_interval = 2048
+AND memtable_flush_period_in_ms = 0
+AND min_index_interval = 128
+AND read_repair_chance = 0.0
+AND speculative_retry = '99.0PERCENTILE';
+```
+
+## Sensor
+
+The sensor service simulates the collar’s activity. You can use the following command to run the sensor service:
+
+```default
+$ mvn package
+$ NODE1=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' carepet-scylla1)
+$ ./bin/sensor.sh --hosts $NODE1 --datacenter datacenter1 --measure PT1M --buffer-interval PT1M
+```
+
+The above command executes `Sensor.java` and the following `main` function:
+
+```default
+public static void main(String[] args) {
+        final Sensor client = new Sensor(Config.parse(new SensorConfig(), args));
+        client.save();
+        client.run();
+    }
+}
+```
+
+First, we create a client object, an instance of the Sensor class. Like in the `Migrate` class, we parse args using the `Config.parse()` method to connect to the database.
+
+In the `Sensor` constructor, a random ID is attributed to the `owner`, `pet`, and `sensors`.
+
+```default
+public Sensor(SensorConfig config) {
+	this.config = config;
+
+	this.owner = Owner.random();
+	this.pet = Pet.random(this.owner.getOwnerId());
+	this.sensors = new com.carepet.model.Sensor[SensorType.values().length];
+	for (int i = 0; i < this.sensors.length; i++) {
+			this.sensors[i] = com.carepet.model.Sensor.random(this.pet.getPetId());
+	}
+}
+```
+
+The `client.save()` method connects to the datbase and saves the generated `owner`, `pet`, and the `sensors`.
+
+```default
+private void save() {
+	try (CqlSession session = keyspace()) {
+			// Connect to the database
+			Mapper m = Mapper.builder(session).build();
+
+			LOG.info("owner = " + owner);
+			LOG.info("pet = " + pet);
+
+			m.owner().create(owner);
+			m.pet().create(pet);
+
+			for (com.carepet.model.Sensor s : sensors) {
+					LOG.info("sensor = " + s);
+
+					m.sensor().create(s);
+			}
+	}
+}
+```
+
+The `client.run()` generates random data and pushes it to the database. In this code, we are using `PreparedStatement` to define the query and `BatchStatementBuilder` to run multiple queries at the same time. See the [Scylla Java Driver documentation] (https://java-driver.docs.scylladb.com/stable/manual/core/statements/prepared/) for details on `PreparedStatement`.
+
+```default
+private void run() {
+	try (CqlSession session = keyspace()) {
+			PreparedStatement statement = session.prepare("INSERT INTO measurement (sensor_id, ts, value) VALUES (?, ?, ?)");
+			BatchStatementBuilder builder = new BatchStatementBuilder(BatchType.UNLOGGED);
+
+			List<Measure> ms = new ArrayList<>();
+			Instant prev = Instant.now();
+
+			while (true) {
+					while (Duration.between(prev, Instant.now()).compareTo(config.bufferInterval) < 0) {
+							if (!sleep(config.measurement)) {
+									return;
+							}
+
+							for (com.carepet.model.Sensor s : sensors) {
+									Measure m = readSensorData(s);
+									ms.add(m);
+									LOG.info(m.toString());
+							}
+					}
+
+					prev = prev.plusMillis((Duration.between(prev, Instant.now()).toMillis() / config.bufferInterval.toMillis()) * config.bufferInterval.toMillis());
+
+					LOG.info("pushing data");
+					// this is simplified example of batch execution. standard
+					// best practice is to batch values that end up in the same partition:
+					// https://www.scylladb.com/2019/03/27/best-practices-for-scylla-applications/
+					for (Measure m : ms) {
+							builder = builder.addStatement(statement.bind(m.getSensorId(), m.getTs(), m.getValue()));
+					}
+
+					session.execute(builder.build());
+
+					builder.clearStatements();
+					ms.clear();
+			}
+	}
+}
+```
+
+## Server
+
+The server service is a REST API for tracking the pets’ health state. The service allows you to query the database via HTTP.
+
+Run the following commands to start the server:
+
+```default
+$ mvn package
+$ NODE1=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' carepet-scylla1)
+$ ./bin/server.sh --hosts $NODE1 --datacenter datacenter1
+```
+
+In the care-pet example, run:
+
+`$ curl http://127.0.0.1:8000/api/owner/{id}`.
+
+You can expect the following response:
+
+```default
+
+[{"address":"home","age":57,"name":"tlmodylu","owner_id":"a05fd0df-0f97-4eec-a211-cad28a6e5360","pet_id":"a52adc4e-7cf4-47ca-b561-3ceec9382917","weight":5}]
+
+```
+
+The controller is defined in `ModelController.java`, and implements the GET methods to access owners, pets and sensors data.
+
+The server also aggregates the data and saves it to the database in the sensor_avg table:
+
+```default
+
+// saveAggregate saves the result monotonically sequentially to the database
+private void saveAggregate(UUID sensorId, List<Float> data, int prevAvgSize, LocalDate day, LocalDateTime now) {
+// if it's the same day, we can't aggregate current hour
+boolean sameDate = now.getDayOfYear() == day.getDayOfYear();
+int current = now.getHour();
+
+        for (int hour = prevAvgSize; hour < data.size(); hour++) {
+            if (sameDate && hour >= current) {
+                break;
+            }
+
+            mapper.sensorAvg().create(new SensorAvg(sensorId, day, hour, data.get(hour)));
+        }
+    }
+
+```
+
+## Resources
+
+* [Scylla Java driver documentation](https://java-driver.docs.scylladb.com/stable/)
+* [ScyllaDB Java driver on Github](https://github.com/scylladb/java-driver/)
+* [ScyllaDB University: Coding with Java](https://university.scylladb.com/courses/the-mutant-monitoring-system-training-course/lessons/coding-with-java-part-1/)
+
+
+# build-with-javascript.md
+
+# Build an IoT App with JavaScript
+
+## Architecture
+
+In this section, we will walk you through the CarePet commands and explain the code behind them.
+The project is structured as follows:
+
+![Build your first ScyllaDB Powered App - Raouf](https://user-images.githubusercontent.com/13738772/158383650-0dfcc9d0-68b5-457a-a043-27f6cda12de3.jpg)
+
+- migrate (`npm run migrate`) - Creates the `carepet` keyspace and tables.
+- collar (`npm run sensor`) - Generates pet health data and pushes it into the storage.
+- web app (`npm run dev`) - REST API service for tracking pets’ health state.
+
+## Code Structure and Implementation
+
+The code package structure is as follows:
+
+| Name         | Purpose                             |
+|--------------|-------------------------------------|
+| /            | web application backend             |
+| /api         | API spec                            |
+| /cmd         | applications executables            |
+| /cmd/migrate | install database schema             |
+| /cmd/sensor  | Simulates the pet’s collar          |
+| /config      | database configuration              |
+| /db          | database handlers (gocql/x)         |
+| /db/cql      | database schema                     |
+| /handler     | REST API handlers                   |
+| /model       | application models and ORM metadata |
+
+## Quick Start
+
+Prerequisites:
+
+- [NodeJS](https://nodejs.org/en/) tested with v17.0.1
+- [NPM](https://www.npmjs.com/) tested with v8.1.0
+- [docker](https://www.docker.com/) (not required if you use Scylla Cloud)
+- [docker-compose](https://docs.docker.com/compose/) (not required if you use Scylla Cloud)
+
+Clone the repository and change to `javascript` directory:
+
+```default
+git clone git@github.com:scylladb/care-pet.git
+cd javascript
+```
+
+Make sure to install all NodeJS dependencies with:
+
+```none
+$ npm install
+```
+
+## Use ScyllaDB on your local machine
+
+To run a local ScyllaDB cluster consisting of three nodes with
+the help of `docker` and `docker-compose` execute:
+
+```none
+$ docker-compose up -d
+```
+
+Docker-compose will spin up three nodes: `carepet-scylla1`, `carepet-scylla2`,
+and `carepet-scylla3`. You can access them with the `docker` command.
+
+Execute the following nodetool command:
+
+```none
+$ docker exec -it carepet-scylla1 nodetool status
+```
+
+## Migrate
+
+### Run ScyllaDB on your local machine
+
+Once all the nodes are in UN - Up Normal status, run the commands below.
+
+The following command allows you to get the node IP address:
+
+```default
+docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' carepet-scylla1
+```
+
+The following commands execute the migrate `main` function.
+
+```default
+NODE1=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' carepet-scylla1)
+npm run migrate -- --hosts $NODE1
+```
+
+You can check the database structure with:
+
+```default
+docker exec -it carepet-scylla1 cqlsh
+```
+
+### Using Scylla Cloud
+
+If you are using Scylla Cloud, use the the following command to run the `migrate` service:
+
+```default
+npm run migrate -- --hosts [NODE-IP] --username [USERNAME] --password[PASSWORD]
+```
+
+Replace the NODE-IP, USERNAME, and PASSWORD with the information provided in your cluster on https://cloud.scylladb.com.
+
+## Output
+
+Expected output:
+
+```default
+2020/08/06 16:43:01 Bootstrap database...
+2020/08/06 16:43:13 Keyspace metadata = {Name:carepet DurableWrites:true StrategyClass:org.apache.cassandra.locator.NetworkTopologyStrategy StrategyOptions:map[datacenter1:3] Tables:map[gocqlx_migrate:0xc00016ca80 measurement:0xc00016cbb0 owner:0xc00016cce0 pet:0xc00016ce10 sensor:0xc00016cf40 sensor_avg:0xc00016d070] Functions:map[] Aggregates:map[] Types:map[] Indexes:map[] Views:map[]}
+```
+
+You can check the database structure with:
+
+`docker run -it --rm --entrypoint cqlsh scylladb/scylla -u [USERNAME] -p [PASSWORD] [NODE-IP]`
+
+Note: use `-u [USERNAME]` and `-p [PASSWORD]` if you are using Scylla Cloud.
+
+Once you connect to cqlsh, run the following commands:
+
+#. Run `DESCRIBE KEYSPACES`.
+
+Expected output:
+
+```default
+carepet  system_schema  system_auth  system  system_distributed  system_traces
+```
+
+then,
+
+```default
+ carepet;
+DESCRIBE TABLES
+```
+
+Expected output:
+
+`pet  sensor_avg  gocqlx_migrate  measurement  owner  sensor`
+
+#. Run `DESCRIBE TABLE pet`.
+
+Expected output:
+
+```default
+CREATE TABLE carepet.pet (
+       owner_id uuid,
+       pet_id uuid,
+       address text,
+       age int,
+       breed text,
+       chip_id text,
+       color text,
+       gender text,
+       name text,
+       species text,
+       weight float,
+       PRIMARY KEY (owner_id, pet_id)  
+   ) WITH CLUSTERING ORDER BY (pet_id ASC)
+       AND bloom_filter_fp_chance = 0.01
+       AND caching = {'keys': 'ALL', 'rows_per_partition': 'ALL'}
+       AND comment = ''
+       AND compaction = {'class': 'SizeTieredCompactionStrategy'}
+       AND compression = {'sstable_compression': 'org.apache.cassandra.io.compress.LZ4Compressor'}
+       AND crc_check_chance = 1.0
+       AND dclocal_read_repair_chance = 0.1
+       AND default_time_to_live = 0
+       AND gc_grace_seconds = 864000
+       AND max_index_interval = 2048
+       AND memtable_flush_period_in_ms = 0
+       AND min_index_interval = 128
+       AND read_repair_chance = 0.0
+       AND speculative_retry = '99.0PERCENTILE';
+```
+
+#. Run `exit` to exit the cqlsh.
+
+### migrate/index.js
+
+The above commands execute the main function in the `cmd/migrate/index.js`. The function creates the keyspace and tables that you need to run the collar and server services.
+
+The following code in the `cmd/migrate/index.js` creates a new session, then calls the `create_keyspace`  and `migrate` functions.
+
+```default
+migrate/index.js
+
+async function main() {
+  // Parse the command arguments: --hosts --username and --password
+  const options = config('migrate').parse().opts();
+  
+  // Create a new session with options 
+  const client = await getClient(options);
+
+  // Create a keyspace
+  await client.execute(cql.KEYSPACE);
+  
+  // Create the tables
+  for (const query of cql.MIGRATE) {
+    log.debug(`query = ${query}`);
+    await client.execute(query);
+  }
+
+  return client;
+}
+```
+
+Let’s break down the code above.
+
+The `getClient` function takes the options as a parameter and creates a new session.
+
+```default
+// src/db.js
+
+async function getClient(config, keyspace) {
+  const client = new cassandra.Client({
+    contactPoints: config.hosts,
+    authProvider: new cassandra.auth.PlainTextAuthProvider(
+      config.username,
+      config.password
+    ),
+    localDataCenter: 'datacenter1',
+    keyspace,
+  });
+
+  await client.connect();
+
+  return client;
+}
+```
+
+`await client.execute(cql.KEYSPACE);` creates a keyspace as defined in `cql/keyspace.cql`:
+
+```default
+CREATE KEYSPACE IF NOT EXISTS carepet;
+```
+
+The CQL query above creates a new keyspace named carepet using the default replication strategy. This syntax requires ScyllaDB 2026.1 or later.
+See [Scylla University](https://university.scylladb.com/courses/data-modeling/lessons/basic-data-modeling-2/topic/keyspace/) for more information about keyspaces and replication.
+
+Finally, the code loops through all the queries listed in `cql/migrate.cql` to create the tables you need for the project.
+
+```default
+CREATE TABLE IF NOT EXISTS carepet.owner
+(
+    owner_id UUID,
+    address TEXT,
+    name    TEXT,
+    PRIMARY KEY (owner_id)
+);
+
+...
+```
+
+You can check the database structure. Connect to your local ScyllaDB instance using:
+
+`docker exec -it carepet-scylla1 cqlsh`
+
+With Scylla Cloud, use:
+
+```default
+docker run -it --rm --entrypoint cqlsh scylladb/scylla -u [USERNAME] -p [PASSWORD] [NODE-IP]
+```
+
+Once connected to your machine, run the following commands:
+
+```default
+cqlsh> USE carepet;
+cqlsh:carepet> DESCRIBE TABLES
+cqlsh:carepet> DESCRIBE TABLE pet
+```
+
+You should expect the following result:
+
+```default
+CREATE TABLE carepet.pet (
+    owner_id uuid,
+    pet_id uuid,
+    chip_id text,
+    species text,
+    breed   text,
+    color   text,
+    gender  text,
+    address text,
+    age int,
+    name text,
+    weight float,
+    PRIMARY KEY (owner_id, pet_id)
+) WITH CLUSTERING ORDER BY (pet_id ASC)
+    AND bloom_filter_fp_chance = 0.01
+    AND caching = {'keys': 'ALL', 'rows_per_partition': 'ALL'}
+    AND comment = ''
+    AND compaction = {'class': 'SizeTieredCompactionStrategy'}
+    AND compression = {'sstable_compression': 'org.apache.cassandra.io.compress.LZ4Compressor'}
+    AND crc_check_chance = 1.0
+    AND dclocal_read_repair_chance = 0.1
+    AND default_time_to_live = 0
+    AND gc_grace_seconds = 864000
+    AND max_index_interval = 2048
+    AND memtable_flush_period_in_ms = 0
+    AND min_index_interval = 128
+    AND read_repair_chance = 0.0
+    AND speculative_retry = '99.0PERCENTILE';
+```
+
+## Sensor
+
+The sensor service simulates the collar’s activity and periodically saves data to the database. Use the below commands to run the sensor service:
+
+### Using ScyllaDB on your local machine
+
+```default
+NODE1=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' carepet-scylla1)
+npm run sensor -- --hosts $NODE1 --measure 5s --buffer-interval 1m
+```
+
+### Using Scylla Cloud
+
+```default
+npm run sensor -- --hosts [NODE-IP] --username [USERNAME] --password [PASSWORD] --measure 5s --buffer-interval 1m
+```
+
+Replace the NODE-IP, USERNAME, and PASSWORD with the information provided in your cluster on https://cloud.scylladb.com.
+
+Expected output:
+
+```default
+2020/08/06 16:44:33 Welcome to the Pet collar simulator
+2020/08/06 16:44:33 New owner # 9b20764b-f947-45bb-a020-bf6d02cc2224
+2020/08/06 16:44:33 New pet # f3a836c7-ec64-44c3-b66f-0abe9ad2befd
+2020/08/06 16:44:33 sensor # 48212af8-afff-43ea-9240-c0e5458d82c1 type L new measure 51.360596 ts 2020-08-06T16:44:33+02:00
+2020/08/06 16:44:33 sensor # 2ff06ffb-ecad-4c55-be78-0a3d413231d9 type R new measure 36 ts 2020-08-06T16:44:33+02:00
+2020/08/06 16:44:33 sensor # 821588e0-840d-48c6-b9c9-7d1045e0f38c type L new measure 26.380281 ts 2020-08-06T16:44:33+02:00
+...
+```
+
+The above command executes `cmd/sensor/index.js` and takes the following as arguments:
+
+- `hosts` : the IP address of the ScyllaDB node.
+- `username`: when Password Authentication enabled
+- `password`: when Password Authentication enabled
+- `measure`: the interval between to sensor measures.
+- `buffer-interval`: the interval between two database queries.
+
+```default
+// sensor/index.js
+
+async function main() {
+  // Parse command arguments
+  const options = cli(config('sensor simulator'))
+    .parse()
+    .opts();
+
+  const bufferInterval = parseDuration(options.bufferInterval);
+  const measure = parseDuration(options.measure);
+
+  // ...
+  
+  // Connect to cluster using a keyspace
+  const client = await getClientWithKeyspace(options);
+
+  // Generate random owner, pet and sensors IDs
+  const { owner, pet, sensors } = randomData();
+
+  await saveData(client, owner, pet, sensors);
+
+  // Generate sensor data and save them to the database periodically
+  await runSensorData(
+    client,
+    {
+      bufferInterval,
+      measure,
+    },
+    sensors
+  );
+
+  return client;
+}
+```
+
+Just like in `migrate/index.js`, the function parses the `npm run sensor` command arguments.
+Now you can create a new session `client` using `carepet` keyspace.
+
+```default
+// db.js
+
+async function getClientWithKeyspace(config) {
+  return getClient(config, KEYSPACE);
+}
+```
+
+The `saveData` method connects to the database and saves random `owner`, `pet`, and `sensors` to the database.
+
+```default
+// sensor/index.js
+
+async function saveData(client, owner, pet, sensors) {
+  await client.execute(insertQuery(Owner), owner, { prepare: true });
+  log.info(`New owner # ${owner.owner_id}`);
+
+  await client.execute(insertQuery(Pet), pet, { prepare: true });
+  log.info(`New pet # ${pet.pet_id}`);
+
+  for (let sensor of sensors) {
+    await client.execute(insertQuery(Sensor), sensor, { prepare: true });
+    log.info(`New sensor # ${sensor.sensor_id}`);
+  }
+}
+```
+
+The `runSensorData` generates random data and inserts it to the database every `buffer_interval`. Note that we are inserting the data to the database using a `batch`.
+
+```default
+async function runSensorData(client, { bufferInterval, measure }, sensors) {
+  let last = moment();
+  while (true) {
+    const measures = [];
+    while (moment().diff(last) < bufferInterval) {
+      await delay(measure);
+
+      measures.push(
+        ...sensors.map(sensor => {
+          const measure = readSensorData(sensor);
+          log.info(
+            `sensor # ${sensor.sensor_id} type ${sensor.type} new measure ${
+              measure.value
+            } ts ${moment(measure.ts).toISOString()}`
+          );
+
+          return measure;
+        })
+      );
+    }
+
+    last = last.add(
+      measure.valueOf() * (moment().diff(last).valueOf() / measure.valueOf())
+    );
+
+    log.info('Pushing data');
+
+    const batch = measures.map(measure => ({
+      query: insertQuery(Measure),
+      params: measure,
+    }));
+
+    await client.batch(batch, { prepare: true });
+  }
+}
+```
+
+## Server
+
+The server service is a REST API for tracking the pets’ health state. The service allows you to query the database via HTTP.
+
+Run the following commands to start the server:
+
+### Using ScyllaDB on your local machine
+
+```default
+NODE1=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' carepet-scylla1)
+npm run dev -- --hosts $NODE1
+```
+
+### Using Scylla Cloud
+
+```default
+npm run dev -- --hosts [NODE-IP] --username [USERNAME] --password [PASSWORD]
+```
+
+Expected output:
+
+```default
+2020/08/06 16:45:58 Serving care pet at http://127.0.0.1:8000
+```
+
+The `src/index.js` main function mounts the api on `/api` and defines the routes.
+
+```default
+// src/index.js
+
+async function main() {
+  const options = config('care-pet').parse().opts();
+
+  log.debug(`Configuration = ${JSON.stringify(options)}`);
+
+  const client = await getClientWithKeyspace(options);
+
+  app.get(owner.ROUTE, asyncHandler(owner.handler(client)));
+  app.get(pets.ROUTE, asyncHandler(pets.handler(client)));
+  app.get(sensors.ROUTE, asyncHandler(sensors.handler(client)));
+  app.get(measures.ROUTE, asyncHandler(measures.handler(client)));
+  app.get(avg.ROUTE, asyncHandler(avg.handler(client)));
+
+  app.listen(8000, () => {
+    log.info('Care-pet server started on port 8000!');
+  });
+}
+```
+
+## Using the Application
+
+Open a different terminal to send an HTTP request from the CLI:
+
+`curl -v http://127.0.0.1:8000/`
+
+Expected output:
+
+```none
+> GET / HTTP/1.1
+> Host: 127.0.0.1:8000
+> User-Agent: curl/7.71.1
+> Accept: */*
+> 
+* Mark bundle as not supporting multiuse
+< HTTP/1.1 404 Not Found
+< Content-Type: application/json
+< Date: Thu, 06 Aug 2020 14:47:41 GMT
+< Content-Length: 45
+< Connection: close
+< 
+* Closing connection 0
+{"code":404,"message":"path / was not found"}
+```
+
+The JSON with the 404 at the end indicates expected behavior.
+To read an owner’s data use the previously saved owner_id as follows:
+
+`curl -v http://127.0.0.1:8000/api/owner/{owner_id}`
+
+For example:
+
+`curl http://127.0.0.1:8000/api/owner/a05fd0df-0f97-4eec-a211-cad28a6e5360`
+
+Expected result:
+
+```none
+{"address":"home","name":"gmwjgsap","owner_id":"a05fd0df-0f97-4eec-a211-cad28a6e5360"} 
+```
+
+To list the owner’s pets, run:
+
+`curl -v http://127.0.0.1:8000/api/owner/{owner_id}/pets`
+
+For example:
+
+`curl http://127.0.0.1:8000/api/owner/a05fd0df-0f97-4eec-a211-cad28a6e5360/pets`
+
+Expected output:
+
+`[{"address":"home","age":57,"name":"tlmodylu","owner_id":"a05fd0df-0f97-4eec-a211-cad28a6e5360","pet_id":"a52adc4e-7cf4-47ca-b561-3ceec9382917","weight":5}]`
+
+To list each pet’s sensor, run:
+
+`curl -v curl -v http://127.0.0.1:8000/api/pet/{pet_id}/sensors`
+
+For example:
+
+`curl http://127.0.0.1:8000/api/pet/cef72f58-fc78-4cae-92ae-fb3c3eed35c4/sensors`
+
+```default
+[{"pet_id":"cef72f58-fc78-4cae-92ae-fb3c3eed35c4","sensor_id":"5a9da084-ea49-4ab1-b2f8-d3e3d9715e7d","type":"L"},{"pet_id":"cef72f58-fc78-4cae-92ae-fb3c3eed35c4","sensor_id":"5c70cd8a-d9a6-416f-afd6-c99f90578d99","type":"R"},{"pet_id":"cef72f58-fc78-4cae-92ae-fb3c3eed35c4","sensor_id":"fbefa67a-ceb1-4dcc-bbf1-c90d71176857","type":"L"}]
+```
+
+To review the data from a specific sensor:
+
+`curl http://127.0.0.1:8000/api/sensor/{sensor_id}/values?from=2006-01-02T15:04:05Z07:00&to=2006-01-02T15:04:05Z07:00`
+
+For example:
+
+`curl http://127.0.0.1:8000/api/sensor/5a9da084-ea49-4ab1-b2f8-d3e3d9715e7d/values\?from\="2020-08-06T00:00:00Z"\&to\="2020-08-06T23:59:59Z"`
+
+expected output:
+
+`[51.360596,26.737432,77.88015,...]`
+
+To read the pet’s daily average per sensor, use:
+
+`curl http://127.0.0.1:8000/api/sensor/{sensor_id}/values/day/{date}`
+
+For example:
+
+`curl -v http://127.0.0.1:8000/api/sensor/5a9da084-ea49-4ab1-b2f8-d3e3d9715e7d/values/day/2020-08-06`
+
+Expected output:
+
+`[0,0,0,0,0,0,0,0,0,0,0,0,0,0,42.55736]`
+
+## Resources
+
+* [Getting Started with ScyllaDB Cloud Using Node.js](https://www.scylladb.com/2022/03/14/getting-started-with-scylladb-cloud-using-node-js-part-1/)
+* [ScyllaDB University: Coding with Node.js](https://university.scylladb.com/courses/using-scylla-drivers/lessons/scylla-and-node-js/)
+* [NodeJS driver on Github (third-party)](https://github.com/datastax/nodejs-driver/)
+
+
+# build-with-python.md
+
+# Build an IoT App with Python
+
+## Architecture
+
+This section will walk through and explain the code for the different commands.
+As explained in the Getting Started page, the project is structured as follow:
+
+* Migrate (`python src/migrate.py`) - creates keyspace and tables in ScyllaDB
+* Sensor (`python src/sensor.py`) - generates random IoT data and inserts it into ScyllaDB
+* API (`python src/api.py`) - REST API service to fetch data from ScyllaDB
+
+## Clone repository and install dependencies
+
+Clone the repository and open the root directory of the project:
+
+```bash
+git clone https://github.com/scylladb/care-pet
+cd care-pet/python
+```
+
+Create a new virtual environment and activate it:
+
+```bash
+virtualenv env
+source env/bin/activate
+```
+
+Install all Python dependencies:
+
+```bash
+pip install -r requirements.txt
+```
+
+## Start Docker containers (skip this if you use Scylla Cloud)
+
+Spin up a local ScyllaDB cluster with three nodes using `docker` and `docker-compose`:
+
+```bash
+docker-compose up -d
+
+Creating carepet-scylla3 ... done
+Creating carepet-scylla2 ... done
+Creating carepet-scylla1 ... done
+```
+
+This command starts three ScyllaDB nodes in containers:
+
+* `carepet-scylla1`
+* `carepet-scylla2`
+* `carepet-scylla3`
+
+You can inspect any of these nodes by using the `docker inspect` command,
+for example:
+
+```bash
+docker inspect carepet-scylla1
+
+[
+    {
+        "Id": "c87128b7d0ca4a31a84da78875c8b4181283c34783b6b0a78bffbacbbe45fcc2",
+        "Created": "2023-01-08T21:17:13.212585687Z",
+        "Path": "/docker-entrypoint.py",
+        "Args": [
+            "--smp",
+            "1"
+        ],
+        "State": {
+            "Status": "running",
+            "Running": true,
+...
+```
+
+## Connect to ScyllaDB and create the database schema
+
+To connect to your ScyllaDB storage within the container, you need to know the
+IP address of one of the running nodes.
+This is how you can get the IP address of the first node running in the container:
+
+```bash
+docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' carepet-scylla1
+```
+
+You will need to reference this value multiple times later so if it’s easier
+for you can save it as a variable `NODE1`:
+
+```bash
+NODE1=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' carepet-scylla1)
+```
+
+Now you can run the migration script that creates the required keyspace and tables:
+
+```bash
+python src/migrate.py -h $NODE1
+
+Creating keyspace...
+Done.
+Migrating database...
+Done.
+```
+
+See the database schema using [cqlsh](https://docs.scylladb.com/manual/stable/cql/cqlsh.html) in the container:
+
+```bash
+docker exec -it carepet-scylla1 cqlsh
+cqlsh> DESCRIBE KEYSPACES;
+
+carepet        system_auth  system_distributed_everywhere  system_traces
+system_schema  system       system_distributed 
+
+cqlsh> USE carepet;
+cqlsh:carepet> DESCRIBE TABLES;
+
+owner  pet  sensor  sensor_avg  measurement
+
+cqlsh:carepet> DESCRIBE TABLE pet;
+
+CREATE TABLE carepet.pet (
+    owner_id uuid,
+    pet_id uuid,
+    address text,
+    age int,
+    name text,
+    weight float,
+    PRIMARY KEY (owner_id, pet_id)
+) WITH CLUSTERING ORDER BY (pet_id ASC)
+    AND bloom_filter_fp_chance = 0.01
+    AND caching = {'keys': 'ALL', 'rows_per_partition': 'ALL'}
+    AND comment = ''
+    AND compaction = {'class': 'SizeTieredCompactionStrategy'}
+    AND compression = {'sstable_compression': 'org.apache.cassandra.io.compress.LZ4Compressor'}
+    AND crc_check_chance = 1.0
+    AND dclocal_read_repair_chance = 0.0
+    AND default_time_to_live = 0
+    AND gc_grace_seconds = 864000
+    AND max_index_interval = 2048
+    AND memtable_flush_period_in_ms = 0
+    AND min_index_interval = 128
+    AND read_repair_chance = 0.0
+    AND speculative_retry = '99.0PERCENTILE';
+
+cqlsh:carepet> exit;
+
+
+```
+
+At this point you have ScyllaDB running with the correct keyspace and tables.
+
+## Generate and ingest IoT data
+
+Start ingesting IoT data (it’s suggested to do this in a new separate terminal
+because this process runs indefinitely). Make sure you’re still in the virtual
+environment:
+
+```bash
+source env/bin/activate
+NODE1=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' carepet-scylla1)
+python src/sensor.py -h $NODE1 --measure 2 --buffer-interval 10
+
+Welcome to the Pet collar simulator
+New owner # 1cfbc0e5-6b05-476d-b170-2660cf40c02a
+New pet # 1a0800ee-7643-4794-af7b-2ecaaf7078fc
+New sensor(0) # b6155934-bd4e-47de-8649-1fad447aa036
+New sensor(1) # d2c62c4d-9621-469d-b62c-41ef2271fca7
+sensor # b6155934-bd4e-47de-8649-1fad447aa036 type T, new measure: 100.55118431400851, ts: 2023-01-08 17:36:17.126374
+sensor # d2c62c4d-9621-469d-b62c-41ef2271fca7 type L, new measure: 37.486651732296835, ts: 2023-01-08 17:36:17.126516
+```
+
+This command starts a script that generates and ingests random IoT data coming
+from two sensors every other second and inserts the data in batches
+every ten seconds. Whenever you see `Pushing data` in the command line that is
+when data actually gets insterted into ScyllaDB.
+
+Optional: You can modify the frequency of the generated data by changing the
+`--measure` and `--buffer-interval` arguments. For example,
+you can generate new data points every three seconds and insert the batches
+every 30 seconds:
+
+```bash
+source env/bin/activate
+NODE1=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' carepet-scylla1)
+python src/sensor.py -h $NODE1 --measure 3 --buffer-interval 30
+```
+
+You can run multiple ingestion processes in parallel if you wish.
+
+## Set up and test REST API
+
+In a new terminal, start running the API server (make sure that `port 8000` is free):
+
+```bash
+source env/bin/activate
+NODE1=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' carepet-scylla1)
+python src/api.py -h $NODE1
+
+INFO:     Started server process [696274]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
+```
+
+The API server is running on `http://127.0.0.1:8000`. Test with your
+browser, or curl, if it works properly:
+
+```bash
+curl http://127.0.0.1:8000
+
+{"message":"Pet collar simulator API"}
+```
+
+Next, you will test the following API endpoints:
+
+* `/api/owner/{owner_id}`
+
+  Returns all available data fields about the owner.
+* `/api/owner/{owner_id}/pets`
+
+  Returns the owner’s pets.
+* `/api/pet/{pet_id}/sensors`
+
+  Returns all the sensors of a pet.
+
+To test these endpoints, you need to provide either an `owner_id` or a `pet_id`
+as URL path parameter. You can get these values by copying them from the
+beginning of output of the ingestion script:
+
+```bash
+source env/bin/activate
+NODE1=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' carepet-scylla1)
+python src/sensor.py -h $NODE1 --measure 1 --buffer-interval 6
+
+Welcome to the Pet collar simulator
+New owner # 1cfbc0e5-6b05-476d-b170-2660cf40c02a <-- This is what you need!
+New pet # 1a0800ee-7643-4794-af7b-2ecaaf7078fc <-- This is what you need!
+New sensor(0) # b6155934-bd4e-47de-8649-1fad447aa036
+New sensor(1) # d2c62c4d-9621-469d-b62c-41ef2271fca7
+```
+
+Copy the UUID values right after “New owner #” and “New pet #”. A UUID value
+looks like this:
+
+```default
+1cfbc0e5-6b05-476d-b170-2660cf40c02a
+```
+
+`/api/owner/{owner_id}`
+
+Paste the owner id from the terminal into the endpoint URL and open it with
+your browser or use `curl`, for example:
+
+```bash
+curl http://127.0.0.1:8000/api/owner/4f42fb80-c209-4d19-8c43-daf554f1be23
+
+{"owner_id":"4f42fb80-c209-4d19-8c43-daf554f1be23","address":"home","name":"Vito Russell"}
+```
+
+`/api/owner/{owner_id}/pets`
+
+Use the same owner id value to test this endpoint, for example:
+
+```bash
+curl http://127.0.0.1:8000/api/owner/4f42fb80-c209-4d19-8c43-daf554f1be23/pets
+
+[{"owner_id":"4f42fb80-c209-4d19-8c43-daf554f1be23","pet_id":"44f1624e-07c2-4971-85a5-85b9ad1ff142","address":"home","age":20,"name":"Duke","weight":14.41481876373291}]
+```
+
+`/api/pet/{pet_id}/sensors`
+
+Finally, use a pet id to test this endpoint, for example:
+
+```bash
+curl http://127.0.0.1:8000/api/pet/44f1624e-07c2-4971-85a5-85b9ad1ff142/sensors
+
+[{"pet_id":"44f1624e-07c2-4971-85a5-85b9ad1ff142","sensor_id":"4bb1d214-712b-453b-b53a-ac5d4df4a1f8","type":"T"},{"pet_id":"44f1624e-07c2-4971-85a5-85b9ad1ff142","sensor_id":"e81915d6-1155-45e4-9174-c58e4cb8cecf","type":"L"}]
+```
+
+## Resources
+
+* [ScyllaDB Python driver documentation](https://python-driver.docs.scylladb.com/stable/)
+* [ScyllaDB Python driver on Github](https://github.com/scylladb/python-driver/)
+* [ScyllaDB University: Coding with Python](https://university.scylladb.com/courses/the-mutant-monitoring-system-training-course/lessons/coding-with-python/)
+
+
+# build-with-rust.md
+
+# Build an IoT App with Rust
+
+## Architecture
+
+This section will walk through and explain the code for the different commands.
+As explained in the Getting Started page, the project is structured as follow:
+
+- migrate (`/bin/migrate/main.rs`) - creates the `carepet` keyspace and tables
+- collar (`/bin/sensor/main.rs`) - generates a pet health data and pushes it into the storage
+- web app (`/main.rs`) - REST API service for tracking pets health state
+
+## Migrate
+
+Start by creating a local ScyllaDB cluster consisting of 3 nodes:
+
+```bash
+docker-compose up -d
+```
+
+Docker-compose will spin up a ScyllaDB cluster consisting of 3 nodes (carepet-scylla1, carepet-scylla2 and carepet-scylla3) along with the app (for example go-app) container.  Wait for about two minutes and check the status of the cluster: To check the status of the cluster:
+
+```bash
+docker exec -it carepet-scylla1 nodetool status
+```
+
+Once all the nodes are in UN - Up Normal status, run the below commands:
+
+The below command allows you to get node IP address:
+
+```bash
+docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' carepet-scylla1
+```
+
+The run the following commands to execute the migrate main function.
+
+```bash
+NODE1=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' carepet-scylla1)
+cargo run --bin migrate -- --hosts $NODE1
+```
+
+The command executes the main function in the `bin/migrate/main.rs`. The function creates the keyspace and tables that you need to run the collar and server services.
+
+The below code in the `bin/migrate/main.rs` creates a new session then calls the `create_keyspace` , `migrate` functions.
+
+```rs
+// migrate/main.rs
+
+async fn main() -> Result<()> {
+    care_pet::log::init();
+
+    let app = App::from_args();
+    debug!("Configuration = {:?}", app);
+
+    info!("Bootstrapping database...");
+
+    let sess = db::new_session(&app.db_config).await?;
+
+    db::create_keyspace(&sess).await?;
+    db::migrate(&sess).await?;
+
+    Ok(())
+}
+```
+
+The `new_session` function takes the config as a parameter and uses `SessionBuilder` class to crete a new session.
+
+```rs
+// db/mod.rs
+
+pub async fn new_session(config: &Config) -> Result<Session> {
+    info!("Connecting to {}", config.hosts.join(", "));
+
+    SessionBuilder::new()
+        .known_nodes(&config.hosts)
+        .connection_timeout(config.timeout.into())
+        .user(
+            config.username.clone().unwrap_or_default(),
+            config.password.clone().unwrap_or_default(),
+        )
+        .build()
+        .await
+        .map_err(From::from)
+}
+```
+
+For more information about creating a new session with the Rust Driver, please have a look at the [docs](https://rust-driver.docs.scylladb.com/stable/quickstart/example.html).
+
+`create_keyspace` function takes a session as an argument and creates a keyspace as defined in `db/keyspace.cql`:
+
+```cql
+CREATE KEYSPACE IF NOT EXISTS carepet;
+```
+
+The CQL query above creates a new keyspace named carepet using the default replication strategy. This syntax requires ScyllaDB 2026.1 or later.
+More information about keyspace and replication on [Scylla University](https://university.scylladb.com/courses/data-modeling/lessons/basic-data-modeling-2/topic/keyspace/).
+
+Finally, `migrate` will execute the queries listed in `db/migrate.cql` to create the tables you need for the project.
+
+```cql
+CREATE TABLE IF NOT EXISTS carepet.owner
+(
+    owner_id UUID,
+    address TEXT,
+    name    TEXT,
+    PRIMARY KEY (owner_id)
+);
+
+...
+```
+
+You can check the database structure with:
+
+```bash
+docker exec -it carepet-scylla1 cqlsh
+cqlsh> USE carepet;
+cqlsh:carepet> DESCRIBE TABLES
+cqlsh:carepet> DESCRIBE TABLE pet
+```
+
+You should expect the following result:
+
+```cql
+CREATE TABLE carepet.pet (
+    owner_id uuid,
+    pet_id uuid,
+    chip_id text,
+    species text,
+    breed   text,
+    color   text,
+    gender  text,
+    address text,
+    age int,
+    name text,
+    weight float,
+    PRIMARY KEY (owner_id, pet_id)
+) WITH CLUSTERING ORDER BY (pet_id ASC)
+    AND bloom_filter_fp_chance = 0.01
+    AND caching = {'keys': 'ALL', 'rows_per_partition': 'ALL'}
+    AND comment = ''
+    AND compaction = {'class': 'SizeTieredCompactionStrategy'}
+    AND compression = {'sstable_compression': 'org.apache.cassandra.io.compress.LZ4Compressor'}
+    AND crc_check_chance = 1.0
+    AND dclocal_read_repair_chance = 0.1
+    AND default_time_to_live = 0
+    AND gc_grace_seconds = 864000
+    AND max_index_interval = 2048
+    AND memtable_flush_period_in_ms = 0
+    AND min_index_interval = 128
+    AND read_repair_chance = 0.0
+    AND speculative_retry = '99.0PERCENTILE';
+```
+
+## Sensor
+
+The sensor service simulates the collar’s activity and periodically saves data to the database. Use the below commands to run the sensor service:
+
+```bash
+NODE1=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' carepet-scylla1)
+cargo run --bin sensor -- --hosts $NODE1 --measure 5s --buffer-interval 1m
+```
+
+The above command executes `bin/sensor/main.rs` and and takes the following as arguments.
+
+- `hosts` : the IP address of the ScyllaDB node.
+- `measure`: the interval between to sensor measures.
+- `buffer-interval`: the interval between two database queries.
+
+```rs
+// sensor/main.rs
+
+#[tokio::main]
+async fn main() -> Result<()> {
+    care_pet::log::init();
+
+    let app = App::from_args();
+    debug!("Configuration = {:?}", &app);
+
+    info!("Welcome to the Pet collar simulator");
+
+    let sess = db::new_session_with_keyspace(&app.db_config).await?;
+
+    let (owner, pet, sensors) = random_data();
+    save_data(&sess, &owner, &pet, &sensors).await?;
+    run_sensor_data(&app, &sess, sensors).await?;
+
+    Ok(())
+}
+```
+
+The `app` object contains the command’s arguments listed above.
+We then create a new session `sess` using `new_session_with_keyspace` function defined in `db/mod.rs`:
+
+```rs
+// db/mod.rs
+
+pub async fn new_session_with_keyspace(config: &Config) -> Result<Session> {
+    let session = new_session(config).await?;
+    session.use_keyspace(KEYSPACE, true).await?;
+    Ok(session)
+}
+```
+
+The `save_data` method connects to the datbase and saves random `owner`, `pet` and the `sensors` to the database using `insert_query` macro defined in `src/mod.rs`.
+
+```rs
+// sensor/main.rs
+
+async fn save_data(sess: &Session, owner: &Owner, pet: &Pet, sensors: &[Sensor]) -> Result<()> {
+    sess.query(insert_query!(Owner), owner).await?;
+    info!("New owner # {}", owner.owner_id);
+
+    sess.query(insert_query!(Pet), pet).await?;
+    info!("New pet # {}", pet.pet_id);
+
+    for sensor in sensors {
+        sess.query(insert_query!(Sensor), sensor).await?;
+    }
+
+    Ok(())
+}
+```
+
+The `run_sensor_data` generates random data and inserts it to the database every `buffer_interval`.
+
+```rs
+async fn run_sensor_data(cfg: &App, sess: &Session, sensors: Vec<Sensor>) -> Result<()> {
+    let measure: time::Duration = cfg.measure.into();
+    let buffer_interval: time::Duration = cfg.buffer_interval.into();
+
+    let mut last = Instant::now();
+    loop {
+        let mut measures = vec![];
+        while last.elapsed() < buffer_interval {
+            sleep(measure).await;
+
+            for sensor in &sensors {
+                let measure = read_sensor_data(sensor);
+                info!(
+                    "sensor # {} type {} new measure {} ts {}",
+                    sensor.sensor_id,
+                    sensor.r#type.as_str(),
+                    &measure.value,
+                    measure.ts.format_rfc3339(),
+                );
+
+                measures.push(measure);
+            }
+        }
+
+        last = last
+            + time::Duration::from_nanos(
+                (measure.as_nanos() * (last.elapsed().as_nanos() / measure.as_nanos())) as u64,
+            );
+
+        info!("Pushing data");
+
+        let batch = measures.iter().fold(Batch::default(), |mut batch, _| {
+            batch.append_statement(insert_query!(Measure));
+            batch
+        });
+
+        sess.batch(&batch, measures)
+            .await
+            .map_err(|err| error!("execute batch query {:?}", err))
+            .ok();
+    }
+}
+```
+
+## Server
+
+The server service is a REST API for tracking the pets’ health state. The service was built using [Rocket](https://rocket.rs) and allows users to query the database via HTTP.
+
+Run the following commands to start the server:
+
+```bash
+NODE1=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' carepet-scylla1)
+cargo run -- --hosts $NODE1
+```
+
+The `src/main.rs` main function mounts the api on `/api` and defines the routes.
+
+```rs
+// src/main.rs
+
+#[rocket::main]
+async fn main() -> Result<()> {
+    care_pet::log::init();
+
+    let app = App::from_args();
+    if app.verbose {
+        info!("Configuration = {:?}", app);
+    }
+
+    let sess = db::new_session_with_keyspace(&app.db_config).await?;
+
+    rocket::build()
+        .mount(
+            "/api",
+            routes![
+                handler::measures::find_sensor_data_by_sensor_id_and_time_range,
+                handler::owner::find_owner_by_id,
+                handler::pets::find_pets_by_owner_id,
+                handler::sensors::find_sensors_by_pet_id,
+                handler::avg::find_sensor_avg_by_sensor_id_and_day
+            ],
+        )
+        .manage(sess)
+        .launch()
+        .await
+        .map_err(From::from)
+}
+```
+
+The handlers can be found in the `src/handler` folder for each route.
+
+Let’s have a look at `handler/mesure.rs` file:
+
+```rs
+#[get("/sensor/<id>/values?<from>&<to>")]
+pub async fn find_sensor_data_by_sensor_id_and_time_range(
+    session: &State<Session>,
+    id: UuidParam,
+    from: DateTimeParam,
+    to: DateTimeParam,
+) -> Result<Json<Vec<f32>>, JsonError> {
+    let rows = session
+        .query(
+            format!(
+                "SELECT {} FROM {} WHERE {} = ? and {} >= ? and {} <= ?",
+                Measure::FIELD_NAMES.value,
+                Measure::table(),
+                Measure::FIELD_NAMES.sensor_id,
+                Measure::FIELD_NAMES.ts,
+                Measure::FIELD_NAMES.ts,
+            ),
+            (id.0, from.0, to.0),
+        )
+        .await
+        .map_err(|err| json_err(Status::InternalServerError, err))?
+        .rows
+        .unwrap_or_default()
+        .into_typed::<(f32,)>();
+
+    let values = rows
+        .map(|v| v.map(|v| v.0))
+        .collect::<Result<Vec<_>, _>>()
+        .map_err(|err| json_err(Status::InternalServerError, err))?;
+
+    Ok(Json(values))
+}
+```
+
+The GET request on URL `/sensor/<id>/values?<from>&<to>` triggers `find_sensor_data_by_sensor_id_and_time_range` function.
+
+`find_sensor_data_by_sensor_id_and_time_range` takes `session`, `id`, `from` and `to` as params. The function runs a `SELECT` query then returns `rows`.
+
+## Retrieving informations from API
+
+To test out the API in your terminal, use the following command to retrieve informations of a specific pet owner:
+
+```bash
+curl http://127.0.0.1:8000/owner/{id}
+```
+
+> If you don’t have an owner_id, run the `sensor` command and it will generate users and pets on your terminal.
+
+and you should receive a response similar to this:
+
+```json
+{
+  "owner_id": "5b5a7b4d-a2c0-48b0-91e1-de6a5b37c923",
+  "address": "home",
+  "name": "sedtdkaa"
+}
+```
+
+If you want to list owner’s pets you can use the following command:
+
+```shell
+curl http://127.0.0.1:8000/owner/{id}/pets
+```
+
+and you should receive a response similar to this:
+
+```json
+[
+  {
+    "owner_id": "5b5a7b4d-a2c0-48b0-91e1-de6a5b37c923",
+    "pet_id": "9e9facb9-3bd8-4451-b179-8c951cdf0999",
+    "chip_id": null,
+    "species": "dog",
+    "breed": "golden-retriever",
+    "color": "black",
+    "gender": "M",
+    "age": 4,
+    "weight": 9.523097,
+    "address": "awesome-address",
+    "name": "doggo"
+  }
+]
+```
+
+If you want to list the active pet sensors you can use the following command:
+
+```shell
+curl http://127.0.0.1:8000/pet/{pet_id}/sensors
+```
+
+and you should receive a response similar to this:
+
+```json
+[
+  {
+    "pet_id": "9e9facb9-3bd8-4451-b179-8c951cdf0999",
+    "sensor_id": "7a8b3831-0512-4501-90f2-700c7133aeed",
+    "type": "T"
+  },
+  {
+    "pet_id": "9e9facb9-3bd8-4451-b179-8c951cdf0999",
+    "sensor_id": "81250bab-cf1c-4c7a-84f1-b291a0f325ef",
+    "type": "P"
+  },
+  {
+    "pet_id": "9e9facb9-3bd8-4451-b179-8c951cdf0999",
+    "sensor_id": "a22a2fdb-4aad-4abe-b0d9-381aa07a26af",
+    "type": "L"
+  }
+]
+```
+
+## Resources
+
+* [ScyllaDB Rust driver documentation](https://rust-driver.docs.scylladb.com/stable/)
+* [ScyllaDB Rust code examples](https://github.com/scylladb/scylla-rust-driver/tree/main/examples)
+* [ScyllaDB Rust driver on Github](https://github.com/scylladb/scylla-rust-driver)
+* [ScyllaDB University: Getting Started with Rust](https://university.scylladb.com/courses/using-scylla-drivers/lessons/rust-and-scylla-2/)
+
+
+# deploy-in-cloud.md
+
+# Deploy in ScyllaDB Cloud with Terraform
+
+ScyllaDB Cloud has a [Terraform provider](https://github.com/scylladb/terraform-provider-scylladbcloud) which means that you can spin up new
+ScyllaDB Cloud clusters easily using Terraform. Follow the instructions below to
+set up the care-pet sample application in a ScyllaDB Cloud environment using Terraform.
+
+You’ll set up Terraform to:
+
+1. Create a new ScyllaDB Cloud cluster (you need a [ScyllaDB Cloud account](https://cloud.scylladb.com/account/sign-up))
+2. Execute a CQL file that creates a new keyspace and tables for the care-pet project
+
+## Prerequisites
+
+* [Terraform](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli)
+* [Python](https://www.python.org/downloads/)
+* [ScyllaDB Cloud API token](https://cloud.docs.scylladb.com/stable/api-docs/api-get-started.html)
+
+## Get started
+
+### Clone the repository
+
+Clone the repository if you haven’t already:
+
+```bash
+git clone https://github.com/scylladb/care-pet.git
+```
+
+### Install CQLSH
+
+Install the standalone CQLSH Python package:
+
+```bash
+pip install cqlsh
+```
+
+This package will be used to connect to ScyllaDB and create the initial schema.
+
+### Spin up a new ScyllaDB Cloud cluster
+
+Go to the `terraform` directory and run `terraform init`
+
+```bash
+cd terraform/
+terraform init
+```
+
+Apply the changes that are configured in the `main.tf` file:
+
+```bash
+terraform apply
+```
+
+You’ll be asked to provide your ScyllaDB Cloud API token (more info [in docs](https://cloud.docs.scylladb.com/stable/api-docs/api-get-started.html)):
+
+```bash
+var.scylla_api_token
+  Your own ScyllaDB Cloud API token
+
+  Enter a value:
+```
+
+You’ll also be asked if you want to perform the actions configured in Terraform, just type `yes`:
+
+```bash
+Do you want to perform these actions?
+  Terraform will perform the actions described above.
+  Only 'yes' will be accepted to approve.
+
+  Enter a value: yes
+
+  scylladbcloud_cluster.care_pet: Creating...
+```
+
+Spinning up the cluster takes about ~10 minutes. While the process is underway, you can go to your
+ScyllaDB [Cloud dashboard](https://cloud.scylladb.com/clusters/list) and verify that the cluster is getting set up:
+
+![cluster setting up](../terraform/cloud_screen.png)
+
+After the process is completed, go to the “Connect” tab in in the cloud console
+and connect to your newly created cluster with your favourite tool.
+
+
+# design-and-data-model.md
+
+# Design and Data Model
+
+You can learn more about Data Modeling in Scylla (and NoSQL) by taking
+[this course](https://university.scylladb.com/courses/data-modeling/) on Scylla
+University. The main goal of data modeling in Scylla is to perform queries fast,
+even if we sometimes have to duplicate data.
+
+Let’s build our schema around the queries we are going to run against our domain
+entities. When creating the data model, you need to consider both the conceptual
+data model and the application workflow: which queries will be performed by
+which users and how often.
+
+To achieve that, we want:
+
+- Even data distribution
+- To minimize the number of partitions accessed in a read query.
+
+On the other hand, our focus won’t be on avoiding data duplication or minimizing
+the number of writes. You’re probably familiar with the steps defined here:
+
+![](https://lh5.googleusercontent.com/5JqE89v8KJbSuVsnGswHn83sJOV-tjpeH6r1fqdNl6S77ncqAYb3kIZPSgNI8bqN_43OyZNbHQVpXdqMBFrRmsEvG3JORR302EhMnIb9qa6nuNL7cP2JJDZ4Uon_Pp-QmSCoEQ)
+
+## Conceptual Data Model
+
+Starting with the conceptual data model, we need to identify the key entities
+and the relationships between them. Our application has pets. Each dog can be
+tracked by many followers (typically the owners). A follower can also track more
+than one dog. Each dog can have a few sensors. Each sensor takes measurements:
+
+![](https://lh3.googleusercontent.com/GrFS0HY7XgABabCEp5Fbc0dULsujHkvSykFMiMZRI5TjJTYrzckVCJ29L4BgnEqc8dB7t1_VzsRsJCJjwiNI8xHdQ0tGh9qZptZfRsq7gDXHVogwfJG8Y_DIEJrgLX40zjvV5w)
+
+## Application Workflow
+
+Next, we move on to the Application Workflow. In this part, we identify the main
+queries or what questions we will ask the database. This part is important in
+Scylla, and other NoSQL databases and, as opposed to relational databases is
+performed early on in the data modeling process. Remember that our data modeling
+is built around the queries.
+
+![](https://lh5.googleusercontent.com/bHN-aBIt-cJ-77s5AWn6Dt0djC-gLQRSArF6b56s3mxpzx-0oG3TgXYOJzTOwrhUUdT0WcEZPTTTdk8B4aY2fbGMgs044DKxwPMC1ATrphI4GBRS8rcVboWpjlg5cO4JRcTZxQ)
+
+## Queries
+
+Now we can detail the above queries in
+[CQL](https://university.scylladb.com/courses/data-modeling/lessons/basic-data-modeling-2/topic/cql-cqlsh-and-basic-cql-syntax/):
+
+Q1: Find a Follower with a specific ID
+
+```none
+SELECT * FROM owner WHERE owner_id = ?
+```
+
+Q2: Find the pets that the follower tracks
+
+```none
+SELECT * FROM pet WHERE owner_id = ?
+```
+
+Q3: Find the sensors of a pet
+
+```none
+SELECT * FROM sensor WHERE pet_id = ?
+```
+
+Q4: Find the measurements for a sensor in a date range
+
+```none
+SELECT * FROM measurements WHERE sensor_id = ? AND ts <= ? and ts >= ?;
+```
+
+Q5: Find a daily summary of hour based aggregates
+
+```none
+SELECT * FROM sensor_avg WHERE sensor_id = ? AND date = ? ORDER BY date ASC, hour ASC;
+```
+
+## Logical Data Model
+
+Using the outcomes of the application workflow and the conceptual data model, we
+can now create the logical data model. At this stage, we determine how our
+tables will look and which fields will be used as primary and clustering keys.
+Selecting a primary key and clustering key is highly important, you can learn
+more about it in
+[this lesson](https://university.scylladb.com/courses/data-modeling/lessons/basic-data-modeling-2/).
+Remember that in Scylla, it’s better to duplicate data than to join, see more
+about denormalization in
+[this lesson](https://university.scylladb.com/courses/data-modeling/lessons/advanced-data-modeling/topic/denormalization/).
+
+![](https://lh4.googleusercontent.com/zF8v3divX_VsG5z7pOmGOtdLj7_7AVrembG6ep630WsVqJXKMthEoMyPAkfaJsU7a-np9fO84lmfbcHkPv-dX-_45Aczafnm4V7OroHgt0Kd6Ao7vLF6eK_m-d6X5TJcnylpow)
+
+## Physical Data Model
+
+In this part, we take the Logical Data Model above and add CQL data types. Make
+sure you’re familiar with the ScyllaDB (and Cassandra for that matter)
+[data types](https://university.scylladb.com/courses/data-modeling/lessons/advanced-data-modeling/topic/common-data-types-and-collections/)
+before proceeding.
+
+Based on the high availability requirements, we will use a
+[replication factor](https://university.scylladb.com/courses/scylla-essentials-overview/lessons/high-availability/topic/fault-tolerance-replication-factor/)
+(RF) of three. The RF is defined when we create the
+[Keyspace](https://university.scylladb.com/courses/data-modeling/lessons/basic-data-modeling-2/topic/keyspace/),
+as we will see later on. Choosing the compaction strategy is explained
+[here](https://docs.scylladb.com/architecture/compaction/compaction-strategies/)
+and in [this](https://university.scylladb.com/courses/scylla-operations/lessons/compaction-strategies/)
+University Lesson. For the tables sensor_avg and measurement, we will use the
+[Time Window Compaction Strategy (TWCS)](https://docs.scylladb.com/getting-started/compaction/#time-window-compactionstrategy-twcs).
+
+The reason is those tables contain time-series data. The “measurement” table
+stores sensor measurements, and the “sensor_avg” stores aggregated hourly
+averages. For such data, there is an optimized compaction strategy TWCS based on
+the Size Tiered Compaction Strategy with the fair assumption that the data at
+different time slots will never overlap. That isolates buckets compaction
+in-between the time windows into independent units reducing overall compaction
+write amplification. For the other tables, we will use the default
+[compaction strategy](https://university.scylladb.com/courses/scylla-operations/lessons/compaction-strategies/),
+[Size Tiered Compaction Strategy (STCS)](https://university.scylladb.com/courses/scylla-operations/lessons/compaction-strategies/topic/size-tiered-and-leveled-compaction-strategies-stcs-lcs/).
+Remember that if you are using [Scylla Enterprise](https://www.scylladb.com/product/scylla-enterprise/), you should
+probably be using [Incremental Compaction Strategy (ICS)](https://university.scylladb.com/courses/scylla-operations/lessons/compaction-strategies/topic/incremental-compaction-strategy-ics/)
+as it offers better performance. We can now define the tables below, according
+to the physical data model.
+
+```none
+CREATE TABLE IF NOT EXISTS owner (
+    owner_id UUID,
+    address TEXT,
+    name    TEXT,
+    PRIMARY KEY (owner_id)
+);
+
+CREATE TABLE IF NOT EXISTS pet (
+    owner_id UUID,
+    pet_id   UUID,
+    chip_id  TEXT,
+    species  TEXT,
+    breed    TEXT,
+    color    TEXT,
+    gender   TEXT,
+    age     INT,
+    weight  FLOAT,
+    address TEXT,
+    name    TEXT,
+    PRIMARY KEY (owner_id, pet_id)
+);
+
+CREATE TABLE IF NOT EXISTS sensor (
+    pet_id UUID,
+    sensor_id UUID,
+    type TEXT,
+    PRIMARY KEY (pet_id, sensor_id)
+);
+
+CREATE TABLE IF NOT EXISTS measurement (
+    sensor_id UUID,
+    ts       TIMESTAMP,
+    value    FLOAT,
+    PRIMARY KEY (sensor_id, ts)
+) WITH compaction = { 'class' : 'TimeWindowCompactionStrategy' };
+
+CREATE TABLE IF NOT EXISTS sensor_avg (
+    sensor_id UUID,
+    date    DATE,
+    hour    INT,
+    value   FLOAT,
+    PRIMARY KEY (sensor_id, date, hour)
+) WITH compaction = { 'class' : 'TimeWindowCompactionStrategy' };
+```
+
+Some more advanced topics not covered in this guide are
+[Collections](https://university.scylladb.com/courses/data-modeling/lessons/advanced-data-modeling/topic/common-data-types-and-collections/),
+User-Defined[Types](https://university.scylladb.com/courses/data-modeling/lessons/advanced-data-modeling/topic/user-defined-types-udt/)
+(UDT), expiring data with [time to live (TTL)](https://university.scylladb.com/courses/data-modeling/lessons/advanced-data-modeling/topic/expiring-data-with-ttl-time-to-live/),
+and [Counters](https://university.scylladb.com/courses/data-modeling/lessons/advanced-data-modeling/topic/counters/).
+
+To summarize, when data modeling with Scylla, we have to know our data, think
+about our queries, pay attention to the primary key and clustering key
+selection, and not be afraid to duplicate data.
+
+
+# getting-started.md
+
+# Getting Started with CarePet: A sample IoT App
+
+## Introduction
+
+This guide will show you how to create an IoT app from scratch and configure it
+to use Scylla as the backend datastore. It’ll walk you through all the stages
+of the development process, from gathering requirements to building and running
+the application.
+
+As an example, you will use an application called CarePet. CarePet allows pet
+owners to track their pets’ health by monitoring their key health parameters,
+such as temperature or pulse. The application consists of three parts:
+
+- A pet collar with sensors that collects pet health data and sends the data to the datastore.
+- A web app for reading the data and analyzing the pets’ health.
+- A database migration module.
+
+You can use this example with minimal changes for any IoT application.
+
+## Architecture
+
+- `migrate` - Creates the CarePet keyspace and tables.
+- `sensor` - Generates pet health data and pushes it into storage.
+- `server` - REST API service for tracking the pets’ health state.
+
+![Build your first ScyllaDB Powered App - Raouf](https://user-images.githubusercontent.com/13738772/158378310-11a39630-b390-4df0-8096-2c1751e56570.jpg)
+
+## Requirements
+
+### Prerequisites for Deploying the Application
+
+The example application uses Docker to run a three-node ScyllaDB cluster. You can also use Scylla Cloud as your database.
+Claim your free Scylla Cloud account [here](https://scylladb.com/cloud).
+
+### Use Case Requirements
+
+Each pet collar has sensors that report four different measurements:
+temperature, pulse, location, and respiration.
+
+The collar reads the measurements from the sensors once per second
+and sends the data directly to the app.
+
+### Performance Requirements
+
+The application has two performance-related parts: sensors that write to
+the database (throughput sensitive) and a backend dashboard that reads from
+the database (latency sensitive).
+
+* This example assumes 99% writes (sensors) and 1% reads (backend dashboard).
+* SLA:
+  - Writes: throughput of 100K operations per second.
+  - Reads: latency of up to 10 milliseconds for the
+    [99th percentile](https://www.scylladb.com/glossary/low-latency-database/).
+* The application requires high availability and fault tolerance. Even if a
+  ScyllaDB node goes down or becomes unavailable, the cluster is expected to
+  remain available and continue to provide service. You can learn more about
+  Scylla high availability in [this lesson](https://university.scylladb.com/courses/scylla-essentials-overview/lessons/high-availability/).
+
+## Deploying the Application in ScyllaDB Cloud
+
+Using the ScyllaDB Cloud [Terraform provider](https://registry.terraform.io/providers/scylladb/scylladbcloud/latest/docs), you can easily spin up new ScyllaDB Cloud clusters. Complete this tutorial quicker by creating a new `t3.micro` cluster (the smallest instance) in ScyllaDB Cloud. Go to [Deploy in ScyllaDB Cloud with Terraform](https://iot.scylladb.com/stable/deploy-in-cloud.md) for instructions.
+
+## Build the Application with Your Programming Language
+
+- [Build with Go](https://iot.scylladb.com/stable/build-with-go.md)
+- [Build with Java](https://iot.scylladb.com/stable/build-with-java.md)
+- [Build with JavaScript](https://iot.scylladb.com/stable/build-with-javascript.md)
+- [Build with Rust](https://iot.scylladb.com/stable/build-with-rust.md)
+- [Build with Python](https://iot.scylladb.com/stable/build-with-python.md)
+- [Build with CSharp](https://iot.scylladb.com/stable/build-with-csharp.md)
+
+## Additional Resources
+
+- [Scylla Essentials](https://university.scylladb.com/courses/scylla-essentials-overview/) course on Scylla University. It provides an introduction to Scylla and explains the basics.
+- [Data Modeling and Application Development](https://university.scylladb.com/courses/data-modeling/) course on Scylla University. It explains basic and advanced data modeling techniques, including information on workflow application, query analysis, denormalization, and other NoSQL data modeling topics.
+- [Scylla Documentation](https://docs.scylladb.com/)
+- Scylla users [slack channel](http://slack.scylladb.com/)
+
+## Future Work
+
+- Add Sizing
+- Add Benchmarking
+- In a real-world application, it would be better to aggregate data in an internal buffer and send it once a day to the application gateway in a batch, implying techniques such as delta encoding. It could also aggregate data at a lower resolution and take measurements less frequently. The collar could notify the pet’s owner about suspicious health parameters directly or via the application.
+- Add location tracking info to send alerts when the pet enters/leaves safe zones using known WiFi networks.
+- Use the measurements to present to the pet owner health alerts, vital signs, sleeping levels, activity levels, and calories burned.
+
+
