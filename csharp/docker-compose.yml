@@ -1,34 +1,47 @@
-version: '3.8'
+version: "3.8"
 
 services:
   carepet-scylla1:
     image: scylladb/scylla:5.2
     restart: always
-    command: --seeds=carepet-scylla1,carepet-scylla2 --smp 1 --memory 750M --overprovisioned 1 --api-address 0.0.0.0
+    # ONLY use scylla1 as the seed to prevent startup race conditions
+    command: --seeds=carepet-scylla1 --smp 1 --memory 750M --overprovisioned 1 --api-address 0.0.0.0 --developer-mode 1
     ports:
       - "9042:9042"
     volumes:
       - carepet-scylla1-data:/var/lib/scylla
     networks:
       - carepet-network
+    # This healthcheck tells Docker when scylla1 is officially ready
+    healthcheck:
+      test: ["CMD-SHELL", "nodetool status || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   carepet-scylla2:
     image: scylladb/scylla:5.2
     restart: always
-    command: --seeds=carepet-scylla1,carepet-scylla2 --smp 1 --memory 750M --overprovisioned 1 --api-address 0.0.0.0
+    command: --seeds=carepet-scylla1 --smp 1 --memory 750M --overprovisioned 1 --api-address 0.0.0.0 --developer-mode 1
     volumes:
       - carepet-scylla2-data:/var/lib/scylla
     networks:
       - carepet-network
+    depends_on:
+      carepet-scylla1:
+        condition: service_healthy
 
   carepet-scylla3:
     image: scylladb/scylla:5.2
     restart: always
-    command: --seeds=carepet-scylla1,carepet-scylla2 --smp 1 --memory 750M --overprovisioned 1 --api-address 0.0.0.0
+    command: --seeds=carepet-scylla1 --smp 1 --memory 750M --overprovisioned 1 --api-address 0.0.0.0 --developer-mode 1
     volumes:
       - carepet-scylla3-data:/var/lib/scylla
     networks:
       - carepet-network
+    depends_on:
+      carepet-scylla1:
+        condition: service_healthy
 
 volumes:
   carepet-scylla1-data:
