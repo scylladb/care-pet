@@ -24,7 +24,7 @@ resource "scylladbcloud_cluster" "care_pet" {
   enable_vpc_peering = false
   enable_dns         = true
 
-  # X Cloud cluster: ScyllaDB Cloud picks the instance size and scales
+  # ScyllaDB Cloud picks the instance size and scales
   # automatically within the instance family.
   scaling {
     instance_families = ["i8g"]
