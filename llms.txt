@@ -1,0 +1,24 @@
+# ScyllaDB IoT Example Documentation
+
+> ScyllaDB IoT Example Documentation
+
+
+2026, ScyllaDB. All rights reserved.
+
+## Pages
+
+- [Home](https://iot.scylladb.com/stable/index.md): <div class="hero ">
+- [Build an IoT App with C++](https://iot.scylladb.com/stable/build-with-cpp.md): In this section, we will walk you through the CarePet commands and explain the code behind them.
+- [Build an IoT App with CSharp](https://iot.scylladb.com/stable/build-with-csharp.md): In this section, we will walk you through the CarePet commands and explain the code behind them.
+- [Build an IoT App with Go](https://iot.scylladb.com/stable/build-with-go.md): In this section, we will walk you through the CarePet commands and explain the code behind them.
+- [Build an IoT App with Java](https://iot.scylladb.com/stable/build-with-java.md): In this section, we will walk you through the CarePet commands and explain the code behind them.
+- [Build an IoT App with JavaScript](https://iot.scylladb.com/stable/build-with-javascript.md): In this section, we will walk you through the CarePet commands and explain the code behind them.
+- [Build an IoT App with Python](https://iot.scylladb.com/stable/build-with-python.md): This section will walk through and explain the code for the different commands.
+- [Build an IoT App with Rust](https://iot.scylladb.com/stable/build-with-rust.md): This section will walk through and explain the code for the different commands.
+- [Deploy in ScyllaDB Cloud with Terraform](https://iot.scylladb.com/stable/deploy-in-cloud.md): ScyllaDB Cloud has a [Terraform provider](https://github.com/scylladb/terraform-provider-scylladbclo...
+- [Design and Data Model](https://iot.scylladb.com/stable/design-and-data-model.md): You can learn more about Data Modeling in Scylla (and NoSQL) by taking
+- [Getting Started with CarePet: A sample IoT App](https://iot.scylladb.com/stable/getting-started.md): This guide will show you how to create an IoT app from scratch and configure it
+
+---
+
+For more comprehensive documentation, see [llms-full.txt](https://iot.scylladb.com/stable/llms-full.txt)
