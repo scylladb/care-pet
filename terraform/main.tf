@@ -1,7 +1,8 @@
 terraform {
   required_providers {
     scylladbcloud = {
-      source = "registry.terraform.io/scylladb/scylladbcloud"
+      source  = "registry.terraform.io/scylladb/scylladbcloud"
+      version = "~> 1.13"
     }
   }
 }
@@ -20,10 +21,14 @@ resource "scylladbcloud_cluster" "care_pet" {
   name               = "CarePet"
   cloud              = "AWS"
   region             = trim(var.region, " ")
-  node_count         = 3
-  node_type          = "t3.micro"
   enable_vpc_peering = false
   enable_dns         = true
+
+  # ScyllaDB Cloud picks the instance size and scales
+  # automatically within the instance family.
+  scaling {
+    instance_families = ["i8g"]
+  }
 }
 
 output "scylladbcloud_cluster_id" {
