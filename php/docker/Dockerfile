@@ -1,39 +1,37 @@
-FROM ubuntu:18.04
-ARG DEBIAN_FRONTEND=noninteractive
-RUN apt-get update && apt-get install -y --force-yes build-essential curl cmake g++ libpcre3-dev libssl-dev make openssl libgmp-dev git
+# Change the PHP version here. Use a PHP 8.4 release that has all security fixes.
+ARG PHP_VERSION=8.4.26
+ARG SCYLLADB_PHP_DRIVER_VERSION=v1.5.1
 
-RUN apt-get install -y software-properties-common
-RUN LC_ALL=C.UTF-8 add-apt-repository -y ppa:ondrej/php
-RUN apt-get update
-RUN apt-get install -y php7.1 php7.1-dev php7.1-xml php7.1-mbstring php7.1-curl php7.1-zip php7.1-xdebug
+# Build the ScyllaDB PHP driver (cassandra.so) from source for this PHP version.
+# The build links the ScyllaDB C/C++ driver statically into the extension.
+FROM php:${PHP_VERSION}-cli AS driver
+ARG SCYLLADB_PHP_DRIVER_VERSION
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        build-essential cmake ninja-build pkg-config git ca-certificates \
+        libuv1-dev libssl-dev libgmp-dev zlib1g-dev \
+    && rm -rf /var/lib/apt/lists/*
+RUN git clone --depth 1 --branch "${SCYLLADB_PHP_DRIVER_VERSION}" \
+        https://github.com/he4rt/scylladb-php-driver.git /src/scylladb-php-driver
+WORKDIR /src/scylladb-php-driver
+RUN cmake -G Ninja -B build \
+        -DCUSTOM_PHP_CONFIG="$(command -v php-config)" \
+        -DCMAKE_BUILD_TYPE=Release \
+        -DPHP_DEBUG=OFF \
+        -DPHP_THREAD_SAFE=OFF \
+        -DPHP_SCYLLADB_DRIVER_VERSION="${SCYLLADB_PHP_DRIVER_VERSION#v}" \
+    && cmake --build build --parallel "$(nproc)" \
+    && cmake --install build --component extension
 
-RUN apt-get install -y wget
-
-RUN cd /tmp && wget http://downloads.datastax.com/cpp-driver/ubuntu/16.04/dependencies/libuv/v1.24.0/libuv1_1.24.0-1_amd64.deb && wget http://downloads.datastax.com/cpp-driver/ubuntu/16.04/dependencies/libuv/v1.24.0/libuv1-dev_1.24.0-1_amd64.deb
-RUN dpkg -i /tmp/libuv1_1.24.0-1_amd64.deb
-RUN dpkg -i /tmp/libuv1-dev_1.24.0-1_amd64.deb
-
-
-RUN cd /tmp && wget http://downloads.datastax.com/cpp-driver/ubuntu/16.04/cassandra/v2.11.0/cassandra-cpp-driver_2.11.0-1_amd64.deb && wget http://downloads.datastax.com/cpp-driver/ubuntu/16.04/cassandra/v2.11.0/cassandra-cpp-driver-dev_2.11.0-1_amd64.deb
-RUN dpkg -i /tmp/cassandra-cpp-driver_2.11.0-1_amd64.deb
-RUN dpkg -i /tmp/cassandra-cpp-driver-dev_2.11.0-1_amd64.deb
-
-RUN update-alternatives --set php /usr/bin/php7.1
-RUN update-alternatives --set phar /usr/bin/phar7.1
-RUN update-alternatives --set phar.phar /usr/bin/phar.phar7.1
-
-RUN pecl install cassandra
-RUN echo "extension=cassandra.so" | tee -a /etc/php/7.1/cli/php.ini
-
-RUN curl -sS https://getcomposer.org/installer | php -- \
-        --filename=composer \
-        --install-dir=/usr/local/bin && \
-        echo "alias composer='composer'" >> /root/.bashrc
+FROM php:${PHP_VERSION}-cli
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        libuv1t64 libgmp10 git unzip \
+    && rm -rf /var/lib/apt/lists/*
+COPY --from=driver /usr/local/lib/php/extensions/ /usr/local/lib/php/extensions/
+RUN docker-php-ext-enable cassandra && php -m | grep -qx cassandra
+COPY --from=composer:2 /usr/bin/composer /usr/local/bin/composer
 
 WORKDIR /var/www
 
-EXPOSE 9000
+EXPOSE 8000
 
-VOLUME ["/var/www"]
-
-ENTRYPOINT /bin/bash
+CMD ["sleep", "infinity"]
