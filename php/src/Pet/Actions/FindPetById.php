@@ -5,6 +5,7 @@ namespace App\Pet\Actions;
 use App\Pet\Exceptions\PetException;
 use App\Pet\PetDTO;
 use App\Pet\PetRepository;
+use Cassandra\Uuid;
 
 class FindPetById
 {
@@ -14,11 +15,11 @@ class FindPetById
     {
     }
 
-    public function handle(string $petId): PetDTO
+    public function handle(Uuid $petId): PetDTO
     {
         $pet = $this->petRepository->getById($petId);
         if ($pet->count() == 0) {
-            throw PetException::notFound($petId);
+            throw PetException::notFound($petId->uuid());
         }
 
         return PetDTO::make($pet->first());
