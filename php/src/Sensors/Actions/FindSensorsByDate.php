@@ -3,6 +3,8 @@
 namespace App\Sensors\Actions;
 
 use App\Sensors\Sensor\SensorRepository;
+use Cassandra\Timestamp;
+use DateTimeImmutable;
 
 class FindSensorsByDate
 {
@@ -13,16 +15,20 @@ class FindSensorsByDate
     {
     }
 
-
-    public function handle(string $sensorId, string $startAt, string $endAt)
+    /** @return float[] */
+    public function handle(string $sensorId, DateTimeImmutable $startAt, DateTimeImmutable $endAt): array
     {
         $sensorDTO = $this->action->handle($sensorId);
-        $sensorsRange = $this->sensorRepository
-            ->getSensorsValuesByDateRange($sensorId, $startAt, $endAt);
+        $sensorsRange = $this->sensorRepository->getSensorsValuesByDateRange(
+            $sensorDTO->id,
+            Timestamp::fromDateTime($startAt),
+            Timestamp::fromDateTime($endAt)
+        );
 
-        $result = array_map(function ($sensor) {
-            return $sensor->value;
-        }, (array)$sensorsRange);
+        $result = [];
+        foreach ($sensorsRange as $row) {
+            $result[] = round($row['value']->toDouble(), 2);
+        }
 
         return $result;
     }

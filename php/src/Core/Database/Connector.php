@@ -52,8 +52,8 @@ class Connector
         return $this;
     }
 
-    public function execute(): FutureRows
+    public function execute(array $arguments = []): FutureRows
     {
-        return $this->session->executeAsync($this->query, []);
+        return $this->session->executeAsync($this->query, ['arguments' => $arguments]);
     }
 }
