@@ -21,7 +21,7 @@ Language-specific implementation resides in the corresponding folder:
 - [Go](go)
 - [Java](java)
 - [Javascript/NodeJS](javascript)
-- [PHP](php)
+- [PHP](php) (PHP 8.4, ScyllaDB PHP driver)
 - [Rust](rust)
 - CPP
 - Python

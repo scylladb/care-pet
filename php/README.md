@@ -2,12 +2,10 @@
 
 This example project demonstrates a generic IoT use case for ScyllaDB in PHP.
 
-Here you will find a list of possible drivers to integrate with.
+The example uses PHP 8.4 and the [ScyllaDB PHP driver](https://github.com/he4rt/scylladb-php-driver) v1.5.1.
+The Docker image builds the driver from source for the PHP version in [docker/Dockerfile](docker/Dockerfile).
 
-| PHP Version | Driver                                                                    |
-|-------------|---------------------------------------------------------------------------|
-| PHP 7.1     | [DataStax PHP Driver](https://github.com/datastax/php-driver)             |
-| PHP 8.2 [x] | [ScyllaDB PHP Driver (dev)](https://github.com/he4rt/scylladb-php-driver) |
+To change the PHP version, edit `ARG PHP_VERSION` in `docker/Dockerfile`. Then run `docker compose build workspace-php`.
 
 The documentation for this application and the guided exercise is [here](../docs).
 
@@ -23,30 +21,48 @@ The application allows the tracking of the pets health indicators, and it consis
 
 Prerequisites:
 
-- [docker](https://www.docker.com/)
-- [docker-compose](https://docs.docker.com/compose/)
+- [Docker](https://www.docker.com/)
+- [Docker Compose](https://docs.docker.com/compose/)
 
 ## Setup
 
-To run a local **ScyllaDB cluster** consisting of three nodes and the **PHP Workspace** with
-the help of `docker` and `docker-compose` execute:
+Copy the environment file:
 
 ```shell
-$ docker-compose up -d
-```    
+$ cp .env.example .env
+```
 
-Docker-compose will spin up three nodes which are:
+Start a local **ScyllaDB cluster** with three nodes and the **PHP workspace**:
+
+```shell
+$ docker compose up -d
+```
+
+Docker Compose starts these containers:
 
 - carepet-scylla1
 - carepet-scylla2
 - carepet-scylla3
+- workspace-php
+
+Wait until `nodetool status` shows `UN` for the three nodes:
+
+```shell
+$ docker exec carepet-scylla1 nodetool status
+```
+
+Install the PHP dependencies in the workspace:
+
+```shell
+$ docker exec workspace-php composer install
+```
 
 If you want to see your containers running, run the `docker ps` command, and you should see something like this:
 
 ````shell
 $ docker ps
 CONTAINER ID   IMAGE                    COMMAND                  CREATED       STATUS       PORTS                                                                      NAMES
-14a656685517   care-pet-php-workspace   "/bin/sh -c /bin/bas…"   1 minute ago   Up 1 minute   9000/tcp                                                                   workspace-php
+14a656685517   care-pet-php-workspace   "docker-php-entrypoi…"   1 minute ago   Up 1 minute   0.0.0.0:8000->8000/tcp                                                     workspace-php
 4e351dfe3987   scylladb/scylla          "/docker-entrypoint.…"   1 minute ago   Up 1 minute   22/tcp, 7000-7001/tcp, 7199/tcp, 9042/tcp, 9160/tcp, 9180/tcp, 10000/tcp   carepet-scylla2
 9e7e4d3992df   scylladb/scylla          "/docker-entrypoint.…"   1 minute ago   Up 1 minute   22/tcp, 7000-7001/tcp, 7199/tcp, 9042/tcp, 9160/tcp, 9180/tcp, 10000/tcp   carepet-scylla3
 7e2b1b94389b   scylladb/scylla          "/docker-entrypoint.…"   1 minute ago   Up 1 minute   22/tcp, 7000-7001/tcp, 7199/tcp, 9042/tcp, 9160/tcp, 9180/tcp, 10000/tcp   carepet-scylla1
@@ -54,6 +70,9 @@ CONTAINER ID   IMAGE                    COMMAND                  CREATED       S
 
 > If you have any error regarding "premature connection", restart your docker instance and wait a minute until
 > your ScyllaDB connection be established.
+
+> If a ScyllaDB node stops with "Your system does not satisfy minimum AIO requirements", increase the AIO limit on the host:
+> `sudo sysctl -w fs.aio-max-nr=1048576`
 
 ... and it will also create the **php-workspace**, where your web server will run. You can access them with the `docker`
 command.
@@ -78,6 +97,7 @@ root@14a656685517:/var/www# php scylla migrate
 ```shell
 $ docker exec -it workspace-php php scylla migrate
 [INFO] Fetching Migrations... 
+[INFO] Preparing Keyspace carepet 
 [INFO] Migrated: /var/www/migrations/1-create_keyspace.cql 
 [INFO] Migrated: /var/www/migrations/2-create_owner_table.cql 
 [INFO] Migrated: /var/www/migrations/3-create_pets_table.cql 
@@ -93,7 +113,13 @@ $ docker exec -it workspace-php php scylla migrate
 $ docker exec -it workspace-php php scylla serve
 [INFO] CarePet Web started!
 [INFO] Development Server: http://0.0.0.0:8000
-[Thu Jan  5 17:32:01 2023] PHP 7.4.33 Development Server (http://0.0.0.0:8000) started
+```
+
+Get an owner from the REST API. Use an `owner_id` from the `simulate` output:
+
+```shell
+$ curl http://localhost:8000/owners/<owner_id>
+{"owner_id":"07f51ae3-ef43-3e1d-8baf-de06698bd35f","name":"Kyla Hettinger","address":"..."}
 ```
 
 ##### Simulate Environment Sensors:
