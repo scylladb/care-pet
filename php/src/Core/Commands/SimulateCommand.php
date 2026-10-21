@@ -3,6 +3,7 @@
 namespace App\Core\Commands;
 
 use App\Core\Commands\Base\AbstractCommand;
+use App\Core\Database\Connector;
 use App\Owner\OwnerFactory;
 use App\Owner\OwnerRepository;
 use App\Pet\PetFactory;
@@ -10,6 +11,7 @@ use App\Pet\PetRepository;
 use App\Sensors\Sensor\SensorDTO;
 use App\Sensors\Sensor\SensorFactory;
 use App\Sensors\Sensor\SensorRepository;
+use Cassandra\Timestamp;
 use Closure;
 
 final class SimulateCommand extends AbstractCommand
@@ -24,6 +26,10 @@ final class SimulateCommand extends AbstractCommand
     }
 
     const AMOUNT_BASE = 50000;
+
+    // Each sensor gets one measurement every 15 minutes for the last 24 hours.
+    const MEASUREMENT_INTERVAL = 900;
+    const MEASUREMENT_PERIOD = 86400;
 
     public function __invoke(array $args = []): int
     {
@@ -66,6 +72,38 @@ final class SimulateCommand extends AbstractCommand
                 $sensorDTO->type->name,
                 $sensorDTO->petId
             ));
+            $this->createMeasurements($sensorDTO);
+        };
+    }
+
+    private function createMeasurements(SensorDTO $sensorDTO): void
+    {
+        $now = time();
+        $futures = [];
+        for ($ts = $now - self::MEASUREMENT_PERIOD; $ts <= $now; $ts += self::MEASUREMENT_INTERVAL) {
+            $futures[] = $this->sensorRepository->createMeasurement(
+                $sensorDTO->id,
+                new Timestamp($ts, 0),
+                $this->readSensorData($sensorDTO->type->name)
+            );
+        }
+
+        foreach ($futures as $future) {
+            $future->get(Connector::BASE_TIMEOUT);
+        }
+    }
+
+    private function readSensorData(string $type): float
+    {
+        return match ($type) {
+            // Temperature in Fahrenheit
+            'T' => 101 + random_int(0, 9) - 4,
+            // Pulse in beats per minute
+            'P' => 100 + random_int(0, 39) - 20,
+            // Respiration in inhales per minute
+            'R' => 35 + random_int(0, 4) - 2,
+            // Location as distance from home
+            'L' => round(10 * mt_rand() / mt_getrandmax(), 2),
         };
     }
 }

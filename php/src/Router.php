@@ -6,6 +6,7 @@ use App\Owner\Controllers\FindOwnerController;
 use App\Owner\Controllers\OwnerPetsController;
 use App\Pet\Controllers\FindPetController;
 use App\Sensors\Controllers\GetPetSensorsController;
+use App\Sensors\Controllers\SensorAvgByDayController;
 use App\Sensors\Controllers\SensorsByDateController;
 use FastRoute\Dispatcher;
 use FastRoute\RouteCollector;
@@ -21,7 +22,7 @@ class Router
             $router->get('/pets/{petId}', [FindPetController::class]);
             $router->get('/pets/{petId}/sensors', [GetPetSensorsController::class]);
             $router->get('/sensors/{sensorId}/values', [SensorsByDateController::class]);
-            $router->get('/sensors/{id:\d+}/daily', [x::class, 'handle']);
+            $router->get('/sensors/{sensorId}/daily', [SensorAvgByDayController::class]);
         });
     }
 }
