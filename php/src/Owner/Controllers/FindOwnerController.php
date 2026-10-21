@@ -15,6 +15,6 @@ final class FindOwnerController extends BaseController
 
     public function __invoke(string $ownerId)
     {
-        $this->responseJson($this->action->handle($ownerId));
+        $this->responseJson($this->action->handle($this->uuid($ownerId, 'ownerId')));
     }
 }

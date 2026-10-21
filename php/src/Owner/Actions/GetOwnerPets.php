@@ -6,6 +6,7 @@ use App\Pet\Exceptions\PetException;
 use App\Pet\PetCollection;
 use App\Pet\PetDTO;
 use App\Pet\PetRepository;
+use Cassandra\Uuid;
 
 final class GetOwnerPets
 {
@@ -17,11 +18,11 @@ final class GetOwnerPets
     }
 
     /** @return PetCollection<int, PetDTO> */
-    public function handle(string $ownerId): PetCollection
+    public function handle(Uuid $ownerId): PetCollection
     {
         $owner = $this->ownerAction->handle($ownerId);
 
-        $pets = $this->repository->getByOwnerId($owner->id->uuid());
+        $pets = $this->repository->getByOwnerId($owner->id);
         if ($pets->count() == 0) {
             throw PetException::noPetsFound();
         }

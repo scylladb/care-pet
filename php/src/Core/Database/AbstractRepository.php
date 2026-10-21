@@ -4,6 +4,7 @@ namespace App\Core\Database;
 
 use App\Core\Entities\AbstractDTO;
 use Cassandra\Rows;
+use Cassandra\Uuid;
 
 abstract class AbstractRepository
 {
@@ -20,13 +21,13 @@ abstract class AbstractRepository
         $this->connection = $connector;
     }
 
-    public function getById(string $id): Rows
+    public function getById(Uuid $id): Rows
     {
-        $query = sprintf("SELECT * FROM %s WHERE %s = %s", $this->table, $this->primaryKey, $id);
+        $query = sprintf('SELECT * FROM %s WHERE %s = ?', $this->table, $this->primaryKey);
 
         return $this->connection
             ->prepare($query)
-            ->execute()
+            ->execute([$id])
             ->get(Connector::BASE_TIMEOUT);
     }
 
@@ -40,26 +41,27 @@ abstract class AbstractRepository
 
     public function create(AbstractDTO $dto): void
     {
-        $keys = array_keys($dto->toDatabase());
-        $dataValues = array_values($dto->toDatabase());
+        $values = $dto->toDatabase();
 
-        foreach ($dataValues as $key => $value) {
-            if (is_string($value) && !in_array($keys[$key], $this->keys)) {
-                $value = addslashes($value);
-                $dataValues[$key] = "'$value'";
+        // Prepared statements need driver types for UUID and FLOAT columns.
+        foreach ($values as $column => $value) {
+            if (in_array($column, $this->keys)) {
+                $values[$column] = new Uuid($value);
+            } elseif (is_float($value)) {
+                $values[$column] = new \Cassandra\Float($value);
             }
         }
 
         $query = sprintf(
-            "INSERT INTO %s (%s) VALUES (%s)",
+            'INSERT INTO %s (%s) VALUES (%s)',
             $this->table,
-            implode(', ', $keys),
-            implode(', ', $dataValues)
+            implode(', ', array_keys($values)),
+            implode(', ', array_fill(0, count($values), '?'))
         );
-
 
         $this->connection
             ->prepare($query)
-            ->execute();
+            ->execute(array_values($values))
+            ->get(Connector::BASE_TIMEOUT);
     }
 }
