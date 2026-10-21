@@ -16,6 +16,8 @@ class SensorsByDateController extends BaseController
 
     public function __invoke(string $sensorId): void
     {
+        $id = $this->uuid($sensorId, 'sensorId');
+
         if (empty($_GET['start_at']) || empty($_GET['end_at'])) {
             $this->responseJson(['error' => 'The start_at and end_at query parameters are required.'], 400);
             return;
@@ -30,6 +32,6 @@ class SensorsByDateController extends BaseController
             return;
         }
 
-        $this->responseJson($this->action->handle($sensorId, $startAt, $endAt));
+        $this->responseJson($this->action->handle($id, $startAt, $endAt));
     }
 }

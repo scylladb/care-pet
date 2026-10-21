@@ -21,13 +21,11 @@ final class SensorRepository extends AbstractRepository
         'pet_id'
     ];
 
-    public function getSensorsByPetId(string $petId): Rows
+    public function getSensorsByPetId(Uuid $petId): Rows
     {
-        $query = sprintf('SELECT * FROM %s where pet_id = %s', $this->table, $petId);
-
         return $this->connection
-            ->prepare($query)
-            ->execute()
+            ->prepare('SELECT * FROM sensor WHERE pet_id = ?')
+            ->execute([$petId])
             ->get(Connector::BASE_TIMEOUT);
     }
 

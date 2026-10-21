@@ -4,6 +4,7 @@ namespace App\Sensors\Actions;
 
 use App\Sensors\Sensor\SensorRepository;
 use Cassandra\Timestamp;
+use Cassandra\Uuid;
 use DateTimeImmutable;
 
 class FindSensorsByDate
@@ -16,7 +17,7 @@ class FindSensorsByDate
     }
 
     /** @return float[] */
-    public function handle(string $sensorId, DateTimeImmutable $startAt, DateTimeImmutable $endAt): array
+    public function handle(Uuid $sensorId, DateTimeImmutable $startAt, DateTimeImmutable $endAt): array
     {
         $sensorDTO = $this->action->handle($sensorId);
         $sensorsRange = $this->sensorRepository->getSensorsValuesByDateRange(

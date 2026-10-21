@@ -15,6 +15,6 @@ class GetPetSensorsController extends BaseController
 
     public function __invoke(string $petId)
     {
-        $this->responseJson($this->action->handle($petId));
+        $this->responseJson($this->action->handle($this->uuid($petId, 'petId')));
     }
 }

@@ -15,6 +15,7 @@ class SensorAvgByDayController extends BaseController
 
     public function __invoke(string $sensorId): void
     {
+        $id = $this->uuid($sensorId, 'sensorId');
         $utc = new DateTimeZone('UTC');
         $day = DateTimeImmutable::createFromFormat('!Y-m-d', $_GET['date'] ?? '', $utc);
 
@@ -28,6 +29,6 @@ class SensorAvgByDayController extends BaseController
             return;
         }
 
-        $this->responseJson($this->action->handle($sensorId, $day));
+        $this->responseJson($this->action->handle($id, $day));
     }
 }

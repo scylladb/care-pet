@@ -6,6 +6,7 @@ use App\Core\Database\Connector;
 use App\Owner\Exceptions\OwnerException;
 use App\Owner\OwnerDTO;
 use App\Owner\OwnerRepository;
+use Cassandra\Uuid;
 use Exception;
 
 final class FindOwnerById
@@ -14,12 +15,12 @@ final class FindOwnerById
     {
     }
 
-    public function handle(string $ownerId): OwnerDTO
+    public function handle(Uuid $ownerId): OwnerDTO
     {
         $row = $this->repository->getById($ownerId);
 
         if ($row->count() == 0) {
-            throw OwnerException::notFound($ownerId);
+            throw OwnerException::notFound($ownerId->uuid());
         }
 
         return OwnerDTO::make($row->first());
