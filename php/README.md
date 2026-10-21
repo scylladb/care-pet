@@ -122,6 +122,24 @@ $ curl http://localhost:8000/owners/<owner_id>
 {"owner_id":"07f51ae3-ef43-3e1d-8baf-de06698bd35f","name":"Kyla Hettinger","address":"..."}
 ```
 
+The REST API has these endpoints:
+
+| Endpoint                                                       | Response                                            |
+|----------------------------------------------------------------|-----------------------------------------------------|
+| `GET /owners/{ownerId}`                                        | The owner                                           |
+| `GET /owners/{ownerId}/pets`                                   | The pets of the owner                               |
+| `GET /pets/{petId}`                                            | The pet                                             |
+| `GET /pets/{petId}/sensors`                                    | The sensors of the pet                              |
+| `GET /sensors/{sensorId}/values?start_at={time}&end_at={time}` | The sensor values in the time range (ISO 8601)      |
+| `GET /sensors/{sensorId}/daily?date={YYYY-MM-DD}`              | The hourly averages of the sensor for the day (UTC) |
+
+Get the hourly averages of a sensor. Use a `sensor_id` from the `simulate` output:
+
+```shell
+$ curl "http://localhost:8000/sensors/<sensor_id>/daily?date=2026-10-21"
+[104.25,104,103.25,99.75,102.25,101,102.25,102,103.25,101.5,103.5,102.25,99.5,102.25]
+```
+
 ##### Simulate Environment Sensors:
 
 ```shell

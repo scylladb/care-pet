@@ -29,8 +29,8 @@ final class SensorDTO extends AbstractDTO
     public static function make(array $payload = []): self
     {
         return new self(
-            $payload['pet_id'],
             $payload['sensor_id'],
+            $payload['pet_id'],
             TypeDTO::make(['name' => $payload['type']])
         );
     }

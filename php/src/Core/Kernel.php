@@ -5,6 +5,7 @@ namespace App\Core;
 
 use App\Router;
 use FastRoute\Dispatcher;
+use Throwable;
 
 class Kernel
 {
@@ -25,13 +26,31 @@ class Kernel
             case Dispatcher::FOUND:
                 [$controller] = $routeInfo[1];
                 $params = $routeInfo[2];
-                $container->call($controller,$params);
+                try {
+                    $container->call($controller, $params);
+                } catch (Throwable $e) {
+                    $this->handleException($e);
+                }
                 break;
         }
 
     }
 
 
+
+    // Domain exceptions use the HTTP status code as the exception code.
+    private function handleException(Throwable $e): void
+    {
+        $status = $e->getCode() >= 400 && $e->getCode() < 500 ? $e->getCode() : 500;
+        $message = $status === 500 ? 'Internal server error.' : $e->getMessage();
+        if ($status === 500) {
+            error_log((string)$e);
+        }
+
+        header('Content-type: application/json');
+        http_response_code($status);
+        echo json_encode(['error' => $message]);
+    }
 
     public function resolveHttpMethod(): string
     {
