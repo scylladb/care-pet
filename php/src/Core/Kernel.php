@@ -15,9 +15,6 @@ class Kernel
         $httpMethod = $this->resolveHttpMethod();
 
         $routeInfo = Router::map()->dispatch($httpMethod, $uri);
-        match($routeInfo[0]) {
-            Dispatcher::NOT_FOUNDDispatcher::NOT_FOUND
-        };
         switch ($routeInfo[0]) {
             case Dispatcher::NOT_FOUND:
                 http_response_code(404);
