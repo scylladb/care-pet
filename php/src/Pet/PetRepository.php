@@ -5,6 +5,7 @@ namespace App\Pet;
 use App\Core\Database\AbstractRepository;
 use App\Core\Database\Connector;
 use Cassandra\Rows;
+use Cassandra\Uuid;
 
 final class PetRepository extends AbstractRepository
 {
@@ -17,13 +18,11 @@ final class PetRepository extends AbstractRepository
         'owner_id'
     ];
 
-    public function getByOwnerId(string $ownerId): Rows
+    public function getByOwnerId(Uuid $ownerId): Rows
     {
-        $query = sprintf('SELECT * FROM %s where owner_id = %s', $this->table, $ownerId);
-
         return $this->connection
-            ->prepare($query)
-            ->execute()
+            ->prepare('SELECT * FROM pet WHERE owner_id = ?')
+            ->execute([$ownerId])
             ->get(Connector::BASE_TIMEOUT);
     }
 }

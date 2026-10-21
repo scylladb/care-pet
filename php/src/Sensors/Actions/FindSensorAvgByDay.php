@@ -5,6 +5,7 @@ namespace App\Sensors\Actions;
 use App\Sensors\Sensor\SensorRepository;
 use Cassandra\Date;
 use Cassandra\Timestamp;
+use Cassandra\Uuid;
 use DateTimeImmutable;
 use DateTimeZone;
 
@@ -23,7 +24,7 @@ class FindSensorAvgByDay
     }
 
     /** @return float[] The averages ordered by hour. */
-    public function handle(string $sensorId, DateTimeImmutable $day): array
+    public function handle(Uuid $sensorId, DateTimeImmutable $day): array
     {
         $sensorDTO = $this->action->handle($sensorId);
         $date = Date::fromDateTime($day);
