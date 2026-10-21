@@ -1,5 +1,5 @@
 # Change the PHP version here. Use a PHP 8.4 release that has all security fixes.
-ARG PHP_VERSION=8.4.26
+ARG PHP_VERSION=8.4.27
 ARG SCYLLADB_PHP_DRIVER_VERSION=v1.5.1
 
 # Build the ScyllaDB PHP driver (cassandra.so) from source for this PHP version.
