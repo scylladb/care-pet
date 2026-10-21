@@ -17,13 +17,13 @@ final class MigrateCommand extends AbstractCommand
         $this->info('Preparing Keyspace ' . config('database.keyspace'));
 
         $keyspaceCQL = $this->getMigrations()[0];
-        $this->connector->prepare($keyspaceCQL)->execute();
+        $this->connector->prepare(file_get_contents($keyspaceCQL))->execute()->get(Connector::BASE_TIMEOUT);
 
         $this->connector = $this->connector
             ->setKeyspace(config('database.keyspace'));
 
         foreach ($this->getMigrations() as $migrationFile) {
-            $this->connector->prepare(file_get_contents($migrationFile))->execute();
+            $this->connector->prepare(file_get_contents($migrationFile))->execute()->get(Connector::BASE_TIMEOUT);
             $this->info(sprintf('Migrated: %s', $migrationFile));
         }
 

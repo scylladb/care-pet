@@ -30,7 +30,11 @@ class Connector
         }
         $this->cluster = $this->connectionBuilder->build();
 
-        $this->session = $this->cluster->connect($config['keyspace']);
+        // The keyspace does not exist before the first migration.
+        $this->session = $this->cluster->connect();
+        if ($this->session->schema()->keyspace($config['keyspace']) !== false) {
+            $this->setKeyspace($config['keyspace']);
+        }
     }
 
     public function setKeyspace(string $keyspace = ''): self
