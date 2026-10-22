@@ -8,6 +8,11 @@ on:
       - master
     paths:
       - "docs/**"
+      - "uv.lock"
+      - ".github/workflows/docs-pr.yaml"
+
+permissions:
+  contents: read
 
 jobs:
   build:
@@ -21,8 +26,18 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
         with:
-          python-version: '3.10'
+          python-version: '3.12'
       - name: Set up env
         run: make -C docs setupenv
       - name: Build docs
-        run: make -C docs test
+        id: docs-build
+        shell: bash
+        run: |
+          make -C docs test SPHINXOPTS="-j auto -w $RUNNER_TEMP/docs-warnings.log" \
+            2>&1 | tee "$RUNNER_TEMP/docs-build.log"
+
+      - name: Summarize docs diagnostics
+        if: always()
+        uses: scylladb/sphinx-scylladb-theme/.github/actions/docs-report@0d821fc4038ee9ad6363362c02035132489bf3f6
+        with:
+          build-outcome: ${{ steps.docs-build.outcome }}
