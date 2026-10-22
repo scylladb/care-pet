@@ -5,9 +5,9 @@ import com.datastax.oss.driver.api.mapper.annotations.CqlName;
 import com.datastax.oss.driver.api.mapper.annotations.Entity;
 import com.datastax.oss.driver.api.mapper.annotations.PartitionKey;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.apache.commons.lang.math.RandomUtils;
 
 import java.util.UUID;
+import java.util.concurrent.ThreadLocalRandom;
 
 @Entity
 @CqlName("sensor")
@@ -35,7 +35,7 @@ public class Sensor {
         return new Sensor(
                 petId,
                 UUID.randomUUID(),
-                SensorType.values()[RandomUtils.nextInt(SensorType.values().length)].getType());
+                SensorType.values()[ThreadLocalRandom.current().nextInt(SensorType.values().length)].getType());
     }
 
     public UUID getPetId() {
@@ -66,16 +66,16 @@ public class Sensor {
         switch (SensorType.fromString(type)) {
             case Temperature:
                 // average F
-                return 101.0f + RandomUtils.nextInt(10) - 4;
+                return 101.0f + ThreadLocalRandom.current().nextInt(10) - 4;
             case Pulse:
                 // average beat per minute
-                return 100.0f + RandomUtils.nextInt(40) - 20;
+                return 100.0f + ThreadLocalRandom.current().nextInt(40) - 20;
             case Respiration:
                 // average inhales per minute
-                return 35.0f + RandomUtils.nextInt(5) - 2;
+                return 35.0f + ThreadLocalRandom.current().nextInt(5) - 2;
             case Location:
                 // pet can teleport
-                return 10 * RandomUtils.nextFloat();
+                return 10 * ThreadLocalRandom.current().nextFloat();
             default:
                 return 0.0f;
         }
