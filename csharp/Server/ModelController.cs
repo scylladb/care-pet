@@ -112,7 +112,7 @@ namespace CarePet.Server
             return Ok(data);
         }
 
-        public async System.Threading.Tasks.Task Aggregate(Guid id, DateTime day, List<float> data)
+        async System.Threading.Tasks.Task Aggregate(Guid id, DateTime day, List<float> data)
         {
             var nowUtc = DateTime.UtcNow;
 
