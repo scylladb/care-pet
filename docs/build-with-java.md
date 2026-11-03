@@ -229,7 +229,7 @@ $ ./bin/server.sh --hosts $NODE1 --datacenter datacenter1
 
 In the care-pet example, run:
 
-  `$ curl http://127.0.0.1:8000/api/owner/{id}`.
+  `$ curl http://127.0.0.1:8080/api/owner/{id}`.
   
   You can expect the following response:
 

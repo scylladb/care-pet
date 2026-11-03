@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Sensor {
-    private static final Logger LOG = LoggerFactory.getLogger(Migrate.class);
+    private static final Logger LOG = LoggerFactory.getLogger(Sensor.class);
     private final SensorConfig config;
     private final Owner owner;
     private final Pet pet;

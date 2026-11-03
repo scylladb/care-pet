@@ -17,7 +17,7 @@ Quick Start
 
 Prerequisites:
 
-- [JDK](https://openjdk.java.net/install/) at least OpenJDK 8
+- [JDK](https://openjdk.java.net/install/) at least OpenJDK 11
 - [maven](http://maven.apache.org/)
 - [docker](https://www.docker.com/)
 - [docker-compose](https://docs.docker.com/compose/)
@@ -59,21 +59,13 @@ To initialize database execute:
 
 Expected output:
 
-    SLF4J: Class path contains multiple SLF4J bindings.
-    SLF4J: Found binding in [jar:file:/home/sitano/.m2/repository/org/slf4j/slf4j-simple/1.7.26/slf4j-simple-1.7.26.jar!/org/slf4j/impl/StaticLoggerBinder.class]
-    SLF4J: Found binding in [jar:file:/home/sitano/.m2/repository/ch/qos/logback/logback-classic/1.2.3/logback-classic-1.2.3.jar!/org/slf4j/impl/StaticLoggerBinder.class]
-    SLF4J: See http://www.slf4j.org/codes.html#multiple_bindings for an explanation.
-    SLF4J: Actual binding is of type [org.slf4j.impl.SimpleLoggerFactory]
     [main] INFO com.carepet.Migrate - creating keyspace...
-    Using Scylla optimized driver!!!
     [main] INFO com.datastax.oss.driver.api.core.session.SessionBuilder - Using Scylla optimized driver!!!
-    [main] INFO com.datastax.oss.driver.internal.core.DefaultMavenCoordinates - DataStax Java driver for Apache Cassandra(R) (com.scylladb:java-driver-core) version 4.8.0-scylla-0
+    [main] INFO com.datastax.oss.driver.internal.core.DefaultMavenCoordinates - ScyllaDB Java Driver (com.scylladb:java-driver-core) version 4.19.0.1
     [s0-admin-0] INFO com.datastax.oss.driver.internal.core.time.Clock - Using native clock for microsecond precision
     [main] INFO com.carepet.Migrate - creating table...
-    Using Scylla optimized driver!!!
     [main] INFO com.datastax.oss.driver.api.core.session.SessionBuilder - Using Scylla optimized driver!!!
     [s1-admin-0] INFO com.datastax.oss.driver.internal.core.time.Clock - Using native clock for microsecond precision
-    Using Scylla optimized driver!!!
     [main] INFO com.datastax.oss.driver.api.core.session.SessionBuilder - Using Scylla optimized driver!!!
     [s2-admin-0] INFO com.datastax.oss.driver.internal.core.time.Clock - Using native clock for microsecond precision
     Keyspace: carepet; Table: measurement
@@ -92,7 +84,7 @@ You can check the database structure with:
     cqlsh> USE carepet;
     cqlsh:carepet> DESCRIBE TABLES
 
-    pet  sensor_avg  gocqlx_migrate  measurement  owner  sensor
+    pet  sensor_avg  measurement  owner  sensor
 
     cqlsh:carepet> DESCRIBE TABLE pet
 
@@ -135,32 +127,25 @@ To start pet collar simulation execute the following in the separate terminal:
 
 Expected output:
 
-    SLF4J: Class path contains multiple SLF4J bindings.
-    SLF4J: Found binding in [jar:file:/home/sitano/.m2/repository/org/slf4j/slf4j-simple/1.7.26/slf4j-simple-1.7.26.jar!/org/slf4j/impl/StaticLoggerBinder.class]
-    SLF4J: Found binding in [jar:file:/home/sitano/.m2/repository/ch/qos/logback/logback-classic/1.2.3/logback-classic-1.2.3.jar!/org/slf4j/impl/StaticLoggerBinder.class]
-    SLF4J: See http://www.slf4j.org/codes.html#multiple_bindings for an explanation.
-    SLF4J: Actual binding is of type [org.slf4j.impl.SimpleLoggerFactory]
-    Using Scylla optimized driver!!!
     [main] INFO com.datastax.oss.driver.api.core.session.SessionBuilder - Using Scylla optimized driver!!!
-    [main] INFO com.datastax.oss.driver.internal.core.DefaultMavenCoordinates - DataStax Java driver for Apache Cassandra(R) (com.scylladb:java-driver-core) version 4.8.0-scylla-0
+    [main] INFO com.datastax.oss.driver.internal.core.DefaultMavenCoordinates - ScyllaDB Java Driver (com.scylladb:java-driver-core) version 4.19.0.1
     [s0-admin-0] INFO com.datastax.oss.driver.internal.core.time.Clock - Using native clock for microsecond precision
-    [main] INFO com.carepet.Migrate - owner = Owner{ownerId=0701da30-52f0-4ee4-911c-f9ac951bf3b1, name='OBahu5A3', address='5UtxnIxqfa'}
-    [main] INFO com.carepet.Migrate - pet = Pet{ownerId=0701da30-52f0-4ee4-911c-f9ac951bf3b1, petId=765ac83f-9744-450b-a4ec-9d40359edeae, chipId='', species='', breed='', color='', gender='', age=55, weight=7.937521, address='home', name='0YaLHRJq'}
-    [main] INFO com.carepet.Migrate - sensor = Sensor{petId=765ac83f-9744-450b-a4ec-9d40359edeae, sensorId=25ce6029-20a2-4532-a154-d82ea8da800d, type='R'}
-    [main] INFO com.carepet.Migrate - sensor = Sensor{petId=765ac83f-9744-450b-a4ec-9d40359edeae, sensorId=14a94142-12e8-414f-861e-15571d087c41, type='P'}
-    [main] INFO com.carepet.Migrate - sensor = Sensor{petId=765ac83f-9744-450b-a4ec-9d40359edeae, sensorId=630b2f96-bd0c-43c1-93a7-7750229f6da8, type='R'}
-    [main] INFO com.carepet.Migrate - sensor = Sensor{petId=765ac83f-9744-450b-a4ec-9d40359edeae, sensorId=06ffd4ba-21e6-4973-bda9-e0346c48334c, type='R'}
-    Using Scylla optimized driver!!!
+    [main] INFO com.carepet.Sensor - owner = Owner{ownerId=0701da30-52f0-4ee4-911c-f9ac951bf3b1, name='OBahu5A3', address='5UtxnIxqfa'}
+    [main] INFO com.carepet.Sensor - pet = Pet{ownerId=0701da30-52f0-4ee4-911c-f9ac951bf3b1, petId=765ac83f-9744-450b-a4ec-9d40359edeae, chipId='', species='', breed='', color='', gender='', age=55, weight=7.937521, address='home', name='0YaLHRJq'}
+    [main] INFO com.carepet.Sensor - sensor = Sensor{petId=765ac83f-9744-450b-a4ec-9d40359edeae, sensorId=25ce6029-20a2-4532-a154-d82ea8da800d, type='R'}
+    [main] INFO com.carepet.Sensor - sensor = Sensor{petId=765ac83f-9744-450b-a4ec-9d40359edeae, sensorId=14a94142-12e8-414f-861e-15571d087c41, type='P'}
+    [main] INFO com.carepet.Sensor - sensor = Sensor{petId=765ac83f-9744-450b-a4ec-9d40359edeae, sensorId=630b2f96-bd0c-43c1-93a7-7750229f6da8, type='R'}
+    [main] INFO com.carepet.Sensor - sensor = Sensor{petId=765ac83f-9744-450b-a4ec-9d40359edeae, sensorId=06ffd4ba-21e6-4973-bda9-e0346c48334c, type='R'}
     [main] INFO com.datastax.oss.driver.api.core.session.SessionBuilder - Using Scylla optimized driver!!!
     [s1-admin-0] INFO com.datastax.oss.driver.internal.core.time.Clock - Using native clock for microsecond precision
-    [main] INFO com.carepet.Migrate - Measure{sensorId=25ce6029-20a2-4532-a154-d82ea8da800d, ts=2020-09-11T12:47:26.807Z, value=34.0}
-    [main] INFO com.carepet.Migrate - Measure{sensorId=14a94142-12e8-414f-861e-15571d087c41, ts=2020-09-11T12:47:26.809Z, value=84.0}
-    [main] INFO com.carepet.Migrate - Measure{sensorId=630b2f96-bd0c-43c1-93a7-7750229f6da8, ts=2020-09-11T12:47:26.809Z, value=35.0}
-    [main] INFO com.carepet.Migrate - Measure{sensorId=06ffd4ba-21e6-4973-bda9-e0346c48334c, ts=2020-09-11T12:47:26.809Z, value=37.0}
-    [main] INFO com.carepet.Migrate - pushing data
+    [main] INFO com.carepet.Sensor - Measure{sensorId=25ce6029-20a2-4532-a154-d82ea8da800d, ts=2020-09-11T12:47:26.807Z, value=34.0}
+    [main] INFO com.carepet.Sensor - Measure{sensorId=14a94142-12e8-414f-861e-15571d087c41, ts=2020-09-11T12:47:26.809Z, value=84.0}
+    [main] INFO com.carepet.Sensor - Measure{sensorId=630b2f96-bd0c-43c1-93a7-7750229f6da8, ts=2020-09-11T12:47:26.809Z, value=35.0}
+    [main] INFO com.carepet.Sensor - Measure{sensorId=06ffd4ba-21e6-4973-bda9-e0346c48334c, ts=2020-09-11T12:47:26.809Z, value=37.0}
+    [main] INFO com.carepet.Sensor - pushing data
     ...
 
-Write down the pet Owner ID (ID is something after the `#` sign without trailing spaces).
+Write down the pet Owner ID (e.g. `0701da30-52f0-4ee4-911c-f9ac951bf3b1` from the log line `owner = Owner{ownerId=...}`).
 To start REST API service execute the following in the separate terminal:
 
     $ mvn package
@@ -169,14 +154,8 @@ To start REST API service execute the following in the separate terminal:
 
 Expected output:
 
-    SLF4J: Class path contains multiple SLF4J bindings.
-    SLF4J: Found binding in [jar:file:/home/sitano/.m2/repository/org/slf4j/slf4j-simple/1.7.26/slf4j-simple-1.7.26.jar!/org/slf4j/impl/StaticLoggerBinder.class]
-    SLF4J: Found binding in [jar:file:/home/sitano/.m2/repository/ch/qos/logback/logback-classic/1.2.3/logback-classic-1.2.3.jar!/org/slf4j/impl/StaticLoggerBinder.class]
-    SLF4J: See http://www.slf4j.org/codes.html#multiple_bindings for an explanation.
-    SLF4J: Actual binding is of type [org.slf4j.impl.SimpleLoggerFactory]
-    Using Scylla optimized driver!!!
     [main] INFO com.datastax.oss.driver.api.core.session.SessionBuilder - Using Scylla optimized driver!!!
-    [main] INFO com.datastax.oss.driver.internal.core.DefaultMavenCoordinates - DataStax Java driver for Apache Cassandra(R) (com.scylladb:java-driver-core) version 4.8.0-scylla-0
+    [main] INFO com.datastax.oss.driver.internal.core.DefaultMavenCoordinates - ScyllaDB Java Driver (com.scylladb:java-driver-core) version 4.19.0.1
     [s0-admin-0] INFO com.datastax.oss.driver.internal.core.time.Clock - Using native clock for microsecond precision
     [main] INFO io.micronaut.runtime.Micronaut - Startup completed in 684ms. Server Running: http://localhost:8080
 
@@ -326,7 +305,7 @@ Architecture
 How to start a new project with Java
 ---
 
-Install JDK >= 8 and Maven. Create a repository. Clone it. Execute inside of
+Install JDK >= 11 and Maven. Create a repository. Clone it. Execute inside of
 your repository:
 
     $ mvn archetype:generate -DgroupId=com.mycompany.app -DartifactId=my-app -DarchetypeArtifactId=maven-archetype-quickstart -DarchetypeVersion=1.4 -DinteractiveMode=false
@@ -337,7 +316,7 @@ Now when you have your pom module add ScyllaDB driver as a dependency with:
         <dependency>
           <groupId>com.scylladb</groupId>
           <artifactId>java-driver-core</artifactId>
-          <version>4.8.0-scylla-0</version>
+          <version>4.19.0.1</version>
         </dependency>
     </dependencies>
 
@@ -359,15 +338,15 @@ Now your `pom.xml` will be looking something like this:
 
       <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>1.7</maven.compiler.source>
-        <maven.compiler.target>1.7</maven.compiler.target>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
       </properties>
 
       <dependencies>
           <dependency>
             <groupId>com.scylladb</groupId>
             <artifactId>java-driver-core</artifactId>
-            <version>4.8.0-scylla-0</version>
+            <version>4.19.0.1</version>
           </dependency>
           ...
       </dependencies>
@@ -461,7 +440,7 @@ You can use query builder with the help of:
     <dependency>
       <groupId>com.scylladb</groupId>
       <artifactId>java-driver-query-builder</artifactId>
-      <version>4.8.0-scylla-0</version>
+      <version>4.19.0.1</version>
     </dependency>
 
 To get:
@@ -479,7 +458,7 @@ To use object-data mapping (ORM) include:
     <dependency>
       <groupId>com.scylladb</groupId>
       <artifactId>java-driver-mapper-runtime</artifactId>
-      <version>4.8.0-scylla-0</version>
+      <version>4.19.0.1</version>
     </dependency>
     
 Add annotation processing:
@@ -494,7 +473,7 @@ Add annotation processing:
               <path>
                 <groupId>com.scylladb</groupId>
                 <artifactId>java-driver-mapper-processor</artifactId>
-                <version>4.8.0-scylla-0</version>
+                <version>4.19.0.1</version>
               </path>
             </annotationProcessorPaths>
             <compilerArgs>
